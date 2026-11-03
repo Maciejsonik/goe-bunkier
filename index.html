@@ -106,7 +106,6 @@
         .btn-red:hover { background-color: #d6131d; box-shadow: 0 0 15px rgba(255, 24, 36, 0.4); }
         .btn-summary { background: linear-gradient(135deg, #18181b, #27272a); border: 1px solid var(--goe-red); color: white; }
 
-        /* Backend status pill */
         .api-status-pill {
             display: inline-flex;
             align-items: center;
@@ -115,10 +114,9 @@
             font-weight: 700;
             color: #a1a1aa;
             background: #141418;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             border: 1px solid #27272a;
-            cursor: pointer;
         }
         .api-dot {
             width: 7px;
@@ -126,10 +124,6 @@
             border-radius: 50%;
             background: #4ade80;
             box-shadow: 0 0 6px #4ade80;
-        }
-        .api-dot.error {
-            background: #ef4444;
-            box-shadow: 0 0 6px #ef4444;
         }
 
         /* Main View Mode Selector Tabs */
@@ -600,14 +594,14 @@
                 <p id="last-updated">Ładowanie danych...</p>
             </div>
             <div class="header-controls">
-                <div class="api-status-pill" onclick="changeApiPrompt()" title="Kliknij, aby zmienić adres backendu">
+                <div class="api-status-pill">
                     <span class="api-dot" id="api-dot"></span>
-                    <span id="api-label">Backend LIVE</span>
+                    <span id="api-label">GitHub Pages LIVE</span>
                 </div>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
-                    <option value="15" selected>Auto: 15s</option>
-                    <option value="30">Auto: 30s</option>
+                    <option value="30" selected>Auto: 30s</option>
                     <option value="60">Auto: 60s</option>
+                    <option value="120">Auto: 2 min</option>
                     <option value="0">Auto: wyłączone</option>
                 </select>
                 <button class="btn-primary" onclick="loadData(true)">🔄 Odśwież</button>
@@ -639,9 +633,7 @@
                     <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube</button>
                 </div>
             </div>
-            <div class="stream-chips" id="stream-chips-container">
-                <!-- Dynamically populated stream toggle pills -->
-            </div>
+            <div class="stream-chips" id="stream-chips-container"></div>
         </div>
 
         <!-- Mode 1: GoE Viewers Hub (Default View) -->
@@ -782,39 +774,15 @@
     <div id="toast"></div>
 
     <script>
-        // API Base configuration
-        // If served from localhost, relative '' works. On GitHub Pages, uses the active Cloudflare Tunnel URL.
-        const DEFAULT_API = 'https://firmware-english-mart-consistency.trycloudflare.com';
-        let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-            ? ''
-            : (localStorage.getItem('goe_api_url') || DEFAULT_API);
-
-        function changeApiPrompt() {
-            const current = localStorage.getItem('goe_api_url') || DEFAULT_API;
-            const input = prompt('Podaj adres URL backendu (np. Cloudflare Tunnel lub Localtunnel):', current);
-            if (input !== null) {
-                const cleaned = input.trim().replace(/\/+$/, '');
-                if (cleaned) {
-                    localStorage.setItem('goe_api_url', cleaned);
-                    API_BASE = cleaned;
-                } else {
-                    localStorage.removeItem('goe_api_url');
-                    API_BASE = DEFAULT_API;
-                }
-                showToast('Zapisano adres API!');
-                loadData(true);
-            }
-        }
-
         let currentMode = 'goe'; // 'goe' (default) or 'battle'
         let currentTimeRange = 'all'; // '15m', '30m', '1h', '2h', 'all'
         let rawData = null;
+        let fullHistory = [];
         let detailedHistory = [];
         let autoInterval = null;
         let goeChartInstance = null;
         let comparisonChartInstance = null;
 
-        // Set of currently selected stream IDs
         const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
@@ -840,7 +808,6 @@
                 padding: 10
             };
 
-            // 1. GoE Dedicated Chart
             const ctxGoe = document.getElementById('goeChart').getContext('2d');
             goeChartInstance = new Chart(ctxGoe, {
                 type: 'line',
@@ -857,7 +824,6 @@
                 }
             });
 
-            // 2. Comparison Dedicated Chart
             const ctxComp = document.getElementById('comparisonChart').getContext('2d');
             comparisonChartInstance = new Chart(ctxComp, {
                 type: 'line',
@@ -996,8 +962,30 @@
             // 3. Render Stream Cards
             renderStreamsGrids(goeStreams, nervaStreams);
 
-            // 4. Update Charts
+            // 4. Update Momentum
+            if (rawData.momentum) {
+                renderDelta('goe-hero-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
+                renderDelta('battle-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
+                renderDelta('battle-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
+            }
+
+            // 5. Update Charts
             updateChartSeries();
+        }
+
+        function renderDelta(elId, delta, minutes = 5) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            if (delta > 0) {
+                el.innerText = `▲ +${delta.toLocaleString('pl-PL')} w ${minutes} min`;
+                el.className = 'momentum-badge momentum-up';
+            } else if (delta < 0) {
+                el.innerText = `▼ ${delta.toLocaleString('pl-PL')} w ${minutes} min`;
+                el.className = 'momentum-badge momentum-down';
+            } else {
+                el.innerText = `— 0 w ${minutes} min`;
+                el.className = 'momentum-badge';
+            }
         }
 
         function renderStreamsGrids(goeStreams, nervaStreams) {
@@ -1167,86 +1155,65 @@
             currentTimeRange = range;
             document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll(`.time-goe-${range}, .time-comp-${range}`).forEach(b => b.classList.add('active'));
-            loadDetailedHistory();
+            applyTimeRangeSlice();
         }
 
-        async function loadDetailedHistory() {
-            try {
-                let limit = 5000;
-                if (currentTimeRange === '15m') limit = 60;
-                else if (currentTimeRange === '30m') limit = 120;
-                else if (currentTimeRange === '1h') limit = 240;
-                else if (currentTimeRange === '2h') limit = 480;
+        function applyTimeRangeSlice() {
+            if (!fullHistory || fullHistory.length === 0) return;
 
-                const resp = await fetch(`${API_BASE}/api/detailed-history?limit=${limit}`);
-                detailedHistory = await resp.json();
+            let limit = fullHistory.length;
+            if (currentTimeRange === '15m') limit = 60;
+            else if (currentTimeRange === '30m') limit = 120;
+            else if (currentTimeRange === '1h') limit = 240;
+            else if (currentTimeRange === '2h') limit = 480;
 
-                const count = detailedHistory.length;
-                let rangeLabel = 'Brak historii';
-                if (count > 0) {
-                    const firstTime = detailedHistory[0].timestamp.split(' ')[1] || detailedHistory[0].timestamp;
-                    const lastTime = detailedHistory[count - 1].timestamp.split(' ')[1] || detailedHistory[count - 1].timestamp;
-                    rangeLabel = `${count} pomiarów (${firstTime} — ${lastTime})`;
-                }
+            detailedHistory = fullHistory.slice(-limit);
 
-                const goeSub = document.getElementById('goe-chart-sub-label');
-                if (goeSub) goeSub.innerText = `YouTube & Twitch • ${rangeLabel}`;
-                const compSub = document.getElementById('comp-chart-sub-label');
-                if (compSub) compSub.innerText = `GoE vs Nervarien • ${rangeLabel}`;
-
-                updateChartSeries();
-            } catch (e) {
-                console.error("Detailed history error:", e);
+            const count = detailedHistory.length;
+            let rangeLabel = 'Brak historii';
+            if (count > 0) {
+                const firstTime = detailedHistory[0].timestamp.split(' ')[1] || detailedHistory[0].timestamp;
+                const lastTime = detailedHistory[count - 1].timestamp.split(' ')[1] || detailedHistory[count - 1].timestamp;
+                rangeLabel = `${count} pomiarów (${firstTime} — ${lastTime})`;
             }
+
+            const goeSub = document.getElementById('goe-chart-sub-label');
+            if (goeSub) goeSub.innerText = `YouTube & Twitch • ${rangeLabel}`;
+            const compSub = document.getElementById('comp-chart-sub-label');
+            if (compSub) compSub.innerText = `GoE vs Nervarien • ${rangeLabel}`;
+
+            updateChartSeries();
         }
 
-        async function loadMomentum() {
+        async function loadHistory() {
             try {
-                const resp = await fetch(`${API_BASE}/api/momentum`);
-                const m = await resp.json();
-                const renderDelta = (elId, delta) => {
-                    const el = document.getElementById(elId);
-                    if (!el) return;
-                    if (delta > 0) {
-                        el.innerText = `▲ +${delta.toLocaleString('pl-PL')} w ${m.minutes} min`;
-                        el.className = 'momentum-badge momentum-up';
-                    } else if (delta < 0) {
-                        el.innerText = `▼ ${delta.toLocaleString('pl-PL')} w ${m.minutes} min`;
-                        el.className = 'momentum-badge momentum-down';
-                    } else {
-                        el.innerText = `— 0 w ${m.minutes} min`;
-                        el.className = 'momentum-badge';
-                    }
-                };
-                renderDelta('goe-hero-momentum', m.goe_delta);
-                renderDelta('battle-goe-momentum', m.goe_delta);
-                renderDelta('battle-nerva-momentum', m.nerva_delta);
+                const resp = await fetch('./history.json?t=' + Date.now());
+                if (resp.ok) {
+                    fullHistory = await resp.json();
+                    applyTimeRangeSlice();
+                }
             } catch (e) {
-                console.error("Momentum error:", e);
+                console.error("History fetch error:", e);
             }
         }
 
         async function loadData(manual = false) {
             try {
-                const resp = await fetch(`${API_BASE}/api/data`);
-                if (!resp.ok) throw new Error('API offline');
+                const resp = await fetch('./data.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('Data fetch failed');
                 rawData = await resp.json();
 
-                document.getElementById('api-dot').className = 'api-dot';
-                document.getElementById('api-label').innerText = 'Backend LIVE';
-                document.getElementById('last-updated').innerText = `Ostatni pomiar: ${rawData.timestamp} • Stan bazy: ${detailedHistory.length} próbek`;
+                document.getElementById('last-updated').innerText = `Ostatni pomiar: ${rawData.timestamp} • Stan bazy: ${fullHistory.length} próbek`;
 
                 renderFilterChips();
                 updateUI();
-                await loadMomentum();
-                await loadDetailedHistory();
+                await loadHistory();
 
                 if (manual) showToast('Zaktualizowano dane!');
             } catch (err) {
                 console.error("Load data error:", err);
-                document.getElementById('api-dot').className = 'api-dot error';
-                document.getElementById('api-label').innerText = 'Backend Offline';
-                showToast('Błąd połączenia z backendem');
+                document.getElementById('api-dot').style.background = '#f59e0b';
+                document.getElementById('api-label').innerText = 'Wczytywanie...';
             }
         }
 
@@ -1259,15 +1226,15 @@
         }
 
         function downloadLiveCard() {
-            window.open(`${API_BASE}/api/card`, '_blank');
+            window.open('./battle_card.png', '_blank');
         }
 
         function downloadSummaryCard(mode = 'goe') {
-            window.open(`${API_BASE}/api/summary-card?mode=${mode}`, '_blank');
+            window.open(mode === 'goe' ? './goe_summary.png' : './stream_summary.png', '_blank');
         }
 
         function downloadCSV() {
-            window.open(`${API_BASE}/api/export-csv`, '_blank');
+            window.open('./stream_data.csv', '_blank');
         }
 
         function showToast(msg) {
