@@ -1,0 +1,6 @@
+history.db
+history.db-journal
+__pycache__/
+cache/
+*.pyc
+.DS_Store
