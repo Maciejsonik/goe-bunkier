@@ -7,8 +7,22 @@ from avatars import get_cached_avatar
 
 
 def _get_font(size: int, bold: bool = False):
-    """Loads system font or falls back to default."""
+    """Loads bundled font, system font, or falls back gracefully."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    bundled_font = os.path.join(
+        base_dir, "assets", "fonts", "font_bold.ttf" if bold else "font.ttf"
+    )
+
     candidates = [
+        bundled_font,
+        # Linux standard paths (GitHub Actions Ubuntu)
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+        if bold
+        else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+        if bold
+        else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+        # macOS standard paths
         "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
         if bold
         else "/System/Library/Fonts/Supplemental/Arial.ttf",
@@ -21,6 +35,16 @@ def _get_font(size: int, bold: bool = False):
                 return ImageFont.truetype(path, size)
             except Exception:
                 pass
+    try:
+        return ImageFont.truetype(
+            "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf", size
+        )
+    except Exception:
+        pass
+    try:
+        return ImageFont.truetype("Arial", size)
+    except Exception:
+        pass
     return ImageFont.load_default()
 
 
