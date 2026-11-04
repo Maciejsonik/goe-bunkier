@@ -45,7 +45,9 @@ DAYS_CONFIG = {
                 "name": "Gadają o Esporcie (GOE)",
                 "color": "#3b82f6",  # Neon Blue
                 "twitch": ["goe_stream"],
-                "youtube": [],  # GoE YouTube link will be added here once announced
+                "youtube": [
+                    "@gadaja_"
+                ],  # Automatyczna obserwacja kanalu @gadaja_ (wykrywa start streamu)
             },
             "NERVA": {
                 "name": "Nervarien",

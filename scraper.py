@@ -166,6 +166,96 @@ def fetch_youtube_stream(video_id: str) -> dict:
         }
 
 
+def fetch_youtube_channel_live(handle: str) -> dict:
+    """Observes a YouTube channel (@handle) and automatically detects its live or upcoming stream.
+
+    If live: extracts videoId and fetches live viewers, title, and metadata.
+    If not live: returns channel information with offline status, waiting for stream to begin.
+    """
+    clean_handle = handle.strip()
+    if "youtube.com/" in clean_handle:
+        m = re.search(r"youtube\.com/(@[a-zA-Z0-9_.-]+)", clean_handle)
+        if m:
+            clean_handle = m.group(1)
+
+    if not clean_handle.startswith("@"):
+        clean_handle = "@" + clean_handle.lstrip("/")
+
+    url_live = f"https://www.youtube.com/{clean_handle}/live"
+    req = urllib.request.Request(
+        url_live,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7",
+        },
+    )
+
+    avatar_url = (
+        "https://yt3.googleusercontent.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s900-c-k-c0x00ffffff-no-rj"
+        if "gadaja" in clean_handle.lower()
+        else ""
+    )
+    channel_name = "Gadają o Esporcie" if "gadaja" in clean_handle.lower() else clean_handle
+
+    try:
+        with urllib.request.urlopen(req, timeout=7) as resp:
+            final_url = resp.geturl()
+            html = resp.read().decode("utf-8", errors="ignore")
+
+            # Extract avatar if present in HTML
+            av_m = re.search(r'"avatar":\{"thumbnails":\[\{"url":"(https://[^"]+)"', html)
+            if not av_m:
+                av_m = re.search(r'<meta property="og:image" content="(https://[^"]+)">', html)
+            if av_m:
+                avatar_url = av_m.group(1)
+
+            ch_m = re.search(r'"ownerChannelName":"([^"]+)"', html)
+            if not ch_m:
+                ch_m = re.search(r'"channelMetadataRenderer":\{.*?"title":"([^"]+)"', html)
+            if ch_m:
+                channel_name = ch_m.group(1)
+
+            # Check if redirected to a watch?v= URL or canonical/og:url exists
+            vid_m = re.search(r"watch\?v=([a-zA-Z0-9_-]{11})", final_url)
+            if not vid_m:
+                vid_m = re.search(
+                    r'<meta property="og:url" content="https://www.youtube.com/watch\?v=([a-zA-Z0-9_-]{11})">',
+                    html,
+                )
+            if not vid_m:
+                vid_m = re.search(
+                    r'<link rel="canonical" href="https://www.youtube.com/watch\?v=([a-zA-Z0-9_-]{11})">',
+                    html,
+                )
+
+            is_live_now = '"isLiveNow":true' in html or '"isLive":true' in html
+            is_ended = '"isLiveNow":false' in html or '"endTimestamp"' in html
+
+            if vid_m:
+                vid = vid_m.group(1)
+                stream_data = fetch_youtube_stream(vid)
+                stream_data["id"] = clean_handle
+                stream_data["video_id"] = vid
+                if avatar_url and not stream_data.get("avatar_url"):
+                    stream_data["avatar_url"] = avatar_url
+                return stream_data
+
+    except Exception as e:
+        print(f"[YouTube Observer] Sprawdzanie {clean_handle}/live: {e}")
+
+    return {
+        "id": clean_handle,
+        "platform": "YouTube",
+        "channel": channel_name,
+        "title": "Stream offline (oczekiwanie na start transmisji...)",
+        "category": "YouTube Live",
+        "is_live": False,
+        "viewers": 0,
+        "url": url_live,
+        "avatar_url": avatar_url,
+    }
+
+
 def fetch_all_data(
     groups_config: dict | None = None, day_id: str | None = None
 ) -> dict:
@@ -185,9 +275,12 @@ def fetch_all_data(
 
     with ThreadPoolExecutor(max_workers=8) as executor:
         twitch_future = executor.submit(fetch_twitch_batch, all_twitch_channels)
-        yt_futures = {
-            executor.submit(fetch_youtube_stream, vid): vid for vid in all_yt_ids
-        }
+        yt_futures = {}
+        for item in all_yt_ids:
+            if item.startswith("@") or "youtube.com/" in item:
+                yt_futures[executor.submit(fetch_youtube_channel_live, item)] = item
+            else:
+                yt_futures[executor.submit(fetch_youtube_stream, item)] = item
 
         twitch_results = twitch_future.result()
         for fut, vid in yt_futures.items():
