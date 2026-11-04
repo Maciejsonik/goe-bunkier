@@ -80,7 +80,6 @@ def create_summary_card(
     font_footer_pipes = _get_font(17, bold=True, font_type="rajdhani")
     font_bunkier_badge = _get_font(20, font_type="anton")
     font_system_note = _get_font(14, font_type="rajdhani")
-    font_badge = _get_font(14, font_type="rajdhani")
 
     # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
     draw_top_emblem(draw, width, 54, "WORLDS 2026", font_top_emblem)
@@ -123,41 +122,10 @@ def create_summary_card(
         anchor="mm",
     )
 
-    # Bot Filter Status Badge (clean text without emoji to avoid tofu glyphs)
-    badge_y = 200
-    if filter_bots:
-        badge_text = "DANE OCZYSZCZONE (ODFILTROWANO ATAKI BOTÓW NA YOUTUBE)"
-        badge_bg = (14, 35, 20)
-        badge_border = (74, 222, 128)
-        badge_fg = (74, 222, 128)
-    else:
-        badge_text = "SUROWE DANE (UWZGLĘDNIAJĄ SZTUCZNE PIKI BOTÓW NA YOUTUBE)"
-        badge_bg = (40, 16, 16)
-        badge_border = (248, 113, 113)
-        badge_fg = (248, 113, 113)
-
-    badge_w = 540
-    badge_h = 24
-    bx1 = (width - badge_w) // 2
-    draw.rounded_rectangle(
-        [bx1, badge_y, bx1 + badge_w, badge_y + badge_h],
-        radius=12,
-        fill=badge_bg,
-        outline=badge_border,
-        width=1,
-    )
-    draw.text(
-        (width // 2, badge_y + badge_h // 2),
-        badge_text,
-        fill=badge_fg,
-        font=font_badge,
-        anchor="mm",
-    )
-
-    box_w = 225
-    box_h = 126
-    y_boxes = 234
-    x_positions = [50, 305, 560, 805]
+    box_w = 226
+    box_h = 134
+    y_boxes = 206
+    x_positions = [50, 301, 553, 804]
 
     # Stats setup
     if mode == "GOE":
@@ -194,7 +162,7 @@ def create_summary_card(
                 "ŚREDNIA GOE",
                 f"{stats['goe_avg']:,}".replace(",", " "),
                 (255, 255, 255),
-                "ORGANICZNA" if filter_bots else "W TRAKCIE STREAMU",
+                "W TRAKCIE STREAMU",
             ),
             (
                 "PIK YOUTUBE",
@@ -283,7 +251,7 @@ def create_summary_card(
                 "ŚREDNIA GOE",
                 f"{stats['goe_avg']:,}".replace(",", " "),
                 (255, 24, 36),
-                "ORGANICZNA" if filter_bots else "W TRAKCIE STREAMU",
+                "W TRAKCIE STREAMU",
             ),
             (
                 "ŚREDNIA NERVA",
@@ -293,9 +261,9 @@ def create_summary_card(
             ),
         ]
 
-    font_stat_val = _get_font(40, font_type="anton")
-    font_stat_lbl = _get_font(15, font_type="rajdhani")
-    font_stat_sub = _get_font(13, font_type="rajdhani")
+    font_stat_val = _get_font(42, font_type="anton")
+    font_stat_lbl = _get_font(15, bold=True, font_type="rajdhani")
+    font_stat_sub = _get_font(13, bold=True, font_type="rajdhani")
 
     for i, (label, val, color, sub) in enumerate(stat_items):
         bx = x_positions[i]
@@ -307,12 +275,12 @@ def create_summary_card(
             width=1,
         )
         draw.text(
-            (bx + 16, y_boxes + 11),
+            (bx + 16, y_boxes + 14),
             label,
             fill=(180, 180, 190),
             font=font_stat_lbl,
         )
-        draw.text((bx + 16, y_boxes + 26), val, fill=color, font=font_stat_val)
+        draw.text((bx + 16, y_boxes + 38), val, fill=color, font=font_stat_val)
         draw.text(
             (bx + 16, y_boxes + 98),
             sub,
