@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 01:38:23",
-  "total_viewers": 9719,
+  "timestamp": "2026-11-04 01:40:00",
+  "total_viewers": 9754,
   "leader": "NERVA",
-  "diff": 5919,
-  "ratio_goe": 19.5,
-  "ratio_nerva": 80.5,
+  "diff": 5880,
+  "ratio_goe": 19.9,
+  "ratio_nerva": 80.1,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 1900,
+      "total_viewers": 1937,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "TOP Esports vs Invictus Gaming | ĆWIERĆFINAŁ WORLDS 2026 | Otwarcie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1726,
+          "viewers": 1763,
           "url": "https://www.youtube.com/watch?v=I2E60nEUXWo",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
@@ -42,7 +42,7 @@
       "id": "NERVA",
       "name": "Nervarien & Co-streams",
       "color": "#ef4444",
-      "total_viewers": 7819,
+      "total_viewers": 7817,
       "streams": [
         {
           "id": "nervarien",
@@ -51,7 +51,7 @@
           "title": "🔴Invictus Gaming vs Top Esports🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 1363,
+          "viewers": 1379,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -75,7 +75,7 @@
           "title": "🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2063,
+          "viewers": 2045,
           "url": "https://www.youtube.com/watch?v=SGAaZFSc3Zk",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -84,8 +84,8 @@
     }
   },
   "momentum": {
-    "goe_delta": -71,
-    "nerva_delta": 65,
+    "goe_delta": 19,
+    "nerva_delta": 20,
     "minutes": 5
   }
 }
