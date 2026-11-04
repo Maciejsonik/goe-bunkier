@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-11-04 01:20:12",
-  "total_viewers": 9564,
+  "timestamp": "2026-11-04 01:23:52",
+  "total_viewers": 9693,
   "leader": "NERVA",
-  "diff": 5550,
-  "ratio_goe": 21.0,
-  "ratio_nerva": 79.0,
+  "diff": 5679,
+  "ratio_goe": 20.7,
+  "ratio_nerva": 79.3,
   "groups": {
     "GOE": {
       "id": "GOE",
@@ -19,7 +19,7 @@
           "title": "TOP Esports vs Invictus Gaming | ĆWIERĆFINAŁ WORLDS 2026 | Otwarcie BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 191,
+          "viewers": 193,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -31,7 +31,7 @@
           "title": "TOP Esports vs Invictus Gaming | ĆWIERĆFINAŁ WORLDS 2026 | Otwarcie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1816,
+          "viewers": 1814,
           "url": "https://www.youtube.com/watch?v=I2E60nEUXWo",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
@@ -42,7 +42,7 @@
       "id": "NERVA",
       "name": "Nervarien & Co-streams",
       "color": "#ef4444",
-      "total_viewers": 7557,
+      "total_viewers": 7686,
       "streams": [
         {
           "id": "nervarien",
@@ -51,7 +51,7 @@
           "title": "🔴Invictus Gaming vs Top Esports🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 1395,
+          "viewers": 1438,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -63,7 +63,7 @@
           "title": "🔴NERVARIEN CO-STREAM🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 4167,
+          "viewers": 4292,
           "url": "https://www.youtube.com/watch?v=woX6jXefVdw",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -75,7 +75,7 @@
           "title": "🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1995,
+          "viewers": 1956,
           "url": "https://www.youtube.com/watch?v=SGAaZFSc3Zk",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -84,8 +84,8 @@
     }
   },
   "momentum": {
-    "goe_delta": 15,
-    "nerva_delta": 360,
+    "goe_delta": -1,
+    "nerva_delta": 199,
     "minutes": 5
   }
 }
