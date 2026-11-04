@@ -9,7 +9,12 @@ from db import (
     get_history,
     get_summary_stats,
 )
-from generate_card import _get_font, draw_goe_background, draw_slanted_text
+from generate_card import (
+    _get_font,
+    draw_goe_background,
+    draw_slanted_text,
+    draw_vector_microphone,
+)
 
 
 def create_summary_card(
@@ -60,13 +65,16 @@ def create_summary_card(
     font_system_note = _get_font(14, font_type="rajdhani")
     font_badge = _get_font(14, font_type="rajdhani")
 
-    # Header Emblem
+    # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
+    mic_cx, mic_cy = width // 2 - 85, 54
+    draw_vector_microphone(draw, mic_cx, mic_cy)
+    draw.line([(mic_cx + 20, 42), (mic_cx + 20, 66)], fill=(255, 255, 255), width=2)
     draw.text(
-        (width // 2, 54),
-        "🎙️   |   WORLDS 2026",
+        (mic_cx + 36, 54),
+        "WORLDS 2026",
         fill=(255, 255, 255),
         font=font_top_emblem,
-        anchor="mm",
+        anchor="lm",
     )
 
     # Slanted Main Title
@@ -98,15 +106,15 @@ def create_summary_card(
         anchor="mm",
     )
 
-    # Bot Filter Status Badge
-    badge_y = 202
+    # Bot Filter Status Badge (clean text without emoji to avoid tofu glyphs)
+    badge_y = 200
     if filter_bots:
-        badge_text = "🛡️  DANE OCZYSZCZONE (ODFILTROWANO ATAKI BOTÓW NA YOUTUBE)"
+        badge_text = "DANE OCZYSZCZONE (ODFILTROWANO ATAKI BOTÓW NA YOUTUBE)"
         badge_bg = (14, 35, 20)
         badge_border = (74, 222, 128)
         badge_fg = (74, 222, 128)
     else:
-        badge_text = "⚠️  SUROWE DANE (UWZGLĘDNIAJĄ SZTUCZNE PIKI BOTÓW NA YOUTUBE)"
+        badge_text = "SUROWE DANE (UWZGLĘDNIAJĄ SZTUCZNE PIKI BOTÓW NA YOUTUBE)"
         badge_bg = (40, 16, 16)
         badge_border = (248, 113, 113)
         badge_fg = (248, 113, 113)
@@ -130,8 +138,8 @@ def create_summary_card(
     )
 
     box_w = 225
-    box_h = 115
-    y_boxes = 240
+    box_h = 122
+    y_boxes = 236
     x_positions = [50, 305, 560, 805]
 
     # Stats setup
@@ -223,6 +231,10 @@ def create_summary_card(
             ),
         ]
 
+    font_stat_val = _get_font(42, font_type="anton")
+    font_stat_lbl = _get_font(15, font_type="rajdhani")
+    font_stat_sub = _get_font(13, font_type="rajdhani")
+
     for i, (label, val, color, sub) in enumerate(stat_items):
         bx = x_positions[i]
         draw.rounded_rectangle(
@@ -233,17 +245,17 @@ def create_summary_card(
             width=1,
         )
         draw.text(
-            (bx + 16, y_boxes + 15),
+            (bx + 16, y_boxes + 13),
             label,
             fill=(180, 180, 190),
             font=font_stat_lbl,
         )
-        draw.text((bx + 16, y_boxes + 38), val, fill=color, font=font_stat_val)
+        draw.text((bx + 16, y_boxes + 30), val, fill=color, font=font_stat_val)
         draw.text(
-            (bx + 16, y_boxes + 90),
+            (bx + 16, y_boxes + 95),
             sub,
-            fill=(130, 130, 140),
-            font=_get_font(12, bold=False),
+            fill=(135, 135, 145),
+            font=font_stat_sub,
         )
 
     # Chart Area

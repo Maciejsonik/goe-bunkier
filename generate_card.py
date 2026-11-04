@@ -1,9 +1,29 @@
 """Generates a clean esports infographic card in GoE / #bunkier Worlds 2026 aesthetic (1080x1350)."""
 
 import os
+import re
 from PIL import Image, ImageDraw, ImageFont
 
 from avatars import get_cached_avatar
+
+
+def clean_text_for_font(text: str) -> str:
+    """Strips emoji and special unicode characters that trigger missing glyph boxes in PIL."""
+    if not text:
+        return ""
+    return re.sub(
+        r'[\U00010000-\U0010ffff]|[\u25a0-\u25ff]|[\u2600-\u26ff]|[\u2700-\u27bf]',
+        ' ',
+        text,
+    ).strip()
+
+
+def draw_vector_microphone(draw: ImageDraw.Draw, cx: int, cy: int):
+    """Draws a crisp vector microphone icon matching the Worlds 2026 poster."""
+    draw.rounded_rectangle([cx - 5, cy - 12, cx + 5, cy + 2], radius=5, fill=(255, 255, 255))
+    draw.arc([cx - 9, cy - 6, cx + 9, cy + 6], start=0, end=180, fill=(255, 255, 255), width=2)
+    draw.line([(cx, cy + 6), (cx, cy + 12)], fill=(255, 255, 255), width=2)
+    draw.line([(cx - 6, cy + 12), (cx + 6, cy + 12)], fill=(255, 255, 255), width=2)
 
 
 def _get_font(size: int, bold: bool = False, font_type: str = "regular"):
@@ -149,13 +169,16 @@ def create_battle_card(
     font_bunkier_badge = _get_font(20, font_type="anton")
     font_system_note = _get_font(14, font_type="rajdhani")
 
-    # Top Emblem
+    # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
+    mic_cx, mic_cy = width // 2 - 85, 54
+    draw_vector_microphone(draw, mic_cx, mic_cy)
+    draw.line([(mic_cx + 20, 42), (mic_cx + 20, 66)], fill=(255, 255, 255), width=2)
     draw.text(
-        (width // 2, 54),
-        "🎙️   |   WORLDS 2026",
+        (mic_cx + 36, 54),
+        "WORLDS 2026",
         fill=(255, 255, 255),
         font=font_top_emblem,
-        anchor="mm",
+        anchor="lm",
     )
 
     # Slanted Main Title (matching poster: CO-STREAM GOE)
@@ -386,9 +409,10 @@ def create_battle_card(
             anchor="lm",
         )
 
-        # Title snippet
+        # Title snippet (cleaned of unsupported emoji characters that cause tofu boxes)
         raw_title = st.get("title") or st.get("category") or "Transmisja na żywo"
-        title_snippet = raw_title[:65] + ("..." if len(raw_title) > 65 else "")
+        cleaned_title = clean_text_for_font(raw_title)
+        title_snippet = cleaned_title[:65] + ("..." if len(cleaned_title) > 65 else "")
         draw.text(
             (content_x, y_pos + 56),
             title_snippet,
