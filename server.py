@@ -240,11 +240,6 @@ def background_collector_loop():
                 consecutive_offline_seconds = 0
                 save_snapshot(data)
                 build()
-                create_battle_card(data, card_path)
-                create_summary_card(goe_summary_path, mode="GOE", filter_bots=True)
-                create_summary_card(
-                    comparison_summary_path, mode="COMPARISON", filter_bots=True
-                )
                 ts = datetime.now().strftime("%H:%M:%S")
                 goe_v = data["groups"]["GOE"]["total_viewers"]
                 nerva_v = data["groups"]["NERVA"]["total_viewers"]
@@ -278,12 +273,6 @@ def background_collector_loop():
                         f"[{ts}] Transmisje zakończone (30 min offline). Generowanie podsumowań..."
                     )
                     build()
-                    create_summary_card(goe_summary_path, mode="GOE", filter_bots=True)
-                    create_summary_card(
-                        comparison_summary_path,
-                        mode="COMPARISON",
-                        filter_bots=True,
-                    )
                     print(
                         "[Collector] Podsumowania zapisane. Przejście w tryb czuwania na kolejne mecze."
                     )

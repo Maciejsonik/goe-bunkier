@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-04 20:55:29",
-  "total_viewers": 120,
+  "timestamp": "2026-11-04 22:05:32",
+  "total_viewers": 147,
   "leader": "GOE",
-  "diff": 120,
+  "diff": 147,
   "ratio_goe": 100.0,
   "ratio_nerva": 0.0,
   "groups": {
@@ -10,7 +10,7 @@
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 120,
+      "total_viewers": 147,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 120,
+          "viewers": 147,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"

@@ -731,13 +731,9 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     goe_raw = data.get("groups", {}).get("GOE", {}).get("streams", [])
     nerva_raw = data.get("groups", {}).get("NERVA", {}).get("streams", [])
 
-    goe_streams = [s for s in goe_raw if s.get("id") != "I2E60nEUXWo"]
+    goe_streams = list(goe_raw)
     nerva_streams = [
-        s
-        for s in nerva_raw
-        if not s.get("is_costream")
-        and not s.get("is_curiosity")
-        and s.get("id") != "SGAaZFSc3Zk"
+        s for s in nerva_raw if not s.get("is_costream") and not s.get("is_curiosity")
     ]
 
     goe_total = sum(s.get("viewers", 0) for s in goe_streams)

@@ -65,11 +65,19 @@ def apply_adaptive_anomaly_detection(
         else:
             if curr <= base_start + 350 or (i - spike_start > 200):
                 in_spike = False
-                spike_windows.append((spike_start, i, base_start, curr, i - spike_start + 1))
+                spike_windows.append(
+                    (spike_start, i, base_start, curr, i - spike_start + 1)
+                )
 
     if in_spike:
         spike_windows.append(
-            (spike_start, len(points) - 1, base_start, base_start, len(points) - spike_start + 1)
+            (
+                spike_start,
+                len(points) - 1,
+                base_start,
+                base_start,
+                len(points) - spike_start + 1,
+            )
         )
 
     for s_idx, e_idx, b_start, b_end, dur_steps in spike_windows:
@@ -84,7 +92,9 @@ def apply_adaptive_anomaly_detection(
 
                 for sid, s in p.get("streams", {}).items():
                     if s.get("group") == "GOE" and s.get("platform") == "YouTube":
-                        s["viewers_raw"] = s.get("viewers_raw", s.get("viewers", clean_yt))
+                        s["viewers_raw"] = s.get(
+                            "viewers_raw", s.get("viewers", clean_yt)
+                        )
                         s["viewers"] = clean_yt
                         s["is_bot_attack"] = True
 
@@ -93,7 +103,11 @@ def apply_adaptive_anomaly_detection(
                 nerva_v = p.get("nerva_total", 0)
                 p["total_viewers"] = p["goe_total"] + nerva_v
                 p["diff"] = abs(p["goe_total"] - nerva_v)
-                p["leader"] = "GOE" if p["goe_total"] > nerva_v else ("NERVA" if nerva_v > p["goe_total"] else "REMIS")
+                p["leader"] = (
+                    "GOE"
+                    if p["goe_total"] > nerva_v
+                    else ("NERVA" if nerva_v > p["goe_total"] else "REMIS")
+                )
             elif not enabled:
                 p["goe_total"] = p.get("goe_total_raw", p.get("goe_total", 0))
                 nerva_v = p.get("nerva_total", 0)
@@ -180,6 +194,9 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
             if "I2E60nEUXWo" in streams:
                 yt_stream = streams["I2E60nEUXWo"]
                 yt_stream_id = "I2E60nEUXWo"
+            elif "dKZGkF2mIDU" in streams:
+                yt_stream = streams["dKZGkF2mIDU"]
+                yt_stream_id = "dKZGkF2mIDU"
             elif "@gadaja_" in streams:
                 yt_stream = streams["@gadaja_"]
                 yt_stream_id = "@gadaja_"
@@ -505,7 +522,7 @@ def get_summary_stats(
     if custom_history is not None:
         history = [dict(p) for p in custom_history]
     else:
-        history = get_detailed_history(limit=5000)
+        history = get_detailed_history(limit=5000, day_id=get_active_day_id())
 
     if filter_bots:
         history = filter_bot_attacks(history, enabled=True)

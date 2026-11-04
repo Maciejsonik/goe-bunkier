@@ -276,66 +276,75 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     export_csv_from_history(history, day_csv_path)
     print(f"✅ Zapisano: {day_csv_path}")
 
-    # 6. Generate graphics
-    try:
-        create_battle_card(data, day_card_path)
-        print(f"📸 Karta LIVE ({day_id}): {day_card_path}")
-    except Exception as e:
-        print(f"⚠️ Błąd karty LIVE ({day_id}): {e}")
+    # 6. Generate graphics (skip re-rendering for finished days if images already exist)
+    is_finished = day_cfg.get("is_finished", False)
+    all_graphics_exist = (
+        os.path.exists(day_card_path)
+        and os.path.exists(day_goe_clean_path)
+        and os.path.exists(day_comp_clean_path)
+        and os.path.exists(day_camps_clean_path)
+    )
 
-    try:
-        create_summary_card(
-            day_goe_clean_path,
-            mode="GOE",
-            custom_history=history,
-            filter_bots=True,
-        )
-        print(f"📊 Wykres GoE ({day_id}): {day_goe_clean_path}")
-        create_summary_card(
-            day_goe_raw_path,
-            mode="GOE",
-            custom_history=history,
-            filter_bots=False,
-        )
-        print(f"📊 Wykres GoE surowy ({day_id}): {day_goe_raw_path}")
-    except Exception as e:
-        print(f"⚠️ Błąd wykresu GoE ({day_id}): {e}")
+    if not (is_finished and all_graphics_exist):
+        try:
+            create_battle_card(data, day_card_path)
+            print(f"📸 Karta LIVE ({day_id}): {day_card_path}")
+        except Exception as e:
+            print(f"⚠️ Błąd karty LIVE ({day_id}): {e}")
 
-    try:
-        create_summary_card(
-            day_comp_clean_path,
-            mode="COMPARISON",
-            custom_history=history,
-            filter_bots=True,
-        )
-        print(f"⚖️ Wykres Porównania ({day_id}): {day_comp_clean_path}")
-        create_summary_card(
-            day_comp_raw_path,
-            mode="COMPARISON",
-            custom_history=history,
-            filter_bots=False,
-        )
-        print(f"⚖️ Wykres Porównania surowy ({day_id}): {day_comp_raw_path}")
-    except Exception as e:
-        print(f"⚠️ Błąd wykresu porównania ({day_id}): {e}")
+        try:
+            create_summary_card(
+                day_goe_clean_path,
+                mode="GOE",
+                custom_history=history,
+                filter_bots=True,
+            )
+            print(f"📊 Wykres GoE ({day_id}): {day_goe_clean_path}")
+            create_summary_card(
+                day_goe_raw_path,
+                mode="GOE",
+                custom_history=history,
+                filter_bots=False,
+            )
+            print(f"📊 Wykres GoE surowy ({day_id}): {day_goe_raw_path}")
+        except Exception as e:
+            print(f"⚠️ Błąd wykresu GoE ({day_id}): {e}")
 
-    try:
-        create_summary_card(
-            day_camps_clean_path,
-            mode="CAMPS",
-            custom_history=history,
-            filter_bots=True,
-        )
-        print(f"🏕️ Wykres 3 Obozów ({day_id}): {day_camps_clean_path}")
-        create_summary_card(
-            day_camps_raw_path,
-            mode="CAMPS",
-            custom_history=history,
-            filter_bots=False,
-        )
-        print(f"🏕️ Wykres 3 Obozów surowy ({day_id}): {day_camps_raw_path}")
-    except Exception as e:
-        print(f"⚠️ Błąd wykresu 3 obozów ({day_id}): {e}")
+        try:
+            create_summary_card(
+                day_comp_clean_path,
+                mode="COMPARISON",
+                custom_history=history,
+                filter_bots=True,
+            )
+            print(f"⚖️ Wykres Porównania ({day_id}): {day_comp_clean_path}")
+            create_summary_card(
+                day_comp_raw_path,
+                mode="COMPARISON",
+                custom_history=history,
+                filter_bots=False,
+            )
+            print(f"⚖️ Wykres Porównania surowy ({day_id}): {day_comp_raw_path}")
+        except Exception as e:
+            print(f"⚠️ Błąd wykresu porównania ({day_id}): {e}")
+
+        try:
+            create_summary_card(
+                day_camps_clean_path,
+                mode="CAMPS",
+                custom_history=history,
+                filter_bots=True,
+            )
+            print(f"🏕️ Wykres 3 Obozów ({day_id}): {day_camps_clean_path}")
+            create_summary_card(
+                day_camps_raw_path,
+                mode="CAMPS",
+                custom_history=history,
+                filter_bots=False,
+            )
+            print(f"🏕️ Wykres 3 Obozów surowy ({day_id}): {day_camps_raw_path}")
+        except Exception as e:
+            print(f"⚠️ Błąd wykresu 3 obozów ({day_id}): {e}")
 
     return {
         "data_path": day_data_path,

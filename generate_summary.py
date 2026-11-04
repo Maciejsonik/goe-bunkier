@@ -3,6 +3,7 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 
+from config import get_active_day_id
 from db import (
     filter_bot_attacks,
     get_detailed_history,
@@ -41,7 +42,22 @@ def create_summary_card(
     if custom_history is not None:
         raw_pts = [dict(p) for p in custom_history]
     else:
-        raw_pts = get_detailed_history(limit=5000)
+        active_day = get_active_day_id()
+        day_hist_path = os.path.join(
+            os.path.dirname(__file__), f"history_{active_day}.json"
+        )
+        if os.path.exists(day_hist_path):
+            try:
+                import json
+
+                with open(day_hist_path, "r", encoding="utf-8") as f:
+                    raw_pts = json.load(f)
+            except Exception:
+                raw_pts = []
+        else:
+            raw_pts = get_detailed_history(limit=5000, day_id=active_day)
+        if not raw_pts:
+            raw_pts = get_detailed_history(limit=5000)
 
     history_points = filter_bot_attacks(raw_pts, enabled=filter_bots)
     if len(history_points) < 2:
@@ -151,7 +167,7 @@ def create_summary_card(
                 if sid != "goe_stream" and (
                     s.get("platform") == "YouTube"
                     or s.get("group") == "GOE"
-                    or sid == "I2E60nEUXWo"
+                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
                 ):
                     return s.get(
                         "viewers" if filter_bots else "viewers_raw", s.get("viewers", 0)
@@ -537,7 +553,7 @@ def create_summary_card(
                 if sid != "goe_stream" and (
                     s.get("platform") == "YouTube"
                     or s.get("group") == "GOE"
-                    or sid == "I2E60nEUXWo"
+                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
                 ):
                     yt_s = s
                     break
