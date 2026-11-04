@@ -71,9 +71,10 @@ def create_summary_card(
 
     font_top_emblem = _get_font(26, bold=True, font_type="rajdhani")
     font_main_title = _get_font(78, font_type="anton")
-    font_sub_title = _get_font(22, font_type="rajdhani")
-    font_stat_val = _get_font(46, font_type="anton")
-    font_stat_lbl = _get_font(16, font_type="rajdhani")
+    font_sub_title = _get_font(20, font_type="rajdhani")
+    font_stat_val = _get_font(42, font_type="anton")
+    font_stat_lbl = _get_font(15, bold=True, font_type="rajdhani")
+    font_stat_sub = _get_font(13, bold=True, font_type="rajdhani")
     font_axis = _get_font(14, bold=False)
     font_legend = _get_font(18, font_type="rajdhani")
     font_callout = _get_font(14, font_type="rajdhani")
@@ -82,7 +83,7 @@ def create_summary_card(
     font_system_note = _get_font(14, font_type="rajdhani")
 
     # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
-    draw_top_emblem(draw, width, 54, "WORLDS 2026", font_top_emblem)
+    draw_top_emblem(draw, width, 48, "WORLDS 2026", font_top_emblem)
 
     # Slanted Main Title
     if mode == "GOE":
@@ -97,7 +98,7 @@ def create_summary_card(
         title_text,
         font_main_title,
         (255, 0, 51),
-        (width // 2, 125),
+        (width // 2, 112),
         slant_k=0.20,
     )
 
@@ -115,7 +116,7 @@ def create_summary_card(
     else:
         sub_title_text = f"w Kieleckim bunkrze vs Nervarien • Porównanie • {time_range}"
     draw.text(
-        (width // 2, 172),
+        (width // 2, 182),
         sub_title_text,
         fill=(255, 255, 255),
         font=font_sub_title,
@@ -123,8 +124,8 @@ def create_summary_card(
     )
 
     box_w = 226
-    box_h = 134
-    y_boxes = 206
+    box_h = 130
+    y_boxes = 220
     x_positions = [50, 301, 553, 804]
 
     # Stats setup

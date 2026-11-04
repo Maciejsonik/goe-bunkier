@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 21:48:04",
-  "total_viewers": 4514,
+  "timestamp": "2026-11-04 22:50:42",
+  "total_viewers": 4741,
   "leader": "GOE",
-  "diff": 1588,
-  "ratio_goe": 51.4,
-  "ratio_nerva": 16.2,
+  "diff": 1614,
+  "ratio_goe": 50.3,
+  "ratio_nerva": 16.3,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 2320,
+      "total_viewers": 2387,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2113,
+          "viewers": 2180,
           "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "dKZGkF2mIDU",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 732,
+      "total_viewers": 773,
       "streams": [
         {
           "id": "nervarien",
@@ -65,7 +65,7 @@
           "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 246,
+          "viewers": 287,
           "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "N3i_DQlKL_U",
@@ -78,7 +78,7 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 1462,
+      "total_viewers": 1581,
       "streams": [
         {
           "id": "ttobias_lol",
@@ -87,7 +87,7 @@
           "title": "LYON VS GENG🔥23:00 ĆWIERĆFINAŁ WORLDS 2026🔥 ⭐️SERCEM ZA POLAKIEM⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 1462,
+          "viewers": 1581,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"

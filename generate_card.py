@@ -388,7 +388,7 @@ def create_battle_card(
     font_system_note = _get_font(14, font_type="rajdhani")
 
     # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
-    draw_top_emblem(draw, width, 54, "WORLDS 2026", font_top_emblem)
+    draw_top_emblem(draw, width, 48, "WORLDS 2026", font_top_emblem)
 
     # Slanted Main Title (matching poster: CO-STREAM GOE)
     draw_slanted_text(
@@ -396,14 +396,14 @@ def create_battle_card(
         "CO-STREAM GOE",
         font_main_title,
         (255, 0, 51),
-        (width // 2, 125),
+        (width // 2, 112),
         slant_k=0.20,
     )
 
     platform_tag = f"[{platform.upper()}] " if platform.upper() != "ALL" else ""
     ts = data.get("timestamp", "").split(" ")[-1]
     draw.text(
-        (width // 2, 175),
+        (width // 2, 182),
         f"w Kieleckim bunkrze vs Nervarien  •  {platform_tag}{ts}",
         fill=(255, 255, 255),
         font=font_sub_title,
