@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 21:18:33",
-  "total_viewers": 679,
+  "timestamp": "2026-11-04 20:19:57",
+  "total_viewers": 405,
   "leader": "GOE",
-  "diff": 277,
-  "ratio_goe": 40.8,
+  "diff": 3,
+  "ratio_goe": 0.7,
   "ratio_nerva": 0.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 277,
+      "total_viewers": 3,
       "streams": [
         {
           "id": "goe_stream",
@@ -28,14 +28,12 @@
           "id": "@gadaja_",
           "platform": "YouTube",
           "channel": "Gadają o Esporcie",
-          "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 274,
-          "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
-          "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
-          "video_id": "dKZGkF2mIDU",
-          "direct_watch_url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/@gadaja_/live",
+          "avatar_url": "https://yt3.googleusercontent.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s900-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
         }
       ]
@@ -119,21 +117,21 @@
   "is_finished": false,
   "is_active": true,
   "momentum": {
-    "goe_delta": 4,
+    "goe_delta": -270,
     "nerva_delta": 0,
     "minutes": 5
   },
   "is_live": true,
   "summary_stats": {
-    "count": 2,
+    "count": 3,
     "goe_peak": 277,
     "nerva_peak": 0,
     "goe_peak_time": "21:18",
     "nerva_peak_time": "",
-    "goe_avg": 275,
+    "goe_avg": 184,
     "nerva_avg": 0,
     "start_time": "21:18",
-    "end_time": "21:18",
+    "end_time": "20:19",
     "goe_raw_peak": 277,
     "goe_raw_peak_time": "21:18",
     "is_bot_filtered": true,
@@ -154,15 +152,15 @@
     "camp_avg": 0
   },
   "summary_stats_raw": {
-    "count": 2,
+    "count": 3,
     "goe_peak": 277,
     "nerva_peak": 0,
     "goe_peak_time": "21:18",
     "nerva_peak_time": "",
-    "goe_avg": 275,
+    "goe_avg": 184,
     "nerva_avg": 0,
     "start_time": "21:18",
-    "end_time": "21:18",
+    "end_time": "20:19",
     "goe_raw_peak": 277,
     "goe_raw_peak_time": "21:18",
     "is_bot_filtered": false,
