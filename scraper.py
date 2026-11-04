@@ -7,7 +7,13 @@ import re
 import urllib.error
 import urllib.request
 
-from config import GROUPS, TWITCH_PUBLIC_CLIENT_ID, USER_AGENT
+from config import (
+    CURIOSITY_STREAMS,
+    GROUPS,
+    TWITCH_PUBLIC_CLIENT_ID,
+    USER_AGENT,
+    get_groups_config,
+)
 
 
 def fetch_twitch_batch(channel_logins: list[str]) -> dict[str, dict]:
@@ -161,10 +167,10 @@ def fetch_youtube_stream(video_id: str) -> dict:
         }
 
 
-def fetch_all_data(groups_config: dict = None) -> dict:
+def fetch_all_data(groups_config: dict = None, day_id: str = None) -> dict:
     """Fetches all streams concurrently and returns grouped comparison data."""
     if groups_config is None:
-        groups_config = GROUPS
+        groups_config = get_groups_config(day_id)
 
     all_twitch_channels = []
     all_yt_ids = []
@@ -210,12 +216,15 @@ def fetch_all_data(groups_config: dict = None) -> dict:
             if st:
                 st_item = dict(st)
                 st_item["group"] = grp_key
-                if vid == "woX6jXefVdw":
-                    st_item["channel"] = "Nerva Co-stream"
+                is_curiosity = vid in CURIOSITY_STREAMS
+                if is_curiosity:
+                    st_item["channel"] = CURIOSITY_STREAMS[vid].get(
+                        "name", "Nerva Co-stream"
+                    )
                     st_item["is_curiosity"] = True
                 streams.append(st_item)
-                # woX6jXefVdw is tracked as a curiosity/trivia only; official duel sum excludes it
-                if st.get("is_live", False) and vid != "woX6jXefVdw":
+                # Curiosity streams are tracked for trivia only; official duel sum excludes them
+                if st.get("is_live", False) and not is_curiosity:
                     group_total += st.get("viewers", 0)
 
         grouped[grp_key] = {

@@ -1,0 +1,143 @@
+{
+  "timestamp": "2026-11-04 11:44:16",
+  "total_viewers": 0,
+  "leader": "REMIS",
+  "diff": 0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
+  "groups": {
+    "GOE": {
+      "id": "GOE",
+      "name": "Gadają o Esporcie (GOE)",
+      "color": "#3b82f6",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "goe_stream",
+          "platform": "Twitch",
+          "channel": "GoE_stream",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/goe_stream",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
+          "group": "GOE"
+        }
+      ]
+    },
+    "NERVA": {
+      "id": "NERVA",
+      "name": "Nervarien & Co-streams",
+      "color": "#ef4444",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "nervarien",
+          "platform": "Twitch",
+          "channel": "Nervarien",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/nervarien",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
+          "group": "NERVA"
+        },
+        {
+          "id": "00uONX5EBiA",
+          "platform": "YouTube",
+          "channel": "Nervarien",
+          "title": "🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/watch?v=00uONX5EBiA",
+          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
+          "group": "NERVA"
+        },
+        {
+          "id": "N3i_DQlKL_U",
+          "platform": "YouTube",
+          "channel": "Nerva Co-stream",
+          "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
+          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
+          "group": "NERVA",
+          "is_curiosity": true
+        }
+      ]
+    }
+  },
+  "day_id": "day-2",
+  "day_name": "Dzień 2 (04.11)",
+  "day_date": "2026-11-04",
+  "is_finished": false,
+  "is_active": false,
+  "momentum": {
+    "goe_delta": 0,
+    "nerva_delta": 0,
+    "minutes": 5
+  },
+  "is_live": false,
+  "summary_stats": {
+    "count": 0,
+    "goe_peak": 0,
+    "nerva_peak": 0,
+    "goe_peak_time": "",
+    "nerva_peak_time": "",
+    "goe_avg": 0,
+    "nerva_avg": 0,
+    "start_time": "",
+    "end_time": "",
+    "goe_raw_peak": 0,
+    "goe_raw_peak_time": "",
+    "is_bot_filtered": true
+  },
+  "summary_stats_raw": {
+    "count": 0,
+    "goe_peak": 0,
+    "nerva_peak": 0,
+    "goe_peak_time": "",
+    "nerva_peak_time": "",
+    "goe_avg": 0,
+    "nerva_avg": 0,
+    "start_time": "",
+    "end_time": "",
+    "goe_raw_peak": 0,
+    "goe_raw_peak_time": "",
+    "is_bot_filtered": false
+  },
+  "active_day_id": "day-1",
+  "days": [
+    {
+      "id": "day-1",
+      "name": "Dzień 1 (03.11)",
+      "label": "Dzień 1 • 03.11 (Zakończony)",
+      "date": "2026-11-03",
+      "is_finished": true,
+      "is_active": true,
+      "data_url": "./data_day-1.json",
+      "history_url": "./history_day-1.json",
+      "csv_url": "./stream_data_day-1.csv",
+      "summary_card": "./stream_summary_day-1.png",
+      "goe_card": "./goe_summary_day-1.png"
+    },
+    {
+      "id": "day-2",
+      "name": "Dzień 2 (04.11)",
+      "label": "Dzień 2 • 04.11 (Dzisiejszy)",
+      "date": "2026-11-04",
+      "is_finished": false,
+      "is_active": false,
+      "data_url": "./data_day-2.json",
+      "history_url": "./history_day-2.json",
+      "csv_url": "./stream_data_day-2.csv",
+      "summary_card": "./stream_summary_day-2.png",
+      "goe_card": "./goe_summary_day-2.png"
+    }
+  ]
+}

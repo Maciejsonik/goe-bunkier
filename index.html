@@ -265,6 +265,99 @@
             letter-spacing: 0.5px;
         }
 
+        /* Day Selector Bar (Multi-Day Navigation) */
+        .day-selector-section {
+            background: #101014;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+        }
+
+        .day-selector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #a1a1aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .day-selector-sub {
+            color: #71717a;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: none;
+        }
+
+        .day-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .day-tab {
+            background: #141418;
+            border: 1.5px solid #27272a;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #d4d4d8;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .day-tab:hover {
+            border-color: #52525b;
+            color: white;
+            background: #1a1a20;
+        }
+
+        .day-tab.active {
+            background: rgba(255, 24, 36, 0.12);
+            border-color: var(--goe-red);
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 24, 36, 0.25);
+        }
+
+        .day-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .day-indicator.finished {
+            background: #71717a;
+        }
+
+        .day-indicator.live {
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+        }
+
+        .day-tag {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: #27272a;
+            color: #a1a1aa;
+            font-weight: 700;
+        }
+
+        .day-tab.active .day-tag.active-pill {
+            background: var(--goe-red);
+            color: white;
+        }
+
         .chip-dot {
             width: 8px;
             height: 8px;
@@ -654,6 +747,26 @@
             <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
         </div>
 
+        <!-- Day Selector Section (Multi-Day Navigation) -->
+        <div class="day-selector-section">
+            <div class="day-selector-header">
+                <span class="day-selector-title">🗓️ WYBIERZ DZIEŃ TRANSMISJI (WORLDS 2026):</span>
+                <span class="day-selector-sub" id="day-auto-switch-hint">Automatyczny reset o 12:00 UTC</span>
+            </div>
+            <div class="day-tabs" id="day-tabs-container">
+                <button class="day-tab active" id="day-tab-day-1" onclick="switchDay('day-1')">
+                    <span class="day-indicator finished"></span>
+                    <span class="day-name">Dzień 1 (03.11)</span>
+                    <span class="day-tag">Zakończony</span>
+                </button>
+                <button class="day-tab" id="day-tab-day-2" onclick="switchDay('day-2')">
+                    <span class="day-indicator live"></span>
+                    <span class="day-name">Dzień 2 (04.11)</span>
+                    <span class="day-tag active-pill">Dzisiejszy</span>
+                </button>
+            </div>
+        </div>
+
         <!-- Main View Mode Tabs (GoE Viewers Hub is DEFAULT!) -->
         <div class="mode-tabs">
             <button class="mode-tab active" id="tab-goe" onclick="switchMode('goe')">
@@ -827,8 +940,9 @@
         let goeChartInstance = null;
         let comparisonChartInstance = null;
 
-        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw'];
-        const OFFICIAL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
+        let currentDayId = 'day-1';
+        let ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw'];
+        let OFFICIAL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
         const STREAM_METADATA = {
@@ -836,8 +950,47 @@
             'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff1824' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
             'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
-            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_curiosity: true }
+            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_curiosity: true },
+            '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
+            'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_curiosity: true }
         };
+
+        function updateStreamsMetadataFromData() {
+            if (!rawData || !rawData.groups) return;
+            const goeStreams = rawData.groups.GOE.streams || [];
+            const nervaStreams = rawData.groups.NERVA.streams || [];
+            const allStreams = [...goeStreams, ...nervaStreams];
+
+            ALL_STREAM_IDS = [];
+            OFFICIAL_STREAM_IDS = [];
+
+            allStreams.forEach(s => {
+                ALL_STREAM_IDS.push(s.id);
+                if (!s.is_curiosity) {
+                    OFFICIAL_STREAM_IDS.push(s.id);
+                }
+                let color = '#3b82f6';
+                if (s.group === 'GOE') {
+                    color = s.platform === 'Twitch' ? '#9146ff' : '#ff1824';
+                } else {
+                    color = s.is_curiosity ? '#f59e0b' : (s.platform === 'Twitch' ? '#a855f7' : '#ef4444');
+                }
+                STREAM_METADATA[s.id] = {
+                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : 'YouTube'),
+                    platform: s.platform,
+                    group: s.group,
+                    color: color,
+                    is_curiosity: !!s.is_curiosity
+                };
+            });
+
+            if (currentMode === 'goe') {
+                const goeIds = goeStreams.map(s => s.id);
+                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
+            } else {
+                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
+            }
+        }
 
         function toggleBotFilter() {
             filterBots = !filterBots;
@@ -939,14 +1092,15 @@
                 document.getElementById('tab-battle').classList.remove('active');
                 document.getElementById('view-goe').style.display = 'block';
                 document.getElementById('view-battle').style.display = 'none';
-                selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
+                const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
+                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
                 setTimeout(() => { if (goeChartInstance) goeChartInstance.resize(); }, 50);
             } else {
                 document.getElementById('tab-goe').classList.remove('active');
                 document.getElementById('tab-battle').classList.add('active');
                 document.getElementById('view-goe').style.display = 'none';
                 document.getElementById('view-battle').style.display = 'block';
-                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS);
+                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
                 setTimeout(() => { if (comparisonChartInstance) comparisonChartInstance.resize(); }, 50);
             }
             renderFilterChips();
@@ -955,18 +1109,21 @@
 
         function applyPreset(preset) {
             if (preset === 'goe_only') {
-                selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
+                const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
+                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
                 if (currentMode !== 'goe') switchMode('goe');
             } else if (preset === 'all') {
-                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS);
+                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
             } else if (preset === 'all_plus_curiosity') {
                 selectedStreamIds = new Set(ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
             } else if (preset === 'twitch') {
-                selectedStreamIds = new Set(['goe_stream', 'nervarien']);
+                const twIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'Twitch');
+                selectedStreamIds = new Set(twIds);
             } else if (preset === 'youtube') {
-                selectedStreamIds = new Set(['I2E60nEUXWo', 'SGAaZFSc3Zk']);
+                const ytIds = OFFICIAL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'YouTube');
+                selectedStreamIds = new Set(ytIds);
             }
             renderFilterChips();
             updateUI();
@@ -1278,10 +1435,16 @@
 
                 const nervaLine = detailedHistory.map(pt => {
                     let s = 0;
-                    ['nervarien', 'SGAaZFSc3Zk'].forEach(id => {
-                        if (selectedStreamIds.has(id) && pt.streams[id]) s += (pt.streams[id].viewers || 0);
+                    let hasSelected = false;
+                    OFFICIAL_STREAM_IDS.forEach(id => {
+                        if (STREAM_METADATA[id] && STREAM_METADATA[id].group === 'NERVA') {
+                            if (selectedStreamIds.has(id)) {
+                                hasSelected = true;
+                                if (pt.streams && pt.streams[id]) s += (pt.streams[id].viewers || 0);
+                            }
+                        }
                     });
-                    if (s === 0) {
+                    if (!hasSelected || s === 0) {
                         return pt.nerva_total;
                     }
                     return s;
@@ -1299,7 +1462,7 @@
                 });
 
                 compDatasets.push({
-                    label: 'NERVARIEN (Łącznie)',
+                    label: 'NERVARIEN (Oficjalnie łącznie)',
                     data: nervaLine,
                     borderColor: '#ffffff',
                     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -1309,11 +1472,16 @@
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
 
-                if (selectedStreamIds.has('woX6jXefVdw')) {
+                // Check for any curiosity co-stream in selectedStreamIds
+                const curiosityStreamId = Array.from(selectedStreamIds).find(
+                    id => STREAM_METADATA[id] && STREAM_METADATA[id].is_curiosity
+                );
+                if (curiosityStreamId) {
+                    const cMeta = STREAM_METADATA[curiosityStreamId];
                     compDatasets.push({
-                        label: '💡 Nerva Co-stream (Ciekawostka)',
+                        label: `💡 ${cMeta.name} (Ciekawostka)`,
                         data: detailedHistory.map(pt => {
-                            const s = pt.streams && pt.streams['woX6jXefVdw'];
+                            const s = pt.streams && pt.streams[curiosityStreamId];
                             return s ? (s.viewers || 0) : 0;
                         }),
                         borderColor: '#f59e0b',
@@ -1340,7 +1508,14 @@
         }
 
         function applyTimeRangeSlice() {
-            if (!fullHistory || fullHistory.length === 0) return;
+            if (!fullHistory || fullHistory.length === 0) {
+                const goeSub = document.getElementById('goe-chart-sub-label');
+                if (goeSub) goeSub.innerText = 'Brak danych w wybranym dniu';
+                const compSub = document.getElementById('comp-chart-sub-label');
+                if (compSub) compSub.innerText = 'Brak danych w wybranym dniu';
+                updateChartSeries();
+                return;
+            }
 
             let limit = fullHistory.length;
             if (currentTimeRange === '15m') limit = 60;
@@ -1366,35 +1541,95 @@
             updateChartSeries();
         }
 
-        async function loadHistory() {
+        async function switchDay(dayId) {
+            currentDayId = dayId;
+            updateDayTabsUI();
+            await loadDayData(dayId);
+            const dayName = (rawData && rawData.day_name) || (dayId === 'day-1' ? 'Dzień 1' : 'Dzień 2');
+            showToast(`Przełączono na: ${dayName}`);
+        }
+
+        function updateDayTabsUI() {
+            document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById(`day-tab-${currentDayId}`);
+            if (btn) btn.classList.add('active');
+        }
+
+        function renderDayTabs(days) {
+            if (!days || days.length === 0) return;
+            const container = document.getElementById('day-tabs-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            days.forEach(d => {
+                const isCurrent = d.id === currentDayId;
+                const btn = document.createElement('button');
+                btn.id = `day-tab-${d.id}`;
+                btn.className = `day-tab ${isCurrent ? 'active' : ''}`;
+                btn.onclick = () => switchDay(d.id);
+
+                const statusClass = d.is_finished ? 'finished' : 'live';
+                const tagText = d.is_finished ? 'Zakończony' : (d.is_active ? 'Aktywny' : 'Dzisiejszy');
+                const tagClass = !d.is_finished ? 'active-pill' : '';
+
+                btn.innerHTML = `
+                    <span class="day-indicator ${statusClass}"></span>
+                    <span class="day-name">${d.name}</span>
+                    <span class="day-tag ${tagClass}">${tagText}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        async function loadDayData(dayId) {
             try {
-                const resp = await fetch('./history.json?t=' + Date.now());
-                if (resp.ok) {
-                    fullHistory = await resp.json();
-                    applyTimeRangeSlice();
+                const dataUrl = `./data_${dayId}.json?t=` + Date.now();
+                const histUrl = `./history_${dayId}.json?t=` + Date.now();
+
+                const [dataResp, histResp] = await Promise.all([
+                    fetch(dataUrl).catch(() => fetch('./data.json?t=' + Date.now())),
+                    fetch(histUrl).catch(() => fetch('./history.json?t=' + Date.now()))
+                ]);
+
+                if (dataResp && dataResp.ok) {
+                    rawData = await dataResp.json();
+                } else {
+                    const fallbackResp = await fetch('./data.json?t=' + Date.now());
+                    if (fallbackResp.ok) rawData = await fallbackResp.json();
                 }
-            } catch (e) {
-                console.error("History fetch error:", e);
+
+                if (histResp && histResp.ok) {
+                    fullHistory = await histResp.json();
+                } else {
+                    fullHistory = [];
+                }
+
+                if (rawData && rawData.days) {
+                    renderDayTabs(rawData.days);
+                }
+
+                updateStreamsMetadataFromData();
+                applyTimeRangeSlice();
+                updateUI();
+                renderFilterChips();
+
+                const timeStr = rawData ? rawData.timestamp : '';
+                document.getElementById('last-updated').innerText = `${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
+                document.getElementById('api-dot').style.background = '#4ade80';
+                document.getElementById('api-label').innerText = 'GitHub Pages LIVE';
+            } catch (err) {
+                console.error("Load day data error:", err);
+                document.getElementById('api-dot').style.background = '#f59e0b';
+                document.getElementById('api-label').innerText = 'Błąd wczytywania';
             }
         }
 
         async function loadData(manual = false) {
             try {
-                const resp = await fetch('./data.json?t=' + Date.now());
-                if (!resp.ok) throw new Error('Data fetch failed');
-                rawData = await resp.json();
-
-                document.getElementById('last-updated').innerText = `Ostatni pomiar: ${rawData.timestamp} • Stan bazy: ${fullHistory.length} próbek`;
-
-                renderFilterChips();
-                updateUI();
-                await loadHistory();
-
+                await loadDayData(currentDayId);
                 if (manual) showToast('Zaktualizowano dane!');
             } catch (err) {
                 console.error("Load data error:", err);
-                document.getElementById('api-dot').style.background = '#f59e0b';
-                document.getElementById('api-label').innerText = 'Wczytywanie...';
             }
         }
 
@@ -1407,19 +1642,19 @@
         }
 
         function downloadLiveCard() {
-            window.open('./battle_card.png', '_blank');
+            window.open(`./battle_card_${currentDayId}.png`, '_blank');
         }
 
         function downloadSummaryCard(mode = 'goe') {
             if (mode === 'goe') {
-                window.open(filterBots ? './goe_summary.png' : './goe_summary_raw.png', '_blank');
+                window.open(filterBots ? `./goe_summary_${currentDayId}.png` : `./goe_summary_raw_${currentDayId}.png`, '_blank');
             } else {
-                window.open(filterBots ? './stream_summary.png' : './stream_summary_raw.png', '_blank');
+                window.open(filterBots ? `./stream_summary_${currentDayId}.png` : `./stream_summary_raw_${currentDayId}.png`, '_blank');
             }
         }
 
         function downloadCSV() {
-            window.open('./stream_data.csv', '_blank');
+            window.open(`./stream_data_${currentDayId}.csv`, '_blank');
         }
 
         function showToast(msg) {
@@ -1431,7 +1666,18 @@
 
         window.onload = async () => {
             initCharts();
-            await loadData();
+            try {
+                const initResp = await fetch('./data.json?t=' + Date.now());
+                if (initResp.ok) {
+                    const initData = await initResp.json();
+                    if (initData.active_day_id) {
+                        currentDayId = initData.active_day_id;
+                    }
+                }
+            } catch (e) {}
+
+            updateDayTabsUI();
+            await loadDayData(currentDayId);
             setupAutoRefresh();
         };
     </script>

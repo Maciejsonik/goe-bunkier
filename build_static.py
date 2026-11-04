@@ -1,28 +1,21 @@
-"""Builds static JSON data and graphics for GitHub Pages without requiring an active backend."""
+"""Builds static JSON data and graphics for GitHub Pages with multi-day support."""
 
 from datetime import datetime
 import json
 import os
+import shutil
 import sys
 
 # Ensure this directory is in path
 sys.path.insert(0, os.path.dirname(__file__))
 
+from config import DAYS_CONFIG, get_active_day_id
 from generate_card import create_battle_card
 from generate_summary import create_summary_card
 from scraper import fetch_all_data
 
-DATA_JSON_PATH = os.path.join(os.path.dirname(__file__), "data.json")
-HISTORY_JSON_PATH = os.path.join(os.path.dirname(__file__), "history.json")
-CSV_PATH = os.path.join(os.path.dirname(__file__), "stream_data.csv")
-DB_PATH = os.path.join(os.path.dirname(__file__), "history.db")
-CARD_PATH = os.path.join(os.path.dirname(__file__), "battle_card.png")
-GOE_SUMMARY_PATH = os.path.join(os.path.dirname(__file__), "goe_summary.png")
-COMP_SUMMARY_PATH = os.path.join(os.path.dirname(__file__), "stream_summary.png")
-GOE_SUMMARY_RAW_PATH = os.path.join(os.path.dirname(__file__), "goe_summary_raw.png")
-COMP_SUMMARY_RAW_PATH = os.path.join(
-    os.path.dirname(__file__), "stream_summary_raw.png"
-)
+BASE_DIR = os.path.dirname(__file__)
+DB_PATH = os.path.join(BASE_DIR, "history.db")
 
 
 def calculate_momentum(history: list[dict], minutes: int = 5) -> dict:
@@ -67,7 +60,7 @@ def calculate_momentum(history: list[dict], minutes: int = 5) -> dict:
 
 
 def export_csv_from_history(history: list[dict], filepath: str):
-    """Exports history array to CSV with bot attack details."""
+    """Exports history array to CSV with bot attack details and flexible stream mapping."""
     import csv
 
     fieldnames = [
@@ -89,7 +82,54 @@ def export_csv_from_history(history: list[dict], filepath: str):
         writer.writeheader()
         for pt in history:
             streams = pt.get("streams", {})
-            yt_s = streams.get("I2E60nEUXWo", {})
+
+            # 1. GoE Twitch
+            goe_tw_v = streams.get("goe_stream", {}).get("viewers", 0)
+
+            # 2. GoE YouTube
+            goe_yt_v = 0
+            goe_yt_raw_v = 0
+            for sid, s in streams.items():
+                if sid != "goe_stream" and (
+                    s.get("group") == "GOE"
+                    or s.get("platform") == "YouTube"
+                    or sid == "I2E60nEUXWo"
+                ):
+                    goe_yt_v = s.get("viewers", 0)
+                    goe_yt_raw_v = s.get("viewers_raw", goe_yt_v)
+                    break
+
+            # 3. Nervarien Twitch
+            nerva_tw_v = streams.get("nervarien", {}).get("viewers", 0)
+
+            # 4. Nervarien Official YouTube
+            nerva_yt_v = 0
+            for vid in ("SGAaZFSc3Zk", "00uONX5EBiA"):
+                if vid in streams:
+                    nerva_yt_v = streams[vid].get("viewers", 0)
+                    break
+            if nerva_yt_v == 0:
+                for sid, s in streams.items():
+                    if (
+                        s.get("group") == "NERVA"
+                        and s.get("platform") == "YouTube"
+                        and not s.get("is_curiosity")
+                    ):
+                        nerva_yt_v = s.get("viewers", 0)
+                        break
+
+            # 5. Nerva Co-stream (Ciekawostka)
+            curiosity_v = 0
+            for vid in ("woX6jXefVdw", "N3i_DQlKL_U"):
+                if vid in streams:
+                    curiosity_v = streams[vid].get("viewers", 0)
+                    break
+            if curiosity_v == 0:
+                for sid, s in streams.items():
+                    if s.get("is_curiosity"):
+                        curiosity_v = s.get("viewers", 0)
+                        break
+
             writer.writerow(
                 {
                     "timestamp": pt.get("timestamp", ""),
@@ -97,34 +137,21 @@ def export_csv_from_history(history: list[dict], filepath: str):
                     "goe_total_raw": pt.get("goe_total_raw", pt.get("goe_total", 0)),
                     "is_bot_attack": 1 if pt.get("is_bot_attack") else 0,
                     "nerva_total": pt.get("nerva_total", 0),
-                    "goe_stream_viewers": streams.get("goe_stream", {}).get(
-                        "viewers", 0
-                    ),
-                    "goe_yt_viewers": yt_s.get("viewers", 0),
-                    "goe_yt_raw_viewers": yt_s.get(
-                        "viewers_raw", yt_s.get("viewers", 0)
-                    ),
-                    "nerva_twitch_viewers": streams.get("nervarien", {}).get(
-                        "viewers", 0
-                    ),
-                    "nerva_yt_viewers": streams.get("SGAaZFSc3Zk", {}).get(
-                        "viewers", 0
-                    ),
-                    "nerva_costream_ciekawostka": streams.get("woX6jXefVdw", {}).get(
-                        "viewers", 0
-                    ),
+                    "goe_stream_viewers": goe_tw_v,
+                    "goe_yt_viewers": goe_yt_v,
+                    "goe_yt_raw_viewers": goe_yt_raw_v,
+                    "nerva_twitch_viewers": nerva_tw_v,
+                    "nerva_yt_viewers": nerva_yt_v,
+                    "nerva_costream_ciekawostka": curiosity_v,
                 }
             )
 
 
-def build():
-    print("⏳ [Build] Pobieranie aktualnych danych o transmisjach...")
-    data = fetch_all_data()
-
-    any_live = any(
-        s.get("is_live", False)
-        for s in data["groups"]["GOE"]["streams"] + data["groups"]["NERVA"]["streams"]
-    )
+def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
+    """Builds static artifacts for a specific day."""
+    print(f"\n==================== [Build: {day_id.upper()}] ====================")
+    day_cfg = DAYS_CONFIG[day_id]
+    is_active = day_id == active_day
 
     from db import (
         filter_bot_attacks,
@@ -133,112 +160,215 @@ def build():
         save_snapshot,
     )
 
-    # Load history
+    day_hist_path = os.path.join(BASE_DIR, f"history_{day_id}.json")
+    day_data_path = os.path.join(BASE_DIR, f"data_{day_id}.json")
+    day_csv_path = os.path.join(BASE_DIR, f"stream_data_{day_id}.csv")
+    day_card_path = os.path.join(BASE_DIR, f"battle_card_{day_id}.png")
+    day_goe_clean_path = os.path.join(BASE_DIR, f"goe_summary_{day_id}.png")
+    day_goe_raw_path = os.path.join(BASE_DIR, f"goe_summary_raw_{day_id}.png")
+    day_comp_clean_path = os.path.join(BASE_DIR, f"stream_summary_{day_id}.png")
+    day_comp_raw_path = os.path.join(BASE_DIR, f"stream_summary_raw_{day_id}.png")
+
+    # 1. Fetch current status of streams for this day
+    data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
+    any_live = any(
+        s.get("is_live", False)
+        for s in data["groups"]["GOE"]["streams"] + data["groups"]["NERVA"]["streams"]
+    )
+
+    # 2. Load History for this day
     history = []
-    if os.path.exists(DB_PATH):
+    if day_id == "day-1":
+        # Day 1 is finished - load existing complete history
+        if os.path.exists(day_hist_path):
+            try:
+                with open(day_hist_path, "r", encoding="utf-8") as f:
+                    history = json.load(f)
+            except Exception:
+                history = []
+        elif os.path.exists(os.path.join(BASE_DIR, "history.json")):
+            try:
+                with open(
+                    os.path.join(BASE_DIR, "history.json"), "r", encoding="utf-8"
+                ) as f:
+                    history = json.load(f)
+            except Exception:
+                history = []
+        elif os.path.exists(DB_PATH):
+            history = get_detailed_history(limit=5000, day_id="day-1")
+    else:
+        # Day 2 / Upcoming / Active day
+        if os.path.exists(day_hist_path):
+            try:
+                with open(day_hist_path, "r", encoding="utf-8") as f:
+                    history = json.load(f)
+            except Exception:
+                history = []
+        elif os.path.exists(DB_PATH):
+            history = get_detailed_history(limit=5000, day_id="day-2")
+
         if any_live:
-            save_snapshot(data)
-        history = get_detailed_history(limit=5000)
-        print(f"📦 [Build] Załadowano {len(history)} próbek z lokalnej bazy SQLite.")
-    elif os.path.exists(HISTORY_JSON_PATH):
-        try:
-            with open(HISTORY_JSON_PATH, "r", encoding="utf-8") as f:
-                history = json.load(f)
-        except Exception:
-            history = []
+            save_snapshot(data, day_id=day_id)
+            goe_streams = {s["id"]: s for s in data["groups"]["GOE"]["streams"]}
+            nerva_streams = {s["id"]: s for s in data["groups"]["NERVA"]["streams"]}
+            all_s_map = {**goe_streams, **nerva_streams}
 
-    # Clean history: strip corrupted post-stream records and filter bot attacks
+            new_point = {
+                "timestamp": data["timestamp"],
+                "goe_total": data["groups"]["GOE"]["total_viewers"],
+                "goe_total_raw": data["groups"]["GOE"]["total_viewers"],
+                "is_bot_attack": False,
+                "nerva_total": data["groups"]["NERVA"]["total_viewers"],
+                "streams": {
+                    sid: {
+                        "viewers": s.get("viewers", 0),
+                        "is_live": s.get("is_live", False),
+                    }
+                    for sid, s in all_s_map.items()
+                },
+            }
+            if not history or history[-1].get("timestamp") != new_point["timestamp"]:
+                history.append(new_point)
+
+    # 3. Clean history
     history = filter_bot_attacks(history, enabled=True)
-
-    # Format new snapshot point if streams are live
-    if any_live:
-        goe_streams = {s["id"]: s for s in data["groups"]["GOE"]["streams"]}
-        nerva_streams = {s["id"]: s for s in data["groups"]["NERVA"]["streams"]}
-        all_s_map = {**goe_streams, **nerva_streams}
-
-        new_point = {
-            "timestamp": data["timestamp"],
-            "goe_total": data["groups"]["GOE"]["total_viewers"],
-            "goe_total_raw": data["groups"]["GOE"]["total_viewers"],
-            "is_bot_attack": False,
-            "nerva_total": data["groups"]["NERVA"]["total_viewers"],
-            "streams": {
-                sid: {
-                    "viewers": s.get("viewers", 0),
-                    "is_live": s.get("is_live", False),
-                }
-                for sid, s in all_s_map.items()
-            },
-        }
-
-        if not history or history[-1].get("timestamp") != new_point["timestamp"]:
-            history.append(new_point)
-
-    # Keep at most 5000 points
     if len(history) > 5000:
         history = history[-5000:]
 
-    # Calculate momentum and summary statistics
+    # 4. Momentum & stats
     momentum = calculate_momentum(history, minutes=5)
+    data["day_id"] = day_id
+    data["day_name"] = day_cfg["name"]
+    data["day_date"] = day_cfg["date"]
+    data["is_finished"] = day_cfg.get("is_finished", False)
+    data["is_active"] = is_active
     data["momentum"] = momentum
     data["is_live"] = any_live
     data["summary_stats"] = get_summary_stats(custom_history=history, filter_bots=True)
     data["summary_stats_raw"] = get_summary_stats(
         custom_history=history, filter_bots=False
     )
+    data["active_day_id"] = active_day
+    data["days"] = days_manifest
 
-    # Save data.json
-    with open(DATA_JSON_PATH, "w", encoding="utf-8") as f:
+    # 5. Save static JSONs & CSV
+    with open(day_data_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"✅ [Build] Zapisano: {DATA_JSON_PATH}")
+    print(f"✅ Zapisano: {day_data_path}")
 
-    # Save history.json
-    with open(HISTORY_JSON_PATH, "w", encoding="utf-8") as f:
+    with open(day_hist_path, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False)
-    print(f"✅ [Build] Zapisano: {HISTORY_JSON_PATH} ({len(history)} punktów)")
+    print(f"✅ Zapisano: {day_hist_path} ({len(history)} punktów)")
 
-    # Save CSV
-    export_csv_from_history(history, CSV_PATH)
-    print(f"✅ [Build] Zapisano: {CSV_PATH}")
+    export_csv_from_history(history, day_csv_path)
+    print(f"✅ Zapisano: {day_csv_path}")
 
-    # Generate graphics (clean and raw)
+    # 6. Generate graphics
     try:
-        create_battle_card(data, CARD_PATH)
-        print(f"📸 [Build] Karta LIVE: {CARD_PATH}")
+        create_battle_card(data, day_card_path)
+        print(f"📸 Karta LIVE ({day_id}): {day_card_path}")
     except Exception as e:
-        print(f"⚠️ [Build] Błąd karty LIVE: {e}")
+        print(f"⚠️ Błąd karty LIVE ({day_id}): {e}")
 
     try:
         create_summary_card(
-            GOE_SUMMARY_PATH, mode="GOE", custom_history=history, filter_bots=True
+            day_goe_clean_path,
+            mode="GOE",
+            custom_history=history,
+            filter_bots=True,
         )
-        print(f"📊 [Build] Wykres GoE (Oczyszczony): {GOE_SUMMARY_PATH}")
+        print(f"📊 Wykres GoE ({day_id}): {day_goe_clean_path}")
         create_summary_card(
-            GOE_SUMMARY_RAW_PATH, mode="GOE", custom_history=history, filter_bots=False
+            day_goe_raw_path,
+            mode="GOE",
+            custom_history=history,
+            filter_bots=False,
         )
-        print(f"📊 [Build] Wykres GoE (Surowy z botami): {GOE_SUMMARY_RAW_PATH}")
+        print(f"📊 Wykres GoE surowy ({day_id}): {day_goe_raw_path}")
     except Exception as e:
-        print(f"⚠️ [Build] Błąd wykresu GoE: {e}")
+        print(f"⚠️ Błąd wykresu GoE ({day_id}): {e}")
 
     try:
         create_summary_card(
-            COMP_SUMMARY_PATH,
+            day_comp_clean_path,
             mode="COMPARISON",
             custom_history=history,
             filter_bots=True,
         )
-        print(f"⚖️ [Build] Wykres Porównania (Oczyszczony): {COMP_SUMMARY_PATH}")
+        print(f"⚖️ Wykres Porównania ({day_id}): {day_comp_clean_path}")
         create_summary_card(
-            COMP_SUMMARY_RAW_PATH,
+            day_comp_raw_path,
             mode="COMPARISON",
             custom_history=history,
             filter_bots=False,
         )
-        print(f"⚖️ [Build] Wykres Porównania (Surowy z botami): {COMP_SUMMARY_RAW_PATH}")
+        print(f"⚖️ Wykres Porównania surowy ({day_id}): {day_comp_raw_path}")
     except Exception as e:
-        print(f"⚠️ [Build] Błąd wykresu porównania: {e}")
+        print(f"⚠️ Błąd wykresu porównania ({day_id}): {e}")
 
-    print("\n🎉 [Build] Gotowe! Wszystkie pliki statyczne zostały wygenerowane.")
+    return {
+        "data_path": day_data_path,
+        "hist_path": day_hist_path,
+        "csv_path": day_csv_path,
+        "card_path": day_card_path,
+        "goe_clean_path": day_goe_clean_path,
+        "goe_raw_path": day_goe_raw_path,
+        "comp_clean_path": day_comp_clean_path,
+        "comp_raw_path": day_comp_raw_path,
+    }
+
+
+def build():
+    active_day = get_active_day_id()
+    print(f"🌟 [Multi-Day Build] Aktywny dzień (wg reguły 12:00 UTC): {active_day}")
+
+    days_manifest = [
+        {
+            "id": d_id,
+            "name": cfg["name"],
+            "label": cfg["label"],
+            "date": cfg["date"],
+            "is_finished": cfg.get("is_finished", False),
+            "is_active": (d_id == active_day),
+            "data_url": f"./data_{d_id}.json",
+            "history_url": f"./history_{d_id}.json",
+            "csv_url": f"./stream_data_{d_id}.csv",
+            "summary_card": f"./stream_summary_{d_id}.png",
+            "goe_card": f"./goe_summary_{d_id}.png",
+        }
+        for d_id, cfg in DAYS_CONFIG.items()
+    ]
+
+    day_outputs = {}
+    for day_id in DAYS_CONFIG:
+        day_outputs[day_id] = build_day(day_id, active_day, days_manifest)
+
+    # Mirror active day artifacts to standard root names for backward compatibility & GitHub Pages root
+    print(
+        f"\n🔄 [Mirroring] Kopiowanie aktywnego dnia ({active_day}) do plików głównych..."
+    )
+    act_out = day_outputs[active_day]
+
+    shutil.copyfile(act_out["data_path"], os.path.join(BASE_DIR, "data.json"))
+    shutil.copyfile(act_out["hist_path"], os.path.join(BASE_DIR, "history.json"))
+    shutil.copyfile(act_out["csv_path"], os.path.join(BASE_DIR, "stream_data.csv"))
+    shutil.copyfile(act_out["card_path"], os.path.join(BASE_DIR, "battle_card.png"))
+    shutil.copyfile(
+        act_out["goe_clean_path"], os.path.join(BASE_DIR, "goe_summary.png")
+    )
+    shutil.copyfile(
+        act_out["goe_raw_path"], os.path.join(BASE_DIR, "goe_summary_raw.png")
+    )
+    shutil.copyfile(
+        act_out["comp_clean_path"], os.path.join(BASE_DIR, "stream_summary.png")
+    )
+    shutil.copyfile(
+        act_out["comp_raw_path"], os.path.join(BASE_DIR, "stream_summary_raw.png")
+    )
+
+    print(
+        "🎉 [Build] Zakończono! Wszystkie pliki dniowe oraz główne zostały przygotowane."
+    )
 
 
 if __name__ == "__main__":

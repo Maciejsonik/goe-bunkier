@@ -1,20 +1,99 @@
-"""Configuration for the Stream Battle Scraper."""
+"""Configuration for the Stream Battle Scraper with Multi-Day Support."""
 
-# Channels and video streams divided into two competing groups
-GROUPS = {
-    "GOE": {
-        "name": "Gadają o Esporcie (GOE)",
-        "color": "#3b82f6",  # Neon Blue
-        "twitch": ["goe_stream"],
-        "youtube": ["I2E60nEUXWo"],
+from datetime import datetime, timezone
+import os
+
+# Multi-day configuration for Worlds 2026
+# Day 1: Nov 3 12:00 UTC to Nov 4 12:00 UTC
+# Day 2: Nov 4 12:00 UTC to Nov 5 12:00 UTC
+DAYS_CONFIG = {
+    "day-1": {
+        "id": "day-1",
+        "name": "Dzień 1 (03.11)",
+        "label": "Dzień 1 • 03.11 (Zakończony)",
+        "date": "2026-11-03",
+        "is_finished": True,
+        "start_utc": "2026-11-03 12:00:00",
+        "end_utc": "2026-11-04 12:00:00",
+        "groups": {
+            "GOE": {
+                "name": "Gadają o Esporcie (GOE)",
+                "color": "#3b82f6",  # Neon Blue
+                "twitch": ["goe_stream"],
+                "youtube": ["I2E60nEUXWo"],
+            },
+            "NERVA": {
+                "name": "Nervarien & Co-streams",
+                "color": "#ef4444",  # Crimson Red
+                "twitch": ["nervarien"],
+                "youtube": ["SGAaZFSc3Zk", "woX6jXefVdw"],
+            },
+        },
+        "curiosity_streams": ["woX6jXefVdw"],
     },
-    "NERVA": {
-        "name": "Nervarien & Co-streams",
-        "color": "#ef4444",  # Crimson Red
-        "twitch": ["nervarien"],
-        "youtube": ["SGAaZFSc3Zk", "woX6jXefVdw"],
+    "day-2": {
+        "id": "day-2",
+        "name": "Dzień 2 (04.11)",
+        "label": "Dzień 2 • 04.11 (Dzisiejszy)",
+        "date": "2026-11-04",
+        "is_finished": False,
+        "start_utc": "2026-11-04 12:00:00",
+        "end_utc": "2026-11-05 12:00:00",
+        "groups": {
+            "GOE": {
+                "name": "Gadają o Esporcie (GOE)",
+                "color": "#3b82f6",  # Neon Blue
+                "twitch": ["goe_stream"],
+                "youtube": [],  # GoE YouTube link will be added here once announced
+            },
+            "NERVA": {
+                "name": "Nervarien & Co-streams",
+                "color": "#ef4444",  # Crimson Red
+                "twitch": ["nervarien"],
+                "youtube": ["00uONX5EBiA", "N3i_DQlKL_U"],
+            },
+        },
+        "curiosity_streams": ["N3i_DQlKL_U"],
     },
 }
+
+# Curiosity / trivia streams mapped across all days
+# Tracked on the dashboard but excluded from official duel sums
+CURIOSITY_STREAMS = {
+    "woX6jXefVdw": {"name": "Nerva Co-stream", "group": "NERVA"},
+    "N3i_DQlKL_U": {"name": "Nerva Co-stream", "group": "NERVA"},
+}
+
+
+def get_active_day_id(now_utc: datetime = None) -> str:
+    """Returns active day id based on the 12:00 UTC rollover rule:
+    - Before 2026-11-04 12:00:00 UTC -> 'day-1'
+    - From 2026-11-04 12:00:00 UTC onwards -> 'day-2'
+    Can be manually overridden with STREAM_DAY environment variable.
+    """
+    override = os.environ.get("STREAM_DAY")
+    if override and override in DAYS_CONFIG:
+        return override
+
+    if now_utc is None:
+        now_utc = datetime.now(timezone.utc)
+
+    day2_cutoff = datetime(2026, 11, 4, 12, 0, 0, tzinfo=timezone.utc)
+    if now_utc < day2_cutoff:
+        return "day-1"
+    return "day-2"
+
+
+def get_groups_config(day_id: str = None) -> dict:
+    """Returns groups configuration dictionary for a given day id."""
+    if day_id is None:
+        day_id = get_active_day_id()
+    day_entry = DAYS_CONFIG.get(day_id, DAYS_CONFIG["day-1"])
+    return day_entry["groups"]
+
+
+# Backward-compatible global GROUPS
+GROUPS = get_groups_config()
 
 # HTTP User agent for YouTube requests
 USER_AGENT = (

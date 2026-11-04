@@ -135,18 +135,19 @@ def create_summary_card(
     # Stats setup
     if mode == "GOE":
         # Calculate GoE peak YT and peak Twitch
-        peak_yt = max(
-            (
-                p.get("streams", {})
-                .get("I2E60nEUXWo", {})
-                .get(
-                    "viewers" if filter_bots else "viewers_raw",
-                    p.get("streams", {}).get("I2E60nEUXWo", {}).get("viewers", 0),
-                )
-                for p in history_points
-            ),
-            default=0,
-        )
+        def _get_goe_yt_v(p):
+            for sid, s in p.get("streams", {}).items():
+                if sid != "goe_stream" and (
+                    s.get("platform") == "YouTube"
+                    or s.get("group") == "GOE"
+                    or sid == "I2E60nEUXWo"
+                ):
+                    return s.get(
+                        "viewers" if filter_bots else "viewers_raw", s.get("viewers", 0)
+                    )
+            return 0
+
+        peak_yt = max((_get_goe_yt_v(p) for p in history_points), default=0)
         peak_tw = max(
             (
                 p.get("streams", {}).get("goe_stream", {}).get("viewers", 0)
@@ -396,7 +397,15 @@ def create_summary_card(
                 else plot_x1 + int((idx / (num_pts - 1)) * plot_w)
             )
             streams_map = pt.get("streams", {})
-            yt_s = streams_map.get("I2E60nEUXWo", {})
+            yt_s = {}
+            for sid, s in streams_map.items():
+                if sid != "goe_stream" and (
+                    s.get("platform") == "YouTube"
+                    or s.get("group") == "GOE"
+                    or sid == "I2E60nEUXWo"
+                ):
+                    yt_s = s
+                    break
             tw_s = streams_map.get("goe_stream", {})
             yt_v = (
                 yt_s.get("viewers", 0)

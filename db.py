@@ -7,6 +7,8 @@ import os
 import sqlite3
 import time
 
+from config import CURIOSITY_STREAMS, get_active_day_id
+
 DB_PATH = os.path.join(os.path.dirname(__file__), "history.db")
 
 # Confirmed bot attack windows on GoE YouTube
@@ -68,13 +70,21 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
 
         p = dict(pt)
         streams = {k: dict(v) for k, v in p.get("streams", {}).items()}
-        # Mark 5th stream woX6jXefVdw as Nerva Co-stream curiosity/trivia (not counted in official duel)
-        if "woX6jXefVdw" in streams:
-            streams["woX6jXefVdw"]["channel"] = "Nerva Co-stream"
-            streams["woX6jXefVdw"]["is_curiosity"] = True
+        # Mark curiosity streams (not counted in official duel)
+        for cid, cinfo in CURIOSITY_STREAMS.items():
+            if cid in streams:
+                streams[cid]["channel"] = cinfo.get("name", "Nerva Co-stream")
+                streams[cid]["is_curiosity"] = True
 
         nerva_tw = streams.get("nervarien", {}).get("viewers", 0)
-        nerva_yt = streams.get("SGAaZFSc3Zk", {}).get("viewers", 0)
+        nerva_yt = 0
+        for sid, s in streams.items():
+            if s.get("group") == "NERVA" and s.get("platform") == "YouTube":
+                if sid not in CURIOSITY_STREAMS and not s.get("is_curiosity"):
+                    nerva_yt += s.get("viewers", 0)
+            elif sid in ("SGAaZFSc3Zk", "00uONX5EBiA"):
+                nerva_yt += s.get("viewers", 0)
+
         nerva_tot = nerva_tw + nerva_yt
         p["nerva_total"] = nerva_tot
 
@@ -179,12 +189,20 @@ def init_db():
         except sqlite3.OperationalError:
             pass
 
+        try:
+            conn.execute("ALTER TABLE snapshots ADD COLUMN day_id TEXT DEFAULT 'day-1'")
+        except sqlite3.OperationalError:
+            pass
+
         conn.commit()
 
 
-def save_snapshot(data: dict) -> int:
-    """Saves a fresh scrape snapshot into SQLite."""
+def save_snapshot(data: dict, day_id: str = None) -> int:
+    """Saves a fresh scrape snapshot into SQLite with day association."""
     init_db()
+    if day_id is None:
+        day_id = get_active_day_id()
+
     now_ts = data.get("timestamp") or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     unix_time = time.time()
 
@@ -199,8 +217,8 @@ def save_snapshot(data: dict) -> int:
             """
             INSERT INTO snapshots (
                 timestamp, unix_time, total_viewers, goe_total, nerva_total,
-                diff, leader, ratio_goe, ratio_nerva
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                diff, leader, ratio_goe, ratio_nerva, day_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 now_ts,
@@ -212,6 +230,7 @@ def save_snapshot(data: dict) -> int:
                 data.get("leader", ""),
                 data.get("ratio_goe", 50.0),
                 data.get("ratio_nerva", 50.0),
+                day_id,
             ),
         )
         snapshot_id = cur.lastrowid
@@ -242,19 +261,26 @@ def save_snapshot(data: dict) -> int:
         return snapshot_id
 
 
-def get_detailed_history(limit: int = 2000) -> list[dict]:
-    """Retrieves chronological snapshots with granular per-stream viewer data."""
+def get_detailed_history(limit: int = 2000, day_id: str = None) -> list[dict]:
+    """Retrieves chronological snapshots with granular per-stream viewer data, optionally filtered by day_id."""
     init_db()
     with get_connection() as conn:
+        where_clause = ""
+        params = []
+        if day_id:
+            where_clause = "WHERE day_id = ? "
+            params.append(day_id)
+        params.append(limit)
+
         rows = conn.execute(
-            """
-            SELECT s.id, s.timestamp, s.unix_time, s.total_viewers, s.goe_total, s.nerva_total,
+            f"""
+            SELECT s.id, s.timestamp, s.unix_time, s.total_viewers, s.goe_total, s.nerva_total, s.day_id,
                    r.channel_id, r.channel_name, r.platform, r.group_id, r.viewers, r.is_live
-            FROM (SELECT * FROM snapshots ORDER BY id DESC LIMIT ?) s
+            FROM (SELECT * FROM snapshots {where_clause}ORDER BY id DESC LIMIT ?) s
             JOIN stream_records r ON s.id = r.snapshot_id
             ORDER BY s.id ASC
         """,
-            (limit,),
+            tuple(params),
         ).fetchall()
 
         snapshots_map = {}
@@ -265,6 +291,7 @@ def get_detailed_history(limit: int = 2000) -> list[dict]:
                     "id": sid,
                     "timestamp": r["timestamp"],
                     "unix_time": r["unix_time"],
+                    "day_id": r["day_id"] if "day_id" in r.keys() else "day-1",
                     "total_viewers": r["total_viewers"],
                     "goe_total": r["goe_total"],
                     "nerva_total": r["nerva_total"],
