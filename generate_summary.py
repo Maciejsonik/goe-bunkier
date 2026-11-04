@@ -26,7 +26,7 @@ def create_summary_card(
     - 'COMPARISON': Head-to-head chart (GoE vs Nervarien)
     """
     width, height = 1080, 1350
-    img = Image.new("RGB", (width, height), color=(8, 8, 10))
+    img = Image.new("RGB", (width, height), color=(10, 10, 12))
     draw = ImageDraw.Draw(img)
 
     draw_goe_background(draw, width, height)
@@ -47,16 +47,18 @@ def create_summary_card(
         filter_bots=filter_bots,
     )
 
-    font_top_emblem = _get_font(26, bold=True)
-    font_main_title = _get_font(74, bold=True)
-    font_sub_title = _get_font(23, bold=False)
-    font_stat_val = _get_font(46, bold=True)
-    font_stat_lbl = _get_font(15, bold=True)
+    font_top_emblem = _get_font(26, bold=True, font_type="rajdhani")
+    font_main_title = _get_font(78, font_type="anton")
+    font_sub_title = _get_font(22, font_type="rajdhani")
+    font_stat_val = _get_font(46, font_type="anton")
+    font_stat_lbl = _get_font(16, font_type="rajdhani")
     font_axis = _get_font(14, bold=False)
-    font_legend = _get_font(16, bold=True)
-    font_callout = _get_font(12, bold=True)
-    font_footer_pipes = _get_font(16, bold=True)
-    font_badge = _get_font(13, bold=True)
+    font_legend = _get_font(18, font_type="rajdhani")
+    font_callout = _get_font(14, font_type="rajdhani")
+    font_footer_pipes = _get_font(17, bold=True, font_type="rajdhani")
+    font_bunkier_badge = _get_font(20, font_type="anton")
+    font_system_note = _get_font(14, font_type="rajdhani")
+    font_badge = _get_font(14, font_type="rajdhani")
 
     # Header Emblem
     draw.text(
@@ -73,9 +75,9 @@ def create_summary_card(
         img,
         title_text,
         font_main_title,
-        (255, 24, 36),
+        (255, 0, 51),
         (width // 2, 125),
-        slant_k=0.22,
+        slant_k=0.20,
     )
 
     time_range = (
@@ -225,10 +227,10 @@ def create_summary_card(
         bx = x_positions[i]
         draw.rounded_rectangle(
             [bx, y_boxes, bx + box_w, y_boxes + box_h],
-            radius=10,
-            fill=(14, 14, 18),
-            outline=(255, 24, 36),
-            width=2,
+            radius=12,
+            fill=(10, 10, 12),
+            outline=(255, 0, 51),
+            width=1,
         )
         draw.text(
             (bx + 16, y_boxes + 15),
@@ -236,7 +238,7 @@ def create_summary_card(
             fill=(180, 180, 190),
             font=font_stat_lbl,
         )
-        draw.text((bx + 16, y_boxes + 40), val, fill=color, font=font_stat_val)
+        draw.text((bx + 16, y_boxes + 38), val, fill=color, font=font_stat_val)
         draw.text(
             (bx + 16, y_boxes + 90),
             sub,
@@ -252,10 +254,10 @@ def create_summary_card(
 
     draw.rounded_rectangle(
         [chart_x1 - 10, chart_y1 - 10, chart_x2 + 10, chart_y2 + 10],
-        radius=14,
-        fill=(12, 12, 16),
-        outline=(255, 24, 36),
-        width=3,
+        radius=12,
+        fill=(10, 10, 12),
+        outline=(255, 0, 51),
+        width=1,
     )
 
     # Legend depending on mode
@@ -584,22 +586,40 @@ def create_summary_card(
             anchor="mm",
         )
 
-    # Footer - GoE Roster Pipes & #bunkier
+    # Footer - GoE Roster Pipes & #bunkier (Strictly NO sponsors, NO 'oficjalny system')
     roster_pipes = (
         "DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER"
     )
     draw.text(
-        (width // 2, 1250),
+        (width // 2, 1220),
         roster_pipes,
         fill=(255, 255, 255),
         font=font_footer_pipes,
         anchor="mm",
     )
+
+    bunkier_w = 140
+    bunkier_h = 32
+    bx = (width - bunkier_w) // 2
+    by = 1248
+    draw.rounded_rectangle(
+        [bx, by, bx + bunkier_w, by + bunkier_h],
+        radius=6,
+        fill=(255, 0, 51),
+    )
     draw.text(
-        (width // 2, 1285),
-        "#bunkier",
-        fill=(255, 24, 36),
-        font=_get_font(22, bold=True),
+        (width // 2, by + bunkier_h // 2),
+        "#BUNKIER",
+        fill=(255, 255, 255),
+        font=font_bunkier_badge,
+        anchor="mm",
+    )
+
+    draw.text(
+        (width // 2, 1300),
+        "Statystyki widowni Co-stream GoE • Worlds 2026",
+        fill=(140, 140, 150),
+        font=font_system_note,
         anchor="mm",
     )
 

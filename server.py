@@ -772,7 +772,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <footer>
             <div class="roster-pipes">DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER</div>
             <div style="font-size: 16px; font-weight: 900; color: var(--goe-red); letter-spacing: 2px; margin: 8px 0 4px 0;">#bunkier</div>
-            <div>Oficjalny system statystyk widowni Co-stream GoE</div>
+            <div>Statystyki widowni Co-stream GoE • Worlds 2026</div>
         </footer>
     </div>
 
