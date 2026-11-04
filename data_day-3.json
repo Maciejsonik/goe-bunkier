@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 22:56:48",
-  "total_viewers": 5619,
+  "timestamp": "2026-11-04 21:58:08",
+  "total_viewers": 5760,
   "leader": "GOE",
-  "diff": 1162,
-  "ratio_goe": 43.7,
-  "ratio_nerva": 23.0,
+  "diff": 1215,
+  "ratio_goe": 44.3,
+  "ratio_nerva": 23.2,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 2454,
+      "total_viewers": 2551,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2221,
+          "viewers": 2318,
           "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "dKZGkF2mIDU",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 1292,
+      "total_viewers": 1336,
       "streams": [
         {
           "id": "nervarien",
@@ -65,7 +65,7 @@
           "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 474,
+          "viewers": 518,
           "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "N3i_DQlKL_U",
