@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 21:58:10",
-  "total_viewers": 5754,
-  "leader": "GOE",
-  "diff": 1209,
-  "ratio_goe": 44.2,
-  "ratio_nerva": 23.2,
+  "timestamp": "2026-11-04 23:58:20",
+  "total_viewers": 8749,
+  "leader": "NERVA",
+  "diff": 400,
+  "ratio_goe": 32.5,
+  "ratio_nerva": 37.1,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 2545,
+      "total_viewers": 2844,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 233,
+          "viewers": 232,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -31,7 +31,7 @@
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2312,
+          "viewers": 2612,
           "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "dKZGkF2mIDU",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 1336,
+      "total_viewers": 3244,
       "streams": [
         {
           "id": "nervarien",
@@ -53,7 +53,7 @@
           "title": "🔴LYON vs Gen.G🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 818,
+          "viewers": 1795,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -65,7 +65,7 @@
           "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 518,
+          "viewers": 1449,
           "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "N3i_DQlKL_U",
@@ -78,7 +78,7 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 1873,
+      "total_viewers": 2661,
       "streams": [
         {
           "id": "ttobias_lol",
@@ -87,7 +87,7 @@
           "title": "LYON VS GENG🔥23:00 ĆWIERĆFINAŁ WORLDS 2026🔥 ⭐️SERCEM ZA POLAKIEM⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 1873,
+          "viewers": 2661,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"

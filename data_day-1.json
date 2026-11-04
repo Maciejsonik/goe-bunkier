@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 21:58:03",
-  "total_viewers": 1051,
+  "timestamp": "2026-11-04 23:58:13",
+  "total_viewers": 2027,
   "leader": "NERVA",
-  "diff": 585,
-  "ratio_goe": 22.2,
-  "ratio_nerva": 77.8,
+  "diff": 1563,
+  "ratio_goe": 11.4,
+  "ratio_nerva": 88.6,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 233,
+      "total_viewers": 232,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 233,
+          "viewers": 232,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -42,7 +42,7 @@
       "id": "NERVA",
       "name": "Nervarien & Co-streams",
       "color": "#ef4444",
-      "total_viewers": 818,
+      "total_viewers": 1795,
       "streams": [
         {
           "id": "nervarien",
@@ -51,7 +51,7 @@
           "title": "🔴LYON vs Gen.G🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 818,
+          "viewers": 1795,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
