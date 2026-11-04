@@ -12,16 +12,24 @@ def clean_text_for_font(text: str) -> str:
     if not text:
         return ""
     return re.sub(
-        r'[\U00010000-\U0010ffff]|[\u25a0-\u25ff]|[\u2600-\u26ff]|[\u2700-\u27bf]',
-        ' ',
+        r"[\U00010000-\U0010ffff]|[\u25a0-\u25ff]|[\u2600-\u26ff]|[\u2700-\u27bf]",
+        " ",
         text,
     ).strip()
 
 
 def draw_vector_microphone(draw: ImageDraw.Draw, cx: int, cy: int):
     """Draws a crisp vector microphone icon matching the Worlds 2026 poster."""
-    draw.rounded_rectangle([cx - 5, cy - 12, cx + 5, cy + 2], radius=5, fill=(255, 255, 255))
-    draw.arc([cx - 9, cy - 6, cx + 9, cy + 6], start=0, end=180, fill=(255, 255, 255), width=2)
+    draw.rounded_rectangle(
+        [cx - 5, cy - 12, cx + 5, cy + 2], radius=5, fill=(255, 255, 255)
+    )
+    draw.arc(
+        [cx - 9, cy - 6, cx + 9, cy + 6],
+        start=0,
+        end=180,
+        fill=(255, 255, 255),
+        width=2,
+    )
     draw.line([(cx, cy + 6), (cx, cy + 12)], fill=(255, 255, 255), width=2)
     draw.line([(cx - 6, cy + 12), (cx + 6, cy + 12)], fill=(255, 255, 255), width=2)
 
@@ -89,28 +97,238 @@ def _get_font(size: int, bold: bool = False, font_type: str = "regular"):
     return ImageFont.load_default()
 
 
+def draw_top_emblem(
+    draw: ImageDraw.Draw,
+    width: int,
+    cy: int,
+    text: str = "WORLDS 2026",
+    font: ImageFont.ImageFont = None,
+):
+    """Draws a centered Worlds 2026 emblem with microphone icon, separator pipe, and text."""
+    if font is None:
+        font = _get_font(26, bold=True, font_type="rajdhani")
+    bbox = font.getbbox(text)
+    text_w = bbox[2] - bbox[0]
+    total_w = 40 + text_w
+    start_x = (width - total_w) // 2
+
+    mic_cx = start_x + 9
+    draw_vector_microphone(draw, mic_cx, cy)
+
+    pipe_x = start_x + 28
+    pipe_half = max(10, (bbox[3] - bbox[1]) // 2 + 1)
+    draw.line(
+        [(pipe_x, cy - pipe_half), (pipe_x, cy + pipe_half)],
+        fill=(255, 255, 255),
+        width=2,
+    )
+
+    text_x = start_x + 40
+    draw.text((text_x, cy), text, fill=(255, 255, 255), font=font, anchor="lm")
+
+
+def draw_duel_bar(
+    base_img: Image.Image,
+    draw: ImageDraw.Draw,
+    x1: int,
+    y1: int,
+    x2: int,
+    y2: int,
+    goe_pct: float,
+    radius: int = 8,
+):
+    """Draws a crisp dual-color proportional bar (GoE Red vs Nervarien White) in a pill container."""
+    bar_w = x2 - x1
+    bar_h = y2 - y1
+    if bar_w <= 0 or bar_h <= 0:
+        return
+
+    # Container pill with dark background and crisp high-contrast border
+    draw.rounded_rectangle(
+        [x1, y1, x2, y2],
+        radius=radius,
+        fill=(14, 14, 18),
+        outline=(70, 70, 85),
+        width=2,
+    )
+
+    goe_pct = max(0.0, min(100.0, goe_pct))
+    split_w = int(bar_w * (goe_pct / 100.0))
+
+    # Inner bar image for crisp masking of rounded capsule ends
+    inner_mask = Image.new("L", (bar_w, bar_h), 0)
+    d_mask = ImageDraw.Draw(inner_mask)
+    d_mask.rounded_rectangle([0, 0, bar_w - 1, bar_h - 1], radius=radius, fill=255)
+
+    inner_bar = Image.new("RGB", (bar_w, bar_h), (14, 14, 18))
+    d_bar = ImageDraw.Draw(inner_bar)
+
+    # Left segment: GoE Red (#ff0033)
+    if split_w > 0:
+        d_bar.rectangle([0, 0, split_w, bar_h], fill=(255, 0, 51))
+
+    # Right segment: Nervarien White (#f0f2f5)
+    if split_w < bar_w:
+        d_bar.rectangle([split_w, 0, bar_w, bar_h], fill=(240, 242, 245))
+
+    # Crisp divider notch between the two teams (2px wide)
+    if 0 < split_w < bar_w:
+        d_bar.rectangle([split_w - 1, 0, split_w + 1, bar_h], fill=(10, 10, 12))
+
+    # Paste inner dual-bar using the rounded capsule mask
+    base_img.paste(inner_bar, (x1, y1), inner_mask)
+
+    # Re-draw the crisp container outline on top to ensure razor-sharp edges
+    draw.rounded_rectangle(
+        [x1, y1, x2, y2],
+        radius=radius,
+        outline=(85, 85, 105),
+        width=2,
+    )
+
+
 def draw_goe_background(draw: ImageDraw.Draw, w: int, h: int):
     """Draws geometric angular red-and-black shards inspired by Worlds 2026 / #bunkier posters."""
     draw.rectangle([0, 0, w, h], fill=(10, 10, 12))
 
-    shards = [
-        ([(0, 0), (w, 0), (w, 360), (0, 180)], (18, 10, 14)),
-        ([(0, 0), (480, 0), (190, 520), (0, 390)], (140, 12, 22)),
-        ([(0, 0), (290, 0), (80, 410), (0, 280)], (210, 18, 30)),
-        ([(w, 0), (w - 520, 0), (w - 220, 460), (w, 370)], (160, 14, 25)),
-        ([(w, 0), (w - 320, 0), (w - 110, 340), (w, 240)], (255, 0, 51)),
-        ([(0, h), (w, h), (w, h - 290), (0, h - 200)], (18, 10, 14)),
-        ([(0, h), (410, h), (230, h - 370), (0, h - 260)], (180, 16, 28)),
-        ([(0, h), (250, h), (130, h - 280), (0, h - 190)], (255, 0, 51)),
-        ([(w, h), (w - 450, h), (w - 190, h - 350), (w, h - 240)], (140, 12, 22)),
-        ([(w, h), (w - 280, h), (w - 100, h - 260), (w, h - 170)], (220, 18, 32)),
-    ]
+    is_landscape = w > h
 
-    for poly, col in shards:
-        draw.polygon(poly, fill=col)
+    if is_landscape:
+        # 16:9 / Landscape (e.g. 1200x630 OG Banner)
+        # Keep shards strictly in corners/perimeter so central cards & duel bar sit on clean black
+        shards = [
+            # Top-left corner framing
+            (
+                [
+                    (0, 0),
+                    (int(w * 0.35), 0),
+                    (int(w * 0.16), int(h * 0.30)),
+                    (0, int(h * 0.22)),
+                ],
+                (22, 12, 16),
+            ),
+            (
+                [
+                    (0, 0),
+                    (int(w * 0.22), 0),
+                    (int(w * 0.08), int(h * 0.24)),
+                    (0, int(h * 0.16)),
+                ],
+                (90, 12, 20),
+            ),
+            (
+                [
+                    (0, 0),
+                    (int(w * 0.12), 0),
+                    (int(w * 0.03), int(h * 0.16)),
+                    (0, int(h * 0.10)),
+                ],
+                (140, 16, 26),
+            ),
+            # Top-right corner framing
+            (
+                [
+                    (w, 0),
+                    (w - int(w * 0.35), 0),
+                    (w - int(w * 0.16), int(h * 0.28)),
+                    (w, int(h * 0.20)),
+                ],
+                (22, 12, 16),
+            ),
+            (
+                [
+                    (w, 0),
+                    (w - int(w * 0.22), 0),
+                    (w - int(w * 0.08), int(h * 0.22)),
+                    (w, int(h * 0.14)),
+                ],
+                (110, 14, 24),
+            ),
+            (
+                [
+                    (w, 0),
+                    (w - int(w * 0.12), 0),
+                    (w - int(w * 0.03), int(h * 0.14)),
+                    (w, int(h * 0.08)),
+                ],
+                (160, 18, 30),
+            ),
+            # Bottom-left corner framing (strictly below y=520, never touches the bar at y=458..478)
+            (
+                [
+                    (0, h),
+                    (int(w * 0.20), h),
+                    (int(w * 0.08), h - int(h * 0.14)),
+                    (0, h - int(h * 0.08)),
+                ],
+                (22, 12, 16),
+            ),
+            (
+                [
+                    (0, h),
+                    (int(w * 0.12), h),
+                    (int(w * 0.04), h - int(h * 0.09)),
+                    (0, h - int(h * 0.05)),
+                ],
+                (110, 14, 24),
+            ),
+            # Bottom-right corner framing
+            (
+                [
+                    (w, h),
+                    (w - int(w * 0.22), h),
+                    (w - int(w * 0.09), h - int(h * 0.15)),
+                    (w, h - int(h * 0.09)),
+                ],
+                (22, 12, 16),
+            ),
+            (
+                [
+                    (w, h),
+                    (w - int(w * 0.13), h),
+                    (w - int(w * 0.04), h - int(h * 0.10)),
+                    (w, h - int(h * 0.05)),
+                ],
+                (130, 16, 28),
+            ),
+        ]
+        for poly, col in shards:
+            draw.polygon(poly, fill=col)
 
-    draw.line([(0, 140), (w, 400)], fill=(255, 0, 51), width=3)
-    draw.line([(0, h - 340), (w, h - 150)], fill=(255, 0, 51), width=3)
+        # Subtle crisp corner accent lines
+        draw.line([(0, int(h * 0.18)), (int(w * 0.25), 0)], fill=(180, 20, 35), width=2)
+        draw.line(
+            [(w - int(w * 0.25), 0), (w, int(h * 0.16))], fill=(180, 20, 35), width=2
+        )
+        draw.line(
+            [(0, h - int(h * 0.10)), (int(w * 0.15), h)], fill=(160, 18, 30), width=2
+        )
+        draw.line(
+            [(w - int(w * 0.16), h), (w, h - int(h * 0.11))],
+            fill=(160, 18, 30),
+            width=2,
+        )
+
+    else:
+        # Portrait (e.g. 1080x1350)
+        # Deep dark crimson tones framing the top and bottom corners
+        shards = [
+            ([(0, 0), (w, 0), (w, 360), (0, 180)], (18, 10, 14)),
+            ([(0, 0), (480, 0), (190, 500), (0, 380)], (100, 12, 18)),
+            ([(0, 0), (280, 0), (80, 390), (0, 270)], (160, 16, 26)),
+            ([(w, 0), (w - 500, 0), (w - 220, 440), (w, 350)], (110, 12, 20)),
+            ([(w, 0), (w - 300, 0), (w - 110, 330), (w, 230)], (170, 18, 28)),
+            ([(0, h), (w, h), (w, h - 280), (0, h - 190)], (18, 10, 14)),
+            ([(0, h), (380, h), (210, h - 300), (0, h - 210)], (120, 14, 22)),
+            ([(0, h), (220, h), (110, h - 220), (0, h - 150)], (160, 16, 26)),
+            ([(w, h), (w - 420, h), (w - 180, h - 290), (w, h - 200)], (110, 12, 20)),
+            ([(w, h), (w - 250, h), (w - 90, h - 210), (w, h - 140)], (160, 16, 26)),
+        ]
+        for poly, col in shards:
+            draw.polygon(poly, fill=col)
+
+        draw.line([(0, 140), (w, 380)], fill=(180, 20, 35), width=2)
+        draw.line([(0, h - 280), (w, h - 140)], fill=(180, 20, 35), width=2)
 
 
 def draw_slanted_text(
@@ -170,16 +388,7 @@ def create_battle_card(
     font_system_note = _get_font(14, font_type="rajdhani")
 
     # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
-    mic_cx, mic_cy = width // 2 - 85, 54
-    draw_vector_microphone(draw, mic_cx, mic_cy)
-    draw.line([(mic_cx + 20, 42), (mic_cx + 20, 66)], fill=(255, 255, 255), width=2)
-    draw.text(
-        (mic_cx + 36, 54),
-        "WORLDS 2026",
-        fill=(255, 255, 255),
-        font=font_top_emblem,
-        anchor="lm",
-    )
+    draw_top_emblem(draw, width, 54, "WORLDS 2026", font_top_emblem)
 
     # Slanted Main Title (matching poster: CO-STREAM GOE)
     draw_slanted_text(
@@ -278,21 +487,9 @@ def create_battle_card(
         font=font_score_sub,
     )
 
-    # Proportional Bar
+    # Proportional Bar (Crisp GoE Red vs Nervarien White Pill)
     bar_x1, bar_y1, bar_x2, bar_y2 = 50, 455, 1030, 477
-    draw.rounded_rectangle(
-        [bar_x1, bar_y1, bar_x2, bar_y2],
-        radius=8,
-        fill=(20, 20, 24),
-        outline=(255, 0, 51),
-        width=1,
-    )
-    bar_w = bar_x2 - bar_x1
-    goe_w = int(bar_w * (goe_pct / 100.0))
-    goe_w = max(10, min(bar_w - 10, goe_w))
-    draw.rounded_rectangle(
-        [bar_x1, bar_y1, bar_x1 + goe_w, bar_y2], radius=8, fill=(255, 0, 51)
-    )
+    draw_duel_bar(img, draw, bar_x1, bar_y1, bar_x2, bar_y2, goe_pct, radius=8)
 
     # Stream Cards with Avatars (include GOE, NERVA and TOBIASZ)
     all_streams = (
@@ -499,16 +696,13 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     font_bunkier_badge = _get_font(18, font_type="anton")
     font_system_note = _get_font(12, font_type="rajdhani")
 
-    # 1. Top Emblem
-    mic_cx, mic_cy = width // 2 - 120, 36
-    draw_vector_microphone(draw, mic_cx, mic_cy)
-    draw.line([(mic_cx + 18, 26), (mic_cx + 18, 46)], fill=(255, 255, 255), width=2)
-    draw.text(
-        (mic_cx + 32, 36),
+    # 1. Top Emblem (Mathematically centered with microphone and vertical pipe)
+    draw_top_emblem(
+        draw,
+        width,
+        36,
         "WORLDS 2026 • STUDIO BUNKROWE LIVE",
-        fill=(255, 255, 255),
-        font=font_top_emblem,
-        anchor="lm",
+        font_top_emblem,
     )
 
     # 2. Main Slanted Title
@@ -553,8 +747,12 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     nerva_pct = round((nerva_total / tot * 100), 1) if tot > 0 else 50.0
 
     # 5. GOE Box (Left)
-    draw.rounded_rectangle([60, 168, 560, 438], radius=12, fill=(10, 10, 12), outline=(255, 0, 51), width=1)
-    draw.text((85, 186), "GOE (KIELECKI BUNKIER)", fill=(255, 0, 51), font=font_team_name)
+    draw.rounded_rectangle(
+        [60, 168, 560, 438], radius=12, fill=(10, 10, 12), outline=(255, 0, 51), width=1
+    )
+    draw.text(
+        (85, 186), "GOE (KIELECKI BUNKIER)", fill=(255, 0, 51), font=font_team_name
+    )
 
     if is_live:
         goe_display = f"{goe_total:,}".replace(",", " ")
@@ -571,12 +769,28 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     draw.text((85, 385), goe_sub_display, fill=(255, 77, 109), font=font_score_sub)
 
     # 6. VS Center Circle
-    draw.ellipse([width // 2 - 32, 272, width // 2 + 32, 336], fill=(10, 10, 12), outline=(255, 0, 51), width=1)
+    draw.ellipse(
+        [width // 2 - 32, 272, width // 2 + 32, 336],
+        fill=(10, 10, 12),
+        outline=(255, 0, 51),
+        width=1,
+    )
     draw.text((width // 2, 304), "VS", fill=(255, 255, 255), font=font_vs, anchor="mm")
 
     # 7. NERVA Box (Right)
-    draw.rounded_rectangle([640, 168, 1140, 438], radius=12, fill=(10, 10, 12), outline=(255, 0, 51), width=1)
-    draw.text((665, 186), "NERVARIEN (KANAŁY GŁÓWNE)", fill=(255, 255, 255), font=font_team_name)
+    draw.rounded_rectangle(
+        [640, 168, 1140, 438],
+        radius=12,
+        fill=(10, 10, 12),
+        outline=(255, 0, 51),
+        width=1,
+    )
+    draw.text(
+        (665, 186),
+        "NERVARIEN (KANAŁY GŁÓWNE)",
+        fill=(255, 255, 255),
+        font=font_team_name,
+    )
 
     if is_live:
         nerva_display = f"{nerva_total:,}".replace(",", " ")
@@ -587,30 +801,51 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     else:
         st = data.get("summary_stats", {})
         nerva_display = f"{st.get('nerva_peak', 0):,} PIK".replace(",", " ")
-        nerva_sub_display = f"ŚREDNIA: {st.get('nerva_avg', 0):,} WIDZÓW".replace(",", " ")
+        nerva_sub_display = f"ŚREDNIA: {st.get('nerva_avg', 0):,} WIDZÓW".replace(
+            ",", " "
+        )
 
     draw.text((665, 235), nerva_display, fill=(255, 255, 255), font=font_score)
     draw.text((665, 385), nerva_sub_display, fill=(200, 200, 210), font=font_score_sub)
 
-    # 8. Proportional Bar
-    bar_x1, bar_y1, bar_x2, bar_y2 = 60, 458, 1140, 474
-    draw.rounded_rectangle([bar_x1, bar_y1, bar_x2, bar_y2], radius=8, fill=(18, 18, 22), outline=(40, 40, 50), width=1)
-    split_w = int((bar_x2 - bar_x1) * (goe_pct / 100.0))
-    if split_w > 0:
-        draw.rounded_rectangle([bar_x1, bar_y1, bar_x1 + split_w, bar_y2], radius=8, fill=(255, 0, 51))
+    # 8. Proportional Bar (Crisp GoE Red vs Nervarien White Pill)
+    bar_x1, bar_y1, bar_x2, bar_y2 = 60, 456, 1140, 478
+    draw_duel_bar(img, draw, bar_x1, bar_y1, bar_x2, bar_y2, goe_pct, radius=8)
 
     # 9. Footer
-    roster_pipes = "DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER"
-    draw.text((width // 2, 515), roster_pipes, fill=(255, 255, 255), font=font_footer_pipes, anchor="mm")
+    roster_pipes = (
+        "DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER"
+    )
+    draw.text(
+        (width // 2, 515),
+        roster_pipes,
+        fill=(255, 255, 255),
+        font=font_footer_pipes,
+        anchor="mm",
+    )
 
     bunkier_w = 120
     bunkier_h = 28
     bx = (width - bunkier_w) // 2
     by = 540
-    draw.rounded_rectangle([bx, by, bx + bunkier_w, by + bunkier_h], radius=5, fill=(255, 0, 51))
-    draw.text((width // 2, by + bunkier_h // 2), "#BUNKIER", fill=(255, 255, 255), font=font_bunkier_badge, anchor="mm")
+    draw.rounded_rectangle(
+        [bx, by, bx + bunkier_w, by + bunkier_h], radius=5, fill=(255, 0, 51)
+    )
+    draw.text(
+        (width // 2, by + bunkier_h // 2),
+        "#BUNKIER",
+        fill=(255, 255, 255),
+        font=font_bunkier_badge,
+        anchor="mm",
+    )
 
-    draw.text((width // 2, 595), "maciejsonik.github.io/goe-bunkier • Statystyki widowni Co-stream GoE • Worlds 2026", fill=(140, 140, 150), font=font_system_note, anchor="mm")
+    draw.text(
+        (width // 2, 595),
+        "maciejsonik.github.io/goe-bunkier • Statystyki widowni Co-stream GoE • Worlds 2026",
+        fill=(140, 140, 150),
+        font=font_system_note,
+        anchor="mm",
+    )
 
     img.save(output_path, "PNG")
     return output_path
