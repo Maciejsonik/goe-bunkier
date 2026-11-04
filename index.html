@@ -238,6 +238,33 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        .stream-chip.curiosity-chip {
+            border-style: dashed;
+        }
+
+        .stream-chip.selected.curiosity-chip {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fef3c7;
+        }
+
+        .stream-chip.selected.curiosity-chip .chip-dot {
+            background: #f59e0b;
+            box-shadow: 0 0 8px #f59e0b;
+        }
+
+        .curiosity-badge {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .chip-dot {
             width: 8px;
             height: 8px;
@@ -643,9 +670,10 @@
                 <div class="filter-title">🔍 Filtry transmisji (kliknij, aby wybrać pojedyncze streamy):</div>
                 <div class="preset-buttons">
                     <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
-                    <button class="preset-btn" onclick="applyPreset('all')">Wszystkie 4</button>
+                    <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek (4)</button>
+                    <button class="preset-btn" onclick="applyPreset('all_plus_curiosity')" style="border-color: #f59e0b; color: #f59e0b;">+ Nerva Co-stream (5)</button>
                     <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
-                    <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube</button>
+                    <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (oficjalne)</button>
                 </div>
             </div>
             <div class="stream-chips" id="stream-chips-container"></div>
@@ -799,14 +827,16 @@
         let goeChartInstance = null;
         let comparisonChartInstance = null;
 
-        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
+        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw'];
+        const OFFICIAL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
         const STREAM_METADATA = {
             'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#9146ff' },
             'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff1824' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
-            'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' }
+            'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
+            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_curiosity: true }
         };
 
         function toggleBotFilter() {
@@ -916,7 +946,7 @@
                 document.getElementById('tab-battle').classList.add('active');
                 document.getElementById('view-goe').style.display = 'none';
                 document.getElementById('view-battle').style.display = 'block';
-                selectedStreamIds = new Set(ALL_STREAM_IDS);
+                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS);
                 setTimeout(() => { if (comparisonChartInstance) comparisonChartInstance.resize(); }, 50);
             }
             renderFilterChips();
@@ -928,6 +958,9 @@
                 selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
                 if (currentMode !== 'goe') switchMode('goe');
             } else if (preset === 'all') {
+                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS);
+                if (currentMode !== 'battle') switchMode('battle');
+            } else if (preset === 'all_plus_curiosity') {
                 selectedStreamIds = new Set(ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
             } else if (preset === 'twitch') {
@@ -962,6 +995,7 @@
                 const meta = STREAM_METADATA[id];
                 const isSelected = selectedStreamIds.has(id);
                 const isNerva = meta.group === 'NERVA';
+                const isCuriosity = !!meta.is_curiosity;
 
                 let viewers = 0;
                 if (rawData) {
@@ -971,11 +1005,17 @@
                 }
 
                 const chip = document.createElement('div');
-                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''}`;
+                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''} ${isCuriosity ? 'curiosity-chip' : ''}`;
                 chip.onclick = () => toggleStream(id);
+                
+                let labelHtml = `<span>${meta.name}</span>`;
+                if (isCuriosity) {
+                    labelHtml = `<span>${meta.name}</span> <span class="curiosity-badge">Ciekawostka</span>`;
+                }
+
                 chip.innerHTML = `
                     <span class="chip-dot"></span>
-                    <span>${meta.name}</span>
+                    ${labelHtml}
                     <span style="font-weight: 800; opacity: 0.85;">(${viewers.toLocaleString('pl-PL')})</span>
                 `;
                 container.appendChild(chip);
@@ -1114,6 +1154,9 @@
                 const dotClass = st.is_live ? 'live-dot' : 'offline-dot';
                 const viewersText = st.is_live ? `${st.viewers.toLocaleString('pl-PL')} widzów` : 'OFFLINE';
                 const avatarSrc = st.avatar_url || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517eb-aca7-43f8-963e-aca743f8963e-profile_image-150x150.png';
+                const curiosityTag = (st.is_curiosity || st.id === 'woX6jXefVdw') 
+                    ? `<span class="curiosity-badge" style="margin-left: 6px;">Ciekawostka</span>` 
+                    : '';
 
                 const a = document.createElement('a');
                 a.className = 'stream-item';
@@ -1129,6 +1172,7 @@
                                 <span class="${dotClass}"></span>
                                 <span class="platform-badge ${badgeClass}">${st.platform}</span>
                                 <span>${st.channel}</span>
+                                ${curiosityTag}
                             </div>
                         </div>
                         <div class="stream-title" title="${st.title}">${st.title || ''}</div>
@@ -1264,6 +1308,23 @@
                     borderWidth: 2.5,
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
+
+                if (selectedStreamIds.has('woX6jXefVdw')) {
+                    compDatasets.push({
+                        label: '💡 Nerva Co-stream (Ciekawostka)',
+                        data: detailedHistory.map(pt => {
+                            const s = pt.streams && pt.streams['woX6jXefVdw'];
+                            return s ? (s.viewers || 0) : 0;
+                        }),
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                        borderDash: [5, 5],
+                        tension: 0.25,
+                        fill: false,
+                        borderWidth: 2,
+                        pointRadius: labels.length > 60 ? 0 : 2
+                    });
+                }
 
                 comparisonChartInstance.data.labels = labels;
                 comparisonChartInstance.data.datasets = compDatasets;

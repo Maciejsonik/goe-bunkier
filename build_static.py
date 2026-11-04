@@ -81,6 +81,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
         "goe_yt_raw_viewers",
         "nerva_twitch_viewers",
         "nerva_yt_viewers",
+        "nerva_costream_ciekawostka",
     ]
 
     with open(filepath, "w", newline="", encoding="utf-8") as f:
@@ -107,6 +108,9 @@ def export_csv_from_history(history: list[dict], filepath: str):
                         "viewers", 0
                     ),
                     "nerva_yt_viewers": streams.get("SGAaZFSc3Zk", {}).get(
+                        "viewers", 0
+                    ),
+                    "nerva_costream_ciekawostka": streams.get("woX6jXefVdw", {}).get(
                         "viewers", 0
                     ),
                 }

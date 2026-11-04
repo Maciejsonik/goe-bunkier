@@ -68,9 +68,10 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
 
         p = dict(pt)
         streams = {k: dict(v) for k, v in p.get("streams", {}).items()}
-        # Exclude duplicate/secondary stream woX6jXefVdw - only count Twitch + SGAaZFSc3Zk
+        # Mark 5th stream woX6jXefVdw as Nerva Co-stream curiosity/trivia (not counted in official duel)
         if "woX6jXefVdw" in streams:
-            del streams["woX6jXefVdw"]
+            streams["woX6jXefVdw"]["channel"] = "Nerva Co-stream"
+            streams["woX6jXefVdw"]["is_curiosity"] = True
 
         nerva_tw = streams.get("nervarien", {}).get("viewers", 0)
         nerva_yt = streams.get("SGAaZFSc3Zk", {}).get("viewers", 0)

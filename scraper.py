@@ -210,8 +210,12 @@ def fetch_all_data(groups_config: dict = None) -> dict:
             if st:
                 st_item = dict(st)
                 st_item["group"] = grp_key
+                if vid == "woX6jXefVdw":
+                    st_item["channel"] = "Nerva Co-stream"
+                    st_item["is_curiosity"] = True
                 streams.append(st_item)
-                if st.get("is_live", False):
+                # woX6jXefVdw is tracked as a curiosity/trivia only; official duel sum excludes it
+                if st.get("is_live", False) and vid != "woX6jXefVdw":
                     group_total += st.get("viewers", 0)
 
         grouped[grp_key] = {
