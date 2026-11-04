@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CO-STREAM GOE • Spis Widzów & Starcie Obozów</title>
+    <title>CO-STREAM GOE • Worlds 2026 #bunkier</title>
+    <!-- Official Fonts: Teko (Condense Aggressive), Anton (Ultra Display), Outfit (Geometric Grotesk), Rajdhani (Tech) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@600;700;800;900&family=Rajdhani:ital,wght@0,600;0,700;1,700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-dark: #08080a;
-            --surface-deck: #101014;
-            --card-bg: #0e0e12;
-            --card-bg-elevated: #15151a;
-            --card-border: rgba(255, 255, 255, 0.08);
-            --card-border-hover: rgba(255, 255, 255, 0.18);
-            --goe-red: #ff1824;
-            --goe-dark-red: #8f0e15;
+            --bg-dark: #07070a;
+            --surface-deck: #0a0a0c;
+            --card-bg: #0a0a0c;
+            --card-bg-elevated: #0f0f14;
+            --goe-red: #ff0033;
+            --goe-crimson: #d60029;
+            --goe-dark-red: #80001a;
+            --card-border: #ff0033;
+            --card-border-subtle: rgba(255, 0, 51, 0.4);
+            --card-border-hover: #ff0033;
             --nerva-purple: #a855f7;
             --nerva-light-purple: #c084fc;
             --tobias-orange: #f97316;
             --costream-amber: #f59e0b;
-            --text-main: #f4f4f5;
+            --text-main: #ffffff;
             --text-muted: #a1a1aa;
             --text-dim: #71717a;
             --twitch-color: #9146ff;
             --yt-color: #ff0000;
             --radius-sm: 8px;
             --radius-md: 12px;
-            --radius-lg: 16px;
-            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
-            --shadow-glow-red: 0 0 24px rgba(255, 24, 36, 0.2);
+            --radius-lg: 12px;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.6);
+            --shadow-red-glow: 0 0 28px rgba(255, 0, 51, 0.22);
+            --font-display: 'Teko', 'Anton', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+            --font-tech: 'Rajdhani', sans-serif;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: var(--font-heading), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
@@ -44,13 +53,43 @@
             padding: 24px 20px;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 10% 8%, rgba(255, 24, 36, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 92%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+                linear-gradient(135deg, rgba(255, 0, 51, 0.12) 0%, transparent 40%),
+                linear-gradient(315deg, rgba(255, 0, 51, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 0%, rgba(255, 0, 51, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* GEOMETRIC SHARD BACKGROUND ACCENTS (Matching official posters) */
+        .bg-shard-top-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 520px;
+            height: 420px;
+            background: linear-gradient(225deg, rgba(255, 0, 51, 0.15) 0%, rgba(255, 0, 51, 0.02) 60%, transparent 80%);
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .bg-shard-bottom-left {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 480px;
+            height: 380px;
+            background: linear-gradient(45deg, rgba(255, 0, 51, 0.12) 0%, transparent 70%);
+            clip-path: polygon(0 100%, 0 0, 100% 100%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
             max-width: 1240px;
             margin: 0 auto;
+            position: relative;
         }
 
         /* HEADER */
@@ -58,35 +97,77 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             padding-bottom: 18px;
-            border-bottom: 2px solid var(--goe-dark-red);
+            border-bottom: 2px solid var(--goe-red);
             flex-wrap: wrap;
             gap: 16px;
+            position: relative;
         }
 
         .header-emblem {
+            font-family: var(--font-tech);
             font-size: 13px;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--text-muted);
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin-bottom: 4px;
         }
 
         .header-title h1 {
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            color: var(--goe-red);
+            font-family: var(--font-display);
+            font-size: 62px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 0.85;
             text-transform: uppercase;
             font-style: italic;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .header-title p {
+        .header-title h1 .title-white {
+            color: #ffffff;
+        }
+
+        .header-title h1 .title-red {
+            color: var(--goe-red);
+            text-shadow: 0 0 25px rgba(255, 0, 51, 0.5);
+        }
+
+        .header-sub-bunkier {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .badge-bunkier-tag {
+            background: var(--goe-red);
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            padding: 3px 10px;
+            border-radius: 3px;
+            clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+            display: inline-block;
+        }
+
+        .sub-studio {
+            font-family: var(--font-heading);
             color: var(--text-muted);
             font-size: 13px;
-            margin-top: 4px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .header-controls {
@@ -97,13 +178,14 @@
         }
 
         button, select {
-            background-color: #141418;
+            background-color: #0d0d12;
             color: white;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--card-border-subtle);
             padding: 8px 14px;
             border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
@@ -112,26 +194,27 @@
 
         button:hover {
             border-color: var(--goe-red);
-            background-color: #1f1f24;
+            background-color: #16161f;
         }
 
-        .btn-primary { background-color: #202026; border-color: #3f3f46; }
+        .btn-primary { background-color: #121218; border-color: rgba(255, 255, 255, 0.15); }
         .btn-red { background-color: var(--goe-red); border-color: var(--goe-red); color: white; }
-        .btn-red:hover { background-color: #d6131d; box-shadow: 0 0 15px rgba(255, 24, 36, 0.4); }
-        .btn-summary { background: linear-gradient(135deg, #18181b, #24242c); border: 1px solid var(--card-border); color: #f4f4f5; }
+        .btn-red:hover { background-color: #d60029; box-shadow: 0 0 16px rgba(255, 0, 51, 0.5); }
+        .btn-summary { background: #121218; border: 1px solid var(--card-border-subtle); color: #ffffff; }
         .btn-summary:hover { border-color: var(--goe-red); }
 
         .api-status-pill {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 11px;
+            font-family: var(--font-tech);
+            font-size: 12px;
             font-weight: 700;
             color: #a1a1aa;
-            background: #141418;
+            background: #0d0d12;
             padding: 6px 12px;
             border-radius: 20px;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--card-border-subtle);
         }
         .api-dot {
             width: 7px;
@@ -143,7 +226,7 @@
 
         /* BOT ALERT BANNER */
         #bot-alert-banner {
-            background: rgba(14, 35, 20, 0.95);
+            background: #0d1a10;
             border: 1px solid #4ade80;
             border-radius: var(--radius-md);
             padding: 12px 18px;
@@ -158,8 +241,8 @@
         /* UNIFIED CONTROL DECK */
         .control-deck {
             background: var(--surface-deck);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border-subtle);
+            border-radius: var(--radius-md);
             padding: 12px 16px;
             margin-bottom: 28px;
             box-shadow: var(--shadow-card);
@@ -185,10 +268,10 @@
 
         .segmented-group {
             display: inline-flex;
-            background: #16161c;
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-md);
-            padding: 4px;
+            background: #060608;
+            border: 1px solid var(--card-border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 3px;
             gap: 4px;
             flex-wrap: wrap;
         }
@@ -199,7 +282,8 @@
             color: var(--text-muted);
             padding: 7px 14px;
             border-radius: var(--radius-sm);
-            font-size: 12px;
+            font-family: var(--font-heading);
+            font-size: 11px;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -212,13 +296,13 @@
 
         .segmented-btn:hover {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 0, 51, 0.08);
         }
 
         .segmented-btn.active {
-            background: #27272a;
+            background: #1c1c24;
             color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
@@ -226,7 +310,7 @@
             background: var(--goe-red);
             color: #ffffff;
             border-color: var(--goe-red);
-            box-shadow: 0 2px 14px rgba(255, 24, 36, 0.35);
+            box-shadow: 0 2px 14px rgba(255, 0, 51, 0.4);
         }
 
         .segmented-btn.mode-active-battle {
@@ -237,16 +321,16 @@
         }
 
         .segmented-btn.mode-active-camps {
-            background: linear-gradient(135deg, rgba(255, 24, 36, 0.7), rgba(168, 85, 247, 0.7), rgba(249, 115, 22, 0.7));
+            background: linear-gradient(135deg, rgba(255, 0, 51, 0.8), rgba(168, 85, 247, 0.8), rgba(249, 115, 22, 0.8));
             color: #ffffff;
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 14px rgba(249, 115, 22, 0.25);
+            box-shadow: 0 2px 14px rgba(249, 115, 22, 0.3);
         }
 
         .deck-divider {
             width: 1px;
             height: 28px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 0, 51, 0.3);
         }
 
         @media (max-width: 820px) {
@@ -254,12 +338,13 @@
         }
 
         .filter-toggle-btn {
-            background: #17171e;
-            border: 1px solid var(--card-border);
+            background: #0d0d12;
+            border: 1px solid var(--card-border-subtle);
             color: #d4d4d8;
             padding: 7px 15px;
-            border-radius: var(--radius-md);
-            font-size: 12px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-heading);
+            font-size: 11px;
             font-weight: 800;
             cursor: pointer;
             display: inline-flex;
@@ -271,12 +356,12 @@
         .filter-toggle-btn:hover {
             border-color: var(--goe-red);
             color: #ffffff;
-            background: #1e1e26;
+            background: #14141c;
         }
 
         .filter-toggle-btn.active {
             border-color: var(--goe-red);
-            background: rgba(255, 24, 36, 0.12);
+            background: rgba(255, 0, 51, 0.15);
             color: #ffffff;
         }
 
@@ -311,7 +396,7 @@
 
         /* COLLAPSIBLE FILTER DRAWER */
         .filter-drawer-panel {
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 0, 51, 0.2);
             padding-top: 12px;
             display: flex;
             flex-direction: column;
@@ -331,10 +416,11 @@
         }
 
         .preset-btn {
-            background: #18181f;
-            border: 1px solid #3f3f46;
+            background: #0d0d12;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 5px 11px;
             border-radius: var(--radius-sm);
+            font-family: var(--font-heading);
             font-size: 11px;
             font-weight: 700;
             color: #d4d4d8;
@@ -345,7 +431,7 @@
         .preset-btn:hover {
             border-color: var(--goe-red);
             color: #ffffff;
-            background: #22222b;
+            background: #181820;
         }
 
         .stream-chips {
@@ -355,11 +441,12 @@
         }
 
         .stream-chip {
-            background: #141418;
-            border: 1.5px solid var(--card-border);
-            padding: 7px 14px;
+            background: #0a0a0c;
+            border: 1px solid var(--card-border-subtle);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 12px;
+            font-family: var(--font-heading);
+            font-size: 11px;
             font-weight: 700;
             color: #71717a;
             cursor: pointer;
@@ -371,14 +458,14 @@
         }
 
         .stream-chip:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            color: #e4e4e7;
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
         }
 
         .stream-chip.selected {
             border-color: var(--goe-red);
             color: #ffffff;
-            background: rgba(255, 24, 36, 0.12);
+            background: rgba(255, 0, 51, 0.14);
         }
 
         .stream-chip.selected.nerva-chip {
@@ -456,48 +543,65 @@
             margin-bottom: 28px;
         }
 
-        /* 1. GOE VIEW HUB */
+        /* CARD STYLING UNIFIED (MATCHING BINGO / PREDICTION CARDS: #0a0a0c, 1px solid #ff0033, border-radius: 12px) */
         .hero-goe-card {
             background: var(--card-bg);
-            border: 2px solid var(--goe-red);
-            border-radius: var(--radius-lg);
-            padding: 26px 30px;
+            border: 1px solid var(--goe-red);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
             margin-bottom: 24px;
-            box-shadow: var(--shadow-glow-red), var(--shadow-card);
+            box-shadow: var(--shadow-red-glow), var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-goe-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background: linear-gradient(225deg, rgba(255, 0, 51, 0.08) 0%, transparent 60%);
+            pointer-events: none;
         }
 
         .hero-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
             gap: 12px;
         }
 
         .hero-title-group h2 {
-            font-size: 13px;
-            font-weight: 800;
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 900;
             color: var(--goe-red);
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .hero-total-viewers {
-            font-size: 64px;
-            font-weight: 900;
+            font-family: var(--font-display);
+            font-size: 82px;
+            font-weight: 700;
             color: #ffffff;
-            line-height: 1;
+            line-height: 0.85;
+            letter-spacing: 1px;
             margin-top: 6px;
         }
 
         .momentum-badge {
-            font-size: 13px;
+            font-family: var(--font-heading);
+            font-size: 12px;
             font-weight: 800;
             padding: 5px 12px;
             border-radius: var(--radius-sm);
             display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.06);
             color: #a1a1aa;
         }
 
@@ -516,8 +620,8 @@
         }
 
         .breakdown-box {
-            background: var(--card-bg-elevated);
-            border: 1px solid var(--card-border);
+            background: #08080b;
+            border: 1px solid var(--card-border-subtle);
             border-radius: var(--radius-md);
             padding: 16px 20px;
             display: flex;
@@ -526,7 +630,8 @@
         }
 
         .breakdown-platform {
-            font-size: 12px;
+            font-family: var(--font-heading);
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -536,13 +641,16 @@
         }
 
         .breakdown-val {
-            font-size: 26px;
-            font-weight: 900;
+            font-family: var(--font-display);
+            font-size: 34px;
+            font-weight: 700;
             color: #ffffff;
+            line-height: 1;
             margin-top: 2px;
         }
 
         .breakdown-pct {
+            font-family: var(--font-tech);
             font-size: 13px;
             color: var(--text-muted);
             font-weight: 700;
@@ -551,7 +659,7 @@
         .goe-bar-container {
             width: 100%;
             height: 12px;
-            background: #18181b;
+            background: #141418;
             border-radius: 6px;
             overflow: hidden;
             display: flex;
@@ -560,19 +668,22 @@
         .goe-bar-yt { background: #ff0000; height: 100%; transition: width 0.4s; }
         .goe-bar-tw { background: #9146ff; height: 100%; transition: width 0.4s; }
 
-        /* 2. OFFICIAL DUEL & 3-CAMPS SCOREBOARD */
+        /* ANGULAR FRAMING & SECTION BANNERS */
         .category-header-banner {
-            background: var(--card-bg-elevated);
-            border-left: 4px solid var(--goe-red);
-            padding: 14px 20px;
-            border-radius: 0 var(--radius-md) var(--radius-md) 0;
-            margin-bottom: 20px;
-            border: 1px solid var(--card-border);
-            border-left-width: 4px;
+            background: var(--card-bg);
+            border: 1px solid var(--goe-red);
+            border-left: 6px solid var(--goe-red);
+            border-radius: var(--radius-md);
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+            padding: 14px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 20px rgba(255, 0, 51, 0.12);
         }
 
         .category-header-banner.camps {
+            border-color: var(--costream-amber);
             border-left-color: var(--costream-amber);
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.12);
         }
 
         .scoreboard {
@@ -592,34 +703,36 @@
             .vs-badge { margin: 6px auto; }
         }
 
+        /* PREDICTION / MATCH TILES AESTHETIC */
         .team-card {
             background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 24px 26px;
-            border: 2px solid var(--goe-red);
-            box-shadow: 0 4px 25px rgba(255, 24, 36, 0.12);
+            border-radius: var(--radius-md);
+            padding: 22px 26px;
+            border: 1px solid var(--goe-red);
+            box-shadow: 0 4px 24px rgba(255, 0, 51, 0.15);
             transition: all 0.2s;
         }
 
         .team-card.nerva {
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .team-card.camp {
             border-color: var(--nerva-purple);
-            box-shadow: 0 4px 25px rgba(168, 85, 247, 0.15);
+            box-shadow: 0 4px 25px rgba(168, 85, 247, 0.18);
         }
 
         .team-card.tobias {
             border-color: var(--tobias-orange);
-            box-shadow: 0 4px 25px rgba(249, 115, 22, 0.15);
+            box-shadow: 0 4px 25px rgba(249, 115, 22, 0.18);
         }
 
         .team-name {
+            font-family: var(--font-heading);
             font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             margin-bottom: 6px;
             color: var(--goe-red);
@@ -630,24 +743,28 @@
         .team-card.tobias .team-name { color: var(--tobias-orange); }
 
         .team-score {
-            font-size: 52px;
-            font-weight: 900;
-            line-height: 1;
+            font-family: var(--font-display);
+            font-size: 74px;
+            font-weight: 700;
+            line-height: 0.85;
+            letter-spacing: 1px;
             margin-bottom: 6px;
             color: #ffffff;
         }
 
         .team-share {
-            font-size: 13px;
+            font-family: var(--font-heading);
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 700;
             margin-bottom: 8px;
         }
 
         .vs-badge {
-            font-size: 18px;
-            font-weight: 900;
-            background: #141418;
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            background: #0a0a0c;
             color: #ffffff;
             width: 48px;
             height: 48px;
@@ -661,13 +778,13 @@
 
         .battle-bar-container {
             width: 100%;
-            height: 16px;
-            background: #141418;
+            height: 14px;
+            background: #121218;
             border-radius: 6px;
             overflow: hidden;
             display: flex;
             margin-bottom: 24px;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--card-border-subtle);
         }
 
         .bar-segment-goe { height: 100%; background: var(--goe-red); transition: width 0.4s; }
@@ -675,7 +792,7 @@
         .bar-segment-camp { height: 100%; background: var(--nerva-purple); transition: width 0.4s; }
         .bar-segment-tobias { height: 100%; background: var(--tobias-orange); transition: width 0.4s; }
 
-        /* 3-CAMPS 5 MINI BREAKDOWN CARDS */
+        /* 3-CAMPS 5 MINI BREAKDOWN CARDS (Bingo Card Style) */
         .costream-breakdown-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -686,7 +803,7 @@
 
         .costream-mini-card {
             background: var(--card-bg);
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--card-border-subtle);
             border-radius: var(--radius-md);
             padding: 14px 16px;
             display: flex;
@@ -696,27 +813,32 @@
         }
 
         .costream-mini-card:hover {
-            border-color: var(--card-border-hover);
+            border-color: var(--goe-red);
             transform: translateY(-2px);
         }
 
         .costream-mini-label {
+            font-family: var(--font-heading);
             font-size: 11px;
             color: var(--text-muted);
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 6px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .costream-mini-val {
-            font-size: 24px;
-            font-weight: 900;
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
             color: #ffffff;
+            line-height: 1;
         }
 
         .costream-mini-sub {
+            font-family: var(--font-tech);
             font-size: 11px;
             color: var(--text-dim);
             margin-top: 2px;
@@ -726,8 +848,8 @@
         .stream-item-dimmed {
             opacity: 0.42;
             filter: grayscale(0.7);
-            background: rgba(14, 14, 18, 0.4) !important;
-            border-color: rgba(255, 255, 255, 0.05) !important;
+            background: rgba(10, 10, 12, 0.4) !important;
+            border-color: rgba(255, 0, 51, 0.15) !important;
             box-shadow: none !important;
         }
 
@@ -735,14 +857,14 @@
             opacity: 1;
             filter: none;
             background: var(--card-bg) !important;
-            border-color: rgba(255, 255, 255, 0.25) !important;
+            border-color: var(--goe-red) !important;
             transform: translateY(-2px);
         }
 
         .mini-card-dimmed {
             opacity: 0.42;
             filter: grayscale(0.65);
-            border-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
         }
 
         .mini-card-dimmed:hover {
@@ -753,9 +875,9 @@
         /* CHARTS CONTAINER */
         .chart-box {
             background: var(--card-bg);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-md);
             padding: 22px 24px;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--card-border-subtle);
             margin-top: 20px;
             margin-bottom: 28px;
             box-shadow: var(--shadow-card);
@@ -771,11 +893,12 @@
         }
 
         .chart-title {
-            font-size: 14px;
-            font-weight: 800;
+            font-family: var(--font-heading);
+            font-size: 13px;
+            font-weight: 900;
             color: var(--text-main);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
         }
 
         .chart-wrapper {
@@ -792,11 +915,12 @@
         }
 
         .time-btn {
-            background: #141418;
-            border: 1px solid var(--card-border);
+            background: #0d0d12;
+            border: 1px solid var(--card-border-subtle);
             color: var(--text-muted);
             padding: 5px 11px;
             border-radius: var(--radius-sm);
+            font-family: var(--font-heading);
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
@@ -804,7 +928,7 @@
         }
 
         .time-btn:hover {
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: var(--goe-red);
             color: #ffffff;
         }
 
@@ -812,7 +936,7 @@
             background: var(--goe-red);
             border-color: var(--goe-red);
             color: #ffffff;
-            box-shadow: 0 2px 8px rgba(255, 24, 36, 0.3);
+            box-shadow: 0 2px 10px rgba(255, 0, 51, 0.4);
         }
 
         /* STREAMS LIST */
@@ -821,8 +945,9 @@
         }
 
         .column-title {
+            font-family: var(--font-heading);
             font-size: 13px;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--text-muted);
             margin-bottom: 12px;
             text-transform: uppercase;
@@ -843,7 +968,7 @@
             background: var(--card-bg);
             border-radius: var(--radius-md);
             padding: 14px 16px;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--card-border-subtle);
             display: flex;
             align-items: center;
             gap: 14px;
@@ -855,17 +980,17 @@
         .stream-item:hover {
             border-color: var(--goe-red);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 24, 36, 0.15);
+            box-shadow: 0 4px 18px rgba(255, 0, 51, 0.2);
         }
 
         .avatar-box {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-sm);
-            border: 2px solid var(--card-border);
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid var(--goe-red);
             overflow: hidden;
             flex-shrink: 0;
-            background: #18181b;
+            background: #141418;
         }
 
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -874,48 +999,161 @@
         .platform-badge { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; }
         .badge-twitch { background-color: var(--twitch-color); }
         .badge-yt { background-color: var(--yt-color); }
-        .channel-name { font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 6px; }
+        .channel-name { font-family: var(--font-heading); font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 6px; }
         .live-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--goe-red); box-shadow: 0 0 10px var(--goe-red); display: inline-block; }
         .offline-dot { width: 8px; height: 8px; border-radius: 50%; background-color: #52525b; display: inline-block; }
-        .stream-viewers { font-size: 18px; font-weight: 900; color: #ffffff; flex-shrink: 0; }
+        .stream-viewers { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #ffffff; flex-shrink: 0; line-height: 1; }
         .stream-title { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* FOOTER */
+        /* BRANDING FOOTER (Matches official Worlds 2026 / #bunkier graphics) */
         footer {
             text-align: center;
-            padding: 24px 0 12px 0;
-            border-top: 1px solid var(--card-border);
+            padding: 30px 0 20px 0;
+            border-top: 1px solid var(--card-border-subtle);
             color: var(--text-dim);
             font-size: 13px;
+            position: relative;
         }
-        .roster-pipes { color: var(--text-muted); font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; font-size: 14px; }
+
+        .roster-pipes {
+            font-family: var(--font-heading);
+            color: #ffffff;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .footer-bunkier-badge {
+            background: var(--goe-red);
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-style: italic;
+            font-size: 20px;
+            letter-spacing: 3px;
+            padding: 6px 26px;
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+            display: inline-block;
+            margin: 6px 0 14px 0;
+            box-shadow: 0 0 20px rgba(255, 0, 51, 0.4);
+        }
+
+        .footer-system-note {
+            font-family: var(--font-heading);
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 22px;
+        }
+
+        /* OFFICIAL SPONSOR PLACEMENTS */
+        .footer-sponsors {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sponsor-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+        .sponsor-item:hover { opacity: 1; }
+
+        .sponsor-papito {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-weight: 900;
+            color: #ffffff;
+            font-size: 18px;
+            letter-spacing: 1px;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sponsor-papito .papito-sub {
+            font-size: 8px;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            margin-top: 1px;
+            font-weight: 800;
+        }
+
+        .sponsor-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .sponsor-redragon {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            color: #ffffff;
+            font-size: 17px;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .redragon-dragon-icon {
+            width: 22px;
+            height: 22px;
+            color: var(--goe-red);
+        }
 
         /* TOAST NOTIFICATION */
         #toast {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: #18181b;
+            background: #0d0d12;
             color: white;
             padding: 12px 20px;
             border-radius: var(--radius-md);
             border: 1px solid var(--goe-red);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
             display: none;
             z-index: 100;
+            font-family: var(--font-heading);
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
         }
     </style>
 </head>
 <body>
+    <!-- Geometric Background Shard Accents -->
+    <div class="bg-shard-top-right"></div>
+    <div class="bg-shard-bottom-left"></div>
+
     <div class="container">
         <!-- HEADER -->
         <header>
             <div class="header-title">
-                <div class="header-emblem">🎙️  |  WORLDS 2026</div>
-                <h1>CO-STREAM GOE</h1>
-                <p id="last-updated">Ładowanie danych...</p>
+                <div class="header-emblem">
+                    <span>🎙️</span>
+                    <span>WORLDS 2026</span>
+                    <span style="color: var(--goe-red);">•</span>
+                    <span>OFFICIAL STREAM BATTLE</span>
+                </div>
+                <h1>
+                    <span class="title-white">CO-STREAM</span>
+                    <span class="title-red">GOE</span>
+                </h1>
+                <div class="header-sub-bunkier">
+                    <span class="badge-bunkier-tag">#BUNKIER</span>
+                    <span class="sub-studio" id="last-updated">W KIELECKIM STUDIU • Ładowanie danych...</span>
+                </div>
             </div>
             <div class="header-controls">
                 <div class="api-status-pill">
@@ -1079,8 +1317,8 @@
             <!-- SUB-VIEW A: OFICJALNY POJEDYNEK 2 VS 2 -->
             <div id="sec-comp-official">
                 <div class="category-header-banner">
-                    <div style="font-weight: 800; font-size: 13px; color: #ffffff;">⚔️ OFICJALNY POJEDYNEK 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
+                    <div style="font-weight: 900; font-size: 14px; color: #ffffff; letter-spacing: 1px;">⚔️ OFICJALNY POJEDYNEK 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
                 </div>
 
                 <div class="scoreboard">
@@ -1135,8 +1373,8 @@
             <!-- SUB-VIEW B: STARCIE 3 OBOZÓW -->
             <div id="sec-comp-costreams" style="display: none;">
                 <div class="category-header-banner camps">
-                    <div style="font-weight: 800; font-size: 13px; color: var(--tobias-orange);">⚡ STARCIE WSZYSTKICH TRZECH OBOZÓW (GOE VS NERVARIEN VS TOBIASZ)</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Trzybiegunowe zestawienie transmisji: Obóz GoE (Bunkier), Obóz Nervariena (Oficjalny + Nerva Co-stream) oraz niezależny Obóz Tobiasza (ttobias_lol).</div>
+                    <div style="font-weight: 900; font-size: 14px; color: var(--tobias-orange); letter-spacing: 1px;">⚡ STARCIE WSZYSTKICH TRZECH OBOZÓW (GOE VS NERVARIEN VS TOBIASZ)</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Trzybiegunowe zestawienie transmisji: Obóz GoE (Bunkier), Obóz Nervariena (Oficjalny + Nerva Co-stream) oraz niezależny Obóz Tobiasza (ttobias_lol).</div>
                 </div>
 
                 <div class="scoreboard scoreboard-3camps">
@@ -1168,29 +1406,29 @@
                     <div id="camp-bar-tobias" class="bar-segment-tobias" style="width: 33.4%;"></div>
                 </div>
 
-                <!-- 5-element breakdown grid -->
+                <!-- 5-element breakdown grid (Bingo Cards Style) -->
                 <div class="costream-breakdown-grid">
-                    <div class="costream-mini-card" id="mini-card-goe" style="border-color: rgba(255, 24, 36, 0.4);">
-                        <div class="costream-mini-label"><span class="live-dot" style="background: #ff1824;"></span> GoE Łącznie</div>
+                    <div class="costream-mini-card" id="mini-card-goe" style="border-color: var(--goe-red);">
+                        <div class="costream-mini-label"><span class="live-dot" style="background: var(--goe-red);"></span> GoE Łącznie</div>
                         <div class="costream-mini-val" id="breakdown-val-goe">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-goe">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" id="mini-card-nerva-off" style="border-color: rgba(255, 255, 255, 0.3);">
+                    <div class="costream-mini-card" id="mini-card-nerva-off" style="border-color: rgba(255, 255, 255, 0.4);">
                         <div class="costream-mini-label"><span class="live-dot" style="background: #ffffff;"></span> Nerva Oficjalnie</div>
                         <div class="costream-mini-val" id="breakdown-val-nerva-off">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-off">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" id="mini-card-nerva-costream" style="border-color: rgba(245, 158, 11, 0.4);">
+                    <div class="costream-mini-card" id="mini-card-nerva-costream" style="border-color: var(--costream-amber);">
                         <div class="costream-mini-label"><span class="live-dot" style="background: #f59e0b;"></span> Nerva Co-stream</div>
                         <div class="costream-mini-val" id="breakdown-val-nerva-costream">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-costream">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" id="mini-card-nerva-total" style="border-color: rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.08);">
+                    <div class="costream-mini-card" id="mini-card-nerva-total" style="border-color: var(--nerva-purple);">
                         <div class="costream-mini-label" style="color: #c084fc;"><span class="live-dot" style="background: #c084fc;"></span> Obóz Nervariena (Suma)</div>
                         <div class="costream-mini-val" style="color: #e9d5ff;" id="breakdown-val-nerva-total">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-total">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" id="mini-card-tobias" style="border-color: rgba(249, 115, 22, 0.5); background: rgba(249, 115, 22, 0.08);">
+                    <div class="costream-mini-card" id="mini-card-tobias" style="border-color: var(--tobias-orange);">
                         <div class="costream-mini-label" style="color: #fb923c;"><span class="live-dot" style="background: #f97316;"></span> Obóz Tobiasza (Twitch)</div>
                         <div class="costream-mini-val" style="color: #ffedd5;" id="breakdown-val-tobias">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
@@ -1227,11 +1465,28 @@
 
         </div>
 
-        <!-- FOOTER -->
+        <!-- BRANDING FOOTER (Matching official Worlds 2026 / #bunkier graphics) -->
         <footer>
             <div class="roster-pipes">DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER</div>
-            <div style="font-size: 16px; font-weight: 900; color: var(--goe-red); letter-spacing: 2px; margin: 8px 0 4px 0;">#bunkier</div>
-            <div>Oficjalny system statystyk widowni Co-stream GoE</div>
+            <div>
+                <div class="footer-bunkier-badge">#BUNKIER</div>
+            </div>
+            <div class="footer-system-note">Oficjalny system statystyk widowni Co-stream GoE • Worlds 2026</div>
+            
+            <!-- OFFICIAL SPONSOR PLACEMENTS (PAPITO ENERGY & REDRAGON) -->
+            <div class="footer-sponsors">
+                <div class="sponsor-item sponsor-papito">
+                    <span>PAPITO</span>
+                    <span class="papito-sub">ENERGY</span>
+                </div>
+                <div class="sponsor-divider"></div>
+                <div class="sponsor-item sponsor-redragon">
+                    <svg class="redragon-dragon-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    <span>REDRAGON</span>
+                </div>
+            </div>
         </footer>
     </div>
 
@@ -1257,7 +1512,7 @@
 
         const STREAM_METADATA = {
             'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#9146ff' },
-            'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff1824' },
+            'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff0033' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
             'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
             'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
@@ -1285,7 +1540,7 @@
                 }
                 let color = '#3b82f6';
                 if (s.group === 'GOE') {
-                    color = s.platform === 'Twitch' ? '#9146ff' : '#ff1824';
+                    color = s.platform === 'Twitch' ? '#9146ff' : '#ff0033';
                 } else if (isTobias) {
                     color = '#f97316';
                 } else {
@@ -1351,7 +1606,7 @@
                 btn.style.borderColor = '#4ade80';
                 btn.style.color = '#4ade80';
                 if (banner) {
-                    banner.style.background = 'rgba(14, 35, 20, 0.95)';
+                    banner.style.background = '#0d1a10';
                     banner.style.borderColor = '#4ade80';
                     banner.innerHTML = `
                         <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
@@ -1372,7 +1627,7 @@
                 btn.style.borderColor = '#f87171';
                 btn.style.color = '#f87171';
                 if (banner) {
-                    banner.style.background = 'rgba(40, 16, 16, 0.95)';
+                    banner.style.background = '#281010';
                     banner.style.borderColor = '#f87171';
                     banner.innerHTML = `
                         <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
@@ -1395,12 +1650,13 @@
         function initCharts() {
             const commonScales = {
                 x: {
-                    ticks: { color: '#71717a', maxTicksLimit: 12, autoSkip: true, maxRotation: 0 },
+                    ticks: { color: '#71717a', maxTicksLimit: 12, autoSkip: true, maxRotation: 0, font: { family: 'Outfit', size: 10 } },
                     grid: { color: 'rgba(255, 255, 255, 0.04)' }
                 },
                 y: {
                     ticks: {
                         color: '#71717a',
+                        font: { family: 'Rajdhani', size: 11, weight: 'bold' },
                         callback: function(val) { return val.toLocaleString('pl-PL'); }
                     },
                     grid: { color: 'rgba(255, 255, 255, 0.04)' },
@@ -1408,11 +1664,13 @@
                 }
             };
             const commonTooltip = {
-                backgroundColor: '#121216',
-                borderColor: '#ff1824',
+                backgroundColor: '#0a0a0c',
+                borderColor: '#ff0033',
                 borderWidth: 1,
                 titleColor: '#ffffff',
+                titleFont: { family: 'Outfit', weight: 'bold' },
                 bodyColor: '#e4e4e7',
+                bodyFont: { family: 'Rajdhani', size: 13, weight: 'bold' },
                 padding: 10
             };
 
@@ -1425,7 +1683,7 @@
                     maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { labels: { color: '#d4d4d8', font: { weight: 'bold' } } },
+                        legend: { labels: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 11 } } },
                         tooltip: commonTooltip
                     },
                     scales: commonScales
@@ -1441,7 +1699,7 @@
                     maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { labels: { color: '#d4d4d8', font: { weight: 'bold' } } },
+                        legend: { labels: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 11 } } },
                         tooltip: commonTooltip
                     },
                     scales: commonScales
@@ -1457,7 +1715,7 @@
                     maintainAspectRatio: false,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { labels: { color: '#d4d4d8', font: { weight: 'bold' } } },
+                        legend: { labels: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 11 } } },
                         tooltip: {
                             ...commonTooltip,
                             borderColor: '#f59e0b'
@@ -1990,8 +2248,8 @@
                     goeDatasets.push({
                         label: filterBots ? 'GoE Łącznie (Organiczne)' : 'GoE Łącznie (Z botami)',
                         data: totalGoeData,
-                        borderColor: '#ff1824',
-                        backgroundColor: 'rgba(255, 24, 36, 0.15)',
+                        borderColor: '#ff0033',
+                        backgroundColor: 'rgba(255, 0, 51, 0.15)',
                         tension: 0.25,
                         fill: true,
                         borderWidth: 3,
@@ -2048,8 +2306,8 @@
                     compDatasets.push({
                         label: filterBots ? 'GOE (Kielecki Bunkier - Organiczne)' : 'GOE (Kielecki Bunkier - Z botami)',
                         data: goeData,
-                        borderColor: '#ff1824',
-                        backgroundColor: 'rgba(255, 24, 36, 0.15)',
+                        borderColor: '#ff0033',
+                        backgroundColor: 'rgba(255, 0, 51, 0.15)',
                         tension: 0.25,
                         fill: true,
                         borderWidth: 3,
@@ -2100,8 +2358,8 @@
                     costreamDatasets.push({
                         label: filterBots ? '🔴 GOE (Kielecki Bunkier)' : '🔴 GOE (Z botami)',
                         data: goeData,
-                        borderColor: '#ff1824',
-                        backgroundColor: 'rgba(255, 24, 36, 0.12)',
+                        borderColor: '#ff0033',
+                        backgroundColor: 'rgba(255, 0, 51, 0.12)',
                         tension: 0.25,
                         fill: true,
                         borderWidth: 3,
@@ -2357,7 +2615,7 @@
                 renderFilterChips();
 
                 const timeStr = rawData ? rawData.timestamp : '';
-                document.getElementById('last-updated').innerText = `${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
+                document.getElementById('last-updated').innerText = `W KIELECKIM STUDIU • ${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
                 document.getElementById('api-dot').style.background = '#4ade80';
                 document.getElementById('api-label').innerText = 'LIVE';
             } catch (err) {
