@@ -10,7 +10,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.dirname(__file__))
 
 from config import DAYS_CONFIG, get_active_day_id
-from generate_card import create_battle_card
+from generate_card import create_battle_card, create_og_card
 from generate_summary import create_summary_card
 from scraper import fetch_all_data
 
@@ -406,6 +406,16 @@ def build():
     shutil.copyfile(
         act_out["camps_raw_path"], os.path.join(BASE_DIR, "camps_summary_raw.png")
     )
+
+    # Generate 1200x630 OpenGraph card for social media share previews
+    og_path = os.path.join(BASE_DIR, "og_preview.png")
+    try:
+        with open(act_out["data_path"], "r", encoding="utf-8") as f:
+            active_data = json.load(f)
+        create_og_card(active_data, og_path)
+        print(f"🖼️ [OpenGraph] Wygenerowano kartę podglądu: {og_path}")
+    except Exception as e:
+        print(f"⚠️ Błąd generowania og_preview.png: {e}")
 
     print(
         "🎉 [Build] Zakończono! Wszystkie pliki dniowe oraz główne zostały przygotowane."

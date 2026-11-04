@@ -236,6 +236,9 @@ def fetch_youtube_channel_live(handle: str) -> dict:
                 stream_data = fetch_youtube_stream(vid)
                 stream_data["id"] = clean_handle
                 stream_data["video_id"] = vid
+                stream_data["direct_watch_url"] = f"https://www.youtube.com/watch?v={vid}"
+                if stream_data.get("is_live"):
+                    stream_data["url"] = f"https://www.youtube.com/watch?v={vid}"
                 if avatar_url and not stream_data.get("avatar_url"):
                     stream_data["avatar_url"] = avatar_url
                 return stream_data

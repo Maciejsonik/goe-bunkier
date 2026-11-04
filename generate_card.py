@@ -480,6 +480,142 @@ def create_battle_card(
     return output_path
 
 
+def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
+    """Generates a 1200x630 OpenGraph / Twitter Card preview banner in #Bunkier aesthetic."""
+    width, height = 1200, 630
+    img = Image.new("RGB", (width, height), color=(10, 10, 12))
+    draw = ImageDraw.Draw(img)
+
+    draw_goe_background(draw, width, height)
+
+    font_top_emblem = _get_font(22, bold=True, font_type="rajdhani")
+    font_main_title = _get_font(68, font_type="anton")
+    font_sub_title = _get_font(20, font_type="rajdhani")
+    font_team_name = _get_font(20, bold=True, font_type="rajdhani")
+    font_score = _get_font(72, font_type="anton")
+    font_score_sub = _get_font(18, font_type="rajdhani")
+    font_vs = _get_font(24, font_type="anton")
+    font_footer_pipes = _get_font(15, bold=True, font_type="rajdhani")
+    font_bunkier_badge = _get_font(18, font_type="anton")
+    font_system_note = _get_font(12, font_type="rajdhani")
+
+    # 1. Top Emblem
+    mic_cx, mic_cy = width // 2 - 120, 36
+    draw_vector_microphone(draw, mic_cx, mic_cy)
+    draw.line([(mic_cx + 18, 26), (mic_cx + 18, 46)], fill=(255, 255, 255), width=2)
+    draw.text(
+        (mic_cx + 32, 36),
+        "WORLDS 2026 • STUDIO BUNKROWE LIVE",
+        fill=(255, 255, 255),
+        font=font_top_emblem,
+        anchor="lm",
+    )
+
+    # 2. Main Slanted Title
+    draw_slanted_text(
+        img,
+        "CO-STREAM GOE",
+        font_main_title,
+        (255, 0, 51),
+        (width // 2, 95),
+        slant_k=0.20,
+    )
+
+    # 3. Subtitle
+    draw.text(
+        (width // 2, 138),
+        "w Kieleckim Bunkrze • Widownia i Porównanie na Żywo",
+        fill=(255, 255, 255),
+        font=font_sub_title,
+        anchor="mm",
+    )
+
+    # 4. Stream Data
+    goe_raw = data.get("groups", {}).get("GOE", {}).get("streams", [])
+    nerva_raw = data.get("groups", {}).get("NERVA", {}).get("streams", [])
+
+    goe_streams = [s for s in goe_raw if s.get("id") != "I2E60nEUXWo"]
+    nerva_streams = [
+        s
+        for s in nerva_raw
+        if not s.get("is_costream")
+        and not s.get("is_curiosity")
+        and s.get("id") != "SGAaZFSc3Zk"
+    ]
+
+    goe_total = sum(s.get("viewers", 0) for s in goe_streams)
+    nerva_total = sum(s.get("viewers", 0) for s in nerva_streams)
+    is_live = any(s.get("is_live", False) for s in goe_streams + nerva_streams)
+    is_finished = data.get("is_finished", False)
+
+    tot = goe_total + nerva_total
+    goe_pct = round((goe_total / tot * 100), 1) if tot > 0 else 50.0
+    nerva_pct = round((nerva_total / tot * 100), 1) if tot > 0 else 50.0
+
+    # 5. GOE Box (Left)
+    draw.rounded_rectangle([60, 168, 560, 438], radius=12, fill=(10, 10, 12), outline=(255, 0, 51), width=1)
+    draw.text((85, 186), "GOE (KIELECKI BUNKIER)", fill=(255, 0, 51), font=font_team_name)
+
+    if is_live:
+        goe_display = f"{goe_total:,}".replace(",", " ")
+        goe_sub_display = f"{goe_pct}% WIDZÓW • NA ŻYWO"
+    elif not is_finished:
+        goe_display = "21:30 CET"
+        goe_sub_display = "START STUDIA BUNKROWEGO"
+    else:
+        st = data.get("summary_stats", {})
+        goe_display = f"{st.get('goe_peak', 0):,} PIK".replace(",", " ")
+        goe_sub_display = f"ŚREDNIA: {st.get('goe_avg', 0):,} WIDZÓW".replace(",", " ")
+
+    draw.text((85, 235), goe_display, fill=(255, 255, 255), font=font_score)
+    draw.text((85, 385), goe_sub_display, fill=(255, 77, 109), font=font_score_sub)
+
+    # 6. VS Center Circle
+    draw.ellipse([width // 2 - 32, 272, width // 2 + 32, 336], fill=(10, 10, 12), outline=(255, 0, 51), width=1)
+    draw.text((width // 2, 304), "VS", fill=(255, 255, 255), font=font_vs, anchor="mm")
+
+    # 7. NERVA Box (Right)
+    draw.rounded_rectangle([640, 168, 1140, 438], radius=12, fill=(10, 10, 12), outline=(255, 0, 51), width=1)
+    draw.text((665, 186), "NERVARIEN (KANAŁY GŁÓWNE)", fill=(255, 255, 255), font=font_team_name)
+
+    if is_live:
+        nerva_display = f"{nerva_total:,}".replace(",", " ")
+        nerva_sub_display = f"{nerva_pct}% WIDZÓW • NA ŻYWO"
+    elif not is_finished:
+        nerva_display = "~22:30"
+        nerva_sub_display = "PRZEWIDYWANY START • MECZ: 23:00"
+    else:
+        st = data.get("summary_stats", {})
+        nerva_display = f"{st.get('nerva_peak', 0):,} PIK".replace(",", " ")
+        nerva_sub_display = f"ŚREDNIA: {st.get('nerva_avg', 0):,} WIDZÓW".replace(",", " ")
+
+    draw.text((665, 235), nerva_display, fill=(255, 255, 255), font=font_score)
+    draw.text((665, 385), nerva_sub_display, fill=(200, 200, 210), font=font_score_sub)
+
+    # 8. Proportional Bar
+    bar_x1, bar_y1, bar_x2, bar_y2 = 60, 458, 1140, 474
+    draw.rounded_rectangle([bar_x1, bar_y1, bar_x2, bar_y2], radius=8, fill=(18, 18, 22), outline=(40, 40, 50), width=1)
+    split_w = int((bar_x2 - bar_x1) * (goe_pct / 100.0))
+    if split_w > 0:
+        draw.rounded_rectangle([bar_x1, bar_y1, bar_x1 + split_w, bar_y2], radius=8, fill=(255, 0, 51))
+
+    # 9. Footer
+    roster_pipes = "DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER"
+    draw.text((width // 2, 515), roster_pipes, fill=(255, 255, 255), font=font_footer_pipes, anchor="mm")
+
+    bunkier_w = 120
+    bunkier_h = 28
+    bx = (width - bunkier_w) // 2
+    by = 540
+    draw.rounded_rectangle([bx, by, bx + bunkier_w, by + bunkier_h], radius=5, fill=(255, 0, 51))
+    draw.text((width // 2, by + bunkier_h // 2), "#BUNKIER", fill=(255, 255, 255), font=font_bunkier_badge, anchor="mm")
+
+    draw.text((width // 2, 595), "maciejsonik.github.io/goe-bunkier • Statystyki widowni Co-stream GoE • Worlds 2026", fill=(140, 140, 150), font=font_system_note, anchor="mm")
+
+    img.save(output_path, "PNG")
+    return output_path
+
+
 if __name__ == "__main__":
     from scraper import fetch_all_data
 

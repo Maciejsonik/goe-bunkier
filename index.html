@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CO-STREAM GOE • Worlds 2026 #bunkier</title>
+    <meta name="description" content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE (#bunkier) vs Nervarien vs Tobiasz.">
+    <!-- OpenGraph Metadata -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CO-STREAM GOE • Kielecki Bunkier (Worlds 2026)">
+    <meta property="og:description" content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE vs Nervarien vs Tobiasz.">
+    <meta property="og:image" content="https://maciejsonik.github.io/goe-bunkier/og_preview.png">
+    <meta property="og:url" content="https://maciejsonik.github.io/goe-bunkier/">
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CO-STREAM GOE • Kielecki Bunkier (Worlds 2026)">
+    <meta name="twitter:description" content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE vs Nervarien vs Tobiasz.">
+    <meta name="twitter:image" content="https://maciejsonik.github.io/goe-bunkier/og_preview.png">
     <!-- Official Fonts: Teko (Condense Aggressive), Anton (Ultra Display), Outfit (Geometric Grotesk), Rajdhani (Tech) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1050,6 +1062,55 @@
             margin-bottom: 0;
         }
 
+        .refresh-progress-bar-container {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            border-radius: 1px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+        }
+
+        .refresh-progress-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #ff0033, #4ade80);
+            transition: width 1s linear;
+        }
+
+        .card-quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .quick-action-btn {
+            background: #141418;
+            border: 1px solid #27272a;
+            color: #d4d4d8;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quick-action-btn:hover {
+            border-color: var(--goe-red);
+            color: #ffffff;
+            background: #1f1f26;
+        }
+
         /* TOAST NOTIFICATION */
         #toast {
             position: fixed;
@@ -1094,9 +1155,10 @@
                 </div>
             </div>
             <div class="header-controls">
-                <div class="api-status-pill">
+                <div class="api-status-pill" id="sync-pill" title="Czas do kolejnej automatycznej synchronizacji">
                     <span class="api-dot" id="api-dot"></span>
                     <span id="api-label">LIVE SYNC</span>
+                    <span id="sync-countdown" style="font-size: 11px; opacity: 0.8; margin-left: 2px;">• 30s</span>
                 </div>
                 <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁ.</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
@@ -1113,6 +1175,11 @@
                 <button class="btn-primary" onclick="downloadCSV()">📥 CSV</button>
             </div>
         </header>
+
+        <!-- Dynamic Refresh Progress Bar -->
+        <div class="refresh-progress-bar-container">
+            <div id="refresh-progress-bar" class="refresh-progress-bar"></div>
+        </div>
 
         <!-- BOT ALERT BANNER (Shown for Day 1 bot spikes) -->
         <div id="bot-alert-banner" style="display: none;">
@@ -1230,6 +1297,12 @@
                     <div id="goe-sub-bar-yt" class="goe-bar-yt" style="width: 50%;"></div>
                     <div id="goe-sub-bar-tw" class="goe-bar-tw" style="width: 50%;"></div>
                 </div>
+
+                <div class="card-quick-actions">
+                    <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('goe')">📊 Wykres GoE (PNG)</button>
+                    <button class="quick-action-btn" onclick="copyShareLink()">📋 Kopiuj Link</button>
+                </div>
             </div>
 
             <!-- DEDICATED CHART: GOE ONLY -->
@@ -1289,6 +1362,12 @@
                 <div class="battle-bar-container">
                     <div id="battle-bar-goe" class="bar-segment-goe" style="width: 50%;"></div>
                     <div id="battle-bar-nerva" class="bar-segment-nerva" style="width: 50%;"></div>
+                </div>
+
+                <div class="card-quick-actions">
+                    <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Wykres Pojedynku (PNG)</button>
+                    <button class="quick-action-btn" onclick="copyShareLink()">📋 Kopiuj Link</button>
                 </div>
 
                 <!-- DEDICATED CHART: POJEDYNEK GŁÓWNY -->
@@ -1382,6 +1461,12 @@
                         <div class="costream-mini-val" style="color: #ffedd5;" id="breakdown-val-tobias">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
                     </div>
+                </div>
+
+                <div class="card-quick-actions" style="margin-bottom: 20px;">
+                    <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('camps')">🏕️ Wykres 3 Obozów (PNG)</button>
+                    <button class="quick-action-btn" onclick="copyShareLink()">📋 Kopiuj Link</button>
                 </div>
 
                 <!-- DEDICATED CHART: WSZYSTKIE OBOZY -->
@@ -2637,9 +2722,34 @@
             }
         }
 
+        let refreshSecondsTotal = 30;
+        let refreshSecondsLeft = 30;
+        let refreshTickerInterval = null;
+
+        function resetRefreshCountdown() {
+            refreshSecondsLeft = refreshSecondsTotal;
+            updateRefreshProgressUI();
+        }
+
+        function updateRefreshProgressUI() {
+            const cdEl = document.getElementById('sync-countdown');
+            const barEl = document.getElementById('refresh-progress-bar');
+            if (refreshSecondsTotal <= 0) {
+                if (cdEl) cdEl.innerText = '• wyłączone';
+                if (barEl) barEl.style.width = '0%';
+                return;
+            }
+            if (cdEl) cdEl.innerText = `• za ${refreshSecondsLeft}s`;
+            if (barEl) {
+                const pct = Math.max(0, Math.min(100, (refreshSecondsLeft / refreshSecondsTotal) * 100));
+                barEl.style.width = `${pct}%`;
+            }
+        }
+
         async function loadData(manual = false) {
             try {
                 await loadDayData(currentDayId);
+                resetRefreshCountdown();
                 if (manual) showToast('Zaktualizowano dane!');
             } catch (err) {
                 console.error("Load data error:", err);
@@ -2648,9 +2758,36 @@
 
         function setupAutoRefresh() {
             if (autoInterval) clearInterval(autoInterval);
+            if (refreshTickerInterval) clearInterval(refreshTickerInterval);
+
             const seconds = parseInt(document.getElementById('auto-refresh-select').value);
+            refreshSecondsTotal = seconds;
+            refreshSecondsLeft = seconds;
+            updateRefreshProgressUI();
+
             if (seconds > 0) {
-                autoInterval = setInterval(() => loadData(false), seconds * 1000);
+                autoInterval = setInterval(async () => {
+                    await loadData(false);
+                }, seconds * 1000);
+
+                refreshTickerInterval = setInterval(() => {
+                    refreshSecondsLeft--;
+                    if (refreshSecondsLeft < 0) refreshSecondsLeft = refreshSecondsTotal;
+                    updateRefreshProgressUI();
+                }, 1000);
+            }
+        }
+
+        function copyShareLink() {
+            const url = window.location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('Skopiowano link do schowka!');
+                }).catch(() => {
+                    showToast('Link: ' + url);
+                });
+            } else {
+                showToast('Link: ' + url);
             }
         }
 
