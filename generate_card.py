@@ -678,53 +678,56 @@ def create_battle_card(
 
 
 def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
-    """Generates a 1200x630 OpenGraph / Twitter Card preview banner in #Bunkier aesthetic."""
+    """Generates a 1200x630 OpenGraph / Twitter Card preview banner in GoE-First #Bunkier aesthetic."""
     width, height = 1200, 630
     img = Image.new("RGB", (width, height), color=(10, 10, 12))
     draw = ImageDraw.Draw(img)
 
     draw_goe_background(draw, width, height)
 
-    font_top_emblem = _get_font(22, bold=True, font_type="rajdhani")
-    font_main_title = _get_font(68, font_type="anton")
-    font_sub_title = _get_font(20, font_type="rajdhani")
-    font_team_name = _get_font(20, bold=True, font_type="rajdhani")
-    font_score = _get_font(72, font_type="anton")
-    font_score_sub = _get_font(18, font_type="rajdhani")
-    font_vs = _get_font(24, font_type="anton")
-    font_footer_pipes = _get_font(15, bold=True, font_type="rajdhani")
-    font_bunkier_badge = _get_font(18, font_type="anton")
+    font_top_emblem = _get_font(20, bold=True, font_type="rajdhani")
+    font_main_title = _get_font(62, font_type="anton")
+    font_sub_title = _get_font(18, font_type="rajdhani")
+    font_hero_title = _get_font(22, bold=True, font_type="rajdhani")
+    font_hero_score = _get_font(58, font_type="anton")
+    font_hero_sub = _get_font(17, font_type="rajdhani")
+    font_mini_label = _get_font(14, bold=True, font_type="rajdhani")
+    font_mini_val = _get_font(26, font_type="anton")
+    font_mini_sub = _get_font(14, font_type="rajdhani")
+    font_context_label = _get_font(15, bold=True, font_type="rajdhani")
+    font_footer_pipes = _get_font(14, bold=True, font_type="rajdhani")
+    font_bunkier_badge = _get_font(16, font_type="anton")
     font_system_note = _get_font(12, font_type="rajdhani")
 
-    # 1. Top Emblem (Mathematically centered with microphone and vertical pipe)
+    # 1. Top Emblem (Mathematically centered)
     draw_top_emblem(
         draw,
         width,
-        36,
+        32,
         "WORLDS 2026 • STUDIO BUNKROWE LIVE",
         font_top_emblem,
     )
 
-    # 2. Main Slanted Title
+    # 2. Main Slanted Title (GoE Hero)
     draw_slanted_text(
         img,
         "CO-STREAM GOE",
         font_main_title,
         (255, 0, 51),
-        (width // 2, 95),
+        (width // 2, 84),
         slant_k=0.20,
     )
 
     # 3. Subtitle
     draw.text(
-        (width // 2, 138),
-        "w Kieleckim Bunkrze • Widownia i Porównanie na Żywo",
+        (width // 2, 124),
+        "w Kieleckim Bunkrze • Widownia i Wyniki na Żywo",
         fill=(255, 255, 255),
         font=font_sub_title,
         anchor="mm",
     )
 
-    # 4. Stream Data
+    # 4. Stream Data Calculation
     goe_raw = data.get("groups", {}).get("GOE", {}).get("streams", [])
     nerva_raw = data.get("groups", {}).get("NERVA", {}).get("streams", [])
 
@@ -741,95 +744,233 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     nerva_total = sum(s.get("viewers", 0) for s in nerva_streams)
     is_live = any(s.get("is_live", False) for s in goe_streams + nerva_streams)
     is_finished = data.get("is_finished", False)
+    st = data.get("summary_stats", {})
 
-    tot = goe_total + nerva_total
-    goe_pct = round((goe_total / tot * 100), 1) if tot > 0 else 50.0
-    nerva_pct = round((nerva_total / tot * 100), 1) if tot > 0 else 50.0
+    # Extract YouTube vs Twitch
+    yt_st = next((s for s in goe_streams if s.get("platform") == "YouTube"), None)
+    tw_st = next((s for s in goe_streams if s.get("platform") == "Twitch"), None)
+    yt_v = (
+        (yt_st.get("viewers", 0) if yt_st else 0)
+        if is_live
+        else (st.get("yt_peak", 0) if is_finished else 0)
+    )
+    tw_v = (
+        (tw_st.get("viewers", 0) if tw_st else 0)
+        if is_live
+        else (st.get("tw_peak", 0) if is_finished else 0)
+    )
+    sum_yt_tw = yt_v + tw_v
+    yt_pct = round((yt_v / sum_yt_tw * 100), 1) if sum_yt_tw > 0 else 50.0
 
-    # 5. GOE Box (Left)
+    # Duel context stats
+    tot_duel = goe_total + nerva_total
+    goe_pct = round((goe_total / tot_duel * 100), 1) if tot_duel > 0 else 50.0
+
+    # 5. Big GoE Hero Card
+    card_x1, card_y1, card_x2, card_y2 = 60, 142, 1140, 434
     draw.rounded_rectangle(
-        [60, 168, 560, 438], radius=12, fill=(10, 10, 12), outline=(255, 0, 51), width=1
-    )
-    draw.text(
-        (85, 186), "GOE (KIELECKI BUNKIER)", fill=(255, 0, 51), font=font_team_name
-    )
-
-    if is_live:
-        goe_display = f"{goe_total:,}".replace(",", " ")
-        goe_sub_display = f"{goe_pct}% WIDZÓW • NA ŻYWO"
-    elif not is_finished:
-        goe_display = "21:30 CET"
-        goe_sub_display = "START STUDIA BUNKROWEGO"
-    else:
-        st = data.get("summary_stats", {})
-        goe_display = f"{st.get('goe_peak', 0):,} PIK".replace(",", " ")
-        goe_sub_display = f"ŚREDNIA: {st.get('goe_avg', 0):,} WIDZÓW".replace(",", " ")
-
-    draw.text((85, 235), goe_display, fill=(255, 255, 255), font=font_score)
-    draw.text((85, 385), goe_sub_display, fill=(255, 77, 109), font=font_score_sub)
-
-    # 6. VS Center Circle
-    draw.ellipse(
-        [width // 2 - 32, 272, width // 2 + 32, 336],
-        fill=(10, 10, 12),
-        outline=(255, 0, 51),
-        width=1,
-    )
-    draw.text((width // 2, 304), "VS", fill=(255, 255, 255), font=font_vs, anchor="mm")
-
-    # 7. NERVA Box (Right)
-    draw.rounded_rectangle(
-        [640, 168, 1140, 438],
+        [card_x1, card_y1, card_x2, card_y2],
         radius=12,
         fill=(10, 10, 12),
         outline=(255, 0, 51),
         width=1,
     )
+
+    # Hero Card Header
     draw.text(
-        (665, 186),
-        "NERVARIEN (KANAŁY GŁÓWNE)",
-        fill=(255, 255, 255),
-        font=font_team_name,
+        (90, 162),
+        "WIDOWNIA CO-STREAM GOE (KIELECKI BUNKIER)",
+        fill=(255, 0, 51),
+        font=font_hero_title,
     )
 
     if is_live:
-        nerva_display = f"{nerva_total:,}".replace(",", " ")
-        nerva_sub_display = f"{nerva_pct}% WIDZÓW • NA ŻYWO"
-    elif not is_finished:
-        nerva_display = "~22:30"
-        nerva_sub_display = "PRZEWIDYWANY START • MECZ: 23:00"
-    else:
-        st = data.get("summary_stats", {})
-        nerva_display = f"{st.get('nerva_peak', 0):,} PIK".replace(",", " ")
-        nerva_sub_display = f"ŚREDNIA: {st.get('nerva_avg', 0):,} WIDZÓW".replace(
+        status_text = "NA ŻYWO"
+        status_color = (255, 24, 36)
+        main_val = f"{goe_total:,}".replace(",", " ")
+        main_sub = (
+            f"ŁĄCZNIE NA ŻYWO • PIK: {(st.get('goe_peak') or goe_total):,}".replace(
+                ",", " "
+            )
+        )
+    elif is_finished:
+        status_text = "TRANSMISJA ZAKOŃCZONA"
+        status_color = (160, 160, 175)
+        main_val = f"{st.get('goe_peak', 0):,} PIK".replace(",", " ")
+        main_sub = f"ŚREDNIA WIDOWNIA: {st.get('goe_avg', 0):,} WIDZÓW".replace(
             ",", " "
         )
+    else:
+        status_text = "START O 21:30 CET"
+        status_color = (255, 77, 109)
+        main_val = "21:30 CET"
+        main_sub = "START STUDIA BUNKROWEGO • MECZ: 23:00"
 
-    draw.text((665, 235), nerva_display, fill=(255, 255, 255), font=font_score)
-    draw.text((665, 385), nerva_sub_display, fill=(200, 200, 210), font=font_score_sub)
+    if is_live:
+        bbox_st = font_hero_title.getbbox(status_text)
+        st_w = bbox_st[2] - bbox_st[0]
+        dot_r = 5
+        dot_x = 1110 - st_w - 14
+        dot_y = 162 + (bbox_st[3] - bbox_st[1]) // 2
+        draw.ellipse(
+            [dot_x - dot_r, dot_y - dot_r, dot_x + dot_r, dot_y + dot_r],
+            fill=(255, 24, 36),
+        )
+        draw.text(
+            (1110, 162),
+            status_text,
+            fill=status_color,
+            font=font_hero_title,
+            anchor="ra",
+        )
+    else:
+        draw.text(
+            (1110, 162),
+            status_text,
+            fill=status_color,
+            font=font_hero_title,
+            anchor="ra",
+        )
 
-    # 8. Proportional Bar (Crisp GoE Red vs Nervarien White Pill)
-    bar_x1, bar_y1, bar_x2, bar_y2 = 60, 456, 1140, 478
+    # Main Big Number
+    draw.text((90, 190), main_val, fill=(255, 255, 255), font=font_hero_score)
+    draw.text((90, 260), main_sub, fill=(255, 77, 109), font=font_hero_sub)
+
+    # 6. Platform Breakdown Mini-Cards (YouTube & Twitch)
+    # Left: YouTube (@gadaja_)
+    yt_card_x1, yt_card_y1, yt_card_x2, yt_card_y2 = 90, 296, 580, 374
+    draw.rounded_rectangle(
+        [yt_card_x1, yt_card_y1, yt_card_x2, yt_card_y2],
+        radius=8,
+        fill=(14, 14, 18),
+        outline=(239, 68, 68),
+        width=1,
+    )
+    draw.ellipse([106, 311, 116, 321], fill=(239, 68, 68))
+    draw.text(
+        (124, 309),
+        "YouTube (Gadają o Esporcie)",
+        fill=(239, 68, 68),
+        font=font_mini_label,
+    )
+    yt_disp_val = (
+        f"{yt_v:,} widzów".replace(",", " ")
+        if (is_live or is_finished)
+        else "Transmisja @gadaja_"
+    )
+    draw.text((106, 333), yt_disp_val, fill=(255, 255, 255), font=font_mini_val)
+    yt_sub_txt = (
+        f"{yt_pct}% widowni Bunkra"
+        if (is_live or is_finished)
+        else "Główny kanał YouTube"
+    )
+    draw.text(
+        (564, 344), yt_sub_txt, fill=(200, 200, 210), font=font_mini_sub, anchor="ra"
+    )
+
+    # Right: Twitch (GoE_stream)
+    tw_card_x1, tw_card_y1, tw_card_x2, tw_card_y2 = 620, 296, 1110, 374
+    draw.rounded_rectangle(
+        [tw_card_x1, tw_card_y1, tw_card_x2, tw_card_y2],
+        radius=8,
+        fill=(14, 14, 18),
+        outline=(168, 85, 247),
+        width=1,
+    )
+    draw.ellipse([636, 311, 646, 321], fill=(168, 85, 247))
+    draw.text(
+        (654, 309),
+        "Twitch (GoE_stream)",
+        fill=(168, 85, 247),
+        font=font_mini_label,
+    )
+    tw_disp_val = (
+        f"{tw_v:,} widzów".replace(",", " ")
+        if (is_live or is_finished)
+        else "Transmisja GoE_stream"
+    )
+    draw.text((636, 333), tw_disp_val, fill=(255, 255, 255), font=font_mini_val)
+    tw_pct = round(100.0 - yt_pct, 1)
+    tw_sub_txt = (
+        f"{tw_pct}% widowni Bunkra" if (is_live or is_finished) else "Kanał Twitch"
+    )
+    draw.text(
+        (1094, 344), tw_sub_txt, fill=(200, 200, 210), font=font_mini_sub, anchor="ra"
+    )
+
+    # Platform Split Bar
+    bar_split_y1, bar_split_y2 = 388, 404
+    split_w = int((1110 - 90) * (yt_pct / 100.0))
+    draw.rounded_rectangle(
+        [90, bar_split_y1, 1110, bar_split_y2],
+        radius=6,
+        fill=(14, 14, 18),
+        outline=(50, 50, 60),
+        width=1,
+    )
+    if split_w > 0:
+        draw.rounded_rectangle(
+            [90, bar_split_y1, 90 + split_w, bar_split_y2],
+            radius=6,
+            fill=(239, 68, 68),
+        )
+    if split_w < (1110 - 90):
+        draw.rounded_rectangle(
+            [90 + split_w, bar_split_y1, 1110, bar_split_y2],
+            radius=6,
+            fill=(168, 85, 247),
+        )
+
+    # 7. Contextual Market Duel Bar (Nervarien Battle Context)
+    if is_live:
+        diff = goe_total - nerva_total
+        diff_str = (
+            f"+{diff:,} przewagi Bunkra".replace(",", " ")
+            if diff >= 0
+            else f"{diff:,} straty do Nervy".replace(",", " ")
+        )
+        context_str = f"KONTEKST RYNKOWY: GoE skupia {goe_pct}% widowni starcia (GoE: {goe_total:,} vs Nerva: {nerva_total:,} • {diff_str})".replace(
+            ",", " "
+        )
+    elif is_finished:
+        pk_goe = st.get("goe_peak", 0)
+        pk_nerva = st.get("nerva_peak", 0)
+        context_str = f"KONTEKST RYNKOWY: GoE {pk_goe:,} pik vs Nervarien {pk_nerva:,} pik (Średnia: {st.get('goe_avg', 0):,} vs {st.get('nerva_avg', 0):,})".replace(
+            ",", " "
+        )
+    else:
+        context_str = "KONTEKST RYNKOWY: GoE (start 21:30) vs Nervarien (przewidywany start ~22:30 • mecz 23:00)"
+
+    draw.text(
+        (width // 2, 456),
+        context_str,
+        fill=(255, 255, 255),
+        font=font_context_label,
+        anchor="mm",
+    )
+
+    # Proportional Bar (GoE Red vs Nervarien White Pill)
+    bar_x1, bar_y1, bar_x2, bar_y2 = 120, 474, 1080, 492
     draw_duel_bar(img, draw, bar_x1, bar_y1, bar_x2, bar_y2, goe_pct, radius=8)
 
-    # 9. Footer
+    # 8. Footer (Roster + Bunkier Badge)
     roster_pipes = (
         "DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER"
     )
     draw.text(
-        (width // 2, 515),
+        (width // 2, 520),
         roster_pipes,
         fill=(255, 255, 255),
         font=font_footer_pipes,
         anchor="mm",
     )
 
-    bunkier_w = 120
-    bunkier_h = 28
+    bunkier_w = 110
+    bunkier_h = 24
     bx = (width - bunkier_w) // 2
-    by = 540
+    by = 542
     draw.rounded_rectangle(
-        [bx, by, bx + bunkier_w, by + bunkier_h], radius=5, fill=(255, 0, 51)
+        [bx, by, bx + bunkier_w, by + bunkier_h], radius=4, fill=(255, 0, 51)
     )
     draw.text(
         (width // 2, by + bunkier_h // 2),
@@ -840,7 +981,7 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     )
 
     draw.text(
-        (width // 2, 595),
+        (width // 2, 592),
         "maciejsonik.github.io/goe-bunkier • Statystyki widowni Co-stream GoE • Worlds 2026",
         fill=(140, 140, 150),
         font=font_system_note,

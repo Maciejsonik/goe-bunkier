@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 18:59:12",
+  "timestamp": "2026-11-04 20:13:23",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -28,12 +28,14 @@
           "id": "@gadaja_",
           "platform": "YouTube",
           "channel": "Gadają o Esporcie",
-          "title": "Stream offline (oczekiwanie na start transmisji...)",
+          "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
-          "url": "https://www.youtube.com/@gadaja_/live",
-          "avatar_url": "https://yt3.googleusercontent.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s900-c-k-c0x00ffffff-no-rj",
+          "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
+          "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
+          "video_id": "dKZGkF2mIDU",
+          "direct_watch_url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
           "group": "GOE"
         }
       ]
