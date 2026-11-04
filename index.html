@@ -3,19 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CO-STREAM GOE • Spis Widzów & Porównanie</title>
+    <title>CO-STREAM GOE • Spis Widzów & Starcie Obozów</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --bg-dark: #08080a;
+            --surface-deck: #101014;
             --card-bg: #0e0e12;
-            --card-border: #ff1824;
+            --card-bg-elevated: #15151a;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-hover: rgba(255, 255, 255, 0.18);
             --goe-red: #ff1824;
             --goe-dark-red: #8f0e15;
-            --text-main: #ffffff;
+            --nerva-purple: #a855f7;
+            --nerva-light-purple: #c084fc;
+            --tobias-orange: #f97316;
+            --costream-amber: #f59e0b;
+            --text-main: #f4f4f5;
             --text-muted: #a1a1aa;
+            --text-dim: #71717a;
             --twitch-color: #9146ff;
             --yt-color: #ff0000;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-glow-red: 0 0 24px rgba(255, 24, 36, 0.2);
         }
 
         * {
@@ -28,33 +41,34 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            padding: 24px;
+            padding: 24px 20px;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(255, 24, 36, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(255, 24, 36, 0.08) 0%, transparent 40%);
+                radial-gradient(circle at 10% 8%, rgba(255, 24, 36, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 92%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
         }
 
+        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 16px;
+            padding-bottom: 18px;
             border-bottom: 2px solid var(--goe-dark-red);
             flex-wrap: wrap;
             gap: 16px;
         }
 
         .header-emblem {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--text-muted);
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 4px;
@@ -71,23 +85,23 @@
 
         .header-title p {
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 4px;
         }
 
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         button, select {
             background-color: #141418;
             color: white;
-            border: 1px solid #27272a;
+            border: 1px solid var(--card-border);
             padding: 8px 14px;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
@@ -101,10 +115,11 @@
             background-color: #1f1f24;
         }
 
-        .btn-primary { background-color: #27272a; border-color: #3f3f46; }
+        .btn-primary { background-color: #202026; border-color: #3f3f46; }
         .btn-red { background-color: var(--goe-red); border-color: var(--goe-red); color: white; }
         .btn-red:hover { background-color: #d6131d; box-shadow: 0 0 15px rgba(255, 24, 36, 0.4); }
-        .btn-summary { background: linear-gradient(135deg, #18181b, #27272a); border: 1px solid var(--goe-red); color: white; }
+        .btn-summary { background: linear-gradient(135deg, #18181b, #24242c); border: 1px solid var(--card-border); color: #f4f4f5; }
+        .btn-summary:hover { border-color: var(--goe-red); }
 
         .api-status-pill {
             display: inline-flex;
@@ -114,9 +129,9 @@
             font-weight: 700;
             color: #a1a1aa;
             background: #141418;
-            padding: 5px 12px;
+            padding: 6px 12px;
             border-radius: 20px;
-            border: 1px solid #27272a;
+            border: 1px solid var(--card-border);
         }
         .api-dot {
             width: 7px;
@@ -126,83 +141,211 @@
             box-shadow: 0 0 6px #4ade80;
         }
 
-        /* Main View Mode Selector Tabs */
-        .mode-tabs {
-            display: flex;
-            gap: 12px;
+        /* BOT ALERT BANNER */
+        #bot-alert-banner {
+            background: rgba(14, 35, 20, 0.95);
+            border: 1px solid #4ade80;
+            border-radius: var(--radius-md);
+            padding: 12px 18px;
             margin-bottom: 20px;
-            border-bottom: 1px solid #27272a;
-            padding-bottom: 12px;
-        }
-
-        .mode-tab {
-            background: #101014;
-            border: 1px solid #27272a;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 800;
-            color: #a1a1aa;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .mode-tab.active {
-            background: var(--goe-red);
-            border-color: var(--goe-red);
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 24, 36, 0.3);
-        }
-
-        /* Granular Stream Filter Bar */
-        .filter-section {
-            background: #101014;
-            border: 1px solid #27272a;
-            border-radius: 10px;
-            padding: 14px;
-            margin-bottom: 24px;
-        }
-
-        .filter-header {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 12px;
         }
 
-        .filter-title {
+        /* UNIFIED CONTROL DECK */
+        .control-deck {
+            background: var(--surface-deck);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 12px 16px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .deck-primary-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .deck-left-cluster {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .segmented-group {
+            display: inline-flex;
+            background: #16161c;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .segmented-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 7px 14px;
+            border-radius: var(--radius-sm);
             font-size: 12px;
             font-weight: 800;
-            color: #a1a1aa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .preset-buttons {
+        .segmented-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .segmented-btn.active {
+            background: #27272a;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .segmented-btn.mode-active-goe {
+            background: var(--goe-red);
+            color: #ffffff;
+            border-color: var(--goe-red);
+            box-shadow: 0 2px 14px rgba(255, 24, 36, 0.35);
+        }
+
+        .segmented-btn.mode-active-battle {
+            background: #27272a;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
+        }
+
+        .segmented-btn.mode-active-camps {
+            background: linear-gradient(135deg, rgba(255, 24, 36, 0.7), rgba(168, 85, 247, 0.7), rgba(249, 115, 22, 0.7));
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 14px rgba(249, 115, 22, 0.25);
+        }
+
+        .deck-divider {
+            width: 1px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 820px) {
+            .deck-divider { display: none; }
+        }
+
+        .filter-toggle-btn {
+            background: #17171e;
+            border: 1px solid var(--card-border);
+            color: #d4d4d8;
+            padding: 7px 15px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .filter-toggle-btn:hover {
+            border-color: var(--goe-red);
+            color: #ffffff;
+            background: #1e1e26;
+        }
+
+        .filter-toggle-btn.active {
+            border-color: var(--goe-red);
+            background: rgba(255, 24, 36, 0.12);
+            color: #ffffff;
+        }
+
+        .filter-count-badge {
+            background: var(--goe-red);
+            color: #ffffff;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 900;
+        }
+
+        .day-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .day-dot-finished { background: #71717a; }
+        .day-dot-live { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+        .day-pill-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #a1a1aa;
+        }
+        .segmented-btn.active .day-pill-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        /* COLLAPSIBLE FILTER DRAWER */
+        .filter-drawer-panel {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 12px;
             display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .filter-drawer-panel.collapsed {
+            display: none;
+        }
+
+        .drawer-presets-row {
+            display: flex;
+            align-items: center;
             gap: 6px;
             flex-wrap: wrap;
         }
 
         .preset-btn {
-            background: #18181b;
+            background: #18181f;
             border: 1px solid #3f3f46;
-            padding: 4px 10px;
-            border-radius: 4px;
+            padding: 5px 11px;
+            border-radius: var(--radius-sm);
             font-size: 11px;
             font-weight: 700;
             color: #d4d4d8;
+            cursor: pointer;
+            transition: all 0.15s;
         }
 
         .preset-btn:hover {
             border-color: var(--goe-red);
-            color: white;
+            color: #ffffff;
+            background: #22222b;
         }
 
         .stream-chips {
@@ -213,7 +356,7 @@
 
         .stream-chip {
             background: #141418;
-            border: 1.5px solid #27272a;
+            border: 1.5px solid var(--card-border);
             padding: 7px 14px;
             border-radius: 20px;
             font-size: 12px;
@@ -227,6 +370,11 @@
             user-select: none;
         }
 
+        .stream-chip:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #e4e4e7;
+        }
+
         .stream-chip.selected {
             border-color: var(--goe-red);
             color: #ffffff;
@@ -238,124 +386,20 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        .stream-chip.costream-chip, .stream-chip.curiosity-chip {
+        .stream-chip.costream-chip {
             border-style: dashed;
         }
 
-        .stream-chip.selected.costream-chip, .stream-chip.selected.curiosity-chip {
-            border-color: #f59e0b;
+        .stream-chip.selected.costream-chip {
+            border-color: var(--costream-amber);
             background: rgba(245, 158, 11, 0.15);
             color: #fef3c7;
         }
 
-        .stream-chip.selected.costream-chip .chip-dot, .stream-chip.selected.curiosity-chip .chip-dot {
-            background: #f59e0b;
-            box-shadow: 0 0 8px #f59e0b;
-        }
-
-        .costream-badge, .curiosity-badge {
-            background: rgba(245, 158, 11, 0.2);
-            border: 1px solid #f59e0b;
-            color: #f59e0b;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 1px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Day Selector Bar (Multi-Day Navigation) */
-        .day-selector-section {
-            background: #101014;
-            border: 1px solid #27272a;
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 20px;
-        }
-
-        .day-selector-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 11px;
-            font-weight: 800;
-            color: #a1a1aa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .day-selector-sub {
-            color: #71717a;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: none;
-        }
-
-        .day-tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .day-tab {
-            background: #141418;
-            border: 1.5px solid #27272a;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 800;
-            color: #d4d4d8;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .day-tab:hover {
-            border-color: #52525b;
-            color: white;
-            background: #1a1a20;
-        }
-
-        .day-tab.active {
-            background: rgba(255, 24, 36, 0.12);
-            border-color: var(--goe-red);
-            color: white;
-            box-shadow: 0 0 15px rgba(255, 24, 36, 0.25);
-        }
-
-        .day-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .day-indicator.finished {
-            background: #71717a;
-        }
-
-        .day-indicator.live {
-            background: #4ade80;
-            box-shadow: 0 0 8px #4ade80;
-        }
-
-        .day-tag {
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 4px;
-            background: #27272a;
-            color: #a1a1aa;
-            font-weight: 700;
-        }
-
-        .day-tab.active .day-tag.active-pill {
-            background: var(--goe-red);
-            color: white;
+        .stream-chip.tobias-chip.selected {
+            background: rgba(249, 115, 22, 0.15) !important;
+            border-color: var(--tobias-orange) !important;
+            color: #ffedd5 !important;
         }
 
         .chip-dot {
@@ -375,31 +419,64 @@
             box-shadow: 0 0 8px #ffffff;
         }
 
-        /* GoE Viewers Hub (Main Page) */
-        .goe-hub {
-            margin-bottom: 24px;
+        .stream-chip.selected.costream-chip .chip-dot {
+            background: var(--costream-amber);
+            box-shadow: 0 0 8px var(--costream-amber);
         }
 
+        .stream-chip.selected.tobias-chip .chip-dot {
+            background: var(--tobias-orange);
+            box-shadow: 0 0 8px var(--tobias-orange);
+        }
+
+        .costream-badge {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid var(--costream-amber);
+            color: var(--costream-amber);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .tobias-badge {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fdba74;
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* TAB VIEWS */
+        .tab-view {
+            margin-bottom: 28px;
+        }
+
+        /* 1. GOE VIEW HUB */
         .hero-goe-card {
             background: var(--card-bg);
             border: 2px solid var(--goe-red);
-            border-radius: 14px;
-            padding: 28px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 30px rgba(255, 24, 36, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 26px 30px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-glow-red), var(--shadow-card);
         }
 
         .hero-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
             gap: 12px;
         }
 
         .hero-title-group h2 {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--goe-red);
             letter-spacing: 1.5px;
@@ -407,7 +484,7 @@
         }
 
         .hero-total-viewers {
-            font-size: 68px;
+            font-size: 64px;
             font-weight: 900;
             color: #ffffff;
             line-height: 1;
@@ -418,7 +495,7 @@
             font-size: 13px;
             font-weight: 800;
             padding: 5px 12px;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             display: inline-block;
             background: rgba(255, 255, 255, 0.05);
             color: #a1a1aa;
@@ -427,7 +504,6 @@
         .momentum-up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
         .momentum-down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
 
-        /* GoE Breakdown Subcards */
         .goe-breakdown {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -440,10 +516,10 @@
         }
 
         .breakdown-box {
-            background: #141418;
-            border: 1px solid #27272a;
-            border-radius: 10px;
-            padding: 16px;
+            background: var(--card-bg-elevated);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -453,16 +529,17 @@
             font-size: 12px;
             font-weight: 800;
             text-transform: uppercase;
-            color: #a1a1aa;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
         .breakdown-val {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
             color: #ffffff;
+            margin-top: 2px;
         }
 
         .breakdown-pct {
@@ -483,10 +560,19 @@
         .goe-bar-yt { background: #ff0000; height: 100%; transition: width 0.4s; }
         .goe-bar-tw { background: #9146ff; height: 100%; transition: width 0.4s; }
 
-        /* Battle View Scoreboard */
-        .battle-view {
-            display: none;
-            margin-bottom: 24px;
+        /* 2. OFFICIAL DUEL & 3-CAMPS SCOREBOARD */
+        .category-header-banner {
+            background: var(--card-bg-elevated);
+            border-left: 4px solid var(--goe-red);
+            padding: 14px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+            border-left-width: 4px;
+        }
+
+        .category-header-banner.camps {
+            border-left-color: var(--costream-amber);
         }
 
         .scoreboard {
@@ -497,32 +583,74 @@
             margin-bottom: 20px;
         }
 
-        @media (max-width: 768px) {
-            .scoreboard { grid-template-columns: 1fr; }
+        .scoreboard.scoreboard-3camps {
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+        }
+
+        @media (max-width: 860px) {
+            .scoreboard, .scoreboard.scoreboard-3camps { grid-template-columns: 1fr; }
+            .vs-badge { margin: 6px auto; }
         }
 
         .team-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: var(--radius-lg);
+            padding: 24px 26px;
             border: 2px solid var(--goe-red);
-            position: relative;
-            box-shadow: 0 4px 25px rgba(255, 24, 36, 0.1);
+            box-shadow: 0 4px 25px rgba(255, 24, 36, 0.12);
+            transition: all 0.2s;
         }
 
-        .team-card.nerva { border-color: #3f3f46; box-shadow: none; }
-        .team-name { font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; color: var(--goe-red); }
-        .team-card.nerva .team-name { color: #a1a1aa; }
-        .team-score { font-size: 54px; font-weight: 900; line-height: 1; margin-bottom: 6px; color: #ffffff; }
-        .team-share { font-size: 14px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; }
+        .team-card.nerva {
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-card.camp {
+            border-color: var(--nerva-purple);
+            box-shadow: 0 4px 25px rgba(168, 85, 247, 0.15);
+        }
+
+        .team-card.tobias {
+            border-color: var(--tobias-orange);
+            box-shadow: 0 4px 25px rgba(249, 115, 22, 0.15);
+        }
+
+        .team-name {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: var(--goe-red);
+        }
+
+        .team-card.nerva .team-name { color: #f4f4f5; }
+        .team-card.camp .team-name { color: var(--nerva-light-purple); }
+        .team-card.tobias .team-name { color: var(--tobias-orange); }
+
+        .team-score {
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .team-share {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
 
         .vs-badge {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 900;
             background: #141418;
             color: #ffffff;
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -533,182 +661,169 @@
 
         .battle-bar-container {
             width: 100%;
-            height: 18px;
+            height: 16px;
             background: #141418;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
             display: flex;
-            margin-bottom: 20px;
-            border: 1px solid #27272a;
+            margin-bottom: 24px;
+            border: 1px solid var(--card-border);
         }
 
         .bar-segment-goe { height: 100%; background: var(--goe-red); transition: width 0.4s; }
-        .bar-segment-nerva { height: 100%; background: #3f3f46; transition: width 0.4s; }
-        .bar-segment-camp { height: 100%; background: #a855f7; transition: width 0.4s; }
-        .bar-segment-tobias { height: 100%; background: #f97316; transition: width 0.4s; }
+        .bar-segment-nerva { height: 100%; background: #ffffff; transition: width 0.4s; }
+        .bar-segment-camp { height: 100%; background: var(--nerva-purple); transition: width 0.4s; }
+        .bar-segment-tobias { height: 100%; background: var(--tobias-orange); transition: width 0.4s; }
 
-        .team-card.camp { border-color: #a855f7; box-shadow: 0 4px 25px rgba(168, 85, 247, 0.15); }
-        .team-card.camp .team-name { color: #c084fc; }
-
-        .team-card.tobias { border-color: #f97316; box-shadow: 0 4px 25px rgba(249, 115, 22, 0.15); }
-        .team-card.tobias .team-name { color: #f97316; }
-
-        .scoreboard.scoreboard-3camps {
-            grid-template-columns: 1fr auto 1fr auto 1fr;
-        }
-
-        @media (max-width: 960px) {
-            .scoreboard.scoreboard-3camps {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .tobias-chip.selected {
-            background: rgba(249, 115, 22, 0.15) !important;
-            border-color: #f97316 !important;
-            color: #ffedd5 !important;
-        }
-        .tobias-chip .chip-dot { background: #f97316 !important; box-shadow: 0 0 8px #f97316 !important; }
-        .tobias-badge {
-            background: rgba(249, 115, 22, 0.2);
-            color: #fdba74;
-            border: 1px solid rgba(249, 115, 22, 0.4);
-            border-radius: 4px;
-            padding: 2px 6px;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        /* Comparison Sub-tabs & Categories */
-        .comparison-tabs-wrapper {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .comp-tab-btn {
-            flex: 1;
-            min-width: 220px;
-            padding: 12px 18px;
-            border-radius: 8px;
-            background: #141418;
-            border: 1px solid #27272a;
-            color: #d4d4d8;
-            font-size: 13px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .comp-tab-btn:hover {
-            border-color: #52525b;
-            color: #ffffff;
-        }
-
-        .comp-tab-btn.active {
-            background: rgba(255, 24, 36, 0.12);
-            border-color: var(--goe-red);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(255, 24, 36, 0.25);
-        }
-
-        .comp-tab-btn.costream-active.active {
-            background: rgba(245, 158, 11, 0.12);
-            border-color: #f59e0b;
-            color: #fef3c7;
-            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
-        }
-
-        .comp-tab-btn.both-active.active {
-            background: rgba(168, 85, 247, 0.12);
-            border-color: #a855f7;
-            color: #f3e8ff;
-            box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
-        }
-
+        /* 3-CAMPS 5 MINI BREAKDOWN CARDS */
         .costream-breakdown-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
-            margin-top: 16px;
-            margin-bottom: 20px;
+            margin-top: 18px;
+            margin-bottom: 24px;
         }
 
         .costream-mini-card {
-            background: #141418;
-            border: 1px solid #27272a;
-            border-radius: 8px;
-            padding: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
             display: flex;
             flex-direction: column;
             gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .costream-mini-card:hover {
+            border-color: var(--card-border-hover);
+            transform: translateY(-2px);
         }
 
         .costream-mini-label {
             font-size: 11px;
-            color: #a1a1aa;
+            color: var(--text-muted);
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 6px;
+            text-transform: uppercase;
         }
 
         .costream-mini-val {
             font-size: 24px;
             font-weight: 900;
             color: #ffffff;
-            font-family: var(--font-display);
         }
 
         .costream-mini-sub {
             font-size: 11px;
-            color: #71717a;
+            color: var(--text-dim);
             margin-top: 2px;
         }
 
-        .comparison-category-banner {
-            background: #121216;
-            border-left: 4px solid var(--goe-red);
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 16px;
+        /* SOFT DIMMING (ZERO-DATA / INACTIVE TILES) */
+        .stream-item-dimmed {
+            opacity: 0.42;
+            filter: grayscale(0.7);
+            background: rgba(14, 14, 18, 0.4) !important;
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            box-shadow: none !important;
         }
 
-        .comparison-category-banner.costream {
-            border-left-color: #f59e0b;
+        .stream-item-dimmed:hover {
+            opacity: 1;
+            filter: none;
+            background: var(--card-bg) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-2px);
         }
 
-        /* Switch Battle Promo Banner */
-        .battle-banner {
-            background: #141418;
-            border: 1px dashed var(--goe-red);
-            border-radius: 8px;
-            padding: 14px 20px;
+        .mini-card-dimmed {
+            opacity: 0.42;
+            filter: grayscale(0.65);
+            border-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .mini-card-dimmed:hover {
+            opacity: 1;
+            filter: none;
+        }
+
+        /* CHARTS CONTAINER */
+        .chart-box {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 22px 24px;
+            border: 1px solid var(--card-border);
+            margin-top: 20px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .battle-banner:hover {
-            background: rgba(255, 24, 36, 0.08);
-            border-style: solid;
-        }
-
-        /* Streams Grid */
-        .streams-section {
-            margin-bottom: 24px;
-        }
-
-        .column-title {
+        .chart-title {
             font-size: 14px;
             font-weight: 800;
             color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 380px;
+            width: 100%;
+        }
+
+        .time-range-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .time-btn {
+            background: #141418;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 5px 11px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .time-btn:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        .time-btn.active {
+            background: var(--goe-red);
+            border-color: var(--goe-red);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(255, 24, 36, 0.3);
+        }
+
+        /* STREAMS LIST */
+        .streams-section {
+            margin-bottom: 28px;
+        }
+
+        .column-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-muted);
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -726,9 +841,9 @@
 
         .stream-item {
             background: var(--card-bg);
-            border-radius: 8px;
-            padding: 14px;
-            border: 1.5px solid #27272a;
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            border: 1px solid var(--card-border);
             display: flex;
             align-items: center;
             gap: 14px;
@@ -744,10 +859,10 @@
         }
 
         .avatar-box {
-            width: 52px;
-            height: 52px;
-            border-radius: 6px;
-            border: 2px solid var(--goe-red);
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--card-border);
             overflow: hidden;
             flex-shrink: 0;
             background: #18181b;
@@ -765,67 +880,17 @@
         .stream-viewers { font-size: 18px; font-weight: 900; color: #ffffff; flex-shrink: 0; }
         .stream-title { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* Chart container */
-        .chart-box {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid #27272a;
-            margin-top: 20px;
-            margin-bottom: 24px;
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 24px 0 12px 0;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-dim);
+            font-size: 13px;
         }
+        .roster-pipes { color: var(--text-muted); font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; font-size: 14px; }
 
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .chart-title { font-size: 14px; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
-
-        .chart-wrapper {
-            position: relative;
-            height: 350px;
-            width: 100%;
-        }
-
-        .time-range-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .time-btn {
-            background: #141418;
-            border: 1px solid #27272a;
-            color: #a1a1aa;
-            padding: 5px 11px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .time-btn:hover {
-            border-color: #52525b;
-            color: #ffffff;
-        }
-
-        .time-btn.active {
-            background: var(--goe-red);
-            border-color: var(--goe-red);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(255, 24, 36, 0.3);
-        }
-
-        footer { text-align: center; padding-top: 16px; border-top: 1px solid #27272a; color: #71717a; font-size: 13px; }
-        .roster-pipes { color: #d4d4d8; font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; font-size: 14px; }
-
+        /* TOAST NOTIFICATION */
         #toast {
             position: fixed;
             bottom: 24px;
@@ -833,16 +898,19 @@
             background: #18181b;
             color: white;
             padding: 12px 20px;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             border: 1px solid var(--goe-red);
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             display: none;
             z-index: 100;
+            font-size: 13px;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <header>
             <div class="header-title">
                 <div class="header-emblem">🎙️  |  WORLDS 2026</div>
@@ -852,9 +920,9 @@
             <div class="header-controls">
                 <div class="api-status-pill">
                     <span class="api-dot" id="api-dot"></span>
-                    <span id="api-label">GitHub Pages LIVE</span>
+                    <span id="api-label">LIVE</span>
                 </div>
-                <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁĄCZONY</button>
+                <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁ.</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
                     <option value="30" selected>Auto: 30s</option>
                     <option value="60">Auto: 60s</option>
@@ -863,81 +931,89 @@
                 </select>
                 <button class="btn-primary" onclick="loadData(true)">🔄 Odśwież</button>
                 <button class="btn-red" onclick="downloadLiveCard()">📸 Karta LIVE</button>
-                <button class="btn-summary" onclick="downloadSummaryCard('goe')">📊 Wykres GoE</button>
-                <button class="btn-summary" onclick="downloadSummaryCard('comparison')">⚖️ Wykres Porównania</button>
+                <button class="btn-summary" onclick="downloadSummaryCard('goe')">📊 GoE</button>
+                <button class="btn-summary" onclick="downloadSummaryCard('comparison')">⚖️ Starcie</button>
                 <button class="btn-primary" onclick="downloadCSV()">📥 CSV</button>
             </div>
         </header>
 
-        <!-- Bot Filter Informational Alert Banner -->
-        <div id="bot-alert-banner" style="background: rgba(14, 35, 20, 0.95); border: 1px solid #4ade80; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <!-- BOT ALERT BANNER (Shown for Day 1 bot spikes) -->
+        <div id="bot-alert-banner" style="display: none;">
             <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
                 <span style="font-size: 22px;">🛡️</span>
                 <div>
                     <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
                     <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                        Zneutralizowano 2 sztuczne fale viewbotów na YouTube (00:18–00:39 do 6.6k oraz 00:48–01:06 do 5.7k). Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong> o 23:33).
+                        Zneutralizowano 2 sztuczne fale viewbotów na YouTube. Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong>).
                     </div>
                 </div>
             </div>
             <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
         </div>
 
-        <!-- Day Selector Section (Multi-Day Navigation) -->
-        <div class="day-selector-section">
-            <div class="day-selector-header">
-                <span class="day-selector-title">🗓️ WYBIERZ DZIEŃ TRANSMISJI (WORLDS 2026):</span>
-                <span class="day-selector-sub" id="day-auto-switch-hint">Automatyczny reset o 12:00 UTC</span>
-            </div>
-            <div class="day-tabs" id="day-tabs-container">
-                <button class="day-tab" id="day-tab-day-1" onclick="switchDay('day-1')">
-                    <span class="day-indicator finished"></span>
-                    <span class="day-name">Dzień 1 (03.11)</span>
-                    <span class="day-tag">Zakończony</span>
-                </button>
-                <button class="day-tab active" id="day-tab-day-2" onclick="switchDay('day-2')">
-                    <span class="day-indicator live"></span>
-                    <span class="day-name">Dzień 2 (04.11)</span>
-                    <span class="day-tag active-pill">Dzisiejszy</span>
-                </button>
-            </div>
-        </div>
+        <!-- UNIFIED CONTROL DECK -->
+        <div class="control-deck">
+            <div class="deck-primary-row">
+                <div class="deck-left-cluster">
+                    <!-- Day Picker -->
+                    <div class="segmented-group" id="day-tabs-container">
+                        <button class="segmented-btn" id="day-tab-day-1" onclick="switchDay('day-1')">
+                            <span class="day-dot day-dot-finished"></span>
+                            <span>Dzień 1 (03.11)</span>
+                            <span class="day-pill-tag">Zakończony</span>
+                        </button>
+                        <button class="segmented-btn active" id="day-tab-day-2" onclick="switchDay('day-2')">
+                            <span class="day-dot day-dot-live"></span>
+                            <span>Dzień 2 (04.11)</span>
+                            <span class="day-pill-tag">Dzisiejszy</span>
+                        </button>
+                    </div>
 
-        <!-- Main View Mode Tabs -->
-        <div class="mode-tabs">
-            <button class="mode-tab active" id="tab-goe" onclick="switchMode('goe')">
-                🔴 Spis Widzów GoE
-            </button>
-            <button class="mode-tab" id="tab-battle" onclick="switchMode('battle')">
-                ⚔️ Oficjalny Pojedynek (2v2)
-            </button>
-            <button class="mode-tab" id="tab-costream" onclick="switchMode('costream')">
-                ⚡ Starcie Obozów (GoE / Nervarien / Tobiasz)
-            </button>
-        </div>
+                    <div class="deck-divider"></div>
 
-        <!-- Granular Stream Filter Bar (Allows selecting down to individual stream) -->
-        <div class="filter-section">
-            <div class="filter-header">
-                <div class="filter-title">🔍 Filtry transmisji (kliknij, aby wybrać pojedyncze streamy):</div>
-                <div class="preset-buttons">
+                    <!-- Mode Picker (Single Focus Views) -->
+                    <div class="segmented-group">
+                        <button class="segmented-btn mode-active-goe" id="tab-goe" onclick="switchMode('goe')">
+                            🔴 Spis GoE
+                        </button>
+                        <button class="segmented-btn" id="tab-battle" onclick="switchMode('battle')">
+                            ⚔️ Oficjalny Pojedynek (2v2)
+                        </button>
+                        <button class="segmented-btn" id="tab-costream" onclick="switchMode('costream')">
+                            ⚡ Starcie 3 Obozów
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Collapsible Filter Drawer Button -->
+                <button class="filter-toggle-btn" id="filter-toggle-btn" onclick="toggleFilterDrawer()">
+                    <span>🔍 Filtry kanałów</span>
+                    <span class="filter-count-badge" id="filter-count-badge">5/5</span>
+                    <span id="filter-chevron">▾</span>
+                </button>
+            </div>
+
+            <!-- Collapsible Drawer -->
+            <div class="filter-drawer-panel collapsed" id="filter-drawer">
+                <div class="drawer-presets-row">
+                    <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Presety:</span>
+                    <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f97316; color: #fdba74;">Wszystkie Obozy</button>
                     <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
                     <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek (2v2)</button>
-                    <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f97316; color: #f97316;">Wszystkie Obozy (+ Tobiasz)</button>
-                    <button class="preset-btn" onclick="applyPreset('tobias_only')" style="border-color: #f97316; color: #f97316;">Tylko Tobiasz</button>
+                    <button class="preset-btn" onclick="applyPreset('tobias_only')" style="border-color: #f97316; color: #fdba74;">Tylko Tobiasz</button>
                     <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
                     <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (oficjalne)</button>
                 </div>
+                <div class="stream-chips" id="stream-chips-container"></div>
             </div>
-            <div class="stream-chips" id="stream-chips-container"></div>
         </div>
 
-        <!-- Mode 1: GoE Viewers Hub (Default View) -->
-        <div id="view-goe" class="goe-hub">
+        <!-- VIEW 1: GOE VIEWERS HUB -->
+        <div id="view-goe" class="tab-view">
             <div class="hero-goe-card">
                 <div class="hero-header">
                     <div class="hero-title-group">
-                        <h2>WIDOWNIA CO-STREAM GOE (Kielecki Bunkier)</h2>
+                        <h2>Widownia Co-stream GoE (Kielecki Bunkier)</h2>
                         <div class="hero-total-viewers" id="goe-hero-total">--</div>
                     </div>
                     <div style="text-align: right;">
@@ -969,33 +1045,15 @@
                 </div>
             </div>
 
-            <!-- Switch to Comparison Mode Quick Banner -->
-            <div class="battle-banner" onclick="switchMode('battle')">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="font-size: 20px;">⚖️</span>
-                    <div>
-                        <div style="font-weight: 800; font-size: 14px; color: #ffffff;">Chcesz zobaczyć porównanie z Nervarienem?</div>
-                        <div style="font-size: 12px; color: #a1a1aa;">Zobacz aktualny bilans sił, różnicę i proporcje pomiędzy obozami.</div>
-                    </div>
-                </div>
-                <div style="font-weight: 800; color: var(--goe-red); font-size: 13px;">Zobacz Porównanie →</div>
-            </div>
-
-            <!-- Dedicated GoE Stream List -->
-            <div class="streams-section">
-                <div class="column-title">Transmisje GoE (Kielecki Bunkier)</div>
-                <div class="streams-grid" id="goe-streams-grid"></div>
-            </div>
-
-            <!-- DEDICATED CHART 1: GoE ONLY -->
+            <!-- DEDICATED CHART: GOE ONLY -->
             <div class="chart-box">
                 <div class="chart-header">
                     <div>
                         <div class="chart-title">📈 Przebieg widowni GoE w czasie (YouTube vs Twitch)</div>
-                        <div id="goe-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii GoE...</div>
+                        <div id="goe-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii GoE...</div>
                     </div>
                     <div class="time-range-group">
-                        <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
                         <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
                         <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
                         <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
@@ -1007,28 +1065,22 @@
                     <canvas id="goeChart"></canvas>
                 </div>
             </div>
+
+            <!-- Dedicated GoE Stream List -->
+            <div class="streams-section">
+                <div class="column-title">Transmisje GoE (Kielecki Bunkier)</div>
+                <div class="streams-grid" id="goe-streams-grid"></div>
+            </div>
         </div>
 
-        <!-- Mode 2 & 3: Battle / Comparison View -->
-        <div id="view-battle" class="battle-view">
-            <!-- Sub-tabs for Comparison Category -->
-            <div class="comparison-tabs-wrapper">
-                <button class="comp-tab-btn active" id="comp-subtab-official" onclick="switchComparisonSubmode('official')">
-                    ⚔️ 1. Oficjalny Pojedynek (Tylko oficjalne kanały)
-                </button>
-                <button class="comp-tab-btn costream-active" id="comp-subtab-costreams" onclick="switchComparisonSubmode('costreams')">
-                    ⚡ 2. Wszystkie Obozy (GoE / Nervarien / Tobiasz)
-                </button>
-                <button class="comp-tab-btn both-active" id="comp-subtab-both" onclick="switchComparisonSubmode('both')">
-                    📊 Pokaż Oba Zestawienia
-                </button>
-            </div>
-
-            <!-- SECTION 1: OFICJALNY POJEDYNEK (KANAŁY GŁÓWNE) -->
+        <!-- PARENT CONTAINER FOR COMPARISON MODES -->
+        <div id="view-battle" class="tab-view" style="display: none;">
+            
+            <!-- SUB-VIEW A: OFICJALNY POJEDYNEK 2 VS 2 -->
             <div id="sec-comp-official">
-                <div class="comparison-category-banner">
+                <div class="category-header-banner">
                     <div style="font-weight: 800; font-size: 13px; color: #ffffff;">⚔️ OFICJALNY POJEDYNEK 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
-                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
                 </div>
 
                 <div class="scoreboard">
@@ -1057,10 +1109,10 @@
                     <div class="chart-header">
                         <div>
                             <div class="chart-title">⚔️ Przebieg Pojedynku Oficjalnego: GoE vs Nervarien</div>
-                            <div id="comp-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii...</div>
+                            <div id="comp-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
                         </div>
                         <div class="time-range-group">
-                            <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                            <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
                             <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
                             <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
                             <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
@@ -1072,13 +1124,19 @@
                         <canvas id="comparisonChart"></canvas>
                     </div>
                 </div>
+
+                <!-- Official Channels Stream List -->
+                <div class="streams-section">
+                    <div class="column-title">Oficjalne Transmisje (GoE & Nervarien)</div>
+                    <div class="streams-grid" id="official-streams-grid"></div>
+                </div>
             </div>
 
-            <!-- SECTION 2: WSZYSTKIE OBOZY (GOE VS NERVARIEN VS TOBIASZ) -->
+            <!-- SUB-VIEW B: STARCIE 3 OBOZÓW -->
             <div id="sec-comp-costreams" style="display: none;">
-                <div class="comparison-category-banner costream">
-                    <div style="font-weight: 800; font-size: 13px; color: #f97316;">⚡ STARCIE WSZYSTKICH TRZECH OBOZÓW (GOE VS NERVARIEN VS TOBIASZ)</div>
-                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">Trzybiegunowe zestawienie transmisji: Obóz GoE (Bunkier), Obóz Nervariena (Oficjalny + Nerva Co-stream) oraz niezależny Obóz Tobiasza (ttobias_lol).</div>
+                <div class="category-header-banner camps">
+                    <div style="font-weight: 800; font-size: 13px; color: var(--tobias-orange);">⚡ STARCIE WSZYSTKICH TRZECH OBOZÓW (GOE VS NERVARIEN VS TOBIASZ)</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Trzybiegunowe zestawienie transmisji: Obóz GoE (Bunkier), Obóz Nervariena (Oficjalny + Nerva Co-stream) oraz niezależny Obóz Tobiasza (ttobias_lol).</div>
                 </div>
 
                 <div class="scoreboard scoreboard-3camps">
@@ -1090,12 +1148,12 @@
                     </div>
                     <div class="vs-badge">VS</div>
                     <div class="team-card camp">
-                        <div class="team-name" style="color: #c084fc;">OBÓZ NERVARIENA</div>
+                        <div class="team-name">OBÓZ NERVARIENA</div>
                         <div class="team-score" id="camp-nerva-score">--</div>
                         <div class="team-share" id="camp-nerva-share">--% widowni</div>
                         <div class="momentum-badge" id="camp-nerva-momentum">Trend: --</div>
                     </div>
-                    <div class="vs-badge" style="border-color: #f97316; color: #f97316;">VS</div>
+                    <div class="vs-badge" style="border-color: var(--tobias-orange); color: var(--tobias-orange);">VS</div>
                     <div class="team-card tobias">
                         <div class="team-name">OBÓZ TOBIASZA</div>
                         <div class="team-score" id="camp-tobias-score">--</div>
@@ -1112,27 +1170,27 @@
 
                 <!-- 5-element breakdown grid -->
                 <div class="costream-breakdown-grid">
-                    <div class="costream-mini-card" style="border-color: rgba(255, 24, 36, 0.4);">
+                    <div class="costream-mini-card" id="mini-card-goe" style="border-color: rgba(255, 24, 36, 0.4);">
                         <div class="costream-mini-label"><span class="live-dot" style="background: #ff1824;"></span> GoE Łącznie</div>
                         <div class="costream-mini-val" id="breakdown-val-goe">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-goe">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" style="border-color: rgba(255, 255, 255, 0.3);">
+                    <div class="costream-mini-card" id="mini-card-nerva-off" style="border-color: rgba(255, 255, 255, 0.3);">
                         <div class="costream-mini-label"><span class="live-dot" style="background: #ffffff;"></span> Nerva Oficjalnie</div>
                         <div class="costream-mini-val" id="breakdown-val-nerva-off">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-off">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" style="border-color: rgba(245, 158, 11, 0.4);">
+                    <div class="costream-mini-card" id="mini-card-nerva-costream" style="border-color: rgba(245, 158, 11, 0.4);">
                         <div class="costream-mini-label"><span class="live-dot" style="background: #f59e0b;"></span> Nerva Co-stream</div>
                         <div class="costream-mini-val" id="breakdown-val-nerva-costream">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-costream">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" style="border-color: rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.08);">
+                    <div class="costream-mini-card" id="mini-card-nerva-total" style="border-color: rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.08);">
                         <div class="costream-mini-label" style="color: #c084fc;"><span class="live-dot" style="background: #c084fc;"></span> Obóz Nervariena (Suma)</div>
                         <div class="costream-mini-val" style="color: #e9d5ff;" id="breakdown-val-nerva-total">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-total">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" style="border-color: rgba(249, 115, 22, 0.5); background: rgba(249, 115, 22, 0.08);">
+                    <div class="costream-mini-card" id="mini-card-tobias" style="border-color: rgba(249, 115, 22, 0.5); background: rgba(249, 115, 22, 0.08);">
                         <div class="costream-mini-label" style="color: #fb923c;"><span class="live-dot" style="background: #f97316;"></span> Obóz Tobiasza (Twitch)</div>
                         <div class="costream-mini-val" style="color: #ffedd5;" id="breakdown-val-tobias">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
@@ -1144,10 +1202,10 @@
                     <div class="chart-header">
                         <div>
                             <div class="chart-title">⚡ Przebieg Starcia Obozów w Czasie: GoE vs Nervarien vs Tobiasz</div>
-                            <div id="costream-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii...</div>
+                            <div id="costream-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
                         </div>
                         <div class="time-range-group">
-                            <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                            <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
                             <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
                             <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
                             <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
@@ -1159,15 +1217,17 @@
                         <canvas id="costreamComparisonChart"></canvas>
                     </div>
                 </div>
+
+                <!-- All Camps Streams Grid -->
+                <div class="streams-section">
+                    <div class="column-title">Transmisje wszystkich obozów (GoE, Nervarien & Tobiasz)</div>
+                    <div class="streams-grid" id="battle-streams-grid"></div>
+                </div>
             </div>
 
-            <!-- Comparison Streams Grid (Always visible under comparison) -->
-            <div class="streams-section" style="margin-top: 24px;">
-                <div class="column-title">Transmisje wszystkich obozów (GoE, Nervarien & Tobiasz)</div>
-                <div class="streams-grid" id="battle-streams-grid"></div>
-            </div>
         </div>
 
+        <!-- FOOTER -->
         <footer>
             <div class="roster-pipes">DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER</div>
             <div style="font-size: 16px; font-weight: 900; color: var(--goe-red); letter-spacing: 2px; margin: 8px 0 4px 0;">#bunkier</div>
@@ -1178,8 +1238,7 @@
     <div id="toast"></div>
 
     <script>
-        let currentMode = 'goe'; // 'goe', 'battle' (official), or 'costream'
-        let comparisonSubmode = 'official'; // 'official', 'costreams', 'both'
+        let currentMode = 'goe'; // 'goe', 'battle' (official), or 'costream' (camps)
         let currentTimeRange = 'all'; // '15m', '30m', '1h', '2h', 'all'
         let filterBots = true; // Bot attack filtering toggle
         let rawData = null;
@@ -1189,6 +1248,7 @@
         let goeChartInstance = null;
         let comparisonChartInstance = null;
         let costreamComparisonChartInstance = null;
+        let isFilterDrawerOpen = false;
 
         let currentDayId = (new Date().toISOString() >= '2026-11-04T12:00:00Z') ? 'day-2' : 'day-1';
         let ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw', 'ttobias_lol'];
@@ -1254,6 +1314,32 @@
             } else {
                 selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
             }
+            updateFilterBadgeCount();
+        }
+
+        function toggleFilterDrawer() {
+            isFilterDrawerOpen = !isFilterDrawerOpen;
+            const drawer = document.getElementById('filter-drawer');
+            const btn = document.getElementById('filter-toggle-btn');
+            const chev = document.getElementById('filter-chevron');
+            if (drawer) {
+                if (isFilterDrawerOpen) {
+                    drawer.classList.remove('collapsed');
+                    if (btn) btn.classList.add('active');
+                    if (chev) chev.innerText = '▴';
+                } else {
+                    drawer.classList.add('collapsed');
+                    if (btn) btn.classList.remove('active');
+                    if (chev) chev.innerText = '▾';
+                }
+            }
+        }
+
+        function updateFilterBadgeCount() {
+            const badge = document.getElementById('filter-count-badge');
+            if (badge) {
+                badge.innerText = `${selectedStreamIds.size}/${ALL_STREAM_IDS.length}`;
+            }
         }
 
         function toggleBotFilter() {
@@ -1261,42 +1347,46 @@
             const btn = document.getElementById('bot-filter-btn');
             const banner = document.getElementById('bot-alert-banner');
             if (filterBots) {
-                btn.innerHTML = '🛡️ Filtr botów: WŁĄCZONY';
+                btn.innerHTML = '🛡️ Filtr botów: WŁ.';
                 btn.style.borderColor = '#4ade80';
                 btn.style.color = '#4ade80';
-                banner.style.background = 'rgba(14, 35, 20, 0.95)';
-                banner.style.borderColor = '#4ade80';
-                banner.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-                        <span style="font-size: 22px;">🛡️</span>
-                        <div>
-                            <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
-                            <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                                Zneutralizowano 2 sztuczne fale viewbotów na YouTube (00:18–00:39 do 6.6k oraz 00:48–01:06 do 5.7k). Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong> o 23:33).
+                if (banner) {
+                    banner.style.background = 'rgba(14, 35, 20, 0.95)';
+                    banner.style.borderColor = '#4ade80';
+                    banner.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+                            <span style="font-size: 22px;">🛡️</span>
+                            <div>
+                                <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
+                                <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
+                                    Zneutralizowano 2 sztuczne fale viewbotów na YouTube. Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong>).
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
-                `;
+                        <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
+                    `;
+                }
                 showToast('Włączono filtr botów — dane oczyszczone');
             } else {
-                btn.innerHTML = '⚠️ Filtr botów: WYŁĄCZONY';
+                btn.innerHTML = '⚠️ Filtr botów: WYŁ.';
                 btn.style.borderColor = '#f87171';
                 btn.style.color = '#f87171';
-                banner.style.background = 'rgba(40, 16, 16, 0.95)';
-                banner.style.borderColor = '#f87171';
-                banner.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-                        <span style="font-size: 22px;">⚠️</span>
-                        <div>
-                            <strong style="color: #f87171; font-size: 14px;">Filtr ataków botowych: Wyłączony (Surowe dane)</strong>
-                            <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                                Prezentowane wykresy i statystyki zawierają sztuczne piki botów na kanale YouTube (Pik GoE ze skokami: <strong>6 857</strong> o 00:30).
+                if (banner) {
+                    banner.style.background = 'rgba(40, 16, 16, 0.95)';
+                    banner.style.borderColor = '#f87171';
+                    banner.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+                            <span style="font-size: 22px;">⚠️</span>
+                            <div>
+                                <strong style="color: #f87171; font-size: 14px;">Filtr ataków botowych: Wyłączony (Surowe dane)</strong>
+                                <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
+                                    Prezentowane wykresy i statystyki zawierają sztuczne piki botów na kanale YouTube (Pik GoE ze skokami: <strong>6 857</strong>).
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #f87171; color: #f87171; background: #141418; border-radius: 6px;">Włącz filtr botów</button>
-                `;
+                        <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #f87171; color: #f87171; background: #141418; border-radius: 6px;">Włącz filtr botów</button>
+                    `;
+                }
                 showToast('Wyłączono filtr — surowe dane ze skokami');
             }
             updateUI();
@@ -1306,19 +1396,19 @@
             const commonScales = {
                 x: {
                     ticks: { color: '#71717a', maxTicksLimit: 12, autoSkip: true, maxRotation: 0 },
-                    grid: { color: '#18181b' }
+                    grid: { color: 'rgba(255, 255, 255, 0.04)' }
                 },
                 y: {
                     ticks: {
                         color: '#71717a',
                         callback: function(val) { return val.toLocaleString('pl-PL'); }
                     },
-                    grid: { color: '#18181b' },
+                    grid: { color: 'rgba(255, 255, 255, 0.04)' },
                     beginAtZero: true
                 }
             };
             const commonTooltip = {
-                backgroundColor: '#141418',
+                backgroundColor: '#121216',
                 borderColor: '#ff1824',
                 borderWidth: 1,
                 titleColor: '#ffffff',
@@ -1380,72 +1470,54 @@
 
         function switchMode(mode) {
             currentMode = mode;
-            document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+            
+            // Clear mode button classes
+            ['tab-goe', 'tab-battle', 'tab-costream'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.remove('active', 'mode-active-goe', 'mode-active-battle', 'mode-active-camps');
+            });
 
-            if (mode === 'goe') {
-                document.getElementById('tab-goe').classList.add('active');
-                document.getElementById('view-goe').style.display = 'block';
-                document.getElementById('view-battle').style.display = 'none';
-                const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
-                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
-                setTimeout(() => { if (goeChartInstance) goeChartInstance.resize(); }, 50);
-            } else if (mode === 'battle') {
-                document.getElementById('tab-battle').classList.add('active');
-                document.getElementById('view-goe').style.display = 'none';
-                document.getElementById('view-battle').style.display = 'block';
-                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
-                switchComparisonSubmode('official', false);
-            } else if (mode === 'costream') {
-                document.getElementById('tab-costream').classList.add('active');
-                document.getElementById('view-goe').style.display = 'none';
-                document.getElementById('view-battle').style.display = 'block';
-                selectedStreamIds = new Set(ALL_STREAM_IDS);
-                switchComparisonSubmode('costreams', false);
-            }
-            renderFilterChips();
-            updateUI();
-        }
-
-        function switchComparisonSubmode(submode, updateTabs = true) {
-            comparisonSubmode = submode;
-            document.querySelectorAll('.comp-tab-btn').forEach(b => b.classList.remove('active'));
-
+            const viewGoe = document.getElementById('view-goe');
+            const viewBattle = document.getElementById('view-battle');
             const secOfficial = document.getElementById('sec-comp-official');
             const secCostreams = document.getElementById('sec-comp-costreams');
 
-            if (submode === 'official') {
-                document.getElementById('comp-subtab-official').classList.add('active');
+            if (mode === 'goe') {
+                const btn = document.getElementById('tab-goe');
+                if (btn) btn.classList.add('active', 'mode-active-goe');
+                viewGoe.style.display = 'block';
+                viewBattle.style.display = 'none';
+                secOfficial.style.display = 'none';
+                secCostreams.style.display = 'none';
+
+                const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
+                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
+                setTimeout(() => { if (goeChartInstance) goeChartInstance.resize(); }, 50);
+            } else if (mode === 'battle' || mode === 'official') {
+                const btn = document.getElementById('tab-battle');
+                if (btn) btn.classList.add('active', 'mode-active-battle');
+                viewGoe.style.display = 'none';
+                viewBattle.style.display = 'block';
                 secOfficial.style.display = 'block';
                 secCostreams.style.display = 'none';
+
+                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
                 setTimeout(() => { if (comparisonChartInstance) comparisonChartInstance.resize(); }, 50);
-            } else if (submode === 'costreams') {
-                document.getElementById('comp-subtab-costreams').classList.add('active');
+            } else if (mode === 'costream' || mode === 'camps') {
+                const btn = document.getElementById('tab-costream');
+                if (btn) btn.classList.add('active', 'mode-active-camps');
+                viewGoe.style.display = 'none';
+                viewBattle.style.display = 'block';
                 secOfficial.style.display = 'none';
                 secCostreams.style.display = 'block';
+
+                selectedStreamIds = new Set(ALL_STREAM_IDS);
                 setTimeout(() => { if (costreamComparisonChartInstance) costreamComparisonChartInstance.resize(); }, 50);
-            } else if (submode === 'both') {
-                document.getElementById('comp-subtab-both').classList.add('active');
-                secOfficial.style.display = 'block';
-                secCostreams.style.display = 'block';
-                setTimeout(() => {
-                    if (comparisonChartInstance) comparisonChartInstance.resize();
-                    if (costreamComparisonChartInstance) costreamComparisonChartInstance.resize();
-                }, 50);
             }
 
-            if (updateTabs) {
-                document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
-                if (submode === 'official') {
-                    document.getElementById('tab-battle').classList.add('active');
-                    currentMode = 'battle';
-                } else if (submode === 'costreams') {
-                    document.getElementById('tab-costream').classList.add('active');
-                    currentMode = 'costream';
-                } else {
-                    document.getElementById('tab-battle').classList.add('active');
-                    currentMode = 'battle';
-                }
-            }
+            renderFilterChips();
+            updateFilterBadgeCount();
+            updateUI();
         }
 
         function applyPreset(preset) {
@@ -1456,7 +1528,7 @@
             } else if (preset === 'all') {
                 selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
-            } else if (preset === 'all_plus_costream' || preset === 'all_plus_curiosity' || preset === 'all_camps') {
+            } else if (preset === 'all_plus_costream' || preset === 'all_camps') {
                 selectedStreamIds = new Set(ALL_STREAM_IDS);
                 if (currentMode !== 'costream') switchMode('costream');
             } else if (preset === 'tobias_only') {
@@ -1470,6 +1542,7 @@
                 selectedStreamIds = new Set(ytIds);
             }
             renderFilterChips();
+            updateFilterBadgeCount();
             updateUI();
         }
 
@@ -1485,6 +1558,7 @@
                 selectedStreamIds.add(streamId);
             }
             renderFilterChips();
+            updateFilterBadgeCount();
             updateUI();
         }
 
@@ -1642,6 +1716,12 @@
             const campNervaPct = allThreeTot > 0 ? (liveNervaCampTot / allThreeTot * 100).toFixed(1) : 33.3;
             const campTobiasPct = allThreeTot > 0 ? (liveTobiasTot / allThreeTot * 100).toFixed(1) : 33.4;
 
+            const miniGoe = document.getElementById('mini-card-goe');
+            const miniNervaOff = document.getElementById('mini-card-nerva-off');
+            const miniNervaCostream = document.getElementById('mini-card-nerva-costream');
+            const miniNervaTot = document.getElementById('mini-card-nerva-total');
+            const miniTobias = document.getElementById('mini-card-tobias');
+
             if (isLive) {
                 document.getElementById('camp-goe-score').innerText = liveGoeTot.toLocaleString('pl-PL');
                 document.getElementById('camp-goe-share').innerText = `${campGoePct}% widowni (${liveGoeTot.toLocaleString('pl-PL')})`;
@@ -1665,6 +1745,10 @@
                 document.getElementById('breakdown-sub-nerva-total').innerText = 'Obóz Nervariena (Suma)';
                 document.getElementById('breakdown-val-tobias').innerText = liveTobiasTot.toLocaleString('pl-PL');
                 document.getElementById('breakdown-sub-tobias').innerText = 'Obóz Tobiasza (Twitch)';
+
+                // Soft Dimming for 0 viewer co-stream tiles
+                if (miniNervaCostream) miniNervaCostream.classList.toggle('mini-card-dimmed', liveNervaCostream === 0);
+                if (miniTobias) miniTobias.classList.toggle('mini-card-dimmed', liveTobiasTot === 0);
             } else if (hasDataHistory) {
                 const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
                 const nCampPk = st.nerva_camp_peak || (st.nerva_peak + (st.nerva_costream_peak || 0));
@@ -1690,12 +1774,18 @@
                 document.getElementById('breakdown-sub-goe').innerText = `Średnia: ${st.goe_avg.toLocaleString('pl-PL')}`;
                 document.getElementById('breakdown-val-nerva-off').innerText = `${st.nerva_peak.toLocaleString('pl-PL')} pik`;
                 document.getElementById('breakdown-sub-nerva-off').innerText = `Średnia: ${st.nerva_avg.toLocaleString('pl-PL')}`;
-                document.getElementById('breakdown-val-nerva-costream').innerText = `${(st.nerva_costream_peak || 0).toLocaleString('pl-PL')} pik`;
+                
+                const nCostreamPk = st.nerva_costream_peak || 0;
+                document.getElementById('breakdown-val-nerva-costream').innerText = `${nCostreamPk.toLocaleString('pl-PL')} pik`;
                 document.getElementById('breakdown-sub-nerva-costream').innerText = `Średnia: ${(st.nerva_costream_avg || 0).toLocaleString('pl-PL')}`;
+                if (miniNervaCostream) miniNervaCostream.classList.toggle('mini-card-dimmed', nCostreamPk === 0);
+
                 document.getElementById('breakdown-val-nerva-total').innerText = `${nCampPk.toLocaleString('pl-PL')} pik`;
                 document.getElementById('breakdown-sub-nerva-total').innerText = `Średnia: ${(st.nerva_camp_avg || 0).toLocaleString('pl-PL')}`;
+
                 document.getElementById('breakdown-val-tobias').innerText = `${tobiasPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-tobias').innerText = `Średnia: ${(st.tobias_avg || st.tobias_costream_avg || 0).toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-sub-tobias').innerText = (tobiasPk > 0) ? `Średnia: ${(st.tobias_avg || st.tobias_costream_avg || 0).toLocaleString('pl-PL')}` : 'Brak transmisji w tym dniu';
+                if (miniTobias) miniTobias.classList.toggle('mini-card-dimmed', tobiasPk === 0);
             } else {
                 document.getElementById('camp-goe-score').innerText = '--';
                 document.getElementById('camp-goe-share').innerText = 'Oczekiwanie na start';
@@ -1718,6 +1808,9 @@
                 document.getElementById('breakdown-sub-nerva-total').innerText = 'Brak danych';
                 document.getElementById('breakdown-val-tobias').innerText = '--';
                 document.getElementById('breakdown-sub-tobias').innerText = 'Brak danych';
+
+                if (miniNervaCostream) miniNervaCostream.classList.add('mini-card-dimmed');
+                if (miniTobias) miniTobias.classList.add('mini-card-dimmed');
             }
 
             // --- 4. RENDER STREAM CARDS GRID ---
@@ -1764,10 +1857,22 @@
         function renderStreamsGrids() {
             if (!rawData || !rawData.groups) return;
             const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
+            
+            // GoE Streams
             const goeStreams = allStreams.filter(s => s.group === 'GOE');
             const goeVisible = goeStreams.filter(s => selectedStreamIds.has(s.id));
             renderCardList(document.getElementById('goe-streams-grid'), goeVisible.length > 0 ? goeVisible : goeStreams);
 
+            // Official 2v2 Streams (GoE official + Nervarien official)
+            const officialStreams = allStreams.filter(s => {
+                const isTobias = s.id === 'ttobias_lol' || s.group === 'TOBIASZ';
+                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U');
+                return !isTobias && !isCostream;
+            });
+            const officialVisible = officialStreams.filter(s => selectedStreamIds.has(s.id));
+            renderCardList(document.getElementById('official-streams-grid'), officialVisible.length > 0 ? officialVisible : officialStreams);
+
+            // All Streams (3 Camps)
             const battleVisible = allStreams.filter(s => selectedStreamIds.has(s.id));
             renderCardList(document.getElementById('battle-streams-grid'), battleVisible.length > 0 ? battleVisible : allStreams);
         }
@@ -1775,14 +1880,26 @@
         function renderCardList(grid, streams) {
             if (!grid) return;
             grid.innerHTML = '';
-            streams.forEach(st => {
+
+            // Sort: Live streams first, offline/0 viewers at the end
+            const sorted = [...streams].sort((a, b) => {
+                const aLive = a.is_live && a.viewers > 0;
+                const bLive = b.is_live && b.viewers > 0;
+                if (aLive && !bLive) return -1;
+                if (!aLive && bLive) return 1;
+                return (b.viewers || 0) - (a.viewers || 0);
+            });
+
+            sorted.forEach(st => {
                 const isTwitch = st.platform === 'Twitch';
                 const badgeClass = isTwitch ? 'badge-twitch' : 'badge-yt';
-                const dotClass = st.is_live ? 'live-dot' : 'offline-dot';
-                const viewersText = st.is_live ? `${st.viewers.toLocaleString('pl-PL')} widzów` : 'OFFLINE';
+                const isLiveNow = st.is_live && st.viewers > 0;
+                const dotClass = isLiveNow ? 'live-dot' : 'offline-dot';
+                const viewersText = isLiveNow ? `${st.viewers.toLocaleString('pl-PL')} widzów` : 'OFFLINE';
                 const avatarSrc = st.avatar_url || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517eb-aca7-43f8-963e-aca743f8963e-profile_image-150x150.png';
                 const isTobias = st.id === 'ttobias_lol' || st.group === 'TOBIASZ';
                 const isCostream = !isTobias && !!(st.is_costream || st.is_curiosity || st.id === 'woX6jXefVdw' || st.id === 'N3i_DQlKL_U');
+                const isDimmed = !isLiveNow;
                 
                 let costreamTag = '';
                 if (isTobias) {
@@ -1792,7 +1909,7 @@
                 }
 
                 const a = document.createElement('a');
-                a.className = 'stream-item';
+                a.className = `stream-item ${isDimmed ? 'stream-item-dimmed' : ''}`;
                 a.href = st.url;
                 a.target = '_blank';
                 a.innerHTML = `
@@ -1816,6 +1933,7 @@
             });
         }
 
+        /* --- CHART DATASET FILTERING & REACTIVITY --- */
         function updateChartSeries() {
             if (!detailedHistory || detailedHistory.length === 0) {
                 if (goeChartInstance) {
@@ -1838,68 +1956,75 @@
 
             const labels = detailedHistory.map(pt => pt.timestamp.split(' ')[1] || pt.timestamp);
 
-            // --- 1. UPDATE GOE DEDICATED CHART (ONLY GOE) ---
+            // Group identification
+            const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
+            const nervaOffIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'NERVA' && !STREAM_METADATA[id].is_costream && !STREAM_METADATA[id].is_curiosity);
+            const nervaCostreamIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && (STREAM_METADATA[id].is_costream || STREAM_METADATA[id].is_curiosity));
+            const tobiasIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && (STREAM_METADATA[id].group === 'TOBIASZ' || STREAM_METADATA[id].is_tobias || id === 'ttobias_lol'));
+
+            const selectedGoeIds = goeIds.filter(id => selectedStreamIds.has(id));
+            const selectedNervaOffIds = nervaOffIds.filter(id => selectedStreamIds.has(id));
+            const selectedCostreamIds = nervaCostreamIds.filter(id => selectedStreamIds.has(id));
+            const selectedTobiasIds = tobiasIds.filter(id => selectedStreamIds.has(id));
+
+            // --- 1. GOE CHART (ONLY GOE) ---
             if (goeChartInstance) {
                 const goeDatasets = [];
-                const goeYtId = ALL_STREAM_IDS.find(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE' && STREAM_METADATA[id].platform === 'YouTube') || 'I2E60nEUXWo';
+                const goeYtId = goeIds.find(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'YouTube');
                 const goeTwId = 'goe_stream';
-                const hasYt = selectedStreamIds.has(goeYtId);
+                const hasYt = goeYtId && selectedStreamIds.has(goeYtId);
                 const hasTw = selectedStreamIds.has(goeTwId);
 
-                const totalGoeData = detailedHistory.map(pt => {
-                    const yt_s = pt.streams && pt.streams[goeYtId];
-                    const tw_s = pt.streams && pt.streams[goeTwId];
-                    const yt_v = yt_s ? (filterBots ? (yt_s.viewers || 0) : (yt_s.viewers_raw || yt_s.viewers || 0)) : 0;
-                    const tw_v = tw_s ? (tw_s.viewers || 0) : 0;
+                if (selectedGoeIds.length > 0) {
+                    const totalGoeData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedGoeIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) {
+                                sum += filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
+                            }
+                        });
+                        return sum;
+                    });
 
-                    if (hasYt && hasTw) {
-                        return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total || (yt_v + tw_v));
-                    } else if (hasYt) {
-                        return yt_v;
-                    } else if (hasTw) {
-                        return tw_v;
+                    goeDatasets.push({
+                        label: filterBots ? 'GoE Łącznie (Organiczne)' : 'GoE Łącznie (Z botami)',
+                        data: totalGoeData,
+                        borderColor: '#ff1824',
+                        backgroundColor: 'rgba(255, 24, 36, 0.15)',
+                        tension: 0.25,
+                        fill: true,
+                        borderWidth: 3,
+                        pointRadius: labels.length > 60 ? 0 : 3
+                    });
+
+                    if (hasYt && (hasTw || selectedGoeIds.length > 1)) {
+                        const ytMeta = STREAM_METADATA[goeYtId] || { name: 'YouTube' };
+                        goeDatasets.push({
+                            label: filterBots ? `YouTube (${ytMeta.name} - Oczyszczone)` : `YouTube (${ytMeta.name} - Z botami)`,
+                            data: detailedHistory.map(pt => {
+                                const s = pt.streams && pt.streams[goeYtId];
+                                return s ? (filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0)) : 0;
+                            }),
+                            borderColor: '#ef4444',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            fill: false,
+                            pointRadius: labels.length > 60 ? 0 : 2
+                        });
                     }
-                    return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total || (yt_v + tw_v));
-                });
 
-                goeDatasets.push({
-                    label: filterBots ? 'GoE Łącznie (Organiczne)' : 'GoE Łącznie (Z botami)',
-                    data: totalGoeData,
-                    borderColor: '#ff1824',
-                    backgroundColor: 'rgba(255, 24, 36, 0.15)',
-                    tension: 0.25,
-                    fill: true,
-                    borderWidth: 3,
-                    pointRadius: labels.length > 60 ? 0 : 3
-                });
-
-                if (goeYtId && (hasYt || (!hasYt && !hasTw))) {
-                    const ytMeta = STREAM_METADATA[goeYtId] || { name: 'YouTube' };
-                    goeDatasets.push({
-                        label: filterBots ? `YouTube (${ytMeta.name} - Oczyszczone)` : `YouTube (${ytMeta.name} - Z botami)`,
-                        data: detailedHistory.map(pt => {
-                            const s = pt.streams && pt.streams[goeYtId];
-                            if (!s) return 0;
-                            return filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
-                        }),
-                        borderColor: '#ef4444',
-                        borderDash: [5, 5],
-                        borderWidth: 2,
-                        fill: false,
-                        pointRadius: labels.length > 60 ? 0 : 2
-                    });
-                }
-
-                if (hasTw || (!hasYt && !hasTw)) {
-                    goeDatasets.push({
-                        label: 'Twitch (GoE_stream)',
-                        data: detailedHistory.map(pt => (pt.streams && pt.streams[goeTwId]) ? (pt.streams[goeTwId].viewers || 0) : 0),
-                        borderColor: '#9146ff',
-                        borderDash: [3, 3],
-                        borderWidth: 2,
-                        fill: false,
-                        pointRadius: labels.length > 60 ? 0 : 2
-                    });
+                    if (hasTw && (hasYt || selectedGoeIds.length > 1)) {
+                        goeDatasets.push({
+                            label: 'Twitch (GoE_stream)',
+                            data: detailedHistory.map(pt => (pt.streams && pt.streams[goeTwId]) ? (pt.streams[goeTwId].viewers || 0) : 0),
+                            borderColor: '#9146ff',
+                            borderDash: [3, 3],
+                            borderWidth: 2,
+                            fill: false,
+                            pointRadius: labels.length > 60 ? 0 : 2
+                        });
+                    }
                 }
 
                 goeChartInstance.data.labels = labels;
@@ -1907,120 +2032,169 @@
                 goeChartInstance.update();
             }
 
-            // --- 2. UPDATE CHART: OFICJALNY POJEDYNEK (2 VS 2) ---
+            // --- 2. OFFICIAL 2v2 DUEL CHART ---
             if (comparisonChartInstance) {
                 const compDatasets = [];
 
-                const goeOfficialData = detailedHistory.map(pt => filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total));
-                const nervaOfficialData = detailedHistory.map(pt => pt.nerva_total);
+                if (selectedGoeIds.length > 0) {
+                    const goeData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedGoeIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
+                        });
+                        return sum;
+                    });
+                    compDatasets.push({
+                        label: filterBots ? 'GOE (Kielecki Bunkier - Organiczne)' : 'GOE (Kielecki Bunkier - Z botami)',
+                        data: goeData,
+                        borderColor: '#ff1824',
+                        backgroundColor: 'rgba(255, 24, 36, 0.15)',
+                        tension: 0.25,
+                        fill: true,
+                        borderWidth: 3,
+                        pointRadius: labels.length > 60 ? 0 : 3
+                    });
+                }
 
-                compDatasets.push({
-                    label: filterBots ? 'GOE (Kielecki Bunkier - Organiczne)' : 'GOE (Kielecki Bunkier - Z botami)',
-                    data: goeOfficialData,
-                    borderColor: '#ff1824',
-                    backgroundColor: 'rgba(255, 24, 36, 0.15)',
-                    tension: 0.25,
-                    fill: true,
-                    borderWidth: 3,
-                    pointRadius: labels.length > 60 ? 0 : 3
-                });
-
-                compDatasets.push({
-                    label: 'NERVARIEN (Oficjalnie łącznie)',
-                    data: nervaOfficialData,
-                    borderColor: '#ffffff',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    tension: 0.25,
-                    fill: true,
-                    borderWidth: 2.5,
-                    pointRadius: labels.length > 60 ? 0 : 3
-                });
+                if (selectedNervaOffIds.length > 0) {
+                    const nervaOffData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedNervaOffIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += (s.viewers || 0);
+                        });
+                        return sum;
+                    });
+                    compDatasets.push({
+                        label: 'NERVARIEN (Oficjalnie łącznie)',
+                        data: nervaOffData,
+                        borderColor: '#ffffff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        tension: 0.25,
+                        fill: true,
+                        borderWidth: 2.5,
+                        pointRadius: labels.length > 60 ? 0 : 3
+                    });
+                }
 
                 comparisonChartInstance.data.labels = labels;
                 comparisonChartInstance.data.datasets = compDatasets;
                 comparisonChartInstance.update();
             }
 
-            // --- 3. UPDATE CHART: WSZYSTKIE OBOZY (GOE VS NERVARIEN VS TOBIASZ) ---
+            // --- 3. 3-CAMPS BATTLE MULTI-SERIES CHART ---
             if (costreamComparisonChartInstance) {
                 const costreamDatasets = [];
 
-                const goeData = detailedHistory.map(pt => filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total));
-                const nervaOffData = detailedHistory.map(pt => pt.nerva_total);
-
-                const nervaCostreamData = detailedHistory.map(pt => {
-                    const streams = pt.streams || {};
-                    let v = 0;
-                    ['woX6jXefVdw', 'N3i_DQlKL_U'].forEach(vid => {
-                        if (streams[vid]) v = streams[vid].viewers || 0;
+                // GoE Camp Line
+                if (selectedGoeIds.length > 0) {
+                    const goeData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedGoeIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
+                        });
+                        return sum;
                     });
-                    return v;
-                });
+                    costreamDatasets.push({
+                        label: filterBots ? '🔴 GOE (Kielecki Bunkier)' : '🔴 GOE (Z botami)',
+                        data: goeData,
+                        borderColor: '#ff1824',
+                        backgroundColor: 'rgba(255, 24, 36, 0.12)',
+                        tension: 0.25,
+                        fill: true,
+                        borderWidth: 3,
+                        pointRadius: labels.length > 60 ? 0 : 3
+                    });
+                }
 
-                // Obóz Nervariena (Oficjalny + Nerva Co-stream) - BEZ TOBIASZA!
-                const nervaCampTotalData = detailedHistory.map((pt, i) => {
-                    return (nervaOffData[i] || 0) + (nervaCostreamData[i] || 0);
-                });
+                // Nervarien Official Line
+                if (selectedNervaOffIds.length > 0) {
+                    const nervaOffData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedNervaOffIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += (s.viewers || 0);
+                        });
+                        return sum;
+                    });
+                    costreamDatasets.push({
+                        label: '⚪ NERVARIEN (Oficjalny)',
+                        data: nervaOffData,
+                        borderColor: '#ffffff',
+                        tension: 0.25,
+                        fill: false,
+                        borderWidth: 2,
+                        pointRadius: labels.length > 60 ? 0 : 2
+                    });
+                }
 
-                // Obóz Tobiasza (OSOBNY OBÓZ)
-                const tobiasData = detailedHistory.map(pt => {
-                    const streams = pt.streams || {};
-                    return streams['ttobias_lol'] ? (streams['ttobias_lol'].viewers || 0) : 0;
-                });
+                // Nerva Co-stream Line
+                if (selectedCostreamIds.length > 0) {
+                    const costreamData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedCostreamIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += (s.viewers || 0);
+                        });
+                        return sum;
+                    });
+                    costreamDatasets.push({
+                        label: '💡 Nerva Co-stream',
+                        data: costreamData,
+                        borderColor: '#f59e0b',
+                        borderDash: [5, 5],
+                        tension: 0.25,
+                        fill: false,
+                        borderWidth: 2,
+                        pointRadius: labels.length > 60 ? 0 : 2
+                    });
+                }
 
-                costreamDatasets.push({
-                    label: filterBots ? '🔴 GOE (Kielecki Bunkier)' : '🔴 GOE (Z botami)',
-                    data: goeData,
-                    borderColor: '#ff1824',
-                    backgroundColor: 'rgba(255, 24, 36, 0.12)',
-                    tension: 0.25,
-                    fill: true,
-                    borderWidth: 3,
-                    pointRadius: labels.length > 60 ? 0 : 3
-                });
+                // Nervarien Camp Total (Shown when both official and co-stream channels are selected)
+                if (selectedNervaOffIds.length > 0 && selectedCostreamIds.length > 0) {
+                    const nervaCampTotalData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        [...selectedNervaOffIds, ...selectedCostreamIds].forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += (s.viewers || 0);
+                        });
+                        return sum;
+                    });
+                    costreamDatasets.push({
+                        label: '🟣 OBÓZ NERVARIENA (ŁĄCZNIE)',
+                        data: nervaCampTotalData,
+                        borderColor: '#c084fc',
+                        backgroundColor: 'rgba(192, 132, 252, 0.08)',
+                        tension: 0.25,
+                        fill: true,
+                        borderWidth: 2.5,
+                        pointRadius: labels.length > 60 ? 0 : 3
+                    });
+                }
 
-                costreamDatasets.push({
-                    label: '⚪ NERVARIEN (Oficjalny)',
-                    data: nervaOffData,
-                    borderColor: '#ffffff',
-                    tension: 0.25,
-                    fill: false,
-                    borderWidth: 2,
-                    pointRadius: labels.length > 60 ? 0 : 2
-                });
-
-                costreamDatasets.push({
-                    label: '💡 Nerva Co-stream',
-                    data: nervaCostreamData,
-                    borderColor: '#f59e0b',
-                    borderDash: [5, 5],
-                    tension: 0.25,
-                    fill: false,
-                    borderWidth: 2,
-                    pointRadius: labels.length > 60 ? 0 : 2
-                });
-
-                costreamDatasets.push({
-                    label: '🟣 OBÓZ NERVARIENA (ŁĄCZNIE)',
-                    data: nervaCampTotalData,
-                    borderColor: '#c084fc',
-                    backgroundColor: 'rgba(192, 132, 252, 0.08)',
-                    tension: 0.25,
-                    fill: true,
-                    borderWidth: 2.5,
-                    pointRadius: labels.length > 60 ? 0 : 3
-                });
-
-                costreamDatasets.push({
-                    label: '🟠 OBÓZ TOBIASZA (ttobias_lol)',
-                    data: tobiasData,
-                    borderColor: '#f97316',
-                    backgroundColor: 'rgba(249, 115, 22, 0.08)',
-                    tension: 0.25,
-                    fill: true,
-                    borderWidth: 3,
-                    pointRadius: labels.length > 60 ? 0 : 3
-                });
+                // Tobiasz Camp Line (Independent Camp)
+                if (selectedTobiasIds.length > 0) {
+                    const tobiasData = detailedHistory.map(pt => {
+                        let sum = 0;
+                        selectedTobiasIds.forEach(id => {
+                            const s = pt.streams && pt.streams[id];
+                            if (s) sum += (s.viewers || 0);
+                        });
+                        return sum;
+                    });
+                    costreamDatasets.push({
+                        label: '🟠 OBÓZ TOBIASZA (ttobias_lol)',
+                        data: tobiasData,
+                        borderColor: '#f97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.08)',
+                        tension: 0.25,
+                        fill: true,
+                        borderWidth: 3,
+                        pointRadius: labels.length > 60 ? 0 : 3
+                    });
+                }
 
                 costreamComparisonChartInstance.data.labels = labels;
                 costreamComparisonChartInstance.data.datasets = costreamDatasets;
@@ -2104,7 +2278,7 @@
         }
 
         function updateDayTabsUI() {
-            document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#day-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
             const btn = document.getElementById(`day-tab-${currentDayId}`);
             if (btn) btn.classList.add('active');
         }
@@ -2119,17 +2293,16 @@
                 const isCurrent = d.id === currentDayId;
                 const btn = document.createElement('button');
                 btn.id = `day-tab-${d.id}`;
-                btn.className = `day-tab ${isCurrent ? 'active' : ''}`;
+                btn.className = `segmented-btn ${isCurrent ? 'active' : ''}`;
                 btn.onclick = () => switchDay(d.id);
 
-                const statusClass = d.is_finished ? 'finished' : 'live';
-                const tagText = d.is_finished ? 'Zakończony' : (d.is_active ? 'Aktywny' : 'Dzisiejszy');
-                const tagClass = !d.is_finished ? 'active-pill' : '';
+                const statusClass = d.is_finished ? 'day-dot-finished' : 'day-dot-live';
+                const tagText = d.is_finished ? 'Zakończony' : (d.is_active ? 'Na żywo' : 'Dzisiejszy');
 
                 btn.innerHTML = `
-                    <span class="day-indicator ${statusClass}"></span>
-                    <span class="day-name">${d.name}</span>
-                    <span class="day-tag ${tagClass}">${tagText}</span>
+                    <span class="day-dot ${statusClass}"></span>
+                    <span>${d.name}</span>
+                    <span class="day-pill-tag">${tagText}</span>
                 `;
                 container.appendChild(btn);
             });
@@ -2137,7 +2310,7 @@
 
         async function loadDayData(dayId) {
             try {
-                // Clear state immediately to prevent stale chart memory from previous day
+                // Clear state immediately to avoid ghosting
                 fullHistory = [];
                 detailedHistory = [];
 
@@ -2186,11 +2359,11 @@
                 const timeStr = rawData ? rawData.timestamp : '';
                 document.getElementById('last-updated').innerText = `${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
                 document.getElementById('api-dot').style.background = '#4ade80';
-                document.getElementById('api-label').innerText = 'GitHub Pages LIVE';
+                document.getElementById('api-label').innerText = 'LIVE';
             } catch (err) {
                 console.error("Load day data error:", err);
                 document.getElementById('api-dot').style.background = '#f59e0b';
-                document.getElementById('api-label').innerText = 'Błąd wczytywania';
+                document.getElementById('api-label').innerText = 'Błąd';
             }
         }
 
