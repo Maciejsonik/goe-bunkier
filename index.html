@@ -1128,6 +1128,265 @@
             font-size: 13px;
             font-weight: 800;
         }
+    
+        /* COLLAPSIBLE TWITCH LIVE PLAYER */
+        .twitch-player-panel {
+            background: #0c0c10;
+            border: 1px solid rgba(145, 70, 255, 0.4);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(145, 70, 255, 0.15), var(--shadow-card);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .twitch-player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: #121218;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .player-channel-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .player-chan-btn {
+            background: #181820;
+            color: var(--text-dim);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .player-chan-btn.active {
+            background: #9146ff;
+            color: #ffffff;
+            border-color: #9146ff;
+            box-shadow: 0 0 10px rgba(145, 70, 255, 0.4);
+        }
+
+        .player-chan-btn:hover:not(.active) {
+            background: #242430;
+            color: #ffffff;
+        }
+
+        .player-link-btn {
+            background: transparent;
+            color: #c084fc;
+            border: 1px solid rgba(145, 70, 255, 0.4);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .player-link-btn:hover {
+            background: rgba(145, 70, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .player-close-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .player-close-btn:hover {
+            background: rgba(255, 0, 51, 0.15);
+            color: #ff0033;
+            border-color: #ff0033;
+        }
+
+        .twitch-iframe-holder {
+            position: relative;
+            width: 100%;
+            background: #000000;
+        }
+
+        .btn-twitch-live {
+            border-color: #9146ff !important;
+            color: #c084fc !important;
+        }
+
+        .btn-twitch-live:hover, .btn-twitch-live.active {
+            background: rgba(145, 70, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-color: #9146ff !important;
+            box-shadow: 0 0 12px rgba(145, 70, 255, 0.35) !important;
+        }
+
+        /* GOE CONTEXTUAL DUEL BANNER */
+        .goe-context-banner {
+            margin-top: 18px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+        }
+
+        .context-banner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .context-label {
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .context-score {
+            color: var(--text-dim);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* 9 CHANNELS MASTER GRID */
+        .channels-master-section {
+            margin-top: 24px;
+            margin-bottom: 32px;
+        }
+
+        .channels-master-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .channel-master-card {
+            background: #0d0d12;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .channel-master-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .channel-master-card.active {
+            border-color: var(--series-color, #ff0033);
+            box-shadow: 0 0 16px rgba(255, 0, 51, 0.25), inset 0 0 12px rgba(255, 0, 51, 0.04);
+        }
+
+        .channel-master-card.active.is-aggregate {
+            background: #12121a;
+        }
+
+        .card-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .series-toggle-pill {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            border: 2px solid var(--series-color, #ff0033);
+            background: transparent;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .channel-master-card.active .series-toggle-pill {
+            background: var(--series-color, #ff0033);
+            box-shadow: 0 0 8px var(--series-color, #ff0033);
+        }
+
+        .card-viewers-val {
+            font-family: var(--font-score);
+            font-size: 32px;
+            line-height: 1.1;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-actions-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .card-action-btn {
+            background: #181822;
+            color: var(--text-dim);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .card-action-btn:hover {
+            background: #242432;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .card-action-btn.btn-play-live {
+            color: #c084fc;
+            border-color: rgba(145, 70, 255, 0.35);
+        }
+
+        .card-action-btn.btn-play-live:hover {
+            background: rgba(145, 70, 255, 0.2);
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -1160,6 +1419,7 @@
                     <span id="api-label">LIVE SYNC</span>
                     <span id="sync-countdown" style="font-size: 11px; opacity: 0.8; margin-left: 2px;">• 30s</span>
                 </div>
+                <button id="header-twitch-btn" class="btn-primary btn-twitch-live" onclick="toggleTwitchPlayer('goe_stream')">▶️ OGLĄDAJ BUNKIER (TWITCH)</button>
                 <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁ.</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
                     <option value="30" selected>Auto: 30s</option>
@@ -1169,9 +1429,9 @@
                 </select>
                 <button class="btn-primary" onclick="loadData(true)">🔄 Odśwież</button>
                 <button class="btn-red" onclick="downloadLiveCard()">📸 Karta LIVE</button>
-                <button class="btn-summary" onclick="downloadSummaryCard('goe')">📊 GoE</button>
+                <button class="btn-summary" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę</button>
+                <button class="btn-summary" onclick="downloadSummaryCard('goe')">📊 Wykres GoE</button>
                 <button class="btn-summary" onclick="downloadSummaryCard('comparison')">⚖️ Starcie</button>
-                <button class="btn-summary" onclick="downloadSummaryCard('camps')">🏕️ 3 Obozy</button>
                 <button class="btn-primary" onclick="downloadCSV()">📥 CSV</button>
             </div>
         </header>
@@ -1181,7 +1441,27 @@
             <div id="refresh-progress-bar" class="refresh-progress-bar"></div>
         </div>
 
-        <!-- BOT ALERT BANNER (Shown for Day 1 bot spikes) -->
+        <!-- COLLAPSIBLE TWITCH LIVE PLAYER -->
+        <div id="twitch-player-panel" class="twitch-player-panel" style="display: none;">
+            <div class="twitch-player-header">
+                <div class="player-channel-info">
+                    <span class="live-dot" style="background: #9146ff; box-shadow: 0 0 10px #9146ff;"></span>
+                    <span id="player-active-label" style="font-weight: 800; font-size: 14px; color: #ffffff;">Oglądasz: GoE_stream (Twitch)</span>
+                </div>
+                <div class="player-channel-switcher">
+                    <button class="player-chan-btn active" id="pbtn-goe" onclick="loadTwitchStream('goe_stream', 'GoE_stream (Bunkier)')">🔴 Bunkier (GoE)</button>
+                    <button class="player-chan-btn" id="pbtn-nerva" onclick="loadTwitchStream('nervarien', 'Nervarien')">👁️ Nervarien</button>
+                    <button class="player-chan-btn" id="pbtn-tobias" onclick="loadTwitchStream('ttobias_lol', 'Tobiasz')">👁️ Tobiasz</button>
+                    <a id="player-external-link" href="https://www.twitch.tv/goe_stream" target="_blank" class="player-link-btn" title="Otwórz na Twitchu">↗️ Otwórz na Twitchu</a>
+                    <button class="player-close-btn" onclick="toggleTwitchPlayer()" title="Zamknij odtwarzacz">✕ Zwiń</button>
+                </div>
+            </div>
+            <div class="twitch-iframe-holder">
+                <iframe id="twitch-iframe" src="" height="480" width="100%" allowfullscreen frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+
+        <!-- BOT ALERT BANNER -->
         <div id="bot-alert-banner" style="display: none;">
             <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
                 <span style="font-size: 22px;">🛡️</span>
@@ -1201,69 +1481,40 @@
                 <div class="deck-left-cluster">
                     <!-- Day Picker -->
                     <div class="segmented-group" id="day-tabs-container">
-                        <button class="segmented-btn" id="day-tab-day-1" onclick="switchDay('day-1')">
-                            <span class="day-dot day-dot-finished"></span>
-                            <span>Dzień 1 (03.11)</span>
-                            <span class="day-pill-tag">Zakończony</span>
-                        </button>
-                        <button class="segmented-btn active" id="day-tab-day-2" onclick="switchDay('day-2')">
-                            <span class="day-dot day-dot-live"></span>
-                            <span>Dzień 2 (04.11)</span>
-                            <span class="day-pill-tag">Dzisiejszy</span>
-                        </button>
-                        <button class="segmented-btn" id="day-tab-day-3" onclick="switchDay('day-3')">
-                            <span class="day-dot day-dot-upcoming"></span>
-                            <span>Dzień 3 (05.11)</span>
-                            <span class="day-pill-tag">Jutro</span>
-                        </button>
-                        <button class="segmented-btn" id="day-tab-day-4" onclick="switchDay('day-4')">
-                            <span class="day-dot day-dot-upcoming"></span>
-                            <span>Dzień 4 (06.11)</span>
-                            <span class="day-pill-tag">Pojutrze</span>
-                        </button>
+                        <!-- Rendered dynamically -->
                     </div>
 
                     <div class="deck-divider"></div>
 
-                    <!-- Mode Picker (Single Focus Views) -->
+                    <!-- Presets for Chart & Cards -->
                     <div class="segmented-group">
-                        <button class="segmented-btn mode-active-goe" id="tab-goe" onclick="switchMode('goe')">
-                            🔴 Spis GoE
+                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 6px; display: inline-flex; align-items: center;">Presety:</span>
+                        <button class="segmented-btn active" id="preset-goe" onclick="applyQuickPreset('goe_only')">
+                            🔴 Bunkier GoE
                         </button>
-                        <button class="segmented-btn" id="tab-battle" onclick="switchMode('battle')">
-                            ⚔️ Pojedynek Główny (2v2)
+                        <button class="segmented-btn" id="preset-battle" onclick="applyQuickPreset('battle_2v2')">
+                            ⚔️ Pojedynek 2v2
                         </button>
-                        <button class="segmented-btn" id="tab-costream" onclick="switchMode('costream')">
-                            ⚡ Starcie 3 Obozów
+                        <button class="segmented-btn" id="preset-camps" onclick="applyQuickPreset('camps_3')">
+                            ⚡ 3 Obozy
+                        </button>
+                        <button class="segmented-btn" id="preset-all" onclick="applyQuickPreset('all_channels')">
+                            🌐 Wszystkie kanały
                         </button>
                     </div>
                 </div>
 
-                <!-- Collapsible Filter Drawer Button -->
-                <button class="filter-toggle-btn" id="filter-toggle-btn" onclick="toggleFilterDrawer()">
-                    <span>🔍 Filtry kanałów</span>
-                    <span class="filter-count-badge" id="filter-count-badge">5/5</span>
-                    <span id="filter-chevron">▾</span>
-                </button>
-            </div>
-
-            <!-- Collapsible Drawer -->
-            <div class="filter-drawer-panel collapsed" id="filter-drawer">
-                <div class="drawer-presets-row">
-                    <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Presety:</span>
-                    <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f97316; color: #fdba74;">Wszystkie Obozy</button>
-                    <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
-                    <button class="preset-btn" onclick="applyPreset('all')">Pojedynek główny (2v2)</button>
-                    <button class="preset-btn" onclick="applyPreset('tobias_only')" style="border-color: #f97316; color: #fdba74;">Tylko Tobiasz</button>
-                    <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
-                    <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (główne)</button>
+                <div style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
+                    <span>Aktywne serie na wykresie:</span>
+                    <span id="active-series-count-badge" class="filter-count-badge" style="background: var(--goe-red); color: #ffffff;">3 / 9</span>
                 </div>
-                <div class="stream-chips" id="stream-chips-container"></div>
             </div>
         </div>
 
-        <!-- VIEW 1: GOE VIEWERS HUB -->
-        <div id="view-goe" class="tab-view">
+        <!-- MAIN DASHBOARD -->
+        <main class="main-dashboard-body">
+            
+            <!-- SECTION 1: GOE HERO STATS & CONTEXT CARD -->
             <div class="hero-goe-card">
                 <div class="hero-header">
                     <div class="hero-title-group">
@@ -1276,6 +1527,7 @@
                     </div>
                 </div>
 
+                <!-- GoE Platforms Breakdown -->
                 <div class="goe-breakdown">
                     <div class="breakdown-box">
                         <div>
@@ -1293,24 +1545,53 @@
                     </div>
                 </div>
 
+                <!-- Platform proportional bar -->
                 <div class="goe-bar-container">
                     <div id="goe-sub-bar-yt" class="goe-bar-yt" style="width: 50%;"></div>
                     <div id="goe-sub-bar-tw" class="goe-bar-tw" style="width: 50%;"></div>
                 </div>
 
-                <div class="card-quick-actions">
+                <!-- Secondary Contextual Duel Bar (Nervarien Battle Context) -->
+                <div class="goe-context-banner">
+                    <div class="context-banner-header">
+                        <div class="context-label">
+                            <span style="color: var(--goe-red); font-weight: 900;">⚔️ KONTEKST RYNKOWY:</span>
+                            <span id="goe-context-summary">Ładowanie starcia...</span>
+                        </div>
+                        <div class="context-score" id="goe-context-score">
+                            --
+                        </div>
+                    </div>
+                    <div class="battle-bar-container" style="margin-bottom: 0;">
+                        <div id="goe-context-bar-left" class="bar-segment-goe" style="width: 50%;"></div>
+                        <div id="goe-context-bar-right" class="bar-segment-nerva" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <!-- Roster & Branding -->
+                <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div style="font-size: 13px; font-weight: 800; letter-spacing: 1px; color: var(--text-muted);">
+                        DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER
+                    </div>
+                    <div class="badge-bunkier-tag" style="background: var(--goe-red); color: #ffffff; padding: 4px 10px; border-radius: 4px; font-weight: 900; letter-spacing: 1.5px;">#BUNKIER</div>
+                </div>
+
+                <!-- Quick actions -->
+                <div class="card-quick-actions" style="margin-top: 16px;">
                     <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
+                    <button class="quick-action-btn" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę (Ctrl+V)</button>
                     <button class="quick-action-btn" onclick="downloadSummaryCard('goe')">📊 Wykres GoE (PNG)</button>
-                    <button class="quick-action-btn" onclick="copyShareLink()">📋 Kopiuj Link</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2 (PNG)</button>
+                    <button class="quick-action-btn" onclick="copyShareLink()">🔗 Kopiuj Link</button>
                 </div>
             </div>
 
-            <!-- DEDICATED CHART: GOE ONLY -->
+            <!-- SECTION 2: MASTER INTERACTIVE CHART -->
             <div class="chart-box">
                 <div class="chart-header">
                     <div>
-                        <div class="chart-title">📈 Przebieg widowni GoE w czasie (YouTube vs Twitch)</div>
-                        <div id="goe-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii GoE...</div>
+                        <div class="chart-title">📈 Przebieg widowni w czasie</div>
+                        <div id="main-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
                     </div>
                     <div class="time-range-group">
                         <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
@@ -1322,184 +1603,29 @@
                     </div>
                 </div>
                 <div class="chart-wrapper">
-                    <canvas id="goeChart"></canvas>
+                    <canvas id="mainChart"></canvas>
                 </div>
             </div>
 
-            <!-- Dedicated GoE Stream List -->
-            <div class="streams-section">
-                <div class="column-title">Transmisje GoE (Kielecki Bunkier)</div>
-                <div class="streams-grid" id="goe-streams-grid"></div>
-            </div>
-        </div>
-
-        <!-- PARENT CONTAINER FOR COMPARISON MODES -->
-        <div id="view-battle" class="tab-view" style="display: none;">
-            
-            <!-- SUB-VIEW A: POJEDYNEK GŁÓWNY 2 VS 2 -->
-            <div id="sec-comp-official">
-                <div class="category-header-banner">
-                    <div style="font-weight: 900; font-size: 14px; color: #ffffff; letter-spacing: 1px;">⚔️ POJEDYNEK GŁÓWNY 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
-                </div>
-
-                <div class="scoreboard">
-                    <div class="team-card goe">
-                        <div class="team-name">GOE (KIELECKI BUNKIER)</div>
-                        <div class="team-score" id="battle-goe-score">--</div>
-                        <div class="team-share" id="battle-goe-share">--% widowni</div>
-                        <div class="momentum-badge" id="battle-goe-momentum">Trend: --</div>
+            <!-- SECTION 3: 9 INTERACTIVE CHANNELS & SUMS -->
+            <div class="channels-master-section">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                        <div class="column-title" style="margin-bottom: 2px;">⚡ Wybór kanałów i sum (Kliknij kafelek, aby włączyć/wyłączyć na wykresie)</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Zarządzaj seriami na wykresie i uruchamiaj podgląd transmisji Twitcha</div>
                     </div>
-                    <div class="vs-badge">VS</div>
-                    <div class="team-card nerva">
-                        <div class="team-name">NERVARIEN (KANAŁY GŁÓWNE)</div>
-                        <div class="team-score" id="battle-nerva-score">--</div>
-                        <div class="team-share" id="battle-nerva-share">--% widowni</div>
-                        <div class="momentum-badge" id="battle-nerva-momentum">Trend: --</div>
+                    <div style="font-size: 12px; color: var(--text-dim);">
+                        Wskazówka: Aktywne kafelki podświetlają się swoim kolorem
                     </div>
                 </div>
-
-                <div class="battle-bar-container">
-                    <div id="battle-bar-goe" class="bar-segment-goe" style="width: 50%;"></div>
-                    <div id="battle-bar-nerva" class="bar-segment-nerva" style="width: 50%;"></div>
-                </div>
-
-                <div class="card-quick-actions">
-                    <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Wykres Pojedynku (PNG)</button>
-                    <button class="quick-action-btn" onclick="copyShareLink()">📋 Kopiuj Link</button>
-                </div>
-
-                <!-- DEDICATED CHART: POJEDYNEK GŁÓWNY -->
-                <div class="chart-box">
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title">⚔️ Przebieg Pojedynku Głównego: GoE vs Nervarien</div>
-                            <div id="comp-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
-                        </div>
-                        <div class="time-range-group">
-                            <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
-                            <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
-                            <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
-                            <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
-                            <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
-                            <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały stream</button>
-                        </div>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="comparisonChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Main Channels Stream List -->
-                <div class="streams-section">
-                    <div class="column-title">Główne Transmisje (GoE & Nervarien)</div>
-                    <div class="streams-grid" id="official-streams-grid"></div>
+                <div class="channels-master-grid" id="channels-master-grid">
+                    <!-- Rendered dynamically -->
                 </div>
             </div>
 
-            <!-- SUB-VIEW B: STARCIE 3 OBOZÓW -->
-            <div id="sec-comp-costreams" style="display: none;">
-                <div class="category-header-banner camps">
-                    <div style="font-weight: 900; font-size: 14px; color: var(--tobias-orange); letter-spacing: 1px;">⚡ STARCIE WSZYSTKICH TRZECH OBOZÓW (GOE VS NERVARIEN VS TOBIASZ)</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Trzybiegunowe zestawienie transmisji: Obóz GoE (Bunkier), Obóz Nervariena (Oficjalny + Nerva Co-stream) oraz niezależny Obóz Tobiasza (ttobias_lol).</div>
-                </div>
+        </main>
 
-                <div class="scoreboard scoreboard-3camps">
-                    <div class="team-card goe">
-                        <div class="team-name">GOE (KIELECKI BUNKIER)</div>
-                        <div class="team-score" id="camp-goe-score">--</div>
-                        <div class="team-share" id="camp-goe-share">--% widowni</div>
-                        <div class="momentum-badge" id="camp-goe-momentum">Trend: --</div>
-                    </div>
-                    <div class="vs-badge">VS</div>
-                    <div class="team-card camp">
-                        <div class="team-name">OBÓZ NERVARIENA</div>
-                        <div class="team-score" id="camp-nerva-score">--</div>
-                        <div class="team-share" id="camp-nerva-share">--% widowni</div>
-                        <div class="momentum-badge" id="camp-nerva-momentum">Trend: --</div>
-                    </div>
-                    <div class="vs-badge" style="border-color: var(--tobias-orange); color: var(--tobias-orange);">VS</div>
-                    <div class="team-card tobias">
-                        <div class="team-name">OBÓZ TOBIASZA</div>
-                        <div class="team-score" id="camp-tobias-score">--</div>
-                        <div class="team-share" id="camp-tobias-share">--% widowni</div>
-                        <div class="momentum-badge" id="camp-tobias-momentum">Trend: --</div>
-                    </div>
-                </div>
-
-                <div class="battle-bar-container">
-                    <div id="camp-bar-goe" class="bar-segment-goe" style="width: 33.3%;"></div>
-                    <div id="camp-bar-nerva" class="bar-segment-camp" style="width: 33.3%;"></div>
-                    <div id="camp-bar-tobias" class="bar-segment-tobias" style="width: 33.4%;"></div>
-                </div>
-
-                <!-- 5-element breakdown grid (Bingo Cards Style) -->
-                <div class="costream-breakdown-grid">
-                    <div class="costream-mini-card" id="mini-card-goe" style="border-color: var(--goe-red);">
-                        <div class="costream-mini-label"><span class="live-dot" style="background: var(--goe-red);"></span> GoE Łącznie</div>
-                        <div class="costream-mini-val" id="breakdown-val-goe">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-goe">Śr: --</div>
-                    </div>
-                    <div class="costream-mini-card" id="mini-card-nerva-off" style="border-color: rgba(255, 255, 255, 0.4);">
-                        <div class="costream-mini-label"><span class="live-dot" style="background: #ffffff;"></span> Nerva Główny</div>
-                        <div class="costream-mini-val" id="breakdown-val-nerva-off">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-nerva-off">Śr: --</div>
-                    </div>
-                    <div class="costream-mini-card" id="mini-card-nerva-costream" style="border-color: var(--costream-amber);">
-                        <div class="costream-mini-label"><span class="live-dot" style="background: #f59e0b;"></span> Nerva Co-stream</div>
-                        <div class="costream-mini-val" id="breakdown-val-nerva-costream">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-nerva-costream">Śr: --</div>
-                    </div>
-                    <div class="costream-mini-card" id="mini-card-nerva-total" style="border-color: var(--nerva-purple);">
-                        <div class="costream-mini-label" style="color: #c084fc;"><span class="live-dot" style="background: #c084fc;"></span> Obóz Nervariena (Suma)</div>
-                        <div class="costream-mini-val" style="color: #e9d5ff;" id="breakdown-val-nerva-total">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-nerva-total">Śr: --</div>
-                    </div>
-                    <div class="costream-mini-card" id="mini-card-tobias" style="border-color: var(--tobias-orange);">
-                        <div class="costream-mini-label" style="color: #fb923c;"><span class="live-dot" style="background: #f97316;"></span> Obóz Tobiasza (Twitch)</div>
-                        <div class="costream-mini-val" style="color: #ffedd5;" id="breakdown-val-tobias">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
-                    </div>
-                </div>
-
-                <div class="card-quick-actions" style="margin-bottom: 20px;">
-                    <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('camps')">🏕️ Wykres 3 Obozów (PNG)</button>
-                    <button class="quick-action-btn" onclick="copyShareLink()">📋 Kopiuj Link</button>
-                </div>
-
-                <!-- DEDICATED CHART: WSZYSTKIE OBOZY -->
-                <div class="chart-box">
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title">⚡ Przebieg Starcia Obozów w Czasie: GoE vs Nervarien vs Tobiasz</div>
-                            <div id="costream-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
-                        </div>
-                        <div class="time-range-group">
-                            <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
-                            <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
-                            <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
-                            <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
-                            <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
-                            <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały stream</button>
-                        </div>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="costreamComparisonChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- All Camps Streams Grid -->
-                <div class="streams-section">
-                    <div class="column-title">Transmisje wszystkich obozów (GoE, Nervarien & Tobiasz)</div>
-                    <div class="streams-grid" id="battle-streams-grid"></div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- BRANDING FOOTER (Matching official Worlds 2026 / #bunkier graphics) -->
+        <!-- BRANDING FOOTER -->
         <footer>
             <div class="roster-pipes">DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER</div>
             <div>
@@ -1509,20 +1635,21 @@
         </footer>
     </div>
 
-    <div id="toast"></div>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
 
     <script>
-        let currentMode = 'goe'; // 'goe', 'battle' (official), or 'costream' (camps)
-        let currentTimeRange = 'all'; // '15m', '30m', '1h', '2h', 'all'
-        let filterBots = true; // Bot attack filtering toggle
+        /* --- APPLICATION STATE --- */
         let rawData = null;
         let fullHistory = [];
         let detailedHistory = [];
         let autoInterval = null;
-        let goeChartInstance = null;
-        let comparisonChartInstance = null;
-        let costreamComparisonChartInstance = null;
-        let isFilterDrawerOpen = false;
+        let masterChartInstance = null;
+        let filterBots = true;
+        let currentTimeRange = 'all';
+        let countdownTimerInterval = null;
+        let refreshSecondsRemaining = 30;
+        let refreshCountdownInterval = null;
 
         function computeDefaultDayId() {
             const now = new Date().toISOString();
@@ -1532,8 +1659,560 @@
             return 'day-4';
         }
         let currentDayId = computeDefaultDayId();
-        let countdownTimerInterval = null;
 
+        /* --- TWITCH LIVE PLAYER LOGIC --- */
+        let isTwitchPlayerOpen = false;
+        let currentTwitchChannel = 'goe_stream';
+
+        function toggleTwitchPlayer(targetChannel) {
+            const panel = document.getElementById('twitch-player-panel');
+            const btn = document.getElementById('header-twitch-btn');
+            if (!panel) return;
+
+            if (targetChannel) {
+                currentTwitchChannel = targetChannel;
+            }
+
+            if (!isTwitchPlayerOpen || targetChannel) {
+                isTwitchPlayerOpen = true;
+                panel.style.display = 'block';
+                loadTwitchStream(currentTwitchChannel);
+                if (btn) btn.classList.add('active');
+                panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                isTwitchPlayerOpen = false;
+                panel.style.display = 'none';
+                const iframe = document.getElementById('twitch-iframe');
+                if (iframe) iframe.src = '';
+                if (btn) btn.classList.remove('active');
+            }
+        }
+
+        function loadTwitchStream(channel, label) {
+            currentTwitchChannel = channel;
+            const iframe = document.getElementById('twitch-iframe');
+            const labelEl = document.getElementById('player-active-label');
+            const extLink = document.getElementById('player-external-link');
+
+            const host = window.location.hostname || 'localhost';
+            if (iframe) {
+                iframe.src = `https://player.twitch.tv/?channel=${channel}&parent=${host}&parent=maciejsonik.github.io&parent=localhost&parent=127.0.0.1&muted=false`;
+            }
+            if (labelEl) {
+                labelEl.textContent = `Oglądasz: ${label || channel} (Twitch)`;
+            }
+            if (extLink) {
+                extLink.href = `https://www.twitch.tv/${channel}`;
+            }
+
+            ['pbtn-goe', 'pbtn-nerva', 'pbtn-tobias'].forEach(id => {
+                const b = document.getElementById(id);
+                if (b) b.classList.remove('active');
+            });
+            if (channel === 'goe_stream') document.getElementById('pbtn-goe')?.classList.add('active');
+            if (channel === 'nervarien') document.getElementById('pbtn-nerva')?.classList.add('active');
+            if (channel === 'ttobias_lol') document.getElementById('pbtn-tobias')?.classList.add('active');
+        }
+
+        /* --- THE 9 CHANNELS & AGGREGATES DEFINITION --- */
+        const SERIES_CONFIG = {
+            'goe_total': {
+                id: 'goe_total',
+                name: 'GoE Razem',
+                subname: 'Suma Bunkra (YT + Twitch)',
+                category: '👑 Suma Bunkra',
+                is_aggregate: true,
+                color: '#ff0033',
+                borderWidth: 3.5,
+                borderDash: [],
+                fill: true,
+                backgroundColor: 'rgba(255, 0, 51, 0.12)',
+                isTwitch: false,
+                getValue: (pt, fb) => fb ? (pt.goe_total || 0) : (pt.goe_total_raw || pt.goe_total || 0),
+                getLiveViewers: (d) => {
+                    const st = (d?.groups?.GOE?.streams || []).filter(s => s.id !== 'I2E60nEUXWo');
+                    return st.reduce((acc, s) => acc + (s.viewers || 0), 0);
+                }
+            },
+            'goe_yt': {
+                id: 'goe_yt',
+                name: 'GoE YouTube',
+                subname: 'Gadają o Esporcie',
+                category: '🔴 YouTube',
+                is_aggregate: false,
+                color: '#ef4444',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                fill: false,
+                isTwitch: false,
+                getValue: (pt, fb) => {
+                    for (const [sid, s] of Object.entries(pt.streams || {})) {
+                        if (sid === 'I2E60nEUXWo' || sid === '@gadaja_' || STREAM_METADATA[sid]?.platform === 'YouTube' && STREAM_METADATA[sid]?.group === 'GOE') {
+                            return fb ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
+                        }
+                    }
+                    return 0;
+                },
+                getStreamObj: (d) => (d?.groups?.GOE?.streams || []).find(s => s.platform === 'YouTube')
+            },
+            'goe_tw': {
+                id: 'goe_tw',
+                name: 'GoE Twitch',
+                subname: 'GoE_stream',
+                category: '🟣 Twitch',
+                is_aggregate: false,
+                color: '#a855f7',
+                borderWidth: 2,
+                borderDash: [3, 3],
+                fill: false,
+                isTwitch: true,
+                channelId: 'goe_stream',
+                getValue: (pt) => pt.streams?.goe_stream?.viewers || 0,
+                getStreamObj: (d) => (d?.groups?.GOE?.streams || []).find(s => s.id === 'goe_stream')
+            },
+            'nerva_off_total': {
+                id: 'nerva_off_total',
+                name: 'Nerva Razem',
+                subname: 'Pojedynek 2v2 (Twitch + YT)',
+                category: '⚔️ Suma 2v2',
+                is_aggregate: true,
+                color: '#ffffff',
+                borderWidth: 3,
+                borderDash: [],
+                fill: true,
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                isTwitch: false,
+                getValue: (pt) => pt.nerva_total || 0,
+                getLiveViewers: (d) => {
+                    const st = (d?.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity && s.id !== 'SGAaZFSc3Zk');
+                    return st.reduce((acc, s) => acc + (s.viewers || 0), 0);
+                }
+            },
+            'nerva_tw': {
+                id: 'nerva_tw',
+                name: 'Nerva Twitch',
+                subname: 'nervarien',
+                category: '⚪ Twitch',
+                is_aggregate: false,
+                color: '#cbd5e1',
+                borderWidth: 2,
+                borderDash: [4, 4],
+                fill: false,
+                isTwitch: true,
+                channelId: 'nervarien',
+                getValue: (pt) => pt.streams?.nervarien?.viewers || 0,
+                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => s.id === 'nervarien')
+            },
+            'nerva_yt_off': {
+                id: 'nerva_yt_off',
+                name: 'Nerva YT (Oficjalna)',
+                subname: 'Nervarien (Transmisja meczowa)',
+                category: '🔴 YouTube',
+                is_aggregate: false,
+                color: '#dc2626',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                fill: false,
+                isTwitch: false,
+                getValue: (pt) => {
+                    for (const [sid, s] of Object.entries(pt.streams || {})) {
+                        if (STREAM_METADATA[sid]?.group === 'NERVA' && STREAM_METADATA[sid]?.platform === 'YouTube' && !STREAM_METADATA[sid]?.is_costream && !STREAM_METADATA[sid]?.is_curiosity) {
+                            return s.viewers || 0;
+                        }
+                    }
+                    return 0;
+                },
+                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => s.platform === 'YouTube' && !s.is_costream && !s.is_curiosity)
+            },
+            'nerva_yt_costream': {
+                id: 'nerva_yt_costream',
+                name: 'Nerva YT (Co-stream)',
+                subname: 'Nerva Co-stream',
+                category: '🟡 YouTube CS',
+                is_aggregate: false,
+                color: '#f59e0b',
+                borderWidth: 2,
+                borderDash: [],
+                fill: false,
+                isTwitch: false,
+                getValue: (pt) => {
+                    for (const [sid, s] of Object.entries(pt.streams || {})) {
+                        if (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U') {
+                            return s.viewers || 0;
+                        }
+                    }
+                    return 0;
+                },
+                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U')
+            },
+            'nerva_all_total': {
+                id: 'nerva_all_total',
+                name: 'Nerva + Co-stream',
+                subname: 'Pełny Obóz Nervariena (Wszystkie)',
+                category: '⚡ Pełny Obóz',
+                is_aggregate: true,
+                color: '#c084fc',
+                borderWidth: 2.5,
+                borderDash: [],
+                fill: false,
+                isTwitch: false,
+                getValue: (pt) => {
+                    let sum = pt.nerva_total || 0;
+                    for (const [sid, s] of Object.entries(pt.streams || {})) {
+                        if (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U') {
+                            sum += (s.viewers || 0);
+                        }
+                    }
+                    return sum;
+                },
+                getLiveViewers: (d) => {
+                    const st = (d?.groups?.NERVA?.streams || []);
+                    return st.reduce((acc, s) => acc + (s.viewers || 0), 0);
+                }
+            },
+            'tobias_tw': {
+                id: 'tobias_tw',
+                name: 'Tobiasz Twitch',
+                subname: 'ttobias_lol (Niezależny obóz)',
+                category: '🟠 Twitch',
+                is_aggregate: false,
+                color: '#f97316',
+                borderWidth: 2.5,
+                borderDash: [],
+                fill: false,
+                isTwitch: true,
+                channelId: 'ttobias_lol',
+                getValue: (pt) => pt.streams?.ttobias_lol?.viewers || 0,
+                getStreamObj: (d) => (d?.groups?.TOBIASZ?.streams || []).find(s => s.id === 'ttobias_lol') || (d?.groups?.NERVA?.streams || []).find(s => s.id === 'ttobias_lol')
+            }
+        };
+
+        // Default active series: GoE Razem, GoE YT, GoE Twitch
+        let activeSeriesSet = new Set(['goe_total', 'goe_yt', 'goe_tw']);
+
+        const STREAM_METADATA = {
+            'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#a855f7' },
+            'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
+            '@gadaja_': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
+            'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#cbd5e1' },
+            'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
+            '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
+            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true },
+            'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true },
+            'ttobias_lol': { name: 'Tobiasz', platform: 'Twitch', group: 'TOBIASZ', color: '#f97316', is_tobias: true }
+        };
+
+        function updateStreamsMetadataFromData() {
+            if (!rawData || !rawData.groups) return;
+            const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
+            allStreams.forEach(s => {
+                const isTobias = (s.id === 'ttobias_lol' || s.group === 'TOBIASZ');
+                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U');
+                STREAM_METADATA[s.id] = {
+                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : (isTobias ? 'Tobiasz' : s.id)),
+                    platform: s.platform,
+                    group: isTobias ? 'TOBIASZ' : s.group,
+                    is_costream: isCostream,
+                    is_curiosity: isCostream,
+                    is_tobias: isTobias
+                };
+            });
+        }
+
+        /* --- PRESET SWITCHER --- */
+        function applyQuickPreset(presetKey) {
+            ['preset-goe', 'preset-battle', 'preset-camps', 'preset-all'].forEach(id => {
+                document.getElementById(id)?.classList.remove('active');
+            });
+
+            if (presetKey === 'goe_only') {
+                activeSeriesSet = new Set(['goe_total', 'goe_yt', 'goe_tw']);
+                document.getElementById('preset-goe')?.classList.add('active');
+                showToast('Aktywowano widok: Bunkier GoE');
+            } else if (presetKey === 'battle_2v2') {
+                activeSeriesSet = new Set(['goe_total', 'nerva_off_total']);
+                document.getElementById('preset-battle')?.classList.add('active');
+                showToast('Aktywowano widok: Pojedynek Główny (2v2)');
+            } else if (presetKey === 'camps_3') {
+                activeSeriesSet = new Set(['goe_total', 'nerva_all_total', 'tobias_tw']);
+                document.getElementById('preset-camps')?.classList.add('active');
+                showToast('Aktywowano widok: Starcie 3 Obozów');
+            } else if (presetKey === 'all_channels') {
+                activeSeriesSet = new Set(['goe_yt', 'goe_tw', 'nerva_tw', 'nerva_yt_off', 'nerva_yt_costream', 'tobias_tw']);
+                document.getElementById('preset-all')?.classList.add('active');
+                showToast('Aktywowano widok: Wszystkie kanały osobno');
+            }
+
+            renderChannelsGrid();
+            updateMasterChart();
+            updateActiveBadge();
+        }
+
+        function toggleSeries(seriesId) {
+            if (activeSeriesSet.has(seriesId)) {
+                if (activeSeriesSet.size > 1) {
+                    activeSeriesSet.delete(seriesId);
+                } else {
+                    showToast('Przynajmniej jedna seria musi pozostać aktywna');
+                    return;
+                }
+            } else {
+                activeSeriesSet.add(seriesId);
+            }
+
+            // Un-highlight quick presets if custom selection
+            ['preset-goe', 'preset-battle', 'preset-camps', 'preset-all'].forEach(id => {
+                document.getElementById(id)?.classList.remove('active');
+            });
+
+            renderChannelsGrid();
+            updateMasterChart();
+            updateActiveBadge();
+        }
+
+        function updateActiveBadge() {
+            const badge = document.getElementById('active-series-count-badge');
+            if (badge) {
+                badge.textContent = `${activeSeriesSet.size} / 9`;
+            }
+        }
+
+        /* --- 9 CHANNELS MASTER GRID RENDERER --- */
+        function renderChannelsGrid() {
+            const container = document.getElementById('channels-master-grid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            Object.entries(SERIES_CONFIG).forEach(([key, cfg]) => {
+                const isActive = activeSeriesSet.has(key);
+                let liveViewers = 0;
+                let streamObj = null;
+
+                if (cfg.is_aggregate) {
+                    liveViewers = cfg.getLiveViewers ? cfg.getLiveViewers(rawData) : 0;
+                } else {
+                    streamObj = cfg.getStreamObj ? cfg.getStreamObj(rawData) : null;
+                    liveViewers = streamObj ? (streamObj.viewers || 0) : 0;
+                }
+
+                const isLiveNow = (rawData && rawData.is_live && liveViewers > 0);
+                const viewersFormatted = isLiveNow 
+                    ? `${liveViewers.toLocaleString('pl-PL')} widzów` 
+                    : (rawData && rawData.is_finished ? 'Zakończony' : 'OFFLINE');
+
+                const card = document.createElement('div');
+                card.className = `channel-master-card ${isActive ? 'active' : ''} ${cfg.is_aggregate ? 'is-aggregate' : ''}`;
+                card.style.setProperty('--series-color', cfg.color);
+                card.onclick = () => toggleSeries(key);
+
+                let actionsHtml = '';
+                if (cfg.isTwitch) {
+                    actionsHtml += `<button class="card-action-btn btn-play-live" onclick="event.stopPropagation(); toggleTwitchPlayer('${cfg.channelId}')" title="Oglądaj w oknie">▶️ Oglądaj</button>`;
+                    actionsHtml += `<a href="https://www.twitch.tv/${cfg.channelId}" target="_blank" class="card-action-btn" onclick="event.stopPropagation()" title="Otwórz na Twitchu">↗️</a>`;
+                } else if (streamObj && streamObj.url) {
+                    actionsHtml += `<a href="${streamObj.url}" target="_blank" class="card-action-btn" onclick="event.stopPropagation()" title="Otwórz transmisję">↗️ Otwórz</a>`;
+                }
+
+                card.innerHTML = `
+                    <div class="card-top-row">
+                        <div class="card-title-group">
+                            <div class="series-toggle-pill"></div>
+                            <div>
+                                <div style="font-weight: 800; font-size: 14px; color: #ffffff;">${cfg.name}</div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">${cfg.subname}</div>
+                            </div>
+                        </div>
+                        <span class="badge" style="background: rgba(255, 255, 255, 0.08); font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; color: ${cfg.color};">${cfg.category}</span>
+                    </div>
+
+                    <div class="card-viewers-val" style="color: ${isActive ? cfg.color : '#ffffff'};">
+                        ${viewersFormatted}
+                    </div>
+
+                    <div class="card-bottom-row">
+                        <div style="font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+                            <span class="${isLiveNow ? 'live-dot' : 'offline-dot'}" style="width: 6px; height: 6px;"></span>
+                            <span>${isActive ? 'Aktywny na wykresie' : 'Kliknij, aby włączyć'}</span>
+                        </div>
+                        <div class="card-actions-group">
+                            ${actionsHtml}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        /* --- MASTER CHART INITIALIZATION & UPDATE --- */
+        function initMasterChart() {
+            const ctx = document.getElementById('mainChart');
+            if (!ctx) return;
+
+            masterChartInstance = new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: { labels: [], datasets: [] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#d4d4d8',
+                                font: { family: 'Rajdhani', size: 13, weight: '700' },
+                                boxWidth: 14,
+                                padding: 12
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#0c0c10',
+                            borderColor: '#ff0033',
+                            borderWidth: 1,
+                            titleColor: '#ffffff',
+                            bodyColor: '#e4e4e7',
+                            titleFont: { family: 'Rajdhani', size: 14, weight: 'bold' },
+                            bodyFont: { family: 'Rajdhani', size: 13 },
+                            padding: 12,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.dataset.label}: ${context.parsed.y.toLocaleString('pl-PL')} widzów`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: {
+                                color: '#a1a1aa',
+                                font: { family: 'Rajdhani', size: 11 },
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 10
+                            }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: {
+                                color: '#a1a1aa',
+                                font: { family: 'Rajdhani', size: 11 },
+                                callback: val => val.toLocaleString('pl-PL')
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateMasterChart() {
+            if (!masterChartInstance) return;
+
+            if (!detailedHistory || detailedHistory.length === 0) {
+                masterChartInstance.data.labels = [];
+                masterChartInstance.data.datasets = [];
+                masterChartInstance.update();
+                const sub = document.getElementById('main-chart-sub-label');
+                if (sub) sub.innerText = 'Brak danych telemetrycznych dla tego zakresu';
+                return;
+            }
+
+            const labels = detailedHistory.map(pt => pt.timestamp.split(' ')[1] || pt.timestamp);
+            const datasets = [];
+
+            activeSeriesSet.forEach(key => {
+                const cfg = SERIES_CONFIG[key];
+                if (!cfg) return;
+
+                const values = detailedHistory.map(pt => cfg.getValue(pt, filterBots));
+
+                datasets.push({
+                    label: cfg.name,
+                    data: values,
+                    borderColor: cfg.color,
+                    borderWidth: cfg.borderWidth || 2,
+                    borderDash: cfg.borderDash || [],
+                    backgroundColor: cfg.backgroundColor || 'transparent',
+                    fill: !!cfg.fill,
+                    tension: 0.25,
+                    pointRadius: labels.length > 60 ? 0 : 2
+                });
+            });
+
+            masterChartInstance.data.labels = labels;
+            masterChartInstance.data.datasets = datasets;
+            masterChartInstance.update();
+
+            const sub = document.getElementById('main-chart-sub-label');
+            if (sub) {
+                const rangeLabel = getRangeLabel(currentTimeRange);
+                const activeNames = Array.from(activeSeriesSet).map(k => SERIES_CONFIG[k]?.name).filter(Boolean).join(', ');
+                sub.innerText = `Zakres: ${rangeLabel} • Aktywne: ${activeNames}`;
+            }
+        }
+
+        function getRangeLabel(range) {
+            switch(range) {
+                case '15m': return 'Ostatnie 15 minut';
+                case '30m': return 'Ostatnie 30 minut';
+                case '1h': return 'Ostatnia godzina';
+                case '2h': return 'Ostatnie 2 godziny';
+                default: return 'Cała historia transmisji';
+            }
+        }
+
+        /* --- TIME RANGE SLICER --- */
+        function setTimeRange(range) {
+            currentTimeRange = range;
+            document.querySelectorAll('.time-range-group .time-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll(`.time-btn-${range}`).forEach(b => b.classList.add('active'));
+            applyTimeRangeSlice();
+        }
+
+        function applyTimeRangeSlice() {
+            if (!fullHistory || fullHistory.length === 0) {
+                detailedHistory = [];
+                updateMasterChart();
+                return;
+            }
+
+            if (currentTimeRange === 'all') {
+                detailedHistory = [...fullHistory];
+                updateMasterChart();
+                return;
+            }
+
+            let minutes = 60;
+            if (currentTimeRange === '15m') minutes = 15;
+            else if (currentTimeRange === '30m') minutes = 30;
+            else if (currentTimeRange === '1h') minutes = 60;
+            else if (currentTimeRange === '2h') minutes = 120;
+
+            const lastPoint = fullHistory[fullHistory.length - 1];
+            if (!lastPoint || !lastPoint.timestamp) {
+                detailedHistory = [...fullHistory];
+                updateMasterChart();
+                return;
+            }
+
+            const parseTs = str => new Date(str.replace(' ', 'T') + 'Z').getTime();
+            const endMs = parseTs(lastPoint.timestamp);
+            const startMs = endMs - (minutes * 60 * 1000);
+
+            detailedHistory = fullHistory.filter(pt => parseTs(pt.timestamp) >= startMs);
+            if (detailedHistory.length === 0 && fullHistory.length > 0) {
+                detailedHistory = [lastPoint];
+            }
+            updateMasterChart();
+        }
+
+        /* --- COUNTDOWN TIMER --- */
         function stopCountdownTimer() {
             if (countdownTimerInterval) {
                 clearInterval(countdownTimerInterval);
@@ -1562,1068 +2241,161 @@
             render();
             countdownTimerInterval = setInterval(render, 1000);
         }
-        let ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw', 'ttobias_lol'];
-        let OFFICIAL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
-        let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
-        const STREAM_METADATA = {
-            'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#9146ff' },
-            'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff0033' },
-            'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
-            'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
-            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
-            '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
-            'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
-            'ttobias_lol': { name: 'Tobiasz', platform: 'Twitch', group: 'TOBIASZ', color: '#f97316', is_tobias: true }
-        };
-
-        function updateStreamsMetadataFromData() {
-            if (!rawData || !rawData.groups) return;
-            const goeStreams = (rawData.groups.GOE && rawData.groups.GOE.streams) || [];
-            const nervaStreams = (rawData.groups.NERVA && rawData.groups.NERVA.streams) || [];
-            const tobiasStreams = (rawData.groups.TOBIASZ && rawData.groups.TOBIASZ.streams) || [];
-            const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
-
-            ALL_STREAM_IDS = [];
-            OFFICIAL_STREAM_IDS = [];
-
-            allStreams.forEach(s => {
-                ALL_STREAM_IDS.push(s.id);
-                const isTobias = (s.id === 'ttobias_lol' || s.group === 'TOBIASZ');
-                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U');
-                if (!isCostream && !isTobias) {
-                    OFFICIAL_STREAM_IDS.push(s.id);
-                }
-                let color = '#3b82f6';
-                if (s.group === 'GOE') {
-                    color = s.platform === 'Twitch' ? '#9146ff' : '#ff0033';
-                } else if (isTobias) {
-                    color = '#f97316';
-                } else {
-                    if (isCostream) {
-                        color = '#f59e0b';
-                    } else {
-                        color = s.platform === 'Twitch' ? '#a855f7' : '#ef4444';
-                    }
-                }
-                STREAM_METADATA[s.id] = {
-                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : (isTobias ? 'Tobiasz' : s.id)),
-                    platform: s.platform,
-                    group: isTobias ? 'TOBIASZ' : s.group,
-                    color: color,
-                    is_costream: isCostream,
-                    is_curiosity: isCostream,
-                    is_tobias: isTobias
-                };
-            });
-
-            if (currentMode === 'goe') {
-                const goeIds = goeStreams.map(s => s.id);
-                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
-            } else if (currentMode === 'costream') {
-                selectedStreamIds = new Set(ALL_STREAM_IDS);
-            } else {
-                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
-            }
-            updateFilterBadgeCount();
-        }
-
-        function toggleFilterDrawer() {
-            isFilterDrawerOpen = !isFilterDrawerOpen;
-            const drawer = document.getElementById('filter-drawer');
-            const btn = document.getElementById('filter-toggle-btn');
-            const chev = document.getElementById('filter-chevron');
-            if (drawer) {
-                if (isFilterDrawerOpen) {
-                    drawer.classList.remove('collapsed');
-                    if (btn) btn.classList.add('active');
-                    if (chev) chev.innerText = '▴';
-                } else {
-                    drawer.classList.add('collapsed');
-                    if (btn) btn.classList.remove('active');
-                    if (chev) chev.innerText = '▾';
-                }
-            }
-        }
-
-        function updateFilterBadgeCount() {
-            const badge = document.getElementById('filter-count-badge');
-            if (badge) {
-                badge.innerText = `${selectedStreamIds.size}/${ALL_STREAM_IDS.length}`;
-            }
-        }
-
+        /* --- BOT FILTER TOGGLE --- */
         function toggleBotFilter() {
             filterBots = !filterBots;
             const btn = document.getElementById('bot-filter-btn');
-            const banner = document.getElementById('bot-alert-banner');
-            if (filterBots) {
-                btn.innerHTML = '🛡️ Filtr botów: WŁ.';
-                btn.style.borderColor = '#4ade80';
-                btn.style.color = '#4ade80';
-                if (banner) {
-                    banner.style.background = '#0d1a10';
-                    banner.style.borderColor = '#4ade80';
-                    banner.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-                            <span style="font-size: 22px;">🛡️</span>
-                            <div>
-                                <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
-                                <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                                    Zneutralizowano 2 sztuczne fale viewbotów na YouTube. Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong>).
-                                </div>
-                            </div>
-                        </div>
-                        <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
-                    `;
-                }
-                showToast('Włączono filtr botów — dane oczyszczone');
-            } else {
-                btn.innerHTML = '⚠️ Filtr botów: WYŁ.';
-                btn.style.borderColor = '#f87171';
-                btn.style.color = '#f87171';
-                if (banner) {
-                    banner.style.background = '#281010';
-                    banner.style.borderColor = '#f87171';
-                    banner.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-                            <span style="font-size: 22px;">⚠️</span>
-                            <div>
-                                <strong style="color: #f87171; font-size: 14px;">Filtr ataków botowych: Wyłączony (Surowe dane)</strong>
-                                <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                                    Prezentowane wykresy i statystyki zawierają sztuczne piki botów na kanale YouTube (Pik GoE ze skokami: <strong>6 857</strong>).
-                                </div>
-                            </div>
-                        </div>
-                        <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #f87171; color: #f87171; background: #141418; border-radius: 6px;">Włącz filtr botów</button>
-                    `;
-                }
-                showToast('Wyłączono filtr — surowe dane ze skokami');
-            }
-            updateUI();
-        }
-
-        function initCharts() {
-            const commonScales = {
-                x: {
-                    ticks: { color: '#71717a', maxTicksLimit: 12, autoSkip: true, maxRotation: 0, font: { family: 'Outfit', size: 10 } },
-                    grid: { color: 'rgba(255, 255, 255, 0.04)' }
-                },
-                y: {
-                    ticks: {
-                        color: '#71717a',
-                        font: { family: 'Rajdhani', size: 11, weight: 'bold' },
-                        callback: function(val) { return val.toLocaleString('pl-PL'); }
-                    },
-                    grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                    beginAtZero: true
-                }
-            };
-            const commonTooltip = {
-                backgroundColor: '#0a0a0c',
-                borderColor: '#ff0033',
-                borderWidth: 1,
-                titleColor: '#ffffff',
-                titleFont: { family: 'Outfit', weight: 'bold' },
-                bodyColor: '#e4e4e7',
-                bodyFont: { family: 'Rajdhani', size: 13, weight: 'bold' },
-                padding: 10
-            };
-
-            const ctxGoe = document.getElementById('goeChart').getContext('2d');
-            goeChartInstance = new Chart(ctxGoe, {
-                type: 'line',
-                data: { labels: [], datasets: [] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { labels: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 11 } } },
-                        tooltip: commonTooltip
-                    },
-                    scales: commonScales
-                }
-            });
-
-            const ctxComp = document.getElementById('comparisonChart').getContext('2d');
-            comparisonChartInstance = new Chart(ctxComp, {
-                type: 'line',
-                data: { labels: [], datasets: [] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { labels: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 11 } } },
-                        tooltip: commonTooltip
-                    },
-                    scales: commonScales
-                }
-            });
-
-            const ctxCostream = document.getElementById('costreamComparisonChart').getContext('2d');
-            costreamComparisonChartInstance = new Chart(ctxCostream, {
-                type: 'line',
-                data: { labels: [], datasets: [] },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { labels: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 11 } } },
-                        tooltip: {
-                            ...commonTooltip,
-                            borderColor: '#f59e0b'
-                        }
-                    },
-                    scales: commonScales
-                }
-            });
-        }
-
-        function switchMode(mode) {
-            currentMode = mode;
-            
-            // Clear mode button classes
-            ['tab-goe', 'tab-battle', 'tab-costream'].forEach(id => {
-                const btn = document.getElementById(id);
-                if (btn) btn.classList.remove('active', 'mode-active-goe', 'mode-active-battle', 'mode-active-camps');
-            });
-
-            const viewGoe = document.getElementById('view-goe');
-            const viewBattle = document.getElementById('view-battle');
-            const secOfficial = document.getElementById('sec-comp-official');
-            const secCostreams = document.getElementById('sec-comp-costreams');
-
-            if (mode === 'goe') {
-                const btn = document.getElementById('tab-goe');
-                if (btn) btn.classList.add('active', 'mode-active-goe');
-                viewGoe.style.display = 'block';
-                viewBattle.style.display = 'none';
-                secOfficial.style.display = 'none';
-                secCostreams.style.display = 'none';
-
-                const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
-                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
-                setTimeout(() => { if (goeChartInstance) goeChartInstance.resize(); }, 50);
-            } else if (mode === 'battle' || mode === 'official') {
-                const btn = document.getElementById('tab-battle');
-                if (btn) btn.classList.add('active', 'mode-active-battle');
-                viewGoe.style.display = 'none';
-                viewBattle.style.display = 'block';
-                secOfficial.style.display = 'block';
-                secCostreams.style.display = 'none';
-
-                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
-                setTimeout(() => { if (comparisonChartInstance) comparisonChartInstance.resize(); }, 50);
-            } else if (mode === 'costream' || mode === 'camps') {
-                const btn = document.getElementById('tab-costream');
-                if (btn) btn.classList.add('active', 'mode-active-camps');
-                viewGoe.style.display = 'none';
-                viewBattle.style.display = 'block';
-                secOfficial.style.display = 'none';
-                secCostreams.style.display = 'block';
-
-                selectedStreamIds = new Set(ALL_STREAM_IDS);
-                setTimeout(() => { if (costreamComparisonChartInstance) costreamComparisonChartInstance.resize(); }, 50);
-            }
-
-            renderFilterChips();
-            updateFilterBadgeCount();
-            updateUI();
-        }
-
-        function applyPreset(preset) {
-            if (preset === 'goe_only') {
-                const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
-                selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
-                if (currentMode !== 'goe') switchMode('goe');
-            } else if (preset === 'all') {
-                selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
-                if (currentMode !== 'battle') switchMode('battle');
-            } else if (preset === 'all_plus_costream' || preset === 'all_camps') {
-                selectedStreamIds = new Set(ALL_STREAM_IDS);
-                if (currentMode !== 'costream') switchMode('costream');
-            } else if (preset === 'tobias_only') {
-                selectedStreamIds = new Set(['ttobias_lol']);
-                if (currentMode !== 'costream') switchMode('costream');
-            } else if (preset === 'twitch') {
-                const twIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'Twitch');
-                selectedStreamIds = new Set(twIds);
-            } else if (preset === 'youtube') {
-                const ytIds = OFFICIAL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'YouTube');
-                selectedStreamIds = new Set(ytIds);
-            }
-            renderFilterChips();
-            updateFilterBadgeCount();
-            updateUI();
-        }
-
-        function toggleStream(streamId) {
-            if (selectedStreamIds.has(streamId)) {
-                if (selectedStreamIds.size > 1) {
-                    selectedStreamIds.delete(streamId);
+            if (btn) {
+                if (filterBots) {
+                    btn.innerHTML = '🛡️ Filtr botów: WŁ.';
+                    btn.style.borderColor = '#4ade80';
+                    btn.style.color = '#4ade80';
+                    showToast('Filtr botów aktywny (Dane oczyszczone)');
                 } else {
-                    showToast('Przynajmniej jeden stream musi być zaznaczony!');
-                    return;
+                    btn.innerHTML = '⚠️ Filtr botów: WYŁ.';
+                    btn.style.borderColor = '#ef4444';
+                    btn.style.color = '#ef4444';
+                    showToast('Filtr botów wyłączony (Surowe dane ze skokami)');
                 }
-            } else {
-                selectedStreamIds.add(streamId);
             }
-            renderFilterChips();
-            updateFilterBadgeCount();
             updateUI();
+            updateMasterChart();
         }
 
-        function renderFilterChips() {
-            const container = document.getElementById('stream-chips-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            ALL_STREAM_IDS.forEach(id => {
-                const meta = STREAM_METADATA[id];
-                if (!meta) return;
-                const isSelected = selectedStreamIds.has(id);
-                const isTobias = meta.group === 'TOBIASZ' || meta.is_tobias || id === 'ttobias_lol';
-                const isNerva = meta.group === 'NERVA' && !isTobias;
-                const isCostream = !!(meta.is_costream || meta.is_curiosity) && !isTobias;
-
-                let viewers = 0;
-                if (rawData && rawData.groups) {
-                    const allS = Object.values(rawData.groups).flatMap(g => g.streams || []);
-                    const found = allS.find(s => s.id === id);
-                    if (found) viewers = found.viewers;
-                }
-
-                const chip = document.createElement('div');
-                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''} ${isTobias ? 'tobias-chip' : ''} ${isCostream ? 'costream-chip' : ''}`;
-                chip.onclick = () => toggleStream(id);
-                
-                let labelHtml = `<span>${meta.name}</span>`;
-                if (isTobias) {
-                    labelHtml = `<span>${meta.name}</span> <span class="tobias-badge">Obóz Tobiasz</span>`;
-                } else if (isCostream) {
-                    labelHtml = `<span>${meta.name}</span> <span class="costream-badge">Co-stream</span>`;
-                }
-
-                chip.innerHTML = `
-                    <span class="chip-dot"></span>
-                    ${labelHtml}
-                    <span style="font-weight: 800; opacity: 0.85;">(${viewers.toLocaleString('pl-PL')})</span>
-                `;
-                container.appendChild(chip);
-            });
-        }
-
+        /* --- UI UPDATER --- */
         function updateUI() {
-            if (!rawData || !rawData.groups) return;
+            if (!rawData) return;
 
-            const isLive = rawData.is_live !== false && (
-                ((rawData.groups.GOE && rawData.groups.GOE.total_viewers) || 0) > 0 ||
-                ((rawData.groups.NERVA && rawData.groups.NERVA.total_viewers) || 0) > 0
-            );
-            const st = (filterBots ? rawData.summary_stats : rawData.summary_stats_raw) || rawData.summary_stats;
-            const hasDataHistory = st && st.count > 0;
+            const stGoe = (rawData.groups?.GOE?.streams || []).filter(s => s.id !== 'I2E60nEUXWo');
+            const stNervaOff = (rawData.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity && s.id !== 'SGAaZFSc3Zk');
 
-            const goeStreams = ((rawData.groups.GOE && rawData.groups.GOE.streams) || []).map(s => ({ ...s, group: 'GOE' }));
-            const nervaStreams = ((rawData.groups.NERVA && rawData.groups.NERVA.streams) || []).map(s => ({ ...s, group: 'NERVA' }));
+            const goeTotalLive = stGoe.reduce((acc, s) => acc + (s.viewers || 0), 0);
+            const nervaTotalLive = stNervaOff.reduce((acc, s) => acc + (s.viewers || 0), 0);
 
-            // --- 1. UPDATE GOE HUB ---
-            const goeYt = goeStreams.find(s => s.platform === 'YouTube');
-            const goeTw = goeStreams.find(s => s.platform === 'Twitch');
-            let ytV = (goeYt && selectedStreamIds.has(goeYt.id)) ? goeYt.viewers : (goeYt ? goeYt.viewers : 0);
-            let twV = (goeTw && selectedStreamIds.has(goeTw.id)) ? goeTw.viewers : (goeTw ? goeTw.viewers : 0);
-            const goeTotal = ytV + twV;
-            const goeSumForPct = (ytV + twV) || 1;
+            const isLive = !!rawData.is_live;
+            const isFinished = !!rawData.is_finished;
+            const summaryStats = rawData.summary_stats || {};
 
-            const isFinished = rawData && rawData.is_finished;
-            const schedule = rawData && rawData.schedule;
-            const targetIso = schedule && schedule.goe_start_iso;
-            const isUpcoming = targetIso && (new Date(targetIso).getTime() > Date.now());
+            // 1. GoE Hero Box
+            const heroTotalEl = document.getElementById('goe-hero-total');
+            const heroPeakEl = document.getElementById('goe-hero-peak');
+            const heroMomentumEl = document.getElementById('goe-hero-momentum');
 
             if (isLive) {
                 stopCountdownTimer();
-                document.getElementById('goe-hero-total').innerText = goeTotal.toLocaleString('pl-PL');
-                document.getElementById('goe-yt-viewers').innerText = ytV.toLocaleString('pl-PL');
-                document.getElementById('goe-tw-viewers').innerText = twV.toLocaleString('pl-PL');
-                document.getElementById('goe-yt-pct').innerText = `${((ytV / goeSumForPct) * 100).toFixed(1)}% widowni`;
-                document.getElementById('goe-tw-pct').innerText = `${((twV / goeSumForPct) * 100).toFixed(1)}% widowni`;
-                document.getElementById('goe-sub-bar-yt').style.width = `${((ytV / goeSumForPct) * 100).toFixed(1)}%`;
-                document.getElementById('goe-sub-bar-tw').style.width = `${((twV / goeSumForPct) * 100).toFixed(1)}%`;
-            } else if (!isFinished && isUpcoming) {
-                startCountdownTimer(targetIso);
-                document.getElementById('goe-yt-viewers').innerText = 'START: 21:30';
-                document.getElementById('goe-tw-viewers').innerText = 'START: 21:30';
-                document.getElementById('goe-yt-pct').innerText = 'Oczekiwanie na start';
-                document.getElementById('goe-tw-pct').innerText = 'Oczekiwanie na start';
-                document.getElementById('goe-sub-bar-yt').style.width = '50%';
-                document.getElementById('goe-sub-bar-tw').style.width = '50%';
-
-                const heroMom = document.getElementById('goe-hero-momentum');
-                if (heroMom) {
-                    heroMom.innerText = '🔴 START: 21:30 CET';
-                    heroMom.className = 'momentum-badge';
-                    heroMom.style.borderColor = '#ff0033';
-                    heroMom.style.color = '#ff4d6d';
-                }
-            } else {
+                if (heroTotalEl) heroTotalEl.innerText = `${goeTotalLive.toLocaleString('pl-PL')} widzów`;
+                if (heroPeakEl) heroPeakEl.innerText = `Pik: ${(summaryStats.goe_peak || goeTotalLive).toLocaleString('pl-PL')}`;
+            } else if (isFinished) {
                 stopCountdownTimer();
-                document.getElementById('goe-hero-total').innerText = hasDataHistory ? `${st.goe_peak.toLocaleString('pl-PL')} pik` : 'OFFLINE';
-                document.getElementById('goe-yt-viewers').innerText = 'OFFLINE';
-                document.getElementById('goe-tw-viewers').innerText = 'OFFLINE';
-                document.getElementById('goe-yt-pct').innerText = '--% widowni';
-                document.getElementById('goe-tw-pct').innerText = '--% widowni';
-                document.getElementById('goe-sub-bar-yt').style.width = '50%';
-                document.getElementById('goe-sub-bar-tw').style.width = '50%';
-            }
-
-            // GoE Hero Peak badge
-            if (!isLive && !isFinished && isUpcoming) {
-                document.getElementById('goe-hero-peak').innerHTML = `
-                    <div style="font-size: 13px; color: #ff4d6d; font-weight: 800;">
-                        ⏱️ DO STARTU BUNKRA: 21:30 CET
-                    </div>
-                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">
-                        Mecz BO5 ćwierćfinał: 23:00 CET
-                    </div>
-                `;
-            } else if (hasDataHistory) {
-                const pk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
-                const pkTime = filterBots ? st.goe_peak_time : (st.goe_raw_peak_time || st.goe_peak_time);
-                const avg = st.goe_avg;
-                document.getElementById('goe-hero-peak').innerHTML = `
-                    <div style="font-size: 13px; color: ${filterBots ? '#4ade80' : '#f87171'}; font-weight: 800;">
-                        ${filterBots ? '🛡️ Organiczny Pik' : '⚠️ Pik z botami'}: ${pk.toLocaleString('pl-PL')} o ${pkTime}
-                    </div>
-                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">
-                        Średnia GoE: ${avg.toLocaleString('pl-PL')} widzów
-                    </div>
-                `;
+                if (heroTotalEl) heroTotalEl.innerText = `${(summaryStats.goe_peak || 0).toLocaleString('pl-PL')} pik`;
+                if (heroPeakEl) heroPeakEl.innerText = `Średnia: ${(summaryStats.goe_avg || 0).toLocaleString('pl-PL')} widzów`;
             } else {
-                document.getElementById('goe-hero-peak').innerHTML = `
-                    <div style="font-size: 13px; color: #71717a; font-weight: 700;">
-                        Pik: Brak danych (przed startem transmisji)
-                    </div>
-                `;
+                // Scheduled day (e.g. Day 2 before 21:30 CET)
+                const goeStart = rawData.goe_start_time || '2026-11-04T20:30:00Z';
+                startCountdownTimer(goeStart);
+                if (heroPeakEl) heroPeakEl.innerText = `Start: 21:30 CET`;
             }
 
-            // --- 2. UPDATE SECTION 1: POJEDYNEK GŁÓWNY (GOE VS NERVARIEN GŁÓWNY) ---
-            const nervaOfficialStreams = nervaStreams.filter(s => !s.is_costream && !s.is_curiosity);
-            const liveGoeTot = goeStreams.reduce((a, s) => a + (s.viewers || 0), 0);
-            const liveNervaOffTot = nervaOfficialStreams.reduce((a, s) => a + (s.viewers || 0), 0);
-            const offTot = liveGoeTot + liveNervaOffTot;
-            const offGoePct = offTot > 0 ? (liveGoeTot / offTot * 100).toFixed(1) : 50.0;
-            const offNervaPct = offTot > 0 ? (liveNervaOffTot / offTot * 100).toFixed(1) : 50.0;
+            renderDelta('goe-hero-momentum', rawData.momentum?.goe, 5);
+
+            // 2. GoE Platforms Breakdown
+            const ytStream = stGoe.find(s => s.platform === 'YouTube');
+            const twStream = stGoe.find(s => s.platform === 'Twitch');
+
+            const ytV = ytStream ? (filterBots ? (ytStream.viewers || 0) : (ytStream.viewers_raw || ytStream.viewers || 0)) : 0;
+            const twV = twStream ? (twStream.viewers || 0) : 0;
+            const goeSum = ytV + twV;
+
+            const ytEl = document.getElementById('goe-yt-viewers');
+            const twEl = document.getElementById('goe-tw-viewers');
+            const ytPctEl = document.getElementById('goe-yt-pct');
+            const twPctEl = document.getElementById('goe-tw-pct');
 
             if (isLive) {
-                document.getElementById('battle-goe-score').innerText = liveGoeTot.toLocaleString('pl-PL');
-                document.getElementById('battle-goe-share').innerText = `${offGoePct}% widowni (${liveGoeTot.toLocaleString('pl-PL')})`;
-                document.getElementById('battle-nerva-score').innerText = liveNervaOffTot.toLocaleString('pl-PL');
-                document.getElementById('battle-nerva-share').innerText = `${offNervaPct}% widowni (${liveNervaOffTot.toLocaleString('pl-PL')})`;
-                document.getElementById('battle-bar-goe').style.width = `${offGoePct}%`;
-                document.getElementById('battle-bar-nerva').style.width = `${offNervaPct}%`;
-            } else if (!isFinished && isUpcoming) {
-                document.getElementById('battle-goe-score').innerText = '21:30';
-                document.getElementById('battle-goe-share').innerText = 'Kielecki Bunkier';
-                document.getElementById('battle-goe-momentum').innerText = '🔴 START: 21:30 CET';
-                document.getElementById('battle-nerva-score').innerText = '~22:30';
-                document.getElementById('battle-nerva-share').innerText = 'Przewidywany start';
-                document.getElementById('battle-nerva-momentum').innerText = '⚪ START: ~22:30 / 22:45';
-                document.getElementById('battle-bar-goe').style.width = '50%';
-                document.getElementById('battle-bar-nerva').style.width = '50%';
-            } else if (hasDataHistory) {
-                const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
-                const nPk = st.nerva_peak;
-                const totPk = gPk + nPk;
-                const gPct = totPk > 0 ? (gPk / totPk * 100).toFixed(1) : 50.0;
-                const nPct = totPk > 0 ? (nPk / totPk * 100).toFixed(1) : 50.0;
-                document.getElementById('battle-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('battle-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
-                document.getElementById('battle-nerva-score').innerText = `${nPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('battle-nerva-share').innerText = `Główne kanały (Śr: ${st.nerva_avg.toLocaleString('pl-PL')})`;
-                document.getElementById('battle-bar-goe').style.width = `${gPct}%`;
-                document.getElementById('battle-bar-nerva').style.width = `${nPct}%`;
+                if (ytEl) ytEl.innerText = `${ytV.toLocaleString('pl-PL')} widzów`;
+                if (twEl) twEl.innerText = `${twV.toLocaleString('pl-PL')} widzów`;
+                const ytPct = goeSum > 0 ? ((ytV / goeSum) * 100).toFixed(1) : 50;
+                const twPct = goeSum > 0 ? ((twV / goeSum) * 100).toFixed(1) : 50;
+                if (ytPctEl) ytPctEl.innerText = `${ytPct}% widowni Bunkra`;
+                if (twPctEl) twPctEl.innerText = `${twPct}% widowni Bunkra`;
+                document.getElementById('goe-sub-bar-yt').style.width = `${ytPct}%`;
+                document.getElementById('goe-sub-bar-tw').style.width = `${twPct}%`;
+            } else if (isFinished) {
+                if (ytEl) ytEl.innerText = `${(summaryStats.yt_peak || 0).toLocaleString('pl-PL')} pik`;
+                if (twEl) twEl.innerText = `${(summaryStats.tw_peak || 0).toLocaleString('pl-PL')} pik`;
+                if (ytPctEl) ytPctEl.innerText = `Śr: ${(summaryStats.yt_avg || 0).toLocaleString('pl-PL')}`;
+                if (twPctEl) twPctEl.innerText = `Śr: ${(summaryStats.tw_avg || 0).toLocaleString('pl-PL')}`;
+                document.getElementById('goe-sub-bar-yt').style.width = `50%`;
+                document.getElementById('goe-sub-bar-tw').style.width = `50%`;
             } else {
-                document.getElementById('battle-goe-score').innerText = '--';
-                document.getElementById('battle-goe-share').innerText = 'Oczekiwanie na start';
-                document.getElementById('battle-nerva-score').innerText = '--';
-                document.getElementById('battle-nerva-share').innerText = 'Oczekiwanie na start';
-                document.getElementById('battle-bar-goe').style.width = '50%';
-                document.getElementById('battle-bar-nerva').style.width = '50%';
+                if (ytEl) ytEl.innerText = `Czeka na start`;
+                if (twEl) twEl.innerText = `Czeka na start`;
+                if (ytPctEl) ytPctEl.innerText = `@gadaja_`;
+                if (twPctEl) twPctEl.innerText = `GoE_stream`;
+                document.getElementById('goe-sub-bar-yt').style.width = `50%`;
+                document.getElementById('goe-sub-bar-tw').style.width = `50%`;
             }
 
-            // --- 3. UPDATE SECTION 2: WSZYSTKIE OBOZY (GOE VS NERVARIEN VS TOBIASZ) ---
-            const liveNervaCostream = nervaStreams.filter(s => s.platform === 'YouTube' && (s.is_costream || s.is_curiosity)).reduce((a, s) => a + (s.viewers || 0), 0);
-            const liveNervaCampTot = liveNervaOffTot + liveNervaCostream;
-
-            // Tobiasz is his own camp!
-            let liveTobiasTot = 0;
-            if (rawData.groups.TOBIASZ && rawData.groups.TOBIASZ.streams) {
-                liveTobiasTot = rawData.groups.TOBIASZ.streams.reduce((a, s) => a + (s.viewers || 0), 0);
-            } else {
-                const found = nervaStreams.find(s => s.id === 'ttobias_lol');
-                if (found) liveTobiasTot = found.viewers || 0;
-            }
-
-            const allThreeTot = liveGoeTot + liveNervaCampTot + liveTobiasTot;
-            const campGoePct = allThreeTot > 0 ? (liveGoeTot / allThreeTot * 100).toFixed(1) : 33.3;
-            const campNervaPct = allThreeTot > 0 ? (liveNervaCampTot / allThreeTot * 100).toFixed(1) : 33.3;
-            const campTobiasPct = allThreeTot > 0 ? (liveTobiasTot / allThreeTot * 100).toFixed(1) : 33.4;
-
-            const miniGoe = document.getElementById('mini-card-goe');
-            const miniNervaOff = document.getElementById('mini-card-nerva-off');
-            const miniNervaCostream = document.getElementById('mini-card-nerva-costream');
-            const miniNervaTot = document.getElementById('mini-card-nerva-total');
-            const miniTobias = document.getElementById('mini-card-tobias');
+            // 3. Market Context Duel Banner (Nervarien Battle)
+            const ctxSummary = document.getElementById('goe-context-summary');
+            const ctxScore = document.getElementById('goe-context-score');
+            const barLeft = document.getElementById('goe-context-bar-left');
+            const barRight = document.getElementById('goe-context-bar-right');
 
             if (isLive) {
-                document.getElementById('camp-goe-score').innerText = liveGoeTot.toLocaleString('pl-PL');
-                document.getElementById('camp-goe-share').innerText = `${campGoePct}% widowni (${liveGoeTot.toLocaleString('pl-PL')})`;
-                document.getElementById('camp-nerva-score').innerText = liveNervaCampTot.toLocaleString('pl-PL');
-                document.getElementById('camp-nerva-share').innerText = `${campNervaPct}% widowni (${liveNervaCampTot.toLocaleString('pl-PL')})`;
-                document.getElementById('camp-tobias-score').innerText = liveTobiasTot.toLocaleString('pl-PL');
-                document.getElementById('camp-tobias-share').innerText = `${campTobiasPct}% widowni (${liveTobiasTot.toLocaleString('pl-PL')})`;
+                const totalDuel = goeTotalLive + nervaTotalLive;
+                const goePct = totalDuel > 0 ? ((goeTotalLive / totalDuel) * 100).toFixed(1) : 50.0;
+                const nervaPct = totalDuel > 0 ? ((nervaTotalLive / totalDuel) * 100).toFixed(1) : 50.0;
+                const diff = goeTotalLive - nervaTotalLive;
+                const diffStr = diff >= 0 ? `+${diff.toLocaleString('pl-PL')} przewagi GoE` : `${diff.toLocaleString('pl-PL')} straty do Nervy`;
 
-                document.getElementById('camp-bar-goe').style.width = `${campGoePct}%`;
-                document.getElementById('camp-bar-nerva').style.width = `${campNervaPct}%`;
-                document.getElementById('camp-bar-tobias').style.width = `${campTobiasPct}%`;
+                if (ctxSummary) ctxSummary.innerText = `GoE skupia ${goePct}% widowni starcia (${diffStr})`;
+                if (ctxScore) ctxScore.innerText = `GoE: ${goeTotalLive.toLocaleString('pl-PL')} vs Nerva: ${nervaTotalLive.toLocaleString('pl-PL')}`;
+                if (barLeft) barLeft.style.width = `${goePct}%`;
+                if (barRight) barRight.style.width = `${nervaPct}%`;
 
-                // Breakdown values
-                document.getElementById('breakdown-val-goe').innerText = liveGoeTot.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-goe').innerText = 'Na żywo';
-                document.getElementById('breakdown-val-nerva-off').innerText = liveNervaOffTot.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-nerva-off').innerText = 'Na żywo (2 kanały)';
-                document.getElementById('breakdown-val-nerva-costream').innerText = liveNervaCostream.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-nerva-costream').innerText = 'YouTube Co-stream';
-                document.getElementById('breakdown-val-nerva-total').innerText = liveNervaCampTot.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-nerva-total').innerText = 'Obóz Nervariena (Suma)';
-                document.getElementById('breakdown-val-tobias').innerText = liveTobiasTot.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-tobias').innerText = 'Obóz Tobiasza (Twitch)';
+                // Update document tab title
+                document.title = `🔴 GoE ${goeTotalLive.toLocaleString('pl-PL')} vs ${nervaTotalLive.toLocaleString('pl-PL')} | #bunkier`;
+            } else if (isFinished) {
+                const pkGoe = summaryStats.goe_peak || 0;
+                const pkNerva = summaryStats.nerva_peak || 0;
+                const totPk = pkGoe + pkNerva;
+                const goePct = totPk > 0 ? ((pkGoe / totPk) * 100).toFixed(1) : 50.0;
+                const nervaPct = totPk > 0 ? ((pkNerva / totPk) * 100).toFixed(1) : 50.0;
 
-                // Soft Dimming for 0 viewer co-stream tiles
-                if (miniNervaCostream) miniNervaCostream.classList.toggle('mini-card-dimmed', liveNervaCostream === 0);
-                if (miniTobias) miniTobias.classList.toggle('mini-card-dimmed', liveTobiasTot === 0);
-            } else if (hasDataHistory) {
-                const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
-                const nCampPk = st.nerva_camp_peak || (st.nerva_peak + (st.nerva_costream_peak || 0));
-                const tobiasPk = st.tobias_peak || st.tobias_costream_peak || 0;
-                const tot3Pk = gPk + nCampPk + tobiasPk;
-                const cGoePct = tot3Pk > 0 ? (gPk / tot3Pk * 100).toFixed(1) : 33.3;
-                const cNervaPct = tot3Pk > 0 ? (nCampPk / tot3Pk * 100).toFixed(1) : 33.3;
-                const cTobiasPct = tot3Pk > 0 ? (tobiasPk / tot3Pk * 100).toFixed(1) : 33.4;
-
-                document.getElementById('camp-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('camp-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
-                document.getElementById('camp-nerva-score').innerText = `${nCampPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('camp-nerva-share').innerText = `Obóz Nervariena (Śr: ${(st.nerva_camp_avg || (st.nerva_avg + (st.nerva_costream_avg || 0))).toLocaleString('pl-PL')})`;
-                document.getElementById('camp-tobias-score').innerText = `${tobiasPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('camp-tobias-share').innerText = `Obóz Tobiasza (Śr: ${(st.tobias_avg || st.tobias_costream_avg || 0).toLocaleString('pl-PL')})`;
-
-                document.getElementById('camp-bar-goe').style.width = `${cGoePct}%`;
-                document.getElementById('camp-bar-nerva').style.width = `${cNervaPct}%`;
-                document.getElementById('camp-bar-tobias').style.width = `${cTobiasPct}%`;
-
-                // Breakdown values with finished peaks & averages
-                document.getElementById('breakdown-val-goe').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-goe').innerText = `Średnia: ${st.goe_avg.toLocaleString('pl-PL')}`;
-                document.getElementById('breakdown-val-nerva-off').innerText = `${st.nerva_peak.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-nerva-off').innerText = `Średnia: ${st.nerva_avg.toLocaleString('pl-PL')}`;
-                
-                const nCostreamPk = st.nerva_costream_peak || 0;
-                document.getElementById('breakdown-val-nerva-costream').innerText = `${nCostreamPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-nerva-costream').innerText = `Średnia: ${(st.nerva_costream_avg || 0).toLocaleString('pl-PL')}`;
-                if (miniNervaCostream) miniNervaCostream.classList.toggle('mini-card-dimmed', nCostreamPk === 0);
-
-                document.getElementById('breakdown-val-nerva-total').innerText = `${nCampPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-nerva-total').innerText = `Średnia: ${(st.nerva_camp_avg || 0).toLocaleString('pl-PL')}`;
-
-                document.getElementById('breakdown-val-tobias').innerText = `${tobiasPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-tobias').innerText = (tobiasPk > 0) ? `Średnia: ${(st.tobias_avg || st.tobias_costream_avg || 0).toLocaleString('pl-PL')}` : 'Brak transmisji w tym dniu';
-                if (miniTobias) miniTobias.classList.toggle('mini-card-dimmed', tobiasPk === 0);
+                if (ctxSummary) ctxSummary.innerText = `Wynik dnia: GoE ${pkGoe.toLocaleString('pl-PL')} pik vs Nervarien ${pkNerva.toLocaleString('pl-PL')} pik (${goePct}% udziału)`;
+                if (ctxScore) ctxScore.innerText = `Średnia dnia: GoE ${(summaryStats.goe_avg || 0).toLocaleString('pl-PL')} vs Nerva ${(summaryStats.nerva_avg || 0).toLocaleString('pl-PL')}`;
+                if (barLeft) barLeft.style.width = `${goePct}%`;
+                if (barRight) barRight.style.width = `${nervaPct}%`;
+                document.title = `🏁 ${rawData.day_name || 'Dzień'} Zakończony | Co-stream GoE #bunkier`;
             } else {
-                document.getElementById('camp-goe-score').innerText = '--';
-                document.getElementById('camp-goe-share').innerText = 'Oczekiwanie na start';
-                document.getElementById('camp-nerva-score').innerText = '--';
-                document.getElementById('camp-nerva-share').innerText = 'Oczekiwanie na start';
-                document.getElementById('camp-tobias-score').innerText = '--';
-                document.getElementById('camp-tobias-share').innerText = 'Oczekiwanie na start';
-
-                document.getElementById('camp-bar-goe').style.width = '33.3%';
-                document.getElementById('camp-bar-nerva').style.width = '33.3%';
-                document.getElementById('camp-bar-tobias').style.width = '33.4%';
-
-                document.getElementById('breakdown-val-goe').innerText = '--';
-                document.getElementById('breakdown-sub-goe').innerText = 'Brak danych';
-                document.getElementById('breakdown-val-nerva-off').innerText = '--';
-                document.getElementById('breakdown-sub-nerva-off').innerText = 'Brak danych';
-                document.getElementById('breakdown-val-nerva-costream').innerText = '--';
-                document.getElementById('breakdown-sub-nerva-costream').innerText = 'Brak danych';
-                document.getElementById('breakdown-val-nerva-total').innerText = '--';
-                document.getElementById('breakdown-sub-nerva-total').innerText = 'Brak danych';
-                document.getElementById('breakdown-val-tobias').innerText = '--';
-                document.getElementById('breakdown-sub-tobias').innerText = 'Brak danych';
-
-                if (miniNervaCostream) miniNervaCostream.classList.add('mini-card-dimmed');
-                if (miniTobias) miniTobias.classList.add('mini-card-dimmed');
+                if (ctxSummary) ctxSummary.innerText = `Pojedynek wieczoru: GoE (start 21:30) vs Nervarien (przewidywany start ~22:30)`;
+                if (ctxScore) ctxScore.innerText = `Mecz ćwierćfinałowy: 23:00 CET`;
+                if (barLeft) barLeft.style.width = `50%`;
+                if (barRight) barRight.style.width = `50%`;
+                document.title = `⏳ Odliczanie do 21:30 | Co-stream GoE #bunkier`;
             }
 
-            // --- 4. RENDER STREAM CARDS GRID ---
-            renderStreamsGrids();
-
-            // --- 5. UPDATE MOMENTUM ---
-            if (isLive && rawData.momentum) {
-                renderDelta('goe-hero-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
-                renderDelta('battle-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
-                renderDelta('battle-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
-                renderDelta('camp-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
-                renderDelta('camp-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
-                renderDelta('camp-tobias-momentum', rawData.momentum.nerva_delta || 0, rawData.momentum.minutes);
-            } else {
-                const timeSpan = hasDataHistory ? `Zakończono: ${st.start_time} — ${st.end_time}` : '🔴 Oczekiwanie na transmisję';
-                ['goe-hero-momentum', 'battle-goe-momentum', 'battle-nerva-momentum', 'camp-goe-momentum', 'camp-nerva-momentum', 'camp-tobias-momentum'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) {
-                        el.innerText = timeSpan;
-                        el.className = 'momentum-badge';
-                    }
-                });
-            }
-
-            // --- 6. UPDATE CHARTS ---
-            updateChartSeries();
+            renderChannelsGrid();
         }
 
         function renderDelta(elId, delta, minutes = 5) {
             const el = document.getElementById(elId);
             if (!el) return;
-            if (delta > 0) {
-                el.innerText = `▲ +${delta.toLocaleString('pl-PL')} w ${minutes} min`;
-                el.className = 'momentum-badge momentum-up';
-            } else if (delta < 0) {
-                el.innerText = `▼ ${delta.toLocaleString('pl-PL')} w ${minutes} min`;
-                el.className = 'momentum-badge momentum-down';
-            } else {
-                el.innerText = `— 0 w ${minutes} min`;
+            if (delta === undefined || delta === null) {
+                el.innerText = 'Trend: --';
                 el.className = 'momentum-badge';
-            }
-        }
-
-        function renderStreamsGrids() {
-            if (!rawData || !rawData.groups) return;
-            const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
-            
-            // GoE Streams
-            const goeStreams = allStreams.filter(s => s.group === 'GOE');
-            const goeVisible = goeStreams.filter(s => selectedStreamIds.has(s.id));
-            renderCardList(document.getElementById('goe-streams-grid'), goeVisible.length > 0 ? goeVisible : goeStreams);
-
-            // Official 2v2 Streams (GoE official + Nervarien official)
-            const officialStreams = allStreams.filter(s => {
-                const isTobias = s.id === 'ttobias_lol' || s.group === 'TOBIASZ';
-                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U');
-                return !isTobias && !isCostream;
-            });
-            const officialVisible = officialStreams.filter(s => selectedStreamIds.has(s.id));
-            renderCardList(document.getElementById('official-streams-grid'), officialVisible.length > 0 ? officialVisible : officialStreams);
-
-            // All Streams (3 Camps)
-            const battleVisible = allStreams.filter(s => selectedStreamIds.has(s.id));
-            renderCardList(document.getElementById('battle-streams-grid'), battleVisible.length > 0 ? battleVisible : allStreams);
-        }
-
-        function renderCardList(grid, streams) {
-            if (!grid) return;
-            grid.innerHTML = '';
-
-            // Sort: Live streams first, offline/0 viewers at the end
-            const sorted = [...streams].sort((a, b) => {
-                const aLive = a.is_live && a.viewers > 0;
-                const bLive = b.is_live && b.viewers > 0;
-                if (aLive && !bLive) return -1;
-                if (!aLive && bLive) return 1;
-                return (b.viewers || 0) - (a.viewers || 0);
-            });
-
-            sorted.forEach(st => {
-                const isTwitch = st.platform === 'Twitch';
-                const badgeClass = isTwitch ? 'badge-twitch' : 'badge-yt';
-                const isLiveNow = st.is_live && st.viewers > 0;
-                const dotClass = isLiveNow ? 'live-dot' : 'offline-dot';
-                const viewersText = isLiveNow ? `${st.viewers.toLocaleString('pl-PL')} widzów` : 'OFFLINE';
-                const avatarSrc = st.avatar_url || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517eb-aca7-43f8-963e-aca743f8963e-profile_image-150x150.png';
-                const isTobias = st.id === 'ttobias_lol' || st.group === 'TOBIASZ';
-                const isCostream = !isTobias && !!(st.is_costream || st.is_curiosity || st.id === 'woX6jXefVdw' || st.id === 'N3i_DQlKL_U');
-                const isDimmed = !isLiveNow;
-                
-                let costreamTag = '';
-                if (isTobias) {
-                    costreamTag = `<span class="tobias-badge" style="margin-left: 6px;">Obóz Tobiasz</span>`;
-                } else if (isCostream) {
-                    costreamTag = `<span class="costream-badge" style="margin-left: 6px;">Co-stream</span>`;
-                }
-
-                const a = document.createElement('a');
-                a.className = `stream-item ${isDimmed ? 'stream-item-dimmed' : ''}`;
-                a.href = st.url;
-                a.target = '_blank';
-                a.innerHTML = `
-                    <div class="avatar-box">
-                        <img src="${avatarSrc}" alt="${st.channel}" loading="lazy" onerror="this.style.display='none'">
-                    </div>
-                    <div class="stream-info">
-                        <div class="stream-item-header">
-                            <div class="channel-name">
-                                <span class="${dotClass}"></span>
-                                <span class="platform-badge ${badgeClass}">${st.platform}</span>
-                                <span>${st.channel}</span>
-                                ${costreamTag}
-                            </div>
-                        </div>
-                        <div class="stream-title" title="${st.title}">${st.title || ''}</div>
-                    </div>
-                    <div class="stream-viewers">${viewersText}</div>
-                `;
-                grid.appendChild(a);
-            });
-        }
-
-        /* --- CHART DATASET FILTERING & REACTIVITY --- */
-        function updateChartSeries() {
-            if (!detailedHistory || detailedHistory.length === 0) {
-                if (goeChartInstance) {
-                    goeChartInstance.data.labels = [];
-                    goeChartInstance.data.datasets = [];
-                    goeChartInstance.update();
-                }
-                if (comparisonChartInstance) {
-                    comparisonChartInstance.data.labels = [];
-                    comparisonChartInstance.data.datasets = [];
-                    comparisonChartInstance.update();
-                }
-                if (costreamComparisonChartInstance) {
-                    costreamComparisonChartInstance.data.labels = [];
-                    costreamComparisonChartInstance.data.datasets = [];
-                    costreamComparisonChartInstance.update();
-                }
                 return;
             }
-
-            const labels = detailedHistory.map(pt => pt.timestamp.split(' ')[1] || pt.timestamp);
-
-            // Group identification
-            const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
-            const nervaOffIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'NERVA' && !STREAM_METADATA[id].is_costream && !STREAM_METADATA[id].is_curiosity);
-            const nervaCostreamIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && (STREAM_METADATA[id].is_costream || STREAM_METADATA[id].is_curiosity));
-            const tobiasIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && (STREAM_METADATA[id].group === 'TOBIASZ' || STREAM_METADATA[id].is_tobias || id === 'ttobias_lol'));
-
-            const selectedGoeIds = goeIds.filter(id => selectedStreamIds.has(id));
-            const selectedNervaOffIds = nervaOffIds.filter(id => selectedStreamIds.has(id));
-            const selectedCostreamIds = nervaCostreamIds.filter(id => selectedStreamIds.has(id));
-            const selectedTobiasIds = tobiasIds.filter(id => selectedStreamIds.has(id));
-
-            // --- 1. GOE CHART (ONLY GOE) ---
-            if (goeChartInstance) {
-                const goeDatasets = [];
-                const goeYtId = goeIds.find(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'YouTube');
-                const goeTwId = 'goe_stream';
-                const hasYt = goeYtId && selectedStreamIds.has(goeYtId);
-                const hasTw = selectedStreamIds.has(goeTwId);
-
-                if (selectedGoeIds.length > 0) {
-                    const totalGoeData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedGoeIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) {
-                                sum += filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
-                            }
-                        });
-                        return sum;
-                    });
-
-                    goeDatasets.push({
-                        label: filterBots ? 'GoE Łącznie (Organiczne)' : 'GoE Łącznie (Z botami)',
-                        data: totalGoeData,
-                        borderColor: '#ff0033',
-                        backgroundColor: 'rgba(255, 0, 51, 0.15)',
-                        tension: 0.25,
-                        fill: true,
-                        borderWidth: 3,
-                        pointRadius: labels.length > 60 ? 0 : 3
-                    });
-
-                    if (hasYt && (hasTw || selectedGoeIds.length > 1)) {
-                        const ytMeta = STREAM_METADATA[goeYtId] || { name: 'YouTube' };
-                        goeDatasets.push({
-                            label: filterBots ? `YouTube (${ytMeta.name} - Oczyszczone)` : `YouTube (${ytMeta.name} - Z botami)`,
-                            data: detailedHistory.map(pt => {
-                                const s = pt.streams && pt.streams[goeYtId];
-                                return s ? (filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0)) : 0;
-                            }),
-                            borderColor: '#ef4444',
-                            borderDash: [5, 5],
-                            borderWidth: 2,
-                            fill: false,
-                            pointRadius: labels.length > 60 ? 0 : 2
-                        });
-                    }
-
-                    if (hasTw && (hasYt || selectedGoeIds.length > 1)) {
-                        goeDatasets.push({
-                            label: 'Twitch (GoE_stream)',
-                            data: detailedHistory.map(pt => (pt.streams && pt.streams[goeTwId]) ? (pt.streams[goeTwId].viewers || 0) : 0),
-                            borderColor: '#9146ff',
-                            borderDash: [3, 3],
-                            borderWidth: 2,
-                            fill: false,
-                            pointRadius: labels.length > 60 ? 0 : 2
-                        });
-                    }
-                }
-
-                goeChartInstance.data.labels = labels;
-                goeChartInstance.data.datasets = goeDatasets;
-                goeChartInstance.update();
-            }
-
-            // --- 2. OFFICIAL 2v2 DUEL CHART ---
-            if (comparisonChartInstance) {
-                const compDatasets = [];
-
-                if (selectedGoeIds.length > 0) {
-                    const goeData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedGoeIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    compDatasets.push({
-                        label: filterBots ? 'GOE (Kielecki Bunkier - Organiczne)' : 'GOE (Kielecki Bunkier - Z botami)',
-                        data: goeData,
-                        borderColor: '#ff0033',
-                        backgroundColor: 'rgba(255, 0, 51, 0.15)',
-                        tension: 0.25,
-                        fill: true,
-                        borderWidth: 3,
-                        pointRadius: labels.length > 60 ? 0 : 3
-                    });
-                }
-
-                if (selectedNervaOffIds.length > 0) {
-                    const nervaOffData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedNervaOffIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += (s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    compDatasets.push({
-                        label: 'NERVARIEN (Główne kanały)',
-                        data: nervaOffData,
-                        borderColor: '#ffffff',
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        tension: 0.25,
-                        fill: true,
-                        borderWidth: 2.5,
-                        pointRadius: labels.length > 60 ? 0 : 3
-                    });
-                }
-
-                comparisonChartInstance.data.labels = labels;
-                comparisonChartInstance.data.datasets = compDatasets;
-                comparisonChartInstance.update();
-            }
-
-            // --- 3. 3-CAMPS BATTLE MULTI-SERIES CHART ---
-            if (costreamComparisonChartInstance) {
-                const costreamDatasets = [];
-
-                // GoE Camp Line
-                if (selectedGoeIds.length > 0) {
-                    const goeData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedGoeIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    costreamDatasets.push({
-                        label: filterBots ? '🔴 GOE (Kielecki Bunkier)' : '🔴 GOE (Z botami)',
-                        data: goeData,
-                        borderColor: '#ff0033',
-                        backgroundColor: 'rgba(255, 0, 51, 0.12)',
-                        tension: 0.25,
-                        fill: true,
-                        borderWidth: 3,
-                        pointRadius: labels.length > 60 ? 0 : 3
-                    });
-                }
-
-                // Nervarien Official Line
-                if (selectedNervaOffIds.length > 0) {
-                    const nervaOffData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedNervaOffIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += (s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    costreamDatasets.push({
-                        label: '⚪ NERVARIEN (Główny)',
-                        data: nervaOffData,
-                        borderColor: '#ffffff',
-                        tension: 0.25,
-                        fill: false,
-                        borderWidth: 2,
-                        pointRadius: labels.length > 60 ? 0 : 2
-                    });
-                }
-
-                // Nerva Co-stream Line
-                if (selectedCostreamIds.length > 0) {
-                    const costreamData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedCostreamIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += (s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    costreamDatasets.push({
-                        label: '💡 Nerva Co-stream',
-                        data: costreamData,
-                        borderColor: '#f59e0b',
-                        borderDash: [5, 5],
-                        tension: 0.25,
-                        fill: false,
-                        borderWidth: 2,
-                        pointRadius: labels.length > 60 ? 0 : 2
-                    });
-                }
-
-                // Nervarien Camp Total (Shown when both official and co-stream channels are selected)
-                if (selectedNervaOffIds.length > 0 && selectedCostreamIds.length > 0) {
-                    const nervaCampTotalData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        [...selectedNervaOffIds, ...selectedCostreamIds].forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += (s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    costreamDatasets.push({
-                        label: '🟣 OBÓZ NERVARIENA (ŁĄCZNIE)',
-                        data: nervaCampTotalData,
-                        borderColor: '#c084fc',
-                        backgroundColor: 'rgba(192, 132, 252, 0.08)',
-                        tension: 0.25,
-                        fill: true,
-                        borderWidth: 2.5,
-                        pointRadius: labels.length > 60 ? 0 : 3
-                    });
-                }
-
-                // Tobiasz Camp Line (Independent Camp)
-                if (selectedTobiasIds.length > 0) {
-                    const tobiasData = detailedHistory.map(pt => {
-                        let sum = 0;
-                        selectedTobiasIds.forEach(id => {
-                            const s = pt.streams && pt.streams[id];
-                            if (s) sum += (s.viewers || 0);
-                        });
-                        return sum;
-                    });
-                    costreamDatasets.push({
-                        label: '🟠 OBÓZ TOBIASZA (ttobias_lol)',
-                        data: tobiasData,
-                        borderColor: '#f97316',
-                        backgroundColor: 'rgba(249, 115, 22, 0.08)',
-                        tension: 0.25,
-                        fill: true,
-                        borderWidth: 3,
-                        pointRadius: labels.length > 60 ? 0 : 3
-                    });
-                }
-
-                costreamComparisonChartInstance.data.labels = labels;
-                costreamComparisonChartInstance.data.datasets = costreamDatasets;
-                costreamComparisonChartInstance.update();
-            }
+            const sign = delta > 0 ? '+' : '';
+            const cls = delta > 0 ? 'up' : (delta < 0 ? 'down' : 'flat');
+            const arrow = delta > 0 ? '▲' : (delta < 0 ? '▼' : '▬');
+            el.innerText = `${arrow} ${sign}${delta} / ${minutes} min`;
+            el.className = `momentum-badge momentum-${cls}`;
         }
 
-        function setTimeRange(range) {
-            currentTimeRange = range;
-            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll(`.time-btn-${range}`).forEach(b => b.classList.add('active'));
-            applyTimeRangeSlice();
-            const rangeNames = { '15m': '15 minut', '30m': '30 minut', '1h': '1 godzina', '2h': '2 godziny', 'all': 'Cały stream' };
-            showToast(`Zakres osi czasu: ${rangeNames[range] || range}`);
-        }
-
-        function applyTimeRangeSlice() {
-            if (!fullHistory || fullHistory.length === 0) {
-                detailedHistory = [];
-                const goeSub = document.getElementById('goe-chart-sub-label');
-                if (goeSub) goeSub.innerText = 'Brak danych w wybranym dniu (Oczekiwanie na transmisję)';
-                const compSub = document.getElementById('comp-chart-sub-label');
-                if (compSub) compSub.innerText = 'Brak danych w wybranym dniu (Oczekiwanie na transmisję)';
-                const costreamSub = document.getElementById('costream-chart-sub-label');
-                if (costreamSub) costreamSub.innerText = 'Brak danych w wybranym dniu (Oczekiwanie na transmisję)';
-                updateChartSeries();
-                return;
-            }
-
-            if (currentTimeRange === 'all') {
-                detailedHistory = [...fullHistory];
-            } else {
-                const lastPt = fullHistory[fullHistory.length - 1];
-                let lastUnix = lastPt.unix_time;
-                if (!lastUnix && lastPt.timestamp) {
-                    lastUnix = new Date(lastPt.timestamp.replace(' ', 'T')).getTime() / 1000;
-                }
-                let durationSec = 15 * 60;
-                if (currentTimeRange === '15m') durationSec = 15 * 60;
-                else if (currentTimeRange === '30m') durationSec = 30 * 60;
-                else if (currentTimeRange === '1h') durationSec = 60 * 60;
-                else if (currentTimeRange === '2h') durationSec = 120 * 60;
-
-                const cutoff = lastUnix - durationSec;
-                detailedHistory = fullHistory.filter(pt => {
-                    let u = pt.unix_time;
-                    if (!u && pt.timestamp) {
-                        u = new Date(pt.timestamp.replace(' ', 'T')).getTime() / 1000;
-                    }
-                    return u >= cutoff;
-                });
-                if (detailedHistory.length === 0) {
-                    detailedHistory = fullHistory.slice(-Math.min(60, fullHistory.length));
-                }
-            }
-
-            const count = detailedHistory.length;
-            let rangeLabel = 'Brak historii';
-            if (count > 0) {
-                const firstTime = detailedHistory[0].timestamp.split(' ')[1] || detailedHistory[0].timestamp;
-                const lastTime = detailedHistory[count - 1].timestamp.split(' ')[1] || detailedHistory[count - 1].timestamp;
-                rangeLabel = `${count} pomiarów (${firstTime} — ${lastTime})`;
-            }
-
-            const goeSub = document.getElementById('goe-chart-sub-label');
-            if (goeSub) goeSub.innerText = `YouTube & Twitch • ${rangeLabel}`;
-            const compSub = document.getElementById('comp-chart-sub-label');
-            if (compSub) compSub.innerText = `Główne kanały (2 vs 2) • ${rangeLabel}`;
-            const costreamSub = document.getElementById('costream-chart-sub-label');
-            if (costreamSub) costreamSub.innerText = `Starcie 3 obozów: GoE vs Nervarien vs Tobiasz • ${rangeLabel}`;
-
-            updateChartSeries();
-        }
-
+        /* --- MULTI-DAY SWITCHING --- */
         async function switchDay(dayId) {
             currentDayId = dayId;
             updateDayTabsUI();
@@ -2665,7 +2437,6 @@
 
         async function loadDayData(dayId) {
             try {
-                // Clear state immediately to avoid ghosting
                 fullHistory = [];
                 detailedHistory = [];
 
@@ -2685,8 +2456,6 @@
                         const fb = await fallbackResp.json();
                         if (fb.active_day_id === dayId || fb.day_id === dayId) {
                             rawData = fb;
-                        } else {
-                            rawData = null;
                         }
                     }
                 }
@@ -2709,7 +2478,8 @@
                 updateStreamsMetadataFromData();
                 applyTimeRangeSlice();
                 updateUI();
-                renderFilterChips();
+                renderChannelsGrid();
+                updateActiveBadge();
 
                 const timeStr = rawData ? rawData.timestamp : '';
                 document.getElementById('last-updated').innerText = `W KIELECKIM STUDIU • ${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
@@ -2718,121 +2488,135 @@
             } catch (err) {
                 console.error("Load day data error:", err);
                 document.getElementById('api-dot').style.background = '#f59e0b';
-                document.getElementById('api-label').innerText = 'Błąd';
             }
         }
 
-        let refreshSecondsTotal = 30;
-        let refreshSecondsLeft = 30;
-        let refreshTickerInterval = null;
-
+        /* --- AUTO REFRESH TICKER --- */
         function resetRefreshCountdown() {
-            refreshSecondsLeft = refreshSecondsTotal;
+            const selectEl = document.getElementById('auto-refresh-select');
+            const val = selectEl ? parseInt(selectEl.value, 10) : 30;
+            refreshSecondsRemaining = val > 0 ? val : 30;
             updateRefreshProgressUI();
         }
 
         function updateRefreshProgressUI() {
-            const cdEl = document.getElementById('sync-countdown');
+            const selectEl = document.getElementById('auto-refresh-select');
+            const total = selectEl ? parseInt(selectEl.value, 10) : 30;
             const barEl = document.getElementById('refresh-progress-bar');
-            if (refreshSecondsTotal <= 0) {
-                if (cdEl) cdEl.innerText = '• wyłączone';
+            const countdownEl = document.getElementById('sync-countdown');
+
+            if (total === 0) {
+                if (countdownEl) countdownEl.innerText = '• Wył.';
                 if (barEl) barEl.style.width = '0%';
                 return;
             }
-            if (cdEl) cdEl.innerText = `• za ${refreshSecondsLeft}s`;
+
+            const pct = Math.max(0, Math.min(100, ((total - refreshSecondsRemaining) / total) * 100));
             if (barEl) {
-                const pct = Math.max(0, Math.min(100, (refreshSecondsLeft / refreshSecondsTotal) * 100));
                 barEl.style.width = `${pct}%`;
+            }
+            if (countdownEl) {
+                countdownEl.innerText = `• ${refreshSecondsRemaining}s`;
             }
         }
 
         async function loadData(manual = false) {
-            try {
-                await loadDayData(currentDayId);
-                resetRefreshCountdown();
-                if (manual) showToast('Zaktualizowano dane!');
-            } catch (err) {
-                console.error("Load data error:", err);
+            resetRefreshCountdown();
+            await loadDayData(currentDayId);
+            if (manual) {
+                showToast('Zaktualizowano dane z serwera');
             }
         }
 
         function setupAutoRefresh() {
             if (autoInterval) clearInterval(autoInterval);
-            if (refreshTickerInterval) clearInterval(refreshTickerInterval);
+            if (refreshCountdownInterval) clearInterval(refreshCountdownInterval);
 
-            const seconds = parseInt(document.getElementById('auto-refresh-select').value);
-            refreshSecondsTotal = seconds;
-            refreshSecondsLeft = seconds;
-            updateRefreshProgressUI();
+            const selectEl = document.getElementById('auto-refresh-select');
+            const intervalSec = parseInt(selectEl.value, 10);
 
-            if (seconds > 0) {
-                autoInterval = setInterval(async () => {
-                    await loadData(false);
-                }, seconds * 1000);
+            if (intervalSec > 0) {
+                refreshSecondsRemaining = intervalSec;
+                updateRefreshProgressUI();
 
-                refreshTickerInterval = setInterval(() => {
-                    refreshSecondsLeft--;
-                    if (refreshSecondsLeft < 0) refreshSecondsLeft = refreshSecondsTotal;
+                refreshCountdownInterval = setInterval(() => {
+                    refreshSecondsRemaining--;
+                    if (refreshSecondsRemaining <= 0) {
+                        refreshSecondsRemaining = intervalSec;
+                    }
                     updateRefreshProgressUI();
                 }, 1000);
+
+                autoInterval = setInterval(() => {
+                    loadData(false);
+                }, intervalSec * 1000);
+            } else {
+                updateRefreshProgressUI();
             }
         }
 
+        /* --- EXPORT & CLIPBOARD UTILITIES --- */
         function copyShareLink() {
             const url = window.location.href;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(() => {
-                    showToast('Skopiowano link do schowka!');
-                }).catch(() => {
-                    showToast('Link: ' + url);
-                });
-            } else {
-                showToast('Link: ' + url);
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('📋 Skopiowano link do strony do schowka!');
+            }).catch(() => {
+                showToast('Skopiuj adres: ' + url);
+            });
+        }
+
+        async function copyLiveCardToClipboard() {
+            try {
+                const cardUrl = (currentDayId === 'day-1') ? 'battle_card_day-1.png' : 'battle_card.png';
+                const resp = await fetch(cardUrl);
+                if (!resp.ok) throw new Error('Błąd ładowania pliku karty');
+                const blob = await resp.blob();
+                await navigator.clipboard.write([
+                    new ClipboardItem({ 'image/png': blob })
+                ]);
+                showToast('📋 Skopiowano grafikę do schowka! Wklej ją (Ctrl+V) na Discordzie lub X.');
+            } catch (err) {
+                console.error("Clipboard copy error:", err);
+                showToast('⚠️ Przeglądarka zablokowała schowek. Użyj przycisku Pobierz.');
             }
         }
 
         function downloadLiveCard() {
-            window.open(`./battle_card_${currentDayId}.png`, '_blank');
+            const file = (currentDayId === 'day-1') ? 'battle_card_day-1.png' : 'battle_card.png';
+            window.open(file, '_blank');
         }
 
-        function downloadSummaryCard(mode = 'goe') {
-            if (mode === 'goe') {
-                window.open(filterBots ? `./goe_summary_${currentDayId}.png` : `./goe_summary_raw_${currentDayId}.png`, '_blank');
-            } else if (mode === 'camps') {
-                window.open(filterBots ? `./camps_summary_${currentDayId}.png` : `./camps_summary_raw_${currentDayId}.png`, '_blank');
+        function downloadSummaryCard(type = 'goe') {
+            let file = '';
+            if (type === 'goe') {
+                file = (currentDayId === 'day-1') ? 'goe_summary_day-1.png' : 'goe_summary.png';
             } else {
-                window.open(filterBots ? `./stream_summary_${currentDayId}.png` : `./stream_summary_raw_${currentDayId}.png`, '_blank');
+                file = (currentDayId === 'day-1') ? 'stream_summary_day-1.png' : 'stream_summary.png';
             }
+            window.open(file, '_blank');
         }
 
         function downloadCSV() {
-            window.open(`./stream_data_${currentDayId}.csv`, '_blank');
+            const file = (currentDayId === 'day-1') ? 'stream_data_day-1.csv' : 'stream_data.csv';
+            window.open(file, '_blank');
         }
 
         function showToast(msg) {
-            const t = document.getElementById('toast');
-            if (!t) return;
-            t.innerText = msg;
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 2000);
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.innerText = msg;
+            toast.className = 'toast show';
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
         }
 
-        window.onload = async () => {
-            initCharts();
-            try {
-                const initResp = await fetch('./data.json?t=' + Date.now()).catch(() => null);
-                if (initResp && initResp.ok) {
-                    const initData = await initResp.json();
-                    if (initData.active_day_id) {
-                        currentDayId = initData.active_day_id;
-                    }
-                }
-            } catch (e) {}
-
-            updateDayTabsUI();
-            await loadDayData(currentDayId);
+        /* --- INITIALIZATION --- */
+        window.addEventListener('DOMContentLoaded', () => {
+            initMasterChart();
+            loadDayData(currentDayId);
             setupAutoRefresh();
-        };
+        });
     </script>
 </body>
 </html>
