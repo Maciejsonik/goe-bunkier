@@ -94,7 +94,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
             for sid, s in streams.items():
                 if sid != "goe_stream" and (
                     (s.get("group") == "GOE" and s.get("platform") == "YouTube")
-                    or sid == "I2E60nEUXWo"
+                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
                 ):
                     goe_yt_v = s.get("viewers", 0)
                     goe_yt_raw_v = s.get("viewers_raw", goe_yt_v)

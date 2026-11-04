@@ -59,7 +59,7 @@ DAYS_CONFIG = {
                 "name": "Gadają o Esporcie (GOE)",
                 "color": "#3b82f6",  # Neon Blue
                 "twitch": ["goe_stream"],
-                "youtube": ["@gadaja_"],  # Auto-obserwacja kanalu @gadaja_
+                "youtube": ["dKZGkF2mIDU"],  # Ćwierćfinał Lyon vs Gen.G (04.11)
             },
             "NERVA": {
                 "name": "Nervarien",

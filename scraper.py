@@ -96,12 +96,28 @@ def fetch_youtube_stream(video_id: str) -> dict:
 
             # Extract title
             title_m = re.search(r"<title>(.*?)</title>", html)
-            raw_title = title_m.group(1) if title_m else "YouTube Stream"
+            raw_title = title_m.group(1) if title_m else ""
             title = raw_title.replace(" - YouTube", "").strip()
+
+            if not title or title in ("YouTube", "YouTube Stream"):
+                m_vp = re.search(
+                    r'videoPrimaryInfoRenderer":\{"title":\{"runs":\[\{"text":"(.*?)"\}\]',
+                    html,
+                )
+                if m_vp:
+                    title = m_vp.group(1)
 
             # Channel / Author name
             channel_m = re.search(r'"ownerChannelName":"([^"]+)"', html)
-            channel = channel_m.group(1) if channel_m else "YouTube"
+            if not channel_m:
+                channel_m = re.search(
+                    r'"videoOwnerRenderer":\{.*?"text":"([^"]+)"', html
+                )
+            if not channel_m:
+                channel_m = re.search(
+                    r'"channelMetadataRenderer":\{.*?"title":"([^"]+)"', html
+                )
+            channel = channel_m.group(1) if channel_m else ("Gadają o Esporcie" if "gadaja" in html.lower() else "YouTube")
 
             # Avatar URL
             avatar_m = re.search(r'"avatar":\{"thumbnails":\[\{"url":"([^"]+)"', html)
@@ -227,6 +243,60 @@ def fetch_youtube_channel_live(handle: str) -> dict:
                     r'<link rel="canonical" href="https://www.youtube.com/watch\?v=([a-zA-Z0-9_-]{11})">',
                     html,
                 )
+
+            # Fallback: inspect channel's /streams tab to find the latest broadcast
+            if not vid_m:
+                try:
+                    url_streams = f"https://www.youtube.com/{clean_handle}/streams"
+                    req_s = urllib.request.Request(
+                        url_streams,
+                        headers={
+                            "User-Agent": USER_AGENT,
+                            "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7",
+                        },
+                    )
+                    with urllib.request.urlopen(req_s, timeout=6) as resp_s:
+                        html_s = resp_s.read().decode("utf-8", errors="ignore")
+                        m_init = re.search(
+                            r"var ytInitialData = ({.*?});</script>", html_s
+                        )
+                        if m_init:
+                            try:
+                                d_init = json.loads(m_init.group(1))
+
+                                def find_first_content_id(obj):
+                                    if isinstance(obj, dict):
+                                        if (
+                                            "lockupViewModel" in obj
+                                            and "contentId" in obj["lockupViewModel"]
+                                        ):
+                                            return obj["lockupViewModel"]["contentId"]
+                                        for v in obj.values():
+                                            res = find_first_content_id(v)
+                                            if res:
+                                                return res
+                                    elif isinstance(obj, list):
+                                        for item in obj:
+                                            res = find_first_content_id(item)
+                                            if res:
+                                                return res
+                                    return None
+
+                                stream_vid = find_first_content_id(d_init)
+                                if stream_vid:
+                                    vid_m = re.match(
+                                        r"^([a-zA-Z0-9_-]{11})$", stream_vid
+                                    )
+                            except Exception:
+                                pass
+                        if not vid_m:
+                            vid_m = re.search(
+                                r'"contentId":"([a-zA-Z0-9_-]{11})"', html_s
+                            )
+                except Exception as ex_s:
+                    print(
+                        f"[YouTube Observer] Fallback /streams for {clean_handle}: {ex_s}"
+                    )
 
             is_live_now = '"isLiveNow":true' in html or '"isLive":true' in html
             is_ended = '"isLiveNow":false' in html or '"endTimestamp"' in html
