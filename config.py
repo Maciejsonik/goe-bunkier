@@ -48,14 +48,20 @@ DAYS_CONFIG = {
                 "youtube": [],  # GoE YouTube link will be added here once announced
             },
             "NERVA": {
-                "name": "Nervarien & Co-streams",
+                "name": "Nervarien",
                 "color": "#ef4444",  # Crimson Red
-                "twitch": ["nervarien", "ttobias_lol"],
+                "twitch": ["nervarien"],
                 "youtube": ["00uONX5EBiA", "N3i_DQlKL_U"],
             },
+            "TOBIASZ": {
+                "name": "Tobiasz",
+                "color": "#f97316",  # Vibrant Orange
+                "twitch": ["ttobias_lol"],
+                "youtube": [],
+            },
         },
-        "costream_streams": ["N3i_DQlKL_U", "ttobias_lol"],
-        "curiosity_streams": ["N3i_DQlKL_U", "ttobias_lol"],
+        "costream_streams": ["N3i_DQlKL_U"],
+        "curiosity_streams": ["N3i_DQlKL_U"],
     },
 }
 
@@ -65,8 +71,8 @@ COSTREAM_STREAMS = {
     "woX6jXefVdw": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "N3i_DQlKL_U": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "ttobias_lol": {
-        "name": "Tobiasz Co-stream",
-        "group": "NERVA",
+        "name": "Tobiasz",
+        "group": "TOBIASZ",
         "platform": "Twitch",
     },
 }
@@ -94,10 +100,6 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
 
 def get_groups_config(day_id: str | None = None) -> dict:
     """Returns groups configuration dictionary for a given day id."""
-    if day_id is None:
-        day_id = get_active_day_id()
-    day_entry = DAYS_CONFIG.get(day_id, DAYS_CONFIG["day-1"])
-    return day_entry["groups"]
     if day_id is None:
         day_id = get_active_day_id()
     day_entry = DAYS_CONFIG.get(day_id, DAYS_CONFIG["day-1"])

@@ -215,14 +215,17 @@ def fetch_all_data(
                         ch.lower(), COSTREAM_STREAMS.get(st_item.get("id"), {})
                     )
                     st_item["channel"] = costream_info.get(
-                        "name", st_item.get("channel", "Co-stream")
+                        "name", st_item.get("channel", "Tobiasz")
                     )
-                    st_item["is_costream"] = True
-                    st_item["is_curiosity"] = True  # Backward-compatible
+                    if grp_key != "TOBIASZ":
+                        st_item["is_costream"] = True
+                        st_item["is_curiosity"] = True  # Backward-compatible
                 streams.append(st_item)
-                # Co-streams are excluded from the official head-to-head duel sum
-                if st.get("is_live", False) and not is_costream:
-                    group_total += st.get("viewers", 0)
+                # Co-streams under NERVA are excluded from the official head-to-head duel sum
+                # For TOBIASZ, ttobias_lol is the main stream of the camp
+                if st.get("is_live", False):
+                    if grp_key == "TOBIASZ" or not is_costream:
+                        group_total += st.get("viewers", 0)
 
         # YouTube streams
         for vid in grp_info.get("youtube", []):

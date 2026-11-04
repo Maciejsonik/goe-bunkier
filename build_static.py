@@ -181,7 +181,8 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     any_live = any(
         s.get("is_live", False)
-        for s in data["groups"]["GOE"]["streams"] + data["groups"]["NERVA"]["streams"]
+        for grp in data["groups"].values()
+        for s in grp.get("streams", [])
     )
 
     # 2. Load History for this day
@@ -217,9 +218,10 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
 
         if any_live:
             save_snapshot(data, day_id=day_id)
-            goe_streams = {s["id"]: s for s in data["groups"]["GOE"]["streams"]}
-            nerva_streams = {s["id"]: s for s in data["groups"]["NERVA"]["streams"]}
-            all_s_map = {**goe_streams, **nerva_streams}
+            all_s_map = {}
+            for grp in data["groups"].values():
+                for s in grp.get("streams", []):
+                    all_s_map[s["id"]] = s
 
             new_point = {
                 "timestamp": data["timestamp"],

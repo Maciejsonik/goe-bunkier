@@ -545,9 +545,40 @@
         .bar-segment-goe { height: 100%; background: var(--goe-red); transition: width 0.4s; }
         .bar-segment-nerva { height: 100%; background: #3f3f46; transition: width 0.4s; }
         .bar-segment-camp { height: 100%; background: #a855f7; transition: width 0.4s; }
+        .bar-segment-tobias { height: 100%; background: #f97316; transition: width 0.4s; }
 
         .team-card.camp { border-color: #a855f7; box-shadow: 0 4px 25px rgba(168, 85, 247, 0.15); }
         .team-card.camp .team-name { color: #c084fc; }
+
+        .team-card.tobias { border-color: #f97316; box-shadow: 0 4px 25px rgba(249, 115, 22, 0.15); }
+        .team-card.tobias .team-name { color: #f97316; }
+
+        .scoreboard.scoreboard-3camps {
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+        }
+
+        @media (max-width: 960px) {
+            .scoreboard.scoreboard-3camps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tobias-chip.selected {
+            background: rgba(249, 115, 22, 0.15) !important;
+            border-color: #f97316 !important;
+            color: #ffedd5 !important;
+        }
+        .tobias-chip .chip-dot { background: #f97316 !important; box-shadow: 0 0 8px #f97316 !important; }
+        .tobias-badge {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fdba74;
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
 
         /* Comparison Sub-tabs & Categories */
         .comparison-tabs-wrapper {
@@ -881,7 +912,7 @@
                 ⚔️ Oficjalny Pojedynek (2v2)
             </button>
             <button class="mode-tab" id="tab-costream" onclick="switchMode('costream')">
-                ⚡ Z Co-streamami (+ Tobiasz & Nerva)
+                ⚡ Starcie Obozów (GoE / Nervarien / Tobiasz)
             </button>
         </div>
 
@@ -891,8 +922,9 @@
                 <div class="filter-title">🔍 Filtry transmisji (kliknij, aby wybrać pojedyncze streamy):</div>
                 <div class="preset-buttons">
                     <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
-                    <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek</button>
-                    <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f59e0b; color: #f59e0b;">+ Co-streamy</button>
+                    <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek (2v2)</button>
+                    <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f97316; color: #f97316;">Wszystkie Obozy (+ Tobiasz)</button>
+                    <button class="preset-btn" onclick="applyPreset('tobias_only')" style="border-color: #f97316; color: #f97316;">Tylko Tobiasz</button>
                     <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
                     <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (oficjalne)</button>
                 </div>
@@ -985,7 +1017,7 @@
                     ⚔️ 1. Oficjalny Pojedynek (Tylko oficjalne kanały)
                 </button>
                 <button class="comp-tab-btn costream-active" id="comp-subtab-costreams" onclick="switchComparisonSubmode('costreams')">
-                    ⚡ 2. Porównanie z Co-streamami (+ Tobiasz & Nerva Co-stream)
+                    ⚡ 2. Wszystkie Obozy (GoE / Nervarien / Tobiasz)
                 </button>
                 <button class="comp-tab-btn both-active" id="comp-subtab-both" onclick="switchComparisonSubmode('both')">
                     📊 Pokaż Oba Zestawienia
@@ -1042,32 +1074,40 @@
                 </div>
             </div>
 
-            <!-- SECTION 2: Z CO-STREAMAMI (NERVARIEN + TOBIASZ) -->
+            <!-- SECTION 2: WSZYSTKIE OBOZY (GOE VS NERVARIEN VS TOBIASZ) -->
             <div id="sec-comp-costreams" style="display: none;">
                 <div class="comparison-category-banner costream">
-                    <div style="font-weight: 800; font-size: 13px; color: #f59e0b;">⚡ PORÓWNANIE Z CO-STREAMAMI (GOE VS CAŁY OBÓZ)</div>
-                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">Zestawienie GoE z całym obozem Nervariena: oficjalne kanały + Nerva Co-stream + Tobiasz Co-stream (Twitch).</div>
+                    <div style="font-weight: 800; font-size: 13px; color: #f97316;">⚡ STARCIE WSZYSTKICH TRZECH OBOZÓW (GOE VS NERVARIEN VS TOBIASZ)</div>
+                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">Trzybiegunowe zestawienie transmisji: Obóz GoE (Bunkier), Obóz Nervariena (Oficjalny + Nerva Co-stream) oraz niezależny Obóz Tobiasza (ttobias_lol).</div>
                 </div>
 
-                <div class="scoreboard">
+                <div class="scoreboard scoreboard-3camps">
                     <div class="team-card goe">
                         <div class="team-name">GOE (KIELECKI BUNKIER)</div>
                         <div class="team-score" id="camp-goe-score">--</div>
                         <div class="team-share" id="camp-goe-share">--% widowni</div>
                         <div class="momentum-badge" id="camp-goe-momentum">Trend: --</div>
                     </div>
-                    <div class="vs-badge" style="border-color: #f59e0b;">VS</div>
+                    <div class="vs-badge">VS</div>
                     <div class="team-card camp">
-                        <div class="team-name" style="color: #f59e0b;">OBÓZ NERVARIENA (+ CO-STREAMY)</div>
-                        <div class="team-score" id="camp-total-score">--</div>
-                        <div class="team-share" id="camp-total-share">--% widowni</div>
-                        <div class="momentum-badge" id="camp-total-momentum">Trend: --</div>
+                        <div class="team-name" style="color: #c084fc;">OBÓZ NERVARIENA</div>
+                        <div class="team-score" id="camp-nerva-score">--</div>
+                        <div class="team-share" id="camp-nerva-share">--% widowni</div>
+                        <div class="momentum-badge" id="camp-nerva-momentum">Trend: --</div>
+                    </div>
+                    <div class="vs-badge" style="border-color: #f97316; color: #f97316;">VS</div>
+                    <div class="team-card tobias">
+                        <div class="team-name">OBÓZ TOBIASZA</div>
+                        <div class="team-score" id="camp-tobias-score">--</div>
+                        <div class="team-share" id="camp-tobias-share">--% widowni</div>
+                        <div class="momentum-badge" id="camp-tobias-momentum">Trend: --</div>
                     </div>
                 </div>
 
                 <div class="battle-bar-container">
-                    <div id="camp-bar-goe" class="bar-segment-goe" style="width: 50%;"></div>
-                    <div id="camp-bar-nerva" class="bar-segment-camp" style="width: 50%;"></div>
+                    <div id="camp-bar-goe" class="bar-segment-goe" style="width: 33.3%;"></div>
+                    <div id="camp-bar-nerva" class="bar-segment-camp" style="width: 33.3%;"></div>
+                    <div id="camp-bar-tobias" class="bar-segment-tobias" style="width: 33.4%;"></div>
                 </div>
 
                 <!-- 5-element breakdown grid -->
@@ -1087,23 +1127,23 @@
                         <div class="costream-mini-val" id="breakdown-val-nerva-costream">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-costream">Śr: --</div>
                     </div>
-                    <div class="costream-mini-card" style="border-color: rgba(251, 146, 60, 0.4);">
-                        <div class="costream-mini-label"><span class="live-dot" style="background: #fb923c;"></span> Tobiasz Co-stream</div>
-                        <div class="costream-mini-val" id="breakdown-val-tobias">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
-                    </div>
                     <div class="costream-mini-card" style="border-color: rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.08);">
-                        <div class="costream-mini-label" style="color: #c084fc;"><span class="live-dot" style="background: #c084fc;"></span> Obóz Łącznie</div>
-                        <div class="costream-mini-val" style="color: #e9d5ff;" id="breakdown-val-camp-total">--</div>
-                        <div class="costream-mini-sub" id="breakdown-sub-camp-total">Śr: --</div>
+                        <div class="costream-mini-label" style="color: #c084fc;"><span class="live-dot" style="background: #c084fc;"></span> Obóz Nervariena (Suma)</div>
+                        <div class="costream-mini-val" style="color: #e9d5ff;" id="breakdown-val-nerva-total">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-nerva-total">Śr: --</div>
+                    </div>
+                    <div class="costream-mini-card" style="border-color: rgba(249, 115, 22, 0.5); background: rgba(249, 115, 22, 0.08);">
+                        <div class="costream-mini-label" style="color: #fb923c;"><span class="live-dot" style="background: #f97316;"></span> Obóz Tobiasza (Twitch)</div>
+                        <div class="costream-mini-val" style="color: #ffedd5;" id="breakdown-val-tobias">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
                     </div>
                 </div>
 
-                <!-- DEDICATED CHART: Z CO-STREAMAMI -->
+                <!-- DEDICATED CHART: WSZYSTKIE OBOZY -->
                 <div class="chart-box">
                     <div class="chart-header">
                         <div>
-                            <div class="chart-title">⚡ Przebieg Porównania z Co-streamami (GoE vs Obóz Nervariena)</div>
+                            <div class="chart-title">⚡ Przebieg Starcia Obozów w Czasie: GoE vs Nervarien vs Tobiasz</div>
                             <div id="costream-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii...</div>
                         </div>
                         <div class="time-range-group">
@@ -1123,7 +1163,7 @@
 
             <!-- Comparison Streams Grid (Always visible under comparison) -->
             <div class="streams-section" style="margin-top: 24px;">
-                <div class="column-title">Transmisje obu obozów (GoE & Nervarien)</div>
+                <div class="column-title">Transmisje wszystkich obozów (GoE, Nervarien & Tobiasz)</div>
                 <div class="streams-grid" id="battle-streams-grid"></div>
             </div>
         </div>
@@ -1163,41 +1203,46 @@
             'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
             '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
             'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
-            'ttobias_lol': { name: 'Tobiasz (Co-stream)', platform: 'Twitch', group: 'NERVA', color: '#fb923c', is_costream: true, is_curiosity: true }
+            'ttobias_lol': { name: 'Tobiasz', platform: 'Twitch', group: 'TOBIASZ', color: '#f97316', is_tobias: true }
         };
 
         function updateStreamsMetadataFromData() {
             if (!rawData || !rawData.groups) return;
             const goeStreams = (rawData.groups.GOE && rawData.groups.GOE.streams) || [];
             const nervaStreams = (rawData.groups.NERVA && rawData.groups.NERVA.streams) || [];
-            const allStreams = [...goeStreams, ...nervaStreams];
+            const tobiasStreams = (rawData.groups.TOBIASZ && rawData.groups.TOBIASZ.streams) || [];
+            const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
 
             ALL_STREAM_IDS = [];
             OFFICIAL_STREAM_IDS = [];
 
             allStreams.forEach(s => {
                 ALL_STREAM_IDS.push(s.id);
-                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U' || s.id === 'ttobias_lol');
-                if (!isCostream) {
+                const isTobias = (s.id === 'ttobias_lol' || s.group === 'TOBIASZ');
+                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U');
+                if (!isCostream && !isTobias) {
                     OFFICIAL_STREAM_IDS.push(s.id);
                 }
                 let color = '#3b82f6';
                 if (s.group === 'GOE') {
                     color = s.platform === 'Twitch' ? '#9146ff' : '#ff1824';
+                } else if (isTobias) {
+                    color = '#f97316';
                 } else {
                     if (isCostream) {
-                        color = s.id === 'ttobias_lol' ? '#fb923c' : '#f59e0b';
+                        color = '#f59e0b';
                     } else {
                         color = s.platform === 'Twitch' ? '#a855f7' : '#ef4444';
                     }
                 }
                 STREAM_METADATA[s.id] = {
-                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : s.id),
+                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : (isTobias ? 'Tobiasz' : s.id)),
                     platform: s.platform,
-                    group: s.group,
+                    group: isTobias ? 'TOBIASZ' : s.group,
                     color: color,
                     is_costream: isCostream,
-                    is_curiosity: isCostream
+                    is_curiosity: isCostream,
+                    is_tobias: isTobias
                 };
             });
 
@@ -1411,8 +1456,11 @@
             } else if (preset === 'all') {
                 selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
-            } else if (preset === 'all_plus_costream' || preset === 'all_plus_curiosity') {
+            } else if (preset === 'all_plus_costream' || preset === 'all_plus_curiosity' || preset === 'all_camps') {
                 selectedStreamIds = new Set(ALL_STREAM_IDS);
+                if (currentMode !== 'costream') switchMode('costream');
+            } else if (preset === 'tobias_only') {
+                selectedStreamIds = new Set(['ttobias_lol']);
                 if (currentMode !== 'costream') switchMode('costream');
             } else if (preset === 'twitch') {
                 const twIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'Twitch');
@@ -1449,22 +1497,25 @@
                 const meta = STREAM_METADATA[id];
                 if (!meta) return;
                 const isSelected = selectedStreamIds.has(id);
-                const isNerva = meta.group === 'NERVA';
-                const isCostream = !!(meta.is_costream || meta.is_curiosity);
+                const isTobias = meta.group === 'TOBIASZ' || meta.is_tobias || id === 'ttobias_lol';
+                const isNerva = meta.group === 'NERVA' && !isTobias;
+                const isCostream = !!(meta.is_costream || meta.is_curiosity) && !isTobias;
 
                 let viewers = 0;
                 if (rawData && rawData.groups) {
-                    const allS = [...(rawData.groups.GOE ? rawData.groups.GOE.streams : []), ...(rawData.groups.NERVA ? rawData.groups.NERVA.streams : [])];
+                    const allS = Object.values(rawData.groups).flatMap(g => g.streams || []);
                     const found = allS.find(s => s.id === id);
                     if (found) viewers = found.viewers;
                 }
 
                 const chip = document.createElement('div');
-                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''} ${isCostream ? 'costream-chip' : ''}`;
+                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''} ${isTobias ? 'tobias-chip' : ''} ${isCostream ? 'costream-chip' : ''}`;
                 chip.onclick = () => toggleStream(id);
                 
                 let labelHtml = `<span>${meta.name}</span>`;
-                if (isCostream) {
+                if (isTobias) {
+                    labelHtml = `<span>${meta.name}</span> <span class="tobias-badge">Obóz Tobiasz</span>`;
+                } else if (isCostream) {
                     labelHtml = `<span>${meta.name}</span> <span class="costream-badge">Co-stream</span>`;
                 }
 
@@ -1573,22 +1624,35 @@
                 document.getElementById('battle-bar-nerva').style.width = '50%';
             }
 
-            // --- 3. UPDATE SECTION 2: Z CO-STREAMAMI (GOE VS CAŁY OBÓZ) ---
+            // --- 3. UPDATE SECTION 2: WSZYSTKIE OBOZY (GOE VS NERVARIEN VS TOBIASZ) ---
             const liveNervaCostream = nervaStreams.filter(s => s.platform === 'YouTube' && (s.is_costream || s.is_curiosity)).reduce((a, s) => a + (s.viewers || 0), 0);
-            const liveTobiasCostream = nervaStreams.filter(s => s.id === 'ttobias_lol' || (s.platform === 'Twitch' && s.is_costream)).reduce((a, s) => a + (s.viewers || 0), 0);
-            const liveCampTot = liveNervaOffTot + liveNervaCostream + liveTobiasCostream;
+            const liveNervaCampTot = liveNervaOffTot + liveNervaCostream;
 
-            const campTotSum = liveGoeTot + liveCampTot;
-            const campGoePct = campTotSum > 0 ? (liveGoeTot / campTotSum * 100).toFixed(1) : 50.0;
-            const campTotalPct = campTotSum > 0 ? (liveCampTot / campTotSum * 100).toFixed(1) : 50.0;
+            // Tobiasz is his own camp!
+            let liveTobiasTot = 0;
+            if (rawData.groups.TOBIASZ && rawData.groups.TOBIASZ.streams) {
+                liveTobiasTot = rawData.groups.TOBIASZ.streams.reduce((a, s) => a + (s.viewers || 0), 0);
+            } else {
+                const found = nervaStreams.find(s => s.id === 'ttobias_lol');
+                if (found) liveTobiasTot = found.viewers || 0;
+            }
+
+            const allThreeTot = liveGoeTot + liveNervaCampTot + liveTobiasTot;
+            const campGoePct = allThreeTot > 0 ? (liveGoeTot / allThreeTot * 100).toFixed(1) : 33.3;
+            const campNervaPct = allThreeTot > 0 ? (liveNervaCampTot / allThreeTot * 100).toFixed(1) : 33.3;
+            const campTobiasPct = allThreeTot > 0 ? (liveTobiasTot / allThreeTot * 100).toFixed(1) : 33.4;
 
             if (isLive) {
                 document.getElementById('camp-goe-score').innerText = liveGoeTot.toLocaleString('pl-PL');
                 document.getElementById('camp-goe-share').innerText = `${campGoePct}% widowni (${liveGoeTot.toLocaleString('pl-PL')})`;
-                document.getElementById('camp-total-score').innerText = liveCampTot.toLocaleString('pl-PL');
-                document.getElementById('camp-total-share').innerText = `${campTotalPct}% widowni (${liveCampTot.toLocaleString('pl-PL')})`;
+                document.getElementById('camp-nerva-score').innerText = liveNervaCampTot.toLocaleString('pl-PL');
+                document.getElementById('camp-nerva-share').innerText = `${campNervaPct}% widowni (${liveNervaCampTot.toLocaleString('pl-PL')})`;
+                document.getElementById('camp-tobias-score').innerText = liveTobiasTot.toLocaleString('pl-PL');
+                document.getElementById('camp-tobias-share').innerText = `${campTobiasPct}% widowni (${liveTobiasTot.toLocaleString('pl-PL')})`;
+
                 document.getElementById('camp-bar-goe').style.width = `${campGoePct}%`;
-                document.getElementById('camp-bar-nerva').style.width = `${campTotalPct}%`;
+                document.getElementById('camp-bar-nerva').style.width = `${campNervaPct}%`;
+                document.getElementById('camp-bar-tobias').style.width = `${campTobiasPct}%`;
 
                 // Breakdown values
                 document.getElementById('breakdown-val-goe').innerText = liveGoeTot.toLocaleString('pl-PL');
@@ -1597,23 +1661,29 @@
                 document.getElementById('breakdown-sub-nerva-off').innerText = 'Na żywo (2 kanały)';
                 document.getElementById('breakdown-val-nerva-costream').innerText = liveNervaCostream.toLocaleString('pl-PL');
                 document.getElementById('breakdown-sub-nerva-costream').innerText = 'YouTube Co-stream';
-                document.getElementById('breakdown-val-tobias').innerText = liveTobiasCostream.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-tobias').innerText = 'Twitch Co-stream';
-                document.getElementById('breakdown-val-camp-total').innerText = liveCampTot.toLocaleString('pl-PL');
-                document.getElementById('breakdown-sub-camp-total').innerText = 'Suma całego obozu';
+                document.getElementById('breakdown-val-nerva-total').innerText = liveNervaCampTot.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-nerva-total').innerText = 'Obóz Nervariena (Suma)';
+                document.getElementById('breakdown-val-tobias').innerText = liveTobiasTot.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-tobias').innerText = 'Obóz Tobiasza (Twitch)';
             } else if (hasDataHistory) {
                 const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
-                const campPk = st.camp_peak || (st.nerva_peak + (st.nerva_costream_peak || 0) + (st.tobias_costream_peak || 0));
-                const totAllPk = gPk + campPk;
-                const cGoePct = totAllPk > 0 ? (gPk / totAllPk * 100).toFixed(1) : 50.0;
-                const cCampPct = totAllPk > 0 ? (campPk / totAllPk * 100).toFixed(1) : 50.0;
+                const nCampPk = st.nerva_camp_peak || (st.nerva_peak + (st.nerva_costream_peak || 0));
+                const tobiasPk = st.tobias_peak || st.tobias_costream_peak || 0;
+                const tot3Pk = gPk + nCampPk + tobiasPk;
+                const cGoePct = tot3Pk > 0 ? (gPk / tot3Pk * 100).toFixed(1) : 33.3;
+                const cNervaPct = tot3Pk > 0 ? (nCampPk / tot3Pk * 100).toFixed(1) : 33.3;
+                const cTobiasPct = tot3Pk > 0 ? (tobiasPk / tot3Pk * 100).toFixed(1) : 33.4;
 
                 document.getElementById('camp-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
                 document.getElementById('camp-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
-                document.getElementById('camp-total-score').innerText = `${campPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('camp-total-share').innerText = `Obóz z co-streamami (Śr: ${(st.camp_avg || (st.nerva_avg + (st.nerva_costream_avg || 0))).toLocaleString('pl-PL')})`;
+                document.getElementById('camp-nerva-score').innerText = `${nCampPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('camp-nerva-share').innerText = `Obóz Nervariena (Śr: ${(st.nerva_camp_avg || (st.nerva_avg + (st.nerva_costream_avg || 0))).toLocaleString('pl-PL')})`;
+                document.getElementById('camp-tobias-score').innerText = `${tobiasPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('camp-tobias-share').innerText = `Obóz Tobiasza (Śr: ${(st.tobias_avg || st.tobias_costream_avg || 0).toLocaleString('pl-PL')})`;
+
                 document.getElementById('camp-bar-goe').style.width = `${cGoePct}%`;
-                document.getElementById('camp-bar-nerva').style.width = `${cCampPct}%`;
+                document.getElementById('camp-bar-nerva').style.width = `${cNervaPct}%`;
+                document.getElementById('camp-bar-tobias').style.width = `${cTobiasPct}%`;
 
                 // Breakdown values with finished peaks & averages
                 document.getElementById('breakdown-val-goe').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
@@ -1622,17 +1692,21 @@
                 document.getElementById('breakdown-sub-nerva-off').innerText = `Średnia: ${st.nerva_avg.toLocaleString('pl-PL')}`;
                 document.getElementById('breakdown-val-nerva-costream').innerText = `${(st.nerva_costream_peak || 0).toLocaleString('pl-PL')} pik`;
                 document.getElementById('breakdown-sub-nerva-costream').innerText = `Średnia: ${(st.nerva_costream_avg || 0).toLocaleString('pl-PL')}`;
-                document.getElementById('breakdown-val-tobias').innerText = `${(st.tobias_costream_peak || 0).toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-tobias').innerText = `Średnia: ${(st.tobias_costream_avg || 0).toLocaleString('pl-PL')}`;
-                document.getElementById('breakdown-val-camp-total').innerText = `${campPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('breakdown-sub-camp-total').innerText = `Średnia: ${(st.camp_avg || 0).toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-val-nerva-total').innerText = `${nCampPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-nerva-total').innerText = `Średnia: ${(st.nerva_camp_avg || 0).toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-val-tobias').innerText = `${tobiasPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-tobias').innerText = `Średnia: ${(st.tobias_avg || st.tobias_costream_avg || 0).toLocaleString('pl-PL')}`;
             } else {
                 document.getElementById('camp-goe-score').innerText = '--';
                 document.getElementById('camp-goe-share').innerText = 'Oczekiwanie na start';
-                document.getElementById('camp-total-score').innerText = '--';
-                document.getElementById('camp-total-share').innerText = 'Oczekiwanie na start';
-                document.getElementById('camp-bar-goe').style.width = '50%';
-                document.getElementById('camp-bar-nerva').style.width = '50%';
+                document.getElementById('camp-nerva-score').innerText = '--';
+                document.getElementById('camp-nerva-share').innerText = 'Oczekiwanie na start';
+                document.getElementById('camp-tobias-score').innerText = '--';
+                document.getElementById('camp-tobias-share').innerText = 'Oczekiwanie na start';
+
+                document.getElementById('camp-bar-goe').style.width = '33.3%';
+                document.getElementById('camp-bar-nerva').style.width = '33.3%';
+                document.getElementById('camp-bar-tobias').style.width = '33.4%';
 
                 document.getElementById('breakdown-val-goe').innerText = '--';
                 document.getElementById('breakdown-sub-goe').innerText = 'Brak danych';
@@ -1640,14 +1714,14 @@
                 document.getElementById('breakdown-sub-nerva-off').innerText = 'Brak danych';
                 document.getElementById('breakdown-val-nerva-costream').innerText = '--';
                 document.getElementById('breakdown-sub-nerva-costream').innerText = 'Brak danych';
+                document.getElementById('breakdown-val-nerva-total').innerText = '--';
+                document.getElementById('breakdown-sub-nerva-total').innerText = 'Brak danych';
                 document.getElementById('breakdown-val-tobias').innerText = '--';
                 document.getElementById('breakdown-sub-tobias').innerText = 'Brak danych';
-                document.getElementById('breakdown-val-camp-total').innerText = '--';
-                document.getElementById('breakdown-sub-camp-total').innerText = 'Brak danych';
             }
 
             // --- 4. RENDER STREAM CARDS GRID ---
-            renderStreamsGrids(goeStreams, nervaStreams);
+            renderStreamsGrids();
 
             // --- 5. UPDATE MOMENTUM ---
             if (isLive && rawData.momentum) {
@@ -1655,10 +1729,11 @@
                 renderDelta('battle-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
                 renderDelta('battle-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
                 renderDelta('camp-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
-                renderDelta('camp-total-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
+                renderDelta('camp-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
+                renderDelta('camp-tobias-momentum', rawData.momentum.nerva_delta || 0, rawData.momentum.minutes);
             } else {
                 const timeSpan = hasDataHistory ? `Zakończono: ${st.start_time} — ${st.end_time}` : '🔴 Oczekiwanie na transmisję';
-                ['goe-hero-momentum', 'battle-goe-momentum', 'battle-nerva-momentum', 'camp-goe-momentum', 'camp-total-momentum'].forEach(id => {
+                ['goe-hero-momentum', 'battle-goe-momentum', 'battle-nerva-momentum', 'camp-goe-momentum', 'camp-nerva-momentum', 'camp-tobias-momentum'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) {
                         el.innerText = timeSpan;
@@ -1686,11 +1761,13 @@
             }
         }
 
-        function renderStreamsGrids(goeStreams, nervaStreams) {
+        function renderStreamsGrids() {
+            if (!rawData || !rawData.groups) return;
+            const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
+            const goeStreams = allStreams.filter(s => s.group === 'GOE');
             const goeVisible = goeStreams.filter(s => selectedStreamIds.has(s.id));
             renderCardList(document.getElementById('goe-streams-grid'), goeVisible.length > 0 ? goeVisible : goeStreams);
 
-            const allStreams = [...goeStreams, ...nervaStreams];
             const battleVisible = allStreams.filter(s => selectedStreamIds.has(s.id));
             renderCardList(document.getElementById('battle-streams-grid'), battleVisible.length > 0 ? battleVisible : allStreams);
         }
@@ -1704,10 +1781,15 @@
                 const dotClass = st.is_live ? 'live-dot' : 'offline-dot';
                 const viewersText = st.is_live ? `${st.viewers.toLocaleString('pl-PL')} widzów` : 'OFFLINE';
                 const avatarSrc = st.avatar_url || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517eb-aca7-43f8-963e-aca743f8963e-profile_image-150x150.png';
-                const isCostream = !!(st.is_costream || st.is_curiosity || st.id === 'woX6jXefVdw' || st.id === 'N3i_DQlKL_U' || st.id === 'ttobias_lol');
-                const costreamTag = isCostream 
-                    ? `<span class="costream-badge" style="margin-left: 6px;">Co-stream</span>` 
-                    : '';
+                const isTobias = st.id === 'ttobias_lol' || st.group === 'TOBIASZ';
+                const isCostream = !isTobias && !!(st.is_costream || st.is_curiosity || st.id === 'woX6jXefVdw' || st.id === 'N3i_DQlKL_U');
+                
+                let costreamTag = '';
+                if (isTobias) {
+                    costreamTag = `<span class="tobias-badge" style="margin-left: 6px;">Obóz Tobiasz</span>`;
+                } else if (isCostream) {
+                    costreamTag = `<span class="costream-badge" style="margin-left: 6px;">Co-stream</span>`;
+                }
 
                 const a = document.createElement('a');
                 a.className = 'stream-item';
@@ -1859,7 +1941,7 @@
                 comparisonChartInstance.update();
             }
 
-            // --- 3. UPDATE CHART: Z CO-STREAMAMI (GOE VS OBÓZ NERVARIENA + CO-STREAMY) ---
+            // --- 3. UPDATE CHART: WSZYSTKIE OBOZY (GOE VS NERVARIEN VS TOBIASZ) ---
             if (costreamComparisonChartInstance) {
                 const costreamDatasets = [];
 
@@ -1875,17 +1957,19 @@
                     return v;
                 });
 
-                const tobiasCostreamData = detailedHistory.map(pt => {
+                // Obóz Nervariena (Oficjalny + Nerva Co-stream) - BEZ TOBIASZA!
+                const nervaCampTotalData = detailedHistory.map((pt, i) => {
+                    return (nervaOffData[i] || 0) + (nervaCostreamData[i] || 0);
+                });
+
+                // Obóz Tobiasza (OSOBNY OBÓZ)
+                const tobiasData = detailedHistory.map(pt => {
                     const streams = pt.streams || {};
                     return streams['ttobias_lol'] ? (streams['ttobias_lol'].viewers || 0) : 0;
                 });
 
-                const campTotalData = detailedHistory.map((pt, i) => {
-                    return (nervaOffData[i] || 0) + (nervaCostreamData[i] || 0) + (tobiasCostreamData[i] || 0);
-                });
-
                 costreamDatasets.push({
-                    label: filterBots ? 'GOE (Kielecki Bunkier)' : 'GOE (Z botami)',
+                    label: filterBots ? '🔴 GOE (Kielecki Bunkier)' : '🔴 GOE (Z botami)',
                     data: goeData,
                     borderColor: '#ff1824',
                     backgroundColor: 'rgba(255, 24, 36, 0.12)',
@@ -1896,7 +1980,7 @@
                 });
 
                 costreamDatasets.push({
-                    label: 'NERVARIEN (Oficjalny)',
+                    label: '⚪ NERVARIEN (Oficjalny)',
                     data: nervaOffData,
                     borderColor: '#ffffff',
                     tension: 0.25,
@@ -1917,24 +2001,24 @@
                 });
 
                 costreamDatasets.push({
-                    label: '💡 Tobiasz Co-stream',
-                    data: tobiasCostreamData,
-                    borderColor: '#fb923c',
-                    borderDash: [3, 3],
-                    tension: 0.25,
-                    fill: false,
-                    borderWidth: 2,
-                    pointRadius: labels.length > 60 ? 0 : 2
-                });
-
-                costreamDatasets.push({
-                    label: '⚡ CAŁY OBÓZ NERVARIENA (ŁĄCZNIE)',
-                    data: campTotalData,
+                    label: '🟣 OBÓZ NERVARIENA (ŁĄCZNIE)',
+                    data: nervaCampTotalData,
                     borderColor: '#c084fc',
                     backgroundColor: 'rgba(192, 132, 252, 0.08)',
                     tension: 0.25,
                     fill: true,
                     borderWidth: 2.5,
+                    pointRadius: labels.length > 60 ? 0 : 3
+                });
+
+                costreamDatasets.push({
+                    label: '🟠 OBÓZ TOBIASZA (ttobias_lol)',
+                    data: tobiasData,
+                    borderColor: '#f97316',
+                    backgroundColor: 'rgba(249, 115, 22, 0.08)',
+                    tension: 0.25,
+                    fill: true,
+                    borderWidth: 3,
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
 
@@ -2006,7 +2090,7 @@
             const compSub = document.getElementById('comp-chart-sub-label');
             if (compSub) compSub.innerText = `Oficjalne kanały (2 vs 2) • ${rangeLabel}`;
             const costreamSub = document.getElementById('costream-chart-sub-label');
-            if (costreamSub) costreamSub.innerText = `GoE vs Obóz Nervariena z Co-streamami • ${rangeLabel}`;
+            if (costreamSub) costreamSub.innerText = `Starcie 3 obozów: GoE vs Nervarien vs Tobiasz • ${rangeLabel}`;
 
             updateChartSeries();
         }

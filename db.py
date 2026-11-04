@@ -247,8 +247,7 @@ def save_snapshot(data: dict, day_id: str | None = None) -> int:
         )
         snapshot_id = cur.lastrowid
 
-        for grp_key in ["GOE", "NERVA"]:
-            grp = data["groups"].get(grp_key, {})
+        for grp_key, grp in data.get("groups", {}).items():
             for st in grp.get("streams", []):
                 cur.execute(
                     """
@@ -500,7 +499,8 @@ def get_summary_stats(
                     break
 
         tb_v = streams.get("ttobias_lol", {}).get("viewers", 0)
-        camp_v = nv + nc_v + tb_v
+        # Obóz Nervariena jest liczony bez Tobiasza (Tobiasz to osobny obóz)
+        camp_v = nv + nc_v
 
         if nc_v > nerva_costream_peak:
             nerva_costream_peak = nc_v
@@ -543,6 +543,12 @@ def get_summary_stats(
         "tobias_costream_peak": tobias_costream_peak,
         "tobias_costream_peak_time": tobias_costream_peak_time,
         "tobias_costream_avg": round(tobias_costream_sum / count) if count > 0 else 0,
+        "tobias_peak": tobias_costream_peak,
+        "tobias_peak_time": tobias_costream_peak_time,
+        "tobias_avg": round(tobias_costream_sum / count) if count > 0 else 0,
+        "nerva_camp_peak": camp_peak,
+        "nerva_camp_peak_time": camp_peak_time,
+        "nerva_camp_avg": round(camp_sum / count) if count > 0 else 0,
         "camp_peak": camp_peak,
         "camp_peak_time": camp_peak_time,
         "camp_avg": round(camp_sum / count) if count > 0 else 0,
