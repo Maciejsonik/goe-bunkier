@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-04 21:54:25",
-  "total_viewers": 2479,
+  "timestamp": "2026-11-04 20:55:35",
+  "total_viewers": 2475,
   "leader": "GOE",
-  "diff": 1480,
-  "ratio_goe": 59.7,
+  "diff": 1476,
+  "ratio_goe": 59.6,
   "ratio_nerva": 0.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 1480,
+      "total_viewers": 1476,
       "streams": [
         {
           "id": "goe_stream",
@@ -28,10 +28,10 @@
           "id": "@gadaja_",
           "platform": "YouTube",
           "channel": "Gadają o Esporcie",
-          "title": "Stream offline (oczekiwanie na start transmisji...)",
+          "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1360,
+          "viewers": 1356,
           "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "dKZGkF2mIDU",
