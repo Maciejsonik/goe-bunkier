@@ -19,6 +19,10 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "history.db")
 CARD_PATH = os.path.join(os.path.dirname(__file__), "battle_card.png")
 GOE_SUMMARY_PATH = os.path.join(os.path.dirname(__file__), "goe_summary.png")
 COMP_SUMMARY_PATH = os.path.join(os.path.dirname(__file__), "stream_summary.png")
+GOE_SUMMARY_RAW_PATH = os.path.join(os.path.dirname(__file__), "goe_summary_raw.png")
+COMP_SUMMARY_RAW_PATH = os.path.join(
+    os.path.dirname(__file__), "stream_summary_raw.png"
+)
 
 
 def calculate_momentum(history: list[dict], minutes: int = 5) -> dict:
@@ -63,15 +67,18 @@ def calculate_momentum(history: list[dict], minutes: int = 5) -> dict:
 
 
 def export_csv_from_history(history: list[dict], filepath: str):
-    """Exports history array to CSV."""
+    """Exports history array to CSV with bot attack details."""
     import csv
 
     fieldnames = [
         "timestamp",
         "goe_total",
+        "goe_total_raw",
+        "is_bot_attack",
         "nerva_total",
         "goe_stream_viewers",
         "goe_yt_viewers",
+        "goe_yt_raw_viewers",
         "nerva_twitch_viewers",
         "nerva_yt1_viewers",
         "nerva_yt2_viewers",
@@ -82,15 +89,21 @@ def export_csv_from_history(history: list[dict], filepath: str):
         writer.writeheader()
         for pt in history:
             streams = pt.get("streams", {})
+            yt_s = streams.get("I2E60nEUXWo", {})
             writer.writerow(
                 {
                     "timestamp": pt.get("timestamp", ""),
                     "goe_total": pt.get("goe_total", 0),
+                    "goe_total_raw": pt.get("goe_total_raw", pt.get("goe_total", 0)),
+                    "is_bot_attack": 1 if pt.get("is_bot_attack") else 0,
                     "nerva_total": pt.get("nerva_total", 0),
                     "goe_stream_viewers": streams.get("goe_stream", {}).get(
                         "viewers", 0
                     ),
-                    "goe_yt_viewers": streams.get("I2E60nEUXWo", {}).get("viewers", 0),
+                    "goe_yt_viewers": yt_s.get("viewers", 0),
+                    "goe_yt_raw_viewers": yt_s.get(
+                        "viewers_raw", yt_s.get("viewers", 0)
+                    ),
                     "nerva_twitch_viewers": streams.get("nervarien", {}).get(
                         "viewers", 0
                     ),
@@ -108,13 +121,23 @@ def build():
     print("⏳ [Build] Pobieranie aktualnych danych o transmisjach...")
     data = fetch_all_data()
 
+    any_live = any(
+        s.get("is_live", False)
+        for s in data["groups"]["GOE"]["streams"] + data["groups"]["NERVA"]["streams"]
+    )
+
+    from db import (
+        filter_bot_attacks,
+        get_detailed_history,
+        get_summary_stats,
+        save_snapshot,
+    )
+
     # Load history
     history = []
     if os.path.exists(DB_PATH):
-        # If local DB exists, extract full history from it
-        from db import get_detailed_history, save_snapshot
-
-        save_snapshot(data)
+        if any_live:
+            save_snapshot(data)
         history = get_detailed_history(limit=5000)
         print(f"📦 [Build] Załadowano {len(history)} próbek z lokalnej bazy SQLite.")
     elif os.path.exists(HISTORY_JSON_PATH):
@@ -124,35 +147,45 @@ def build():
         except Exception:
             history = []
 
-    # Format new snapshot point
-    goe_streams = {s["id"]: s for s in data["groups"]["GOE"]["streams"]}
-    nerva_streams = {s["id"]: s for s in data["groups"]["NERVA"]["streams"]}
-    all_s_map = {**goe_streams, **nerva_streams}
+    # Clean history: strip corrupted post-stream records and filter bot attacks
+    history = filter_bot_attacks(history, enabled=True)
 
-    new_point = {
-        "timestamp": data["timestamp"],
-        "goe_total": data["groups"]["GOE"]["total_viewers"],
-        "nerva_total": data["groups"]["NERVA"]["total_viewers"],
-        "streams": {
-            sid: {
-                "viewers": s.get("viewers", 0),
-                "is_live": s.get("is_live", False),
-            }
-            for sid, s in all_s_map.items()
-        },
-    }
+    # Format new snapshot point if streams are live
+    if any_live:
+        goe_streams = {s["id"]: s for s in data["groups"]["GOE"]["streams"]}
+        nerva_streams = {s["id"]: s for s in data["groups"]["NERVA"]["streams"]}
+        all_s_map = {**goe_streams, **nerva_streams}
 
-    # If not already present as the last point, append
-    if not history or history[-1].get("timestamp") != new_point["timestamp"]:
-        history.append(new_point)
+        new_point = {
+            "timestamp": data["timestamp"],
+            "goe_total": data["groups"]["GOE"]["total_viewers"],
+            "goe_total_raw": data["groups"]["GOE"]["total_viewers"],
+            "is_bot_attack": False,
+            "nerva_total": data["groups"]["NERVA"]["total_viewers"],
+            "streams": {
+                sid: {
+                    "viewers": s.get("viewers", 0),
+                    "is_live": s.get("is_live", False),
+                }
+                for sid, s in all_s_map.items()
+            },
+        }
+
+        if not history or history[-1].get("timestamp") != new_point["timestamp"]:
+            history.append(new_point)
 
     # Keep at most 5000 points
     if len(history) > 5000:
         history = history[-5000:]
 
-    # Calculate momentum
+    # Calculate momentum and summary statistics
     momentum = calculate_momentum(history, minutes=5)
     data["momentum"] = momentum
+    data["is_live"] = any_live
+    data["summary_stats"] = get_summary_stats(custom_history=history, filter_bots=True)
+    data["summary_stats_raw"] = get_summary_stats(
+        custom_history=history, filter_bots=False
+    )
 
     # Save data.json
     with open(DATA_JSON_PATH, "w", encoding="utf-8") as f:
@@ -168,7 +201,7 @@ def build():
     export_csv_from_history(history, CSV_PATH)
     print(f"✅ [Build] Zapisano: {CSV_PATH}")
 
-    # Generate graphics
+    # Generate graphics (clean and raw)
     try:
         create_battle_card(data, CARD_PATH)
         print(f"📸 [Build] Karta LIVE: {CARD_PATH}")
@@ -176,16 +209,32 @@ def build():
         print(f"⚠️ [Build] Błąd karty LIVE: {e}")
 
     try:
-        create_summary_card(GOE_SUMMARY_PATH, mode="GOE", custom_history=history)
-        print(f"📊 [Build] Wykres GoE: {GOE_SUMMARY_PATH}")
+        create_summary_card(
+            GOE_SUMMARY_PATH, mode="GOE", custom_history=history, filter_bots=True
+        )
+        print(f"📊 [Build] Wykres GoE (Oczyszczony): {GOE_SUMMARY_PATH}")
+        create_summary_card(
+            GOE_SUMMARY_RAW_PATH, mode="GOE", custom_history=history, filter_bots=False
+        )
+        print(f"📊 [Build] Wykres GoE (Surowy z botami): {GOE_SUMMARY_RAW_PATH}")
     except Exception as e:
         print(f"⚠️ [Build] Błąd wykresu GoE: {e}")
 
     try:
         create_summary_card(
-            COMP_SUMMARY_PATH, mode="COMPARISON", custom_history=history
+            COMP_SUMMARY_PATH,
+            mode="COMPARISON",
+            custom_history=history,
+            filter_bots=True,
         )
-        print(f"⚖️ [Build] Wykres Porównania: {COMP_SUMMARY_PATH}")
+        print(f"⚖️ [Build] Wykres Porównania (Oczyszczony): {COMP_SUMMARY_PATH}")
+        create_summary_card(
+            COMP_SUMMARY_RAW_PATH,
+            mode="COMPARISON",
+            custom_history=history,
+            filter_bots=False,
+        )
+        print(f"⚖️ [Build] Wykres Porównania (Surowy z botami): {COMP_SUMMARY_RAW_PATH}")
     except Exception as e:
         print(f"⚠️ [Build] Błąd wykresu porównania: {e}")
 

@@ -598,6 +598,7 @@
                     <span class="api-dot" id="api-dot"></span>
                     <span id="api-label">GitHub Pages LIVE</span>
                 </div>
+                <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁĄCZONY</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
                     <option value="30" selected>Auto: 30s</option>
                     <option value="60">Auto: 60s</option>
@@ -611,6 +612,20 @@
                 <button class="btn-primary" onclick="downloadCSV()">📥 CSV</button>
             </div>
         </header>
+
+        <!-- Bot Filter Informational Alert Banner -->
+        <div id="bot-alert-banner" style="background: rgba(14, 35, 20, 0.95); border: 1px solid #4ade80; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+                <span style="font-size: 22px;">🛡️</span>
+                <div>
+                    <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
+                    <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
+                        Zneutralizowano 2 sztuczne fale viewbotów na YouTube (00:18–00:39 do 6.6k oraz 00:48–01:06 do 5.7k). Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong> o 23:33).
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
+        </div>
 
         <!-- Main View Mode Tabs (GoE Viewers Hub is DEFAULT!) -->
         <div class="mode-tabs">
@@ -776,6 +791,7 @@
     <script>
         let currentMode = 'goe'; // 'goe' (default) or 'battle'
         let currentTimeRange = 'all'; // '15m', '30m', '1h', '2h', 'all'
+        let filterBots = true; // Bot attack filtering toggle
         let rawData = null;
         let fullHistory = [];
         let detailedHistory = [];
@@ -793,6 +809,52 @@
             'woX6jXefVdw': { name: 'Nervarien YT #1', platform: 'YouTube', group: 'NERVA', color: '#f97316' },
             'SGAaZFSc3Zk': { name: 'Nervarien YT #2', platform: 'YouTube', group: 'NERVA', color: '#ef4444' }
         };
+
+        function toggleBotFilter() {
+            filterBots = !filterBots;
+            const btn = document.getElementById('bot-filter-btn');
+            const banner = document.getElementById('bot-alert-banner');
+            if (filterBots) {
+                btn.innerHTML = '🛡️ Filtr botów: WŁĄCZONY';
+                btn.style.borderColor = '#4ade80';
+                btn.style.color = '#4ade80';
+                banner.style.background = 'rgba(14, 35, 20, 0.95)';
+                banner.style.borderColor = '#4ade80';
+                banner.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+                        <span style="font-size: 22px;">🛡️</span>
+                        <div>
+                            <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
+                            <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
+                                Zneutralizowano 2 sztuczne fale viewbotów na YouTube (00:18–00:39 do 6.6k oraz 00:48–01:06 do 5.7k). Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong> o 23:33).
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
+                `;
+                showToast('Włączono filtr botów — dane oczyszczone');
+            } else {
+                btn.innerHTML = '⚠️ Filtr botów: WYŁĄCZONY';
+                btn.style.borderColor = '#f87171';
+                btn.style.color = '#f87171';
+                banner.style.background = 'rgba(40, 16, 16, 0.95)';
+                banner.style.borderColor = '#f87171';
+                banner.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+                        <span style="font-size: 22px;">⚠️</span>
+                        <div>
+                            <strong style="color: #f87171; font-size: 14px;">Filtr ataków botowych: Wyłączony (Surowe dane)</strong>
+                            <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
+                                Prezentowane wykresy i statystyki zawierają sztuczne piki botów na kanale YouTube (Pik GoE ze skokami: <strong>6 857</strong> o 00:30).
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #f87171; color: #f87171; background: #141418; border-radius: 6px;">Włącz filtr botów</button>
+                `;
+                showToast('Wyłączono filtr — surowe dane ze skokami');
+            }
+            updateUI();
+        }
 
         function initCharts() {
             const commonScales = {
@@ -924,24 +986,49 @@
         function updateUI() {
             if (!rawData) return;
 
+            const isLive = rawData.is_live !== false && (rawData.groups.GOE.total_viewers > 0 || rawData.groups.NERVA.total_viewers > 0);
+            const st = (filterBots ? rawData.summary_stats : rawData.summary_stats_raw) || rawData.summary_stats;
+
             const goeStreams = (rawData.groups.GOE.streams || []).map(s => ({ ...s, group: 'GOE' }));
             const nervaStreams = (rawData.groups.NERVA.streams || []).map(s => ({ ...s, group: 'NERVA' }));
 
             // 1. Update GoE Hub
             const goeYt = goeStreams.find(s => s.id === 'I2E60nEUXWo');
             const goeTw = goeStreams.find(s => s.id === 'goe_stream');
-            const ytV = (goeYt && selectedStreamIds.has('I2E60nEUXWo')) ? goeYt.viewers : (goeYt ? goeYt.viewers : 0);
-            const twV = (goeTw && selectedStreamIds.has('goe_stream')) ? goeTw.viewers : (goeTw ? goeTw.viewers : 0);
+            let ytV = (goeYt && selectedStreamIds.has('I2E60nEUXWo')) ? goeYt.viewers : (goeYt ? goeYt.viewers : 0);
+            let twV = (goeTw && selectedStreamIds.has('goe_stream')) ? goeTw.viewers : (goeTw ? goeTw.viewers : 0);
             const goeTotal = ytV + twV;
             const goeSumForPct = (ytV + twV) || 1;
 
-            document.getElementById('goe-hero-total').innerText = goeTotal.toLocaleString('pl-PL');
-            document.getElementById('goe-yt-viewers').innerText = ytV.toLocaleString('pl-PL');
-            document.getElementById('goe-tw-viewers').innerText = twV.toLocaleString('pl-PL');
+            if (isLive) {
+                document.getElementById('goe-hero-total').innerText = goeTotal.toLocaleString('pl-PL');
+                document.getElementById('goe-yt-viewers').innerText = ytV.toLocaleString('pl-PL');
+                document.getElementById('goe-tw-viewers').innerText = twV.toLocaleString('pl-PL');
+            } else {
+                document.getElementById('goe-hero-total').innerText = 'OFFLINE';
+                document.getElementById('goe-yt-viewers').innerText = 'OFFLINE';
+                document.getElementById('goe-tw-viewers').innerText = 'OFFLINE';
+            }
+
             document.getElementById('goe-yt-pct').innerText = `${((ytV / goeSumForPct) * 100).toFixed(1)}% widowni`;
             document.getElementById('goe-tw-pct').innerText = `${((twV / goeSumForPct) * 100).toFixed(1)}% widowni`;
             document.getElementById('goe-sub-bar-yt').style.width = `${((ytV / goeSumForPct) * 100).toFixed(1)}%`;
             document.getElementById('goe-sub-bar-tw').style.width = `${((twV / goeSumForPct) * 100).toFixed(1)}%`;
+
+            // Peak badge
+            if (st) {
+                const pk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
+                const pkTime = filterBots ? st.goe_peak_time : (st.goe_raw_peak_time || st.goe_peak_time);
+                const avg = st.goe_avg;
+                document.getElementById('goe-hero-peak').innerHTML = `
+                    <div style="font-size: 13px; color: ${filterBots ? '#4ade80' : '#f87171'}; font-weight: 800;">
+                        ${filterBots ? '🛡️ Organiczny Pik' : '⚠️ Pik z botami'}: ${pk.toLocaleString('pl-PL')} o ${pkTime}
+                    </div>
+                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">
+                        Średnia GoE: ${avg.toLocaleString('pl-PL')} widzów
+                    </div>
+                `;
+            }
 
             // 2. Update Comparison Scoreboard
             const goeSelected = goeStreams.filter(s => selectedStreamIds.has(s.id));
@@ -952,21 +1039,43 @@
             const bGoePct = battleTot > 0 ? (battleGoeTot / battleTot * 100).toFixed(1) : 50.0;
             const bNervaPct = battleTot > 0 ? (battleNervaTot / battleTot * 100).toFixed(1) : 50.0;
 
-            document.getElementById('battle-goe-score').innerText = battleGoeTot.toLocaleString('pl-PL');
-            document.getElementById('battle-goe-share').innerText = `${bGoePct}% widowni (${battleGoeTot.toLocaleString('pl-PL')})`;
-            document.getElementById('battle-nerva-score').innerText = battleNervaTot.toLocaleString('pl-PL');
-            document.getElementById('battle-nerva-share').innerText = `${bNervaPct}% widowni (${battleNervaTot.toLocaleString('pl-PL')})`;
-            document.getElementById('battle-bar-goe').style.width = `${bGoePct}%`;
-            document.getElementById('battle-bar-nerva').style.width = `${bNervaPct}%`;
+            if (isLive) {
+                document.getElementById('battle-goe-score').innerText = battleGoeTot.toLocaleString('pl-PL');
+                document.getElementById('battle-goe-share').innerText = `${bGoePct}% widowni (${battleGoeTot.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-nerva-score').innerText = battleNervaTot.toLocaleString('pl-PL');
+                document.getElementById('battle-nerva-share').innerText = `${bNervaPct}% widowni (${battleNervaTot.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-bar-goe').style.width = `${bGoePct}%`;
+                document.getElementById('battle-bar-nerva').style.width = `${bNervaPct}%`;
+            } else if (st) {
+                const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
+                const nPk = st.nerva_peak;
+                const totPk = gPk + nPk;
+                const gPct = totPk > 0 ? (gPk / totPk * 100).toFixed(1) : 50.0;
+                const nPct = totPk > 0 ? (nPk / totPk * 100).toFixed(1) : 50.0;
+                document.getElementById('battle-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('battle-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-nerva-score').innerText = `${nPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('battle-nerva-share').innerText = `Pik transmisji (Śr: ${st.nerva_avg.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-bar-goe').style.width = `${gPct}%`;
+                document.getElementById('battle-bar-nerva').style.width = `${nPct}%`;
+            }
 
             // 3. Render Stream Cards
             renderStreamsGrids(goeStreams, nervaStreams);
 
             // 4. Update Momentum
-            if (rawData.momentum) {
+            if (isLive && rawData.momentum) {
                 renderDelta('goe-hero-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
                 renderDelta('battle-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
                 renderDelta('battle-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
+            } else {
+                const timeSpan = st ? `Zakończono: ${st.start_time} — ${st.end_time}` : 'Transmisja zakończona';
+                document.getElementById('goe-hero-momentum').innerText = `🔴 ${timeSpan}`;
+                document.getElementById('goe-hero-momentum').className = 'momentum-badge';
+                document.getElementById('battle-goe-momentum').innerText = `🔴 ${timeSpan}`;
+                document.getElementById('battle-goe-momentum').className = 'momentum-badge';
+                document.getElementById('battle-nerva-momentum').innerText = `🔴 ${timeSpan}`;
+                document.getElementById('battle-nerva-momentum').className = 'momentum-badge';
             }
 
             // 5. Update Charts
@@ -1041,20 +1150,26 @@
                 const goeDatasets = [];
 
                 const totalGoeData = detailedHistory.map(pt => {
-                    let sum = 0;
-                    if (pt.streams['I2E60nEUXWo'] && selectedStreamIds.has('I2E60nEUXWo')) sum += pt.streams['I2E60nEUXWo'].viewers;
-                    else if (!selectedStreamIds.has('I2E60nEUXWo') && !selectedStreamIds.has('goe_stream')) {
-                        if (pt.streams['I2E60nEUXWo']) sum += pt.streams['I2E60nEUXWo'].viewers;
+                    const yt_s = pt.streams['I2E60nEUXWo'];
+                    const tw_s = pt.streams['goe_stream'];
+                    const yt_v = yt_s ? (filterBots ? (yt_s.viewers || 0) : (yt_s.viewers_raw || yt_s.viewers || 0)) : 0;
+                    const tw_v = tw_s ? (tw_s.viewers || 0) : 0;
+
+                    const hasYt = selectedStreamIds.has('I2E60nEUXWo');
+                    const hasTw = selectedStreamIds.has('goe_stream');
+
+                    if (hasYt && hasTw) {
+                        return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total || (yt_v + tw_v));
+                    } else if (hasYt) {
+                        return yt_v;
+                    } else if (hasTw) {
+                        return tw_v;
                     }
-                    if (pt.streams['goe_stream'] && selectedStreamIds.has('goe_stream')) sum += pt.streams['goe_stream'].viewers;
-                    else if (!selectedStreamIds.has('I2E60nEUXWo') && !selectedStreamIds.has('goe_stream')) {
-                        if (pt.streams['goe_stream']) sum += pt.streams['goe_stream'].viewers;
-                    }
-                    return sum;
+                    return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total || (yt_v + tw_v));
                 });
 
                 goeDatasets.push({
-                    label: 'GoE Łącznie (Bunkier)',
+                    label: filterBots ? 'GoE Łącznie (Organiczne)' : 'GoE Łącznie (Z botami)',
                     data: totalGoeData,
                     borderColor: '#ff1824',
                     backgroundColor: 'rgba(255, 24, 36, 0.15)',
@@ -1066,8 +1181,12 @@
 
                 if (selectedStreamIds.has('I2E60nEUXWo') || (!selectedStreamIds.has('I2E60nEUXWo') && !selectedStreamIds.has('goe_stream'))) {
                     goeDatasets.push({
-                        label: 'YouTube (Gadają o Esporcie)',
-                        data: detailedHistory.map(pt => pt.streams['I2E60nEUXWo'] ? pt.streams['I2E60nEUXWo'].viewers : 0),
+                        label: filterBots ? 'YouTube (Gadają o Esporcie - Oczyszczone)' : 'YouTube (Gadają o Esporcie - Z botami)',
+                        data: detailedHistory.map(pt => {
+                            const s = pt.streams['I2E60nEUXWo'];
+                            if (!s) return 0;
+                            return filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
+                        }),
                         borderColor: '#ef4444',
                         borderDash: [5, 5],
                         borderWidth: 2,
@@ -1079,7 +1198,7 @@
                 if (selectedStreamIds.has('goe_stream') || (!selectedStreamIds.has('I2E60nEUXWo') && !selectedStreamIds.has('goe_stream'))) {
                     goeDatasets.push({
                         label: 'Twitch (GoE_stream)',
-                        data: detailedHistory.map(pt => pt.streams['goe_stream'] ? pt.streams['goe_stream'].viewers : 0),
+                        data: detailedHistory.map(pt => pt.streams['goe_stream'] ? (pt.streams['goe_stream'].viewers || 0) : 0),
                         borderColor: '#9146ff',
                         borderDash: [3, 3],
                         borderWidth: 2,
@@ -1100,12 +1219,16 @@
                 const goeLine = detailedHistory.map(pt => {
                     let s = 0;
                     ['I2E60nEUXWo', 'goe_stream'].forEach(id => {
-                        if (selectedStreamIds.has(id) && pt.streams[id]) s += pt.streams[id].viewers;
+                        if (selectedStreamIds.has(id) && pt.streams[id]) {
+                            if (id === 'I2E60nEUXWo') {
+                                s += filterBots ? (pt.streams[id].viewers || 0) : (pt.streams[id].viewers_raw || pt.streams[id].viewers || 0);
+                            } else {
+                                s += pt.streams[id].viewers || 0;
+                            }
+                        }
                     });
                     if (s === 0) {
-                        ['I2E60nEUXWo', 'goe_stream'].forEach(id => {
-                            if (pt.streams[id]) s += pt.streams[id].viewers;
-                        });
+                        return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total);
                     }
                     return s;
                 });
@@ -1113,18 +1236,18 @@
                 const nervaLine = detailedHistory.map(pt => {
                     let s = 0;
                     ['nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'].forEach(id => {
-                        if (selectedStreamIds.has(id) && pt.streams[id]) s += pt.streams[id].viewers;
+                        if (selectedStreamIds.has(id) && pt.streams[id]) s += (pt.streams[id].viewers || 0);
                     });
                     if (s === 0) {
                         ['nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'].forEach(id => {
-                            if (pt.streams[id]) s += pt.streams[id].viewers;
+                            if (pt.streams[id]) s += (pt.streams[id].viewers || 0);
                         });
                     }
                     return s;
                 });
 
                 compDatasets.push({
-                    label: 'GOE (Kielecki Bunkier)',
+                    label: filterBots ? 'GOE (Kielecki Bunkier - Organiczne)' : 'GOE (Kielecki Bunkier - Z botami)',
                     data: goeLine,
                     borderColor: '#ff1824',
                     backgroundColor: 'rgba(255, 24, 36, 0.15)',
@@ -1230,7 +1353,11 @@
         }
 
         function downloadSummaryCard(mode = 'goe') {
-            window.open(mode === 'goe' ? './goe_summary.png' : './stream_summary.png', '_blank');
+            if (mode === 'goe') {
+                window.open(filterBots ? './goe_summary.png' : './goe_summary_raw.png', '_blank');
+            } else {
+                window.open(filterBots ? './stream_summary.png' : './stream_summary_raw.png', '_blank');
+            }
         }
 
         function downloadCSV() {

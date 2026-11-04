@@ -9,6 +9,128 @@ import time
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "history.db")
 
+# Confirmed bot attack windows on GoE YouTube
+BOT_ATTACK_WINDOWS = [
+    {
+        "name": "Atak 1",
+        "start": "2026-11-04 00:18:25",
+        "end": "2026-11-04 00:39:09",
+        "yt_start": 2152,
+        "yt_end": 2166,
+    },
+    {
+        "name": "Atak 2",
+        "start": "2026-11-04 00:48:08",
+        "end": "2026-11-04 01:06:51",
+        "yt_start": 2140,
+        "yt_end": 1785,
+    },
+]
+
+
+def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
+    """Normalizes the 2 YouTube viewbotting spikes for GoE:
+    - Attack 1: 2026-11-04 00:18:25 to 2026-11-04 00:39:09
+    - Attack 2: 2026-11-04 00:48:08 to 2026-11-04 01:06:51
+    Interpolates genuine YouTube baseline, keeps Twitch untouched, and strips corrupted post-stream VOD snapshots.
+    """
+    if not points:
+        return []
+
+    windows = []
+    for w in BOT_ATTACK_WINDOWS:
+        dt_s = datetime.strptime(w["start"], "%Y-%m-%d %H:%M:%S")
+        dt_e = datetime.strptime(w["end"], "%Y-%m-%d %H:%M:%S")
+        windows.append(
+            {
+                "start": dt_s,
+                "end": dt_e,
+                "dur": (dt_e - dt_s).total_seconds(),
+                "yt_start": w["yt_start"],
+                "yt_end": w["yt_end"],
+            }
+        )
+
+    cleaned = []
+    for pt in points:
+        ts_str = pt.get("timestamp", "")
+        # Drop any corrupted post-stream records (>15000 viewers after 03:00)
+        if ts_str >= "2026-11-04 03:05:00" and (
+            pt.get("goe_total", 0) > 10000 or pt.get("nerva_total", 0) > 15000
+        ):
+            continue
+
+        try:
+            dt = datetime.strptime(ts_str.split(".")[0], "%Y-%m-%d %H:%M:%S")
+        except Exception:
+            cleaned.append(dict(pt))
+            continue
+
+        p = dict(pt)
+        streams = {k: dict(v) for k, v in p.get("streams", {}).items()}
+        yt_stream = streams.get("I2E60nEUXWo")
+        tw_stream = streams.get("goe_stream")
+
+        goe_tot = p.get("goe_total", 0)
+        p["goe_total_raw"] = p.get("goe_total_raw", goe_tot)
+        p["is_bot_attack"] = False
+
+        for w in windows:
+            if w["start"] <= dt <= w["end"]:
+                p["is_bot_attack"] = True
+                if enabled and w["dur"] > 0:
+                    prog = max(
+                        0.0, min(1.0, (dt - w["start"]).total_seconds() / w["dur"])
+                    )
+                    clean_yt = int(w["yt_start"] + prog * (w["yt_end"] - w["yt_start"]))
+                    tw_v = tw_stream.get("viewers", 0) if tw_stream else 0
+
+                    if yt_stream:
+                        yt_stream["viewers_raw"] = yt_stream.get(
+                            "viewers_raw", yt_stream.get("viewers", clean_yt)
+                        )
+                        yt_stream["viewers"] = clean_yt
+                        yt_stream["is_bot_attack"] = True
+                        streams["I2E60nEUXWo"] = yt_stream
+
+                    clean_goe = tw_v + clean_yt
+                    p["goe_total"] = clean_goe
+                    p["total_viewers"] = clean_goe + p.get("nerva_total", 0)
+                    p["diff"] = abs(clean_goe - p.get("nerva_total", 0))
+                    tot = p["total_viewers"]
+                    p["ratio_goe"] = (
+                        round((clean_goe / tot * 100), 1) if tot > 0 else 50.0
+                    )
+                    p["ratio_nerva"] = (
+                        round((p.get("nerva_total", 0) / tot * 100), 1)
+                        if tot > 0
+                        else 50.0
+                    )
+                elif not enabled:
+                    raw_goe = p.get("goe_total_raw", p.get("goe_total", 0))
+                    p["goe_total"] = raw_goe
+                    if yt_stream:
+                        yt_stream["viewers"] = yt_stream.get(
+                            "viewers_raw", yt_stream.get("viewers", 0)
+                        )
+                    p["total_viewers"] = raw_goe + p.get("nerva_total", 0)
+                    p["diff"] = abs(raw_goe - p.get("nerva_total", 0))
+                    tot = p["total_viewers"]
+                    p["ratio_goe"] = (
+                        round((raw_goe / tot * 100), 1) if tot > 0 else 50.0
+                    )
+                    p["ratio_nerva"] = (
+                        round((p.get("nerva_total", 0) / tot * 100), 1)
+                        if tot > 0
+                        else 50.0
+                    )
+                break
+
+        p["streams"] = streams
+        cleaned.append(p)
+
+    return cleaned
+
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH)
@@ -241,9 +363,23 @@ def get_history(limit: int = 500, platform: str = "ALL") -> list[dict]:
         return result
 
 
-def get_summary_stats(platform: str = "ALL") -> dict:
-    """Calculates peak, average, and summary statistics across recorded history per platform."""
-    history = get_history(limit=2000, platform=platform)
+def get_summary_stats(
+    platform: str = "ALL",
+    custom_history: list[dict] = None,
+    filter_bots: bool = True,
+) -> dict:
+    """Calculates peak, average, and summary statistics across recorded history per platform,
+    with automatic bot attack filtering and corrupted snapshot removal."""
+    if custom_history is not None:
+        history = [dict(p) for p in custom_history]
+    else:
+        history = get_detailed_history(limit=5000)
+
+    if filter_bots:
+        history = filter_bot_attacks(history, enabled=True)
+    else:
+        history = filter_bot_attacks(history, enabled=False)
+
     if not history:
         return {
             "count": 0,
@@ -255,28 +391,50 @@ def get_summary_stats(platform: str = "ALL") -> dict:
             "nerva_avg": 0,
             "start_time": "",
             "end_time": "",
+            "goe_raw_peak": 0,
+            "goe_raw_peak_time": "",
+            "is_bot_filtered": filter_bots,
         }
 
     goe_peak = 0
+    goe_raw_peak = 0
     nerva_peak = 0
     goe_peak_time = ""
+    goe_raw_peak_time = ""
     nerva_peak_time = ""
     goe_sum = 0
     nerva_sum = 0
 
     for pt in history:
-        gv = pt["goe_total"]
-        nv = pt["nerva_total"]
+        gv_clean = pt.get("goe_total", 0)
+        gv_raw = pt.get("goe_total_raw", gv_clean)
+        gv = gv_clean if filter_bots else gv_raw
+        nv = pt.get("nerva_total", 0)
+        ts_short = pt.get("timestamp", "").split(" ")[-1]
+        if ":" in ts_short and len(ts_short) > 5:
+            ts_short = ts_short[:5]  # HH:MM
+
         if gv > goe_peak:
             goe_peak = gv
-            goe_peak_time = pt["timestamp"].split(" ")[-1]
+            goe_peak_time = ts_short
+        if gv_raw > goe_raw_peak:
+            goe_raw_peak = gv_raw
+            goe_raw_peak_time = ts_short
         if nv > nerva_peak:
             nerva_peak = nv
-            nerva_peak_time = pt["timestamp"].split(" ")[-1]
+            nerva_peak_time = ts_short
+
         goe_sum += gv
         nerva_sum += nv
 
     count = len(history)
+    start_ts = history[0].get("timestamp", "").split(" ")[-1]
+    end_ts = history[-1].get("timestamp", "").split(" ")[-1]
+    if ":" in start_ts and len(start_ts) > 5:
+        start_ts = start_ts[:5]
+    if ":" in end_ts and len(end_ts) > 5:
+        end_ts = end_ts[:5]
+
     return {
         "count": count,
         "goe_peak": goe_peak,
@@ -285,8 +443,11 @@ def get_summary_stats(platform: str = "ALL") -> dict:
         "nerva_peak_time": nerva_peak_time,
         "goe_avg": int(round(goe_sum / count)) if count > 0 else 0,
         "nerva_avg": int(round(nerva_sum / count)) if count > 0 else 0,
-        "start_time": history[0]["timestamp"],
-        "end_time": history[-1]["timestamp"],
+        "start_time": start_ts,
+        "end_time": end_ts,
+        "goe_raw_peak": goe_raw_peak,
+        "goe_raw_peak_time": goe_raw_peak_time,
+        "is_bot_filtered": filter_bots,
     }
 
 

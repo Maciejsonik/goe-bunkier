@@ -4,13 +4,11 @@ from datetime import datetime, timedelta
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
-import subprocess
 import sys
 import threading
 import time
 import urllib.parse
 
-from build_static import build as build_static_files
 from db import (
     export_to_csv,
     get_detailed_history,
@@ -25,7 +23,7 @@ from scraper import fetch_all_data
 
 PORT = 5050
 POLL_INTERVAL = 15
-END_HOUR = 3
+OFFLINE_TIMEOUT_SECONDS = 30 * 60  # 30 consecutive minutes offline to end collection
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="pl">
@@ -1400,17 +1398,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
 
 def background_collector_loop():
-    """Background thread collecting data every 15 seconds until 03:00 AM."""
-    now = datetime.now()
-    if now.hour >= END_HOUR:
-        end_time = (now + timedelta(days=1)).replace(
-            hour=END_HOUR, minute=0, second=0, microsecond=0
-        )
-    else:
-        end_time = now.replace(hour=END_HOUR, minute=0, second=0, microsecond=0)
-
+    """Background thread collecting data every 15 seconds while streams are live,
+    stopping only after 30 consecutive minutes of all streams being offline."""
+    print(f"[Collector] Uruchomiono inteligentne zbieranie danych co {POLL_INTERVAL}s.")
     print(
-        f"[Collector] Uruchomiono zbieranie co {POLL_INTERVAL}s do {end_time.strftime('%Y-%m-%d %H:%M:%S')}"
+        "[Collector] Monitorowanie aktywne dopóki trwają transmisje (zakończenie po 30 min ciągłego braku sygnału)."
     )
 
     card_path = os.path.join(os.path.dirname(__file__), "battle_card.png")
@@ -1419,82 +1411,65 @@ def background_collector_loop():
         os.path.dirname(__file__), "stream_summary.png"
     )
 
-    cycle_count = 0
-    repo_dir = os.path.dirname(os.path.abspath(__file__))
+    consecutive_offline_seconds = 0
+    had_live_stream = False
 
-    while datetime.now() < end_time:
-        cycle_count += 1
+    while True:
         try:
             data = fetch_all_data()
-            save_snapshot(data)
-            create_battle_card(data, card_path)
-            create_summary_card(goe_summary_path, mode="GOE")
-            create_summary_card(comparison_summary_path, mode="COMPARISON")
-            ts = datetime.now().strftime("%H:%M:%S")
-            goe_v = data["groups"]["GOE"]["total_viewers"]
-            nerva_v = data["groups"]["NERVA"]["total_viewers"]
-            print(
-                f"[{ts}] Zapisano: GOE={goe_v:,} | NERVA={nerva_v:,}".replace(",", " ")
+            any_live = any(
+                s.get("is_live", False)
+                for s in data["groups"]["GOE"]["streams"]
+                + data["groups"]["NERVA"]["streams"]
             )
 
-            # Auto-sync to GitHub Pages every ~90 seconds (6 cycles)
-            if cycle_count % 6 == 0:
-                try:
-                    build_static_files()
-                    subprocess.run(
-                        [
-                            "git",
-                            "add",
-                            "data.json",
-                            "history.json",
-                            "stream_data.csv",
-                            "battle_card.png",
-                            "goe_summary.png",
-                            "stream_summary.png",
-                        ],
-                        cwd=repo_dir,
-                        capture_output=True,
+            if any_live:
+                had_live_stream = True
+                consecutive_offline_seconds = 0
+                save_snapshot(data)
+                create_battle_card(data, card_path)
+                create_summary_card(goe_summary_path, mode="GOE", filter_bots=True)
+                create_summary_card(
+                    comparison_summary_path, mode="COMPARISON", filter_bots=True
+                )
+                ts = datetime.now().strftime("%H:%M:%S")
+                goe_v = data["groups"]["GOE"]["total_viewers"]
+                nerva_v = data["groups"]["NERVA"]["total_viewers"]
+                print(
+                    f"[{ts}] Zapisano: GOE={goe_v:,} | NERVA={nerva_v:,}".replace(
+                        ",", " "
                     )
-                    subprocess.run(
-                        [
-                            "git",
-                            "commit",
-                            "-m",
-                            f"Live update: {ts} [skip ci]",
-                        ],
-                        cwd=repo_dir,
-                        capture_output=True,
+                )
+            else:
+                consecutive_offline_seconds += POLL_INTERVAL
+                offline_mins = consecutive_offline_seconds // 60
+                ts = datetime.now().strftime("%H:%M:%S")
+                if consecutive_offline_seconds % 60 == 0:
+                    print(
+                        f"[{ts}] Wszystkie streamy offline ({offline_mins}/30 min)..."
                     )
-                    subprocess.run(
-                        ["git", "push", "origin", "main"],
-                        cwd=repo_dir,
-                        capture_output=True,
-                    )
-                    print(f"[{ts}] 🚀 Zsynchronizowano z GitHub Pages!")
-                except Exception as sync_e:
-                    print(f"[{ts}] ⚠️ Błąd auto-sync do GitHuba: {sync_e}")
 
+                if (
+                    had_live_stream
+                    and consecutive_offline_seconds >= OFFLINE_TIMEOUT_SECONDS
+                ):
+                    print(
+                        f"[{ts}] Wszystkie transmisje zakończone (30 min offline). Generowanie ostatecznych podsumowań..."
+                    )
+                    create_summary_card(goe_summary_path, mode="GOE", filter_bots=True)
+                    create_summary_card(
+                        comparison_summary_path,
+                        mode="COMPARISON",
+                        filter_bots=True,
+                    )
+                    print(
+                        "[Collector] Podsumowania zapisane. Przejście w tryb czuwania."
+                    )
+                    break
         except Exception as e:
             print(f"[Collector Error] {e}")
 
         time.sleep(POLL_INTERVAL)
-
-    print("[Collector] Osiągnięto 03:00 AM. Wygenerowano ostateczne podsumowania.")
-    create_summary_card(goe_summary_path, mode="GOE")
-    create_summary_card(comparison_summary_path, mode="COMPARISON")
-    try:
-        build_static_files()
-        subprocess.run(["git", "add", "."], cwd=repo_dir, capture_output=True)
-        subprocess.run(
-            ["git", "commit", "-m", "Final stream summary [skip ci]"],
-            cwd=repo_dir,
-            capture_output=True,
-        )
-        subprocess.run(
-            ["git", "push", "origin", "main"], cwd=repo_dir, capture_output=True
-        )
-    except Exception:
-        pass
 
 
 def run_server(port: int = PORT):
@@ -1502,11 +1477,11 @@ def run_server(port: int = PORT):
     collector_thread.start()
 
     server = HTTPServer(("0.0.0.0", port), DashboardHandler)
-    print(f"\n==========================================================")
+    print("\n==========================================================")
     print(f"🚀 Serwer działa w tle na porcie {port}")
     print(f"👉 Główna strona (Spis GoE & Filtry): http://localhost:{port}")
-    print(f"⏱️ Zbieranie danych co 15s aktywne do 03:00 AM!")
-    print(f"==========================================================\n")
+    print("⏱️ Inteligentne zbieranie danych dopóki trwają transmisje!")
+    print("==========================================================\n")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

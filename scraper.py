@@ -108,29 +108,33 @@ def fetch_youtube_stream(video_id: str) -> dict:
             avatar_url = avatar_m.group(1) if avatar_m else ""
 
             # Check if live
-            is_live = '"isLive":true' in html or '"isLiveContent":true' in html
+            is_live_now = '"isLiveNow":true' in html or '"isLive":true' in html
+            is_ended = '"isLiveNow":false' in html or '"endTimestamp"' in html
+            is_live = is_live_now and not is_ended
 
-            # Extract concurrent viewers
+            # Extract concurrent viewers ONLY if the stream is currently live
+            # (Ended streams display cumulative VOD views which must NEVER be counted as live viewers)
             viewers = 0
-            vc_m = re.search(
-                r'"videoViewCountRenderer":\{.*?"originalViewCount":"(\d+)"',
-                html,
-            )
-            if not vc_m:
-                vc_m = re.search(r'"originalViewCount":"(\d+)"', html)
-
-            if vc_m:
-                viewers = int(vc_m.group(1))
-            else:
-                simple_m = re.search(
-                    r'"runs":\[\{"text":"([\d\s,\.]+)"\},\{"text":"\s*(?:osób ogląda|watching now|viewers)"',
+            if is_live:
+                vc_m = re.search(
+                    r'"videoViewCountRenderer":\{.*?"originalViewCount":"(\d+)"',
                     html,
-                    re.IGNORECASE,
                 )
-                if simple_m:
-                    cleaned = re.sub(r"[^\d]", "", simple_m.group(1))
-                    if cleaned:
-                        viewers = int(cleaned)
+                if not vc_m:
+                    vc_m = re.search(r'"originalViewCount":"(\d+)"', html)
+
+                if vc_m:
+                    viewers = int(vc_m.group(1))
+                else:
+                    simple_m = re.search(
+                        r'"runs":\[\{"text":"([\d\s,\.]+)"\},\{"text":"\s*(?:osób ogląda|watching now|viewers)"',
+                        html,
+                        re.IGNORECASE,
+                    )
+                    if simple_m:
+                        cleaned = re.sub(r"[^\d]", "", simple_m.group(1))
+                        if cleaned:
+                            viewers = int(cleaned)
 
             return {
                 "id": video_id,
@@ -197,7 +201,8 @@ def fetch_all_data(groups_config: dict = None) -> dict:
                 st_item = dict(st)
                 st_item["group"] = grp_key
                 streams.append(st_item)
-                group_total += st.get("viewers", 0)
+                if st.get("is_live", False):
+                    group_total += st.get("viewers", 0)
 
         # YouTube streams
         for vid in grp_info.get("youtube", []):
@@ -206,7 +211,8 @@ def fetch_all_data(groups_config: dict = None) -> dict:
                 st_item = dict(st)
                 st_item["group"] = grp_key
                 streams.append(st_item)
-                group_total += st.get("viewers", 0)
+                if st.get("is_live", False):
+                    group_total += st.get("viewers", 0)
 
         grouped[grp_key] = {
             "id": grp_key,

@@ -3,7 +3,12 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-from db import get_detailed_history, get_history, get_summary_stats
+from db import (
+    filter_bot_attacks,
+    get_detailed_history,
+    get_history,
+    get_summary_stats,
+)
 from generate_card import _get_font, draw_goe_background, draw_slanted_text
 
 
@@ -12,6 +17,7 @@ def create_summary_card(
     mode: str = "COMPARISON",
     platform: str = "ALL",
     custom_history: list[dict] = None,
+    filter_bots: bool = True,
 ) -> str:
     """Renders a clean post-stream timeline chart in GoE aesthetic.
 
@@ -25,21 +31,36 @@ def create_summary_card(
 
     draw_goe_background(draw, width, height)
 
-    stats = get_summary_stats(platform=platform)
+    # Fetch and filter history
+    if custom_history is not None:
+        raw_pts = [dict(p) for p in custom_history]
+    else:
+        raw_pts = get_detailed_history(limit=5000)
+
+    history_points = filter_bot_attacks(raw_pts, enabled=filter_bots)
+    if len(history_points) < 2:
+        history_points = []
+
+    stats = get_summary_stats(
+        platform=platform,
+        custom_history=history_points,
+        filter_bots=filter_bots,
+    )
 
     font_top_emblem = _get_font(26, bold=True)
     font_main_title = _get_font(74, bold=True)
-    font_sub_title = _get_font(24, bold=False)
+    font_sub_title = _get_font(23, bold=False)
     font_stat_val = _get_font(46, bold=True)
     font_stat_lbl = _get_font(15, bold=True)
     font_axis = _get_font(14, bold=False)
     font_legend = _get_font(16, bold=True)
     font_callout = _get_font(12, bold=True)
     font_footer_pipes = _get_font(16, bold=True)
+    font_badge = _get_font(13, bold=True)
 
     # Header Emblem
     draw.text(
-        (width // 2, 60),
+        (width // 2, 54),
         "🎙️   |   WORLDS 2026",
         fill=(255, 255, 255),
         font=font_top_emblem,
@@ -53,7 +74,7 @@ def create_summary_card(
         title_text,
         font_main_title,
         (255, 24, 36),
-        (width // 2, 135),
+        (width // 2, 125),
         slant_k=0.22,
     )
 
@@ -68,38 +89,67 @@ def create_summary_card(
         else f"w Kieleckim bunkrze vs Nervarien • Porównanie • {time_range}"
     )
     draw.text(
-        (width // 2, 185),
+        (width // 2, 172),
         sub_title_text,
         fill=(255, 255, 255),
         font=font_sub_title,
         anchor="mm",
     )
 
+    # Bot Filter Status Badge
+    badge_y = 202
+    if filter_bots:
+        badge_text = "🛡️  DANE OCZYSZCZONE (ODFILTROWANO ATAKI BOTÓW NA YOUTUBE)"
+        badge_bg = (14, 35, 20)
+        badge_border = (74, 222, 128)
+        badge_fg = (74, 222, 128)
+    else:
+        badge_text = "⚠️  SUROWE DANE (UWZGLĘDNIAJĄ SZTUCZNE PIKI BOTÓW NA YOUTUBE)"
+        badge_bg = (40, 16, 16)
+        badge_border = (248, 113, 113)
+        badge_fg = (248, 113, 113)
+
+    badge_w = 540
+    badge_h = 24
+    bx1 = (width - badge_w) // 2
+    draw.rounded_rectangle(
+        [bx1, badge_y, bx1 + badge_w, badge_y + badge_h],
+        radius=12,
+        fill=badge_bg,
+        outline=badge_border,
+        width=1,
+    )
+    draw.text(
+        (width // 2, badge_y + badge_h // 2),
+        badge_text,
+        fill=badge_fg,
+        font=font_badge,
+        anchor="mm",
+    )
+
     box_w = 225
     box_h = 115
-    y_boxes = 230
+    y_boxes = 240
     x_positions = [50, 305, 560, 805]
 
-    # Fetch detailed history if in GOE mode, or standard history if in comparison
+    # Stats setup
     if mode == "GOE":
-        detailed = (
-            custom_history
-            if custom_history is not None
-            else get_detailed_history(limit=5000)
-        )
-        history_points = detailed if len(detailed) >= 2 else []
-
         # Calculate GoE peak YT and peak Twitch
         peak_yt = max(
             (
-                p["streams"].get("I2E60nEUXWo", {}).get("viewers", 0)
+                p.get("streams", {})
+                .get("I2E60nEUXWo", {})
+                .get(
+                    "viewers" if filter_bots else "viewers_raw",
+                    p.get("streams", {}).get("I2E60nEUXWo", {}).get("viewers", 0),
+                )
                 for p in history_points
             ),
             default=0,
         )
         peak_tw = max(
             (
-                p["streams"].get("goe_stream", {}).get("viewers", 0)
+                p.get("streams", {}).get("goe_stream", {}).get("viewers", 0)
                 for p in history_points
             ),
             default=0,
@@ -116,7 +166,7 @@ def create_summary_card(
                 "ŚREDNIA GOE",
                 f"{stats['goe_avg']:,}".replace(",", " "),
                 (255, 255, 255),
-                "W TRAKCIE STREAMU",
+                "ORGANICZNA" if filter_bots else "W TRAKCIE STREAMU",
             ),
             (
                 "PIK YOUTUBE",
@@ -132,13 +182,6 @@ def create_summary_card(
             ),
         ]
     else:
-        history = (
-            custom_history
-            if custom_history is not None
-            else get_history(limit=5000, platform=platform)
-        )
-        history_points = history if len(history) >= 2 else []
-
         goe_peak_sub = (
             f"PIK O {stats['goe_peak_time']}"
             if stats.get("goe_peak_time")
@@ -167,7 +210,7 @@ def create_summary_card(
                 "ŚREDNIA GOE",
                 f"{stats['goe_avg']:,}".replace(",", " "),
                 (255, 24, 36),
-                "W TRAKCIE STREAMU",
+                "ORGANICZNA" if filter_bots else "W TRAKCIE STREAMU",
             ),
             (
                 "ŚREDNIA NERVA",
@@ -299,18 +342,25 @@ def create_summary_card(
     if mode == "GOE":
         max_v = max(
             (
-                p.get("goe_total", 0)
-                if "goe_total" in p
-                else (
-                    p["streams"].get("I2E60nEUXWo", {}).get("viewers", 0)
-                    + p["streams"].get("goe_stream", {}).get("viewers", 0)
+                (
+                    p.get("goe_total", 0)
+                    if filter_bots
+                    else p.get("goe_total_raw", p.get("goe_total", 0))
                 )
-            )
-            for p in history_points
+                for p in history_points
+            ),
+            default=100,
         )
     else:
         max_v = max(
-            max(p.get("goe_total", 0) for p in history_points),
+            max(
+                (
+                    p.get("goe_total", 0)
+                    if filter_bots
+                    else p.get("goe_total_raw", p.get("goe_total", 0))
+                )
+                for p in history_points
+            ),
             max(p.get("nerva_total", 0) for p in history_points),
             100,
         )
@@ -346,9 +396,19 @@ def create_summary_card(
                 else plot_x1 + int((idx / (num_pts - 1)) * plot_w)
             )
             streams_map = pt.get("streams", {})
-            yt_v = streams_map.get("I2E60nEUXWo", {}).get("viewers", 0)
-            tw_v = streams_map.get("goe_stream", {}).get("viewers", 0)
-            tot_v = pt.get("goe_total", yt_v + tw_v)
+            yt_s = streams_map.get("I2E60nEUXWo", {})
+            tw_s = streams_map.get("goe_stream", {})
+            yt_v = (
+                yt_s.get("viewers", 0)
+                if filter_bots
+                else yt_s.get("viewers_raw", yt_s.get("viewers", 0))
+            )
+            tw_v = tw_s.get("viewers", 0)
+            tot_v = (
+                pt.get("goe_total", yt_v + tw_v)
+                if filter_bots
+                else pt.get("goe_total_raw", pt.get("goe_total", yt_v + tw_v))
+            )
 
             if tot_v > curr_max:
                 curr_max = tot_v
@@ -427,8 +487,12 @@ def create_summary_card(
                 if num_pts == 1
                 else plot_x1 + int((idx / (num_pts - 1)) * plot_w)
             )
-            gv = pt["goe_total"]
-            nv = pt["nerva_total"]
+            gv = (
+                pt.get("goe_total", 0)
+                if filter_bots
+                else pt.get("goe_total_raw", pt.get("goe_total", 0))
+            )
+            nv = pt.get("nerva_total", 0)
 
             if gv > curr_max_goe:
                 curr_max_goe = gv
@@ -535,9 +599,19 @@ def create_summary_card(
 
 
 if __name__ == "__main__":
-    out_goe = create_summary_card("infographsbot/goe_summary.png", mode="GOE")
-    out_comp = create_summary_card(
-        "infographsbot/stream_summary.png", mode="COMPARISON"
+    out_goe = create_summary_card(
+        "infographsbot/goe_summary.png", mode="GOE", filter_bots=True
     )
-    print(f"GoE summary card saved: {out_goe}")
-    print(f"Comparison summary card saved: {out_comp}")
+    out_comp = create_summary_card(
+        "infographsbot/stream_summary.png", mode="COMPARISON", filter_bots=True
+    )
+    out_goe_raw = create_summary_card(
+        "infographsbot/goe_summary_raw.png", mode="GOE", filter_bots=False
+    )
+    out_comp_raw = create_summary_card(
+        "infographsbot/stream_summary_raw.png", mode="COMPARISON", filter_bots=False
+    )
+    print(f"GoE summary card (clean): {out_goe}")
+    print(f"Comparison summary card (clean): {out_comp}")
+    print(f"GoE summary card (raw): {out_goe_raw}")
+    print(f"Comparison summary card (raw): {out_comp_raw}")
