@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 11:24:15",
+  "timestamp": "2026-11-04 13:24:02",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -91,7 +91,7 @@
   "day_name": "Dzień 2 (04.11)",
   "day_date": "2026-11-04",
   "is_finished": false,
-  "is_active": false,
+  "is_active": true,
   "momentum": {
     "goe_delta": 0,
     "nerva_delta": 0,
@@ -110,7 +110,16 @@
     "end_time": "",
     "goe_raw_peak": 0,
     "goe_raw_peak_time": "",
-    "is_bot_filtered": true
+    "is_bot_filtered": true,
+    "nerva_costream_peak": 0,
+    "nerva_costream_peak_time": "",
+    "nerva_costream_avg": 0,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "camp_peak": 0,
+    "camp_peak_time": "",
+    "camp_avg": 0
   },
   "summary_stats_raw": {
     "count": 0,
@@ -124,9 +133,18 @@
     "end_time": "",
     "goe_raw_peak": 0,
     "goe_raw_peak_time": "",
-    "is_bot_filtered": false
+    "is_bot_filtered": false,
+    "nerva_costream_peak": 0,
+    "nerva_costream_peak_time": "",
+    "nerva_costream_avg": 0,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "camp_peak": 0,
+    "camp_peak_time": "",
+    "camp_avg": 0
   },
-  "active_day_id": "day-1",
+  "active_day_id": "day-2",
   "days": [
     {
       "id": "day-1",
@@ -134,7 +152,7 @@
       "label": "Dzień 1 • 03.11 (Zakończony)",
       "date": "2026-11-03",
       "is_finished": true,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-1.json",
       "history_url": "./history_day-1.json",
       "csv_url": "./stream_data_day-1.csv",
@@ -147,7 +165,7 @@
       "label": "Dzień 2 • 04.11 (Dzisiejszy)",
       "date": "2026-11-04",
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-2.json",
       "history_url": "./history_day-2.json",
       "csv_url": "./stream_data_day-2.csv",

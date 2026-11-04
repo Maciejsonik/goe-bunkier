@@ -202,9 +202,7 @@ def init_db():
             pass
 
         try:
-            conn.execute(
-                "ALTER TABLE snapshots ADD COLUMN day_id TEXT DEFAULT 'day-1'"
-            )
+            conn.execute("ALTER TABLE snapshots ADD COLUMN day_id TEXT DEFAULT 'day-1'")
         except sqlite3.OperationalError:
             pass
 
@@ -305,7 +303,7 @@ def get_detailed_history(limit: int = 2000, day_id: str | None = None) -> list[d
                     "id": sid,
                     "timestamp": r["timestamp"],
                     "unix_time": r["unix_time"],
-                    "day_id": r["day_id"] if "day_id" in r else "day-1",
+                    "day_id": r.get("day_id", "day-1"),
                     "total_viewers": r["total_viewers"],
                     "goe_total": r["goe_total"],
                     "nerva_total": r["nerva_total"],
@@ -432,6 +430,15 @@ def get_summary_stats(
             "goe_raw_peak": 0,
             "goe_raw_peak_time": "",
             "is_bot_filtered": filter_bots,
+            "nerva_costream_peak": 0,
+            "nerva_costream_peak_time": "",
+            "nerva_costream_avg": 0,
+            "tobias_costream_peak": 0,
+            "tobias_costream_peak_time": "",
+            "tobias_costream_avg": 0,
+            "camp_peak": 0,
+            "camp_peak_time": "",
+            "camp_avg": 0,
         }
 
     goe_peak = 0
@@ -442,6 +449,18 @@ def get_summary_stats(
     nerva_peak_time = ""
     goe_sum = 0
     nerva_sum = 0
+
+    nerva_costream_peak = 0
+    nerva_costream_peak_time = ""
+    nerva_costream_sum = 0
+
+    tobias_costream_peak = 0
+    tobias_costream_peak_time = ""
+    tobias_costream_sum = 0
+
+    camp_peak = 0
+    camp_peak_time = ""
+    camp_sum = 0
 
     for pt in history:
         gv_clean = pt.get("goe_total", 0)
@@ -465,6 +484,38 @@ def get_summary_stats(
         goe_sum += gv
         nerva_sum += nv
 
+        # Co-stream metrics
+        streams = pt.get("streams", {})
+        nc_v = 0
+        for vid in ("woX6jXefVdw", "N3i_DQlKL_U"):
+            if vid in streams:
+                nc_v = streams[vid].get("viewers", 0)
+                break
+        if nc_v == 0:
+            for sid, s in streams.items():
+                if sid != "ttobias_lol" and (
+                    s.get("is_costream") or s.get("is_curiosity")
+                ):
+                    nc_v = s.get("viewers", 0)
+                    break
+
+        tb_v = streams.get("ttobias_lol", {}).get("viewers", 0)
+        camp_v = nv + nc_v + tb_v
+
+        if nc_v > nerva_costream_peak:
+            nerva_costream_peak = nc_v
+            nerva_costream_peak_time = ts_short
+        if tb_v > tobias_costream_peak:
+            tobias_costream_peak = tb_v
+            tobias_costream_peak_time = ts_short
+        if camp_v > camp_peak:
+            camp_peak = camp_v
+            camp_peak_time = ts_short
+
+        nerva_costream_sum += nc_v
+        tobias_costream_sum += tb_v
+        camp_sum += camp_v
+
     count = len(history)
     start_ts = history[0].get("timestamp", "").split(" ")[-1]
     end_ts = history[-1].get("timestamp", "").split(" ")[-1]
@@ -486,6 +537,15 @@ def get_summary_stats(
         "goe_raw_peak": goe_raw_peak,
         "goe_raw_peak_time": goe_raw_peak_time,
         "is_bot_filtered": filter_bots,
+        "nerva_costream_peak": nerva_costream_peak,
+        "nerva_costream_peak_time": nerva_costream_peak_time,
+        "nerva_costream_avg": round(nerva_costream_sum / count) if count > 0 else 0,
+        "tobias_costream_peak": tobias_costream_peak,
+        "tobias_costream_peak_time": tobias_costream_peak_time,
+        "tobias_costream_avg": round(tobias_costream_sum / count) if count > 0 else 0,
+        "camp_peak": camp_peak,
+        "camp_peak_time": camp_peak_time,
+        "camp_avg": round(camp_sum / count) if count > 0 else 0,
     }
 
 

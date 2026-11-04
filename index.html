@@ -544,6 +544,111 @@
 
         .bar-segment-goe { height: 100%; background: var(--goe-red); transition: width 0.4s; }
         .bar-segment-nerva { height: 100%; background: #3f3f46; transition: width 0.4s; }
+        .bar-segment-camp { height: 100%; background: #a855f7; transition: width 0.4s; }
+
+        .team-card.camp { border-color: #a855f7; box-shadow: 0 4px 25px rgba(168, 85, 247, 0.15); }
+        .team-card.camp .team-name { color: #c084fc; }
+
+        /* Comparison Sub-tabs & Categories */
+        .comparison-tabs-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .comp-tab-btn {
+            flex: 1;
+            min-width: 220px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            background: #141418;
+            border: 1px solid #27272a;
+            color: #d4d4d8;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .comp-tab-btn:hover {
+            border-color: #52525b;
+            color: #ffffff;
+        }
+
+        .comp-tab-btn.active {
+            background: rgba(255, 24, 36, 0.12);
+            border-color: var(--goe-red);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(255, 24, 36, 0.25);
+        }
+
+        .comp-tab-btn.costream-active.active {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: #f59e0b;
+            color: #fef3c7;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+        }
+
+        .comp-tab-btn.both-active.active {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: #a855f7;
+            color: #f3e8ff;
+            box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
+        }
+
+        .costream-breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+            margin-bottom: 20px;
+        }
+
+        .costream-mini-card {
+            background: #141418;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .costream-mini-label {
+            font-size: 11px;
+            color: #a1a1aa;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .costream-mini-val {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            font-family: var(--font-display);
+        }
+
+        .costream-mini-sub {
+            font-size: 11px;
+            color: #71717a;
+            margin-top: 2px;
+        }
+
+        .comparison-category-banner {
+            background: #121216;
+            border-left: 4px solid var(--goe-red);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 16px;
+        }
+
+        .comparison-category-banner.costream {
+            border-left-color: #f59e0b;
+        }
 
         /* Switch Battle Promo Banner */
         .battle-banner {
@@ -754,12 +859,12 @@
                 <span class="day-selector-sub" id="day-auto-switch-hint">Automatyczny reset o 12:00 UTC</span>
             </div>
             <div class="day-tabs" id="day-tabs-container">
-                <button class="day-tab active" id="day-tab-day-1" onclick="switchDay('day-1')">
+                <button class="day-tab" id="day-tab-day-1" onclick="switchDay('day-1')">
                     <span class="day-indicator finished"></span>
                     <span class="day-name">Dzień 1 (03.11)</span>
                     <span class="day-tag">Zakończony</span>
                 </button>
-                <button class="day-tab" id="day-tab-day-2" onclick="switchDay('day-2')">
+                <button class="day-tab active" id="day-tab-day-2" onclick="switchDay('day-2')">
                     <span class="day-indicator live"></span>
                     <span class="day-name">Dzień 2 (04.11)</span>
                     <span class="day-tag active-pill">Dzisiejszy</span>
@@ -767,13 +872,16 @@
             </div>
         </div>
 
-        <!-- Main View Mode Tabs (GoE Viewers Hub is DEFAULT!) -->
+        <!-- Main View Mode Tabs -->
         <div class="mode-tabs">
             <button class="mode-tab active" id="tab-goe" onclick="switchMode('goe')">
                 🔴 Spis Widzów GoE
             </button>
             <button class="mode-tab" id="tab-battle" onclick="switchMode('battle')">
-                ⚖️ Porównanie z Nervarienem
+                ⚔️ Oficjalny Pojedynek (2v2)
+            </button>
+            <button class="mode-tab" id="tab-costream" onclick="switchMode('costream')">
+                ⚡ Z Co-streamami (+ Tobiasz & Nerva)
             </button>
         </div>
 
@@ -856,11 +964,11 @@
                     </div>
                     <div class="time-range-group">
                         <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
-                        <button class="time-btn time-goe-15m" onclick="setTimeRange('15m')">15 min</button>
-                        <button class="time-btn time-goe-30m" onclick="setTimeRange('30m')">30 min</button>
-                        <button class="time-btn time-goe-1h" onclick="setTimeRange('1h')">1 godz.</button>
-                        <button class="time-btn time-goe-2h" onclick="setTimeRange('2h')">2 godz.</button>
-                        <button class="time-btn time-goe-all active" onclick="setTimeRange('all')">Cały stream</button>
+                        <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
+                        <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
+                        <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
+                        <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
+                        <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały stream</button>
                     </div>
                 </div>
                 <div class="chart-wrapper">
@@ -869,54 +977,154 @@
             </div>
         </div>
 
-        <!-- Mode 2: Battle / Comparison View (Head-to-head vs Nervarien) -->
+        <!-- Mode 2 & 3: Battle / Comparison View -->
         <div id="view-battle" class="battle-view">
-            <div class="scoreboard">
-                <div class="team-card goe">
-                    <div class="team-name">GOE</div>
-                    <div class="team-score" id="battle-goe-score">--</div>
-                    <div class="team-share" id="battle-goe-share">--% widowni</div>
-                    <div class="momentum-badge" id="battle-goe-momentum">Trend: --</div>
+            <!-- Sub-tabs for Comparison Category -->
+            <div class="comparison-tabs-wrapper">
+                <button class="comp-tab-btn active" id="comp-subtab-official" onclick="switchComparisonSubmode('official')">
+                    ⚔️ 1. Oficjalny Pojedynek (Tylko oficjalne kanały)
+                </button>
+                <button class="comp-tab-btn costream-active" id="comp-subtab-costreams" onclick="switchComparisonSubmode('costreams')">
+                    ⚡ 2. Porównanie z Co-streamami (+ Tobiasz & Nerva Co-stream)
+                </button>
+                <button class="comp-tab-btn both-active" id="comp-subtab-both" onclick="switchComparisonSubmode('both')">
+                    📊 Pokaż Oba Zestawienia
+                </button>
+            </div>
+
+            <!-- SECTION 1: OFICJALNY POJEDYNEK (KANAŁY GŁÓWNE) -->
+            <div id="sec-comp-official">
+                <div class="comparison-category-banner">
+                    <div style="font-weight: 800; font-size: 13px; color: #ffffff;">⚔️ OFICJALNY POJEDYNEK 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
+                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
                 </div>
-                <div class="vs-badge">VS</div>
-                <div class="team-card nerva">
-                    <div class="team-name">NERVARIEN</div>
-                    <div class="team-score" id="battle-nerva-score">--</div>
-                    <div class="team-share" id="battle-nerva-share">--% widowni</div>
-                    <div class="momentum-badge" id="battle-nerva-momentum">Trend: --</div>
+
+                <div class="scoreboard">
+                    <div class="team-card goe">
+                        <div class="team-name">GOE (KIELECKI BUNKIER)</div>
+                        <div class="team-score" id="battle-goe-score">--</div>
+                        <div class="team-share" id="battle-goe-share">--% widowni</div>
+                        <div class="momentum-badge" id="battle-goe-momentum">Trend: --</div>
+                    </div>
+                    <div class="vs-badge">VS</div>
+                    <div class="team-card nerva">
+                        <div class="team-name">NERVARIEN (OFICJALNIE)</div>
+                        <div class="team-score" id="battle-nerva-score">--</div>
+                        <div class="team-share" id="battle-nerva-share">--% widowni</div>
+                        <div class="momentum-badge" id="battle-nerva-momentum">Trend: --</div>
+                    </div>
+                </div>
+
+                <div class="battle-bar-container">
+                    <div id="battle-bar-goe" class="bar-segment-goe" style="width: 50%;"></div>
+                    <div id="battle-bar-nerva" class="bar-segment-nerva" style="width: 50%;"></div>
+                </div>
+
+                <!-- DEDICATED CHART: OFICJALNY POJEDYNEK -->
+                <div class="chart-box">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">⚔️ Przebieg Pojedynku Oficjalnego: GoE vs Nervarien</div>
+                            <div id="comp-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii...</div>
+                        </div>
+                        <div class="time-range-group">
+                            <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                            <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
+                            <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
+                            <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
+                            <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
+                            <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały stream</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <div class="battle-bar-container">
-                <div id="battle-bar-goe" class="bar-segment-goe" style="width: 50%;"></div>
-                <div id="battle-bar-nerva" class="bar-segment-nerva" style="width: 50%;"></div>
+            <!-- SECTION 2: Z CO-STREAMAMI (NERVARIEN + TOBIASZ) -->
+            <div id="sec-comp-costreams" style="display: none;">
+                <div class="comparison-category-banner costream">
+                    <div style="font-weight: 800; font-size: 13px; color: #f59e0b;">⚡ PORÓWNANIE Z CO-STREAMAMI (GOE VS CAŁY OBÓZ)</div>
+                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">Zestawienie GoE z całym obozem Nervariena: oficjalne kanały + Nerva Co-stream + Tobiasz Co-stream (Twitch).</div>
+                </div>
+
+                <div class="scoreboard">
+                    <div class="team-card goe">
+                        <div class="team-name">GOE (KIELECKI BUNKIER)</div>
+                        <div class="team-score" id="camp-goe-score">--</div>
+                        <div class="team-share" id="camp-goe-share">--% widowni</div>
+                        <div class="momentum-badge" id="camp-goe-momentum">Trend: --</div>
+                    </div>
+                    <div class="vs-badge" style="border-color: #f59e0b;">VS</div>
+                    <div class="team-card camp">
+                        <div class="team-name" style="color: #f59e0b;">OBÓZ NERVARIENA (+ CO-STREAMY)</div>
+                        <div class="team-score" id="camp-total-score">--</div>
+                        <div class="team-share" id="camp-total-share">--% widowni</div>
+                        <div class="momentum-badge" id="camp-total-momentum">Trend: --</div>
+                    </div>
+                </div>
+
+                <div class="battle-bar-container">
+                    <div id="camp-bar-goe" class="bar-segment-goe" style="width: 50%;"></div>
+                    <div id="camp-bar-nerva" class="bar-segment-camp" style="width: 50%;"></div>
+                </div>
+
+                <!-- 5-element breakdown grid -->
+                <div class="costream-breakdown-grid">
+                    <div class="costream-mini-card" style="border-color: rgba(255, 24, 36, 0.4);">
+                        <div class="costream-mini-label"><span class="live-dot" style="background: #ff1824;"></span> GoE Łącznie</div>
+                        <div class="costream-mini-val" id="breakdown-val-goe">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-goe">Śr: --</div>
+                    </div>
+                    <div class="costream-mini-card" style="border-color: rgba(255, 255, 255, 0.3);">
+                        <div class="costream-mini-label"><span class="live-dot" style="background: #ffffff;"></span> Nerva Oficjalnie</div>
+                        <div class="costream-mini-val" id="breakdown-val-nerva-off">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-nerva-off">Śr: --</div>
+                    </div>
+                    <div class="costream-mini-card" style="border-color: rgba(245, 158, 11, 0.4);">
+                        <div class="costream-mini-label"><span class="live-dot" style="background: #f59e0b;"></span> Nerva Co-stream</div>
+                        <div class="costream-mini-val" id="breakdown-val-nerva-costream">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-nerva-costream">Śr: --</div>
+                    </div>
+                    <div class="costream-mini-card" style="border-color: rgba(251, 146, 60, 0.4);">
+                        <div class="costream-mini-label"><span class="live-dot" style="background: #fb923c;"></span> Tobiasz Co-stream</div>
+                        <div class="costream-mini-val" id="breakdown-val-tobias">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-tobias">Śr: --</div>
+                    </div>
+                    <div class="costream-mini-card" style="border-color: rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.08);">
+                        <div class="costream-mini-label" style="color: #c084fc;"><span class="live-dot" style="background: #c084fc;"></span> Obóz Łącznie</div>
+                        <div class="costream-mini-val" style="color: #e9d5ff;" id="breakdown-val-camp-total">--</div>
+                        <div class="costream-mini-sub" id="breakdown-sub-camp-total">Śr: --</div>
+                    </div>
+                </div>
+
+                <!-- DEDICATED CHART: Z CO-STREAMAMI -->
+                <div class="chart-box">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">⚡ Przebieg Porównania z Co-streamami (GoE vs Obóz Nervariena)</div>
+                            <div id="costream-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii...</div>
+                        </div>
+                        <div class="time-range-group">
+                            <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                            <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
+                            <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
+                            <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
+                            <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
+                            <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały stream</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="costreamComparisonChart"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <!-- Comparison Streams Grid -->
-            <div class="streams-section">
+            <!-- Comparison Streams Grid (Always visible under comparison) -->
+            <div class="streams-section" style="margin-top: 24px;">
                 <div class="column-title">Transmisje obu obozów (GoE & Nervarien)</div>
                 <div class="streams-grid" id="battle-streams-grid"></div>
-            </div>
-
-            <!-- DEDICATED CHART 2: COMPARISON (GoE vs Nervarien) -->
-            <div class="chart-box">
-                <div class="chart-header">
-                    <div>
-                        <div class="chart-title">⚖️ Przebieg Porównania w czasie: GoE vs Nervarien</div>
-                        <div id="comp-chart-sub-label" style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">Ładowanie historii porównania...</div>
-                    </div>
-                    <div class="time-range-group">
-                        <span style="font-size: 11px; font-weight: 800; color: #71717a; text-transform: uppercase; margin-right: 4px;">Zakres:</span>
-                        <button class="time-btn time-comp-15m" onclick="setTimeRange('15m')">15 min</button>
-                        <button class="time-btn time-comp-30m" onclick="setTimeRange('30m')">30 min</button>
-                        <button class="time-btn time-comp-1h" onclick="setTimeRange('1h')">1 godz.</button>
-                        <button class="time-btn time-comp-2h" onclick="setTimeRange('2h')">2 godz.</button>
-                        <button class="time-btn time-comp-all active" onclick="setTimeRange('all')">Cały stream</button>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="comparisonChart"></canvas>
-                </div>
             </div>
         </div>
 
@@ -930,7 +1138,8 @@
     <div id="toast"></div>
 
     <script>
-        let currentMode = 'goe'; // 'goe' (default) or 'battle'
+        let currentMode = 'goe'; // 'goe', 'battle' (official), or 'costream'
+        let comparisonSubmode = 'official'; // 'official', 'costreams', 'both'
         let currentTimeRange = 'all'; // '15m', '30m', '1h', '2h', 'all'
         let filterBots = true; // Bot attack filtering toggle
         let rawData = null;
@@ -939,9 +1148,10 @@
         let autoInterval = null;
         let goeChartInstance = null;
         let comparisonChartInstance = null;
+        let costreamComparisonChartInstance = null;
 
-        let currentDayId = 'day-1';
-        let ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw'];
+        let currentDayId = (new Date().toISOString() >= '2026-11-04T12:00:00Z') ? 'day-2' : 'day-1';
+        let ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw', 'ttobias_lol'];
         let OFFICIAL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
@@ -953,13 +1163,13 @@
             'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
             '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
             'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
-            'ttobias_lol': { name: 'Tobiasz (Co-stream)', platform: 'Twitch', group: 'NERVA', color: '#d97706', is_costream: true, is_curiosity: true }
+            'ttobias_lol': { name: 'Tobiasz (Co-stream)', platform: 'Twitch', group: 'NERVA', color: '#fb923c', is_costream: true, is_curiosity: true }
         };
 
         function updateStreamsMetadataFromData() {
             if (!rawData || !rawData.groups) return;
-            const goeStreams = rawData.groups.GOE.streams || [];
-            const nervaStreams = rawData.groups.NERVA.streams || [];
+            const goeStreams = (rawData.groups.GOE && rawData.groups.GOE.streams) || [];
+            const nervaStreams = (rawData.groups.NERVA && rawData.groups.NERVA.streams) || [];
             const allStreams = [...goeStreams, ...nervaStreams];
 
             ALL_STREAM_IDS = [];
@@ -976,7 +1186,7 @@
                     color = s.platform === 'Twitch' ? '#9146ff' : '#ff1824';
                 } else {
                     if (isCostream) {
-                        color = s.id === 'ttobias_lol' ? '#d97706' : '#f59e0b';
+                        color = s.id === 'ttobias_lol' ? '#fb923c' : '#f59e0b';
                     } else {
                         color = s.platform === 'Twitch' ? '#a855f7' : '#ef4444';
                     }
@@ -994,6 +1204,8 @@
             if (currentMode === 'goe') {
                 const goeIds = goeStreams.map(s => s.id);
                 selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
+            } else if (currentMode === 'costream') {
+                selectedStreamIds = new Set(ALL_STREAM_IDS);
             } else {
                 selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
             }
@@ -1047,8 +1259,18 @@
 
         function initCharts() {
             const commonScales = {
-                x: { ticks: { color: '#71717a' }, grid: { color: '#18181b' } },
-                y: { ticks: { color: '#71717a' }, grid: { color: '#18181b' }, beginAtZero: true }
+                x: {
+                    ticks: { color: '#71717a', maxTicksLimit: 12, autoSkip: true, maxRotation: 0 },
+                    grid: { color: '#18181b' }
+                },
+                y: {
+                    ticks: {
+                        color: '#71717a',
+                        callback: function(val) { return val.toLocaleString('pl-PL'); }
+                    },
+                    grid: { color: '#18181b' },
+                    beginAtZero: true
+                }
             };
             const commonTooltip = {
                 backgroundColor: '#141418',
@@ -1090,28 +1312,95 @@
                     scales: commonScales
                 }
             });
+
+            const ctxCostream = document.getElementById('costreamComparisonChart').getContext('2d');
+            costreamComparisonChartInstance = new Chart(ctxCostream, {
+                type: 'line',
+                data: { labels: [], datasets: [] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { labels: { color: '#d4d4d8', font: { weight: 'bold' } } },
+                        tooltip: {
+                            ...commonTooltip,
+                            borderColor: '#f59e0b'
+                        }
+                    },
+                    scales: commonScales
+                }
+            });
         }
 
         function switchMode(mode) {
             currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+
             if (mode === 'goe') {
                 document.getElementById('tab-goe').classList.add('active');
-                document.getElementById('tab-battle').classList.remove('active');
                 document.getElementById('view-goe').style.display = 'block';
                 document.getElementById('view-battle').style.display = 'none';
                 const goeIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE');
                 selectedStreamIds = new Set(goeIds.length > 0 ? goeIds : ['goe_stream']);
                 setTimeout(() => { if (goeChartInstance) goeChartInstance.resize(); }, 50);
-            } else {
-                document.getElementById('tab-goe').classList.remove('active');
+            } else if (mode === 'battle') {
                 document.getElementById('tab-battle').classList.add('active');
                 document.getElementById('view-goe').style.display = 'none';
                 document.getElementById('view-battle').style.display = 'block';
                 selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
-                setTimeout(() => { if (comparisonChartInstance) comparisonChartInstance.resize(); }, 50);
+                switchComparisonSubmode('official', false);
+            } else if (mode === 'costream') {
+                document.getElementById('tab-costream').classList.add('active');
+                document.getElementById('view-goe').style.display = 'none';
+                document.getElementById('view-battle').style.display = 'block';
+                selectedStreamIds = new Set(ALL_STREAM_IDS);
+                switchComparisonSubmode('costreams', false);
             }
             renderFilterChips();
             updateUI();
+        }
+
+        function switchComparisonSubmode(submode, updateTabs = true) {
+            comparisonSubmode = submode;
+            document.querySelectorAll('.comp-tab-btn').forEach(b => b.classList.remove('active'));
+
+            const secOfficial = document.getElementById('sec-comp-official');
+            const secCostreams = document.getElementById('sec-comp-costreams');
+
+            if (submode === 'official') {
+                document.getElementById('comp-subtab-official').classList.add('active');
+                secOfficial.style.display = 'block';
+                secCostreams.style.display = 'none';
+                setTimeout(() => { if (comparisonChartInstance) comparisonChartInstance.resize(); }, 50);
+            } else if (submode === 'costreams') {
+                document.getElementById('comp-subtab-costreams').classList.add('active');
+                secOfficial.style.display = 'none';
+                secCostreams.style.display = 'block';
+                setTimeout(() => { if (costreamComparisonChartInstance) costreamComparisonChartInstance.resize(); }, 50);
+            } else if (submode === 'both') {
+                document.getElementById('comp-subtab-both').classList.add('active');
+                secOfficial.style.display = 'block';
+                secCostreams.style.display = 'block';
+                setTimeout(() => {
+                    if (comparisonChartInstance) comparisonChartInstance.resize();
+                    if (costreamComparisonChartInstance) costreamComparisonChartInstance.resize();
+                }, 50);
+            }
+
+            if (updateTabs) {
+                document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+                if (submode === 'official') {
+                    document.getElementById('tab-battle').classList.add('active');
+                    currentMode = 'battle';
+                } else if (submode === 'costreams') {
+                    document.getElementById('tab-costream').classList.add('active');
+                    currentMode = 'costream';
+                } else {
+                    document.getElementById('tab-battle').classList.add('active');
+                    currentMode = 'battle';
+                }
+            }
         }
 
         function applyPreset(preset) {
@@ -1124,7 +1413,7 @@
                 if (currentMode !== 'battle') switchMode('battle');
             } else if (preset === 'all_plus_costream' || preset === 'all_plus_curiosity') {
                 selectedStreamIds = new Set(ALL_STREAM_IDS);
-                if (currentMode !== 'battle') switchMode('battle');
+                if (currentMode !== 'costream') switchMode('costream');
             } else if (preset === 'twitch') {
                 const twIds = ALL_STREAM_IDS.filter(id => STREAM_METADATA[id] && STREAM_METADATA[id].platform === 'Twitch');
                 selectedStreamIds = new Set(twIds);
@@ -1153,17 +1442,19 @@
 
         function renderFilterChips() {
             const container = document.getElementById('stream-chips-container');
+            if (!container) return;
             container.innerHTML = '';
 
             ALL_STREAM_IDS.forEach(id => {
                 const meta = STREAM_METADATA[id];
+                if (!meta) return;
                 const isSelected = selectedStreamIds.has(id);
                 const isNerva = meta.group === 'NERVA';
                 const isCostream = !!(meta.is_costream || meta.is_curiosity);
 
                 let viewers = 0;
-                if (rawData) {
-                    const allS = [...rawData.groups.GOE.streams, ...rawData.groups.NERVA.streams];
+                if (rawData && rawData.groups) {
+                    const allS = [...(rawData.groups.GOE ? rawData.groups.GOE.streams : []), ...(rawData.groups.NERVA ? rawData.groups.NERVA.streams : [])];
                     const found = allS.find(s => s.id === id);
                     if (found) viewers = found.viewers;
                 }
@@ -1187,15 +1478,19 @@
         }
 
         function updateUI() {
-            if (!rawData) return;
+            if (!rawData || !rawData.groups) return;
 
-            const isLive = rawData.is_live !== false && (rawData.groups.GOE.total_viewers > 0 || rawData.groups.NERVA.total_viewers > 0);
+            const isLive = rawData.is_live !== false && (
+                ((rawData.groups.GOE && rawData.groups.GOE.total_viewers) || 0) > 0 ||
+                ((rawData.groups.NERVA && rawData.groups.NERVA.total_viewers) || 0) > 0
+            );
             const st = (filterBots ? rawData.summary_stats : rawData.summary_stats_raw) || rawData.summary_stats;
+            const hasDataHistory = st && st.count > 0;
 
-            const goeStreams = (rawData.groups.GOE.streams || []).map(s => ({ ...s, group: 'GOE' }));
-            const nervaStreams = (rawData.groups.NERVA.streams || []).map(s => ({ ...s, group: 'NERVA' }));
+            const goeStreams = ((rawData.groups.GOE && rawData.groups.GOE.streams) || []).map(s => ({ ...s, group: 'GOE' }));
+            const nervaStreams = ((rawData.groups.NERVA && rawData.groups.NERVA.streams) || []).map(s => ({ ...s, group: 'NERVA' }));
 
-            // 1. Update GoE Hub
+            // --- 1. UPDATE GOE HUB ---
             const goeYt = goeStreams.find(s => s.platform === 'YouTube');
             const goeTw = goeStreams.find(s => s.platform === 'Twitch');
             let ytV = (goeYt && selectedStreamIds.has(goeYt.id)) ? goeYt.viewers : (goeYt ? goeYt.viewers : 0);
@@ -1207,19 +1502,22 @@
                 document.getElementById('goe-hero-total').innerText = goeTotal.toLocaleString('pl-PL');
                 document.getElementById('goe-yt-viewers').innerText = ytV.toLocaleString('pl-PL');
                 document.getElementById('goe-tw-viewers').innerText = twV.toLocaleString('pl-PL');
+                document.getElementById('goe-yt-pct').innerText = `${((ytV / goeSumForPct) * 100).toFixed(1)}% widowni`;
+                document.getElementById('goe-tw-pct').innerText = `${((twV / goeSumForPct) * 100).toFixed(1)}% widowni`;
+                document.getElementById('goe-sub-bar-yt').style.width = `${((ytV / goeSumForPct) * 100).toFixed(1)}%`;
+                document.getElementById('goe-sub-bar-tw').style.width = `${((twV / goeSumForPct) * 100).toFixed(1)}%`;
             } else {
-                document.getElementById('goe-hero-total').innerText = 'OFFLINE';
+                document.getElementById('goe-hero-total').innerText = hasDataHistory ? `${st.goe_peak.toLocaleString('pl-PL')} pik` : 'OFFLINE';
                 document.getElementById('goe-yt-viewers').innerText = 'OFFLINE';
                 document.getElementById('goe-tw-viewers').innerText = 'OFFLINE';
+                document.getElementById('goe-yt-pct').innerText = '--% widowni';
+                document.getElementById('goe-tw-pct').innerText = '--% widowni';
+                document.getElementById('goe-sub-bar-yt').style.width = '50%';
+                document.getElementById('goe-sub-bar-tw').style.width = '50%';
             }
 
-            document.getElementById('goe-yt-pct').innerText = `${((ytV / goeSumForPct) * 100).toFixed(1)}% widowni`;
-            document.getElementById('goe-tw-pct').innerText = `${((twV / goeSumForPct) * 100).toFixed(1)}% widowni`;
-            document.getElementById('goe-sub-bar-yt').style.width = `${((ytV / goeSumForPct) * 100).toFixed(1)}%`;
-            document.getElementById('goe-sub-bar-tw').style.width = `${((twV / goeSumForPct) * 100).toFixed(1)}%`;
-
-            // Peak badge
-            if (st) {
+            // GoE Hero Peak badge
+            if (hasDataHistory) {
                 const pk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
                 const pkTime = filterBots ? st.goe_peak_time : (st.goe_raw_peak_time || st.goe_peak_time);
                 const avg = st.goe_avg;
@@ -1231,25 +1529,30 @@
                         Średnia GoE: ${avg.toLocaleString('pl-PL')} widzów
                     </div>
                 `;
+            } else {
+                document.getElementById('goe-hero-peak').innerHTML = `
+                    <div style="font-size: 13px; color: #71717a; font-weight: 700;">
+                        Pik: Brak danych (przed startem transmisji)
+                    </div>
+                `;
             }
 
-            // 2. Update Comparison Scoreboard
-            const goeSelected = goeStreams.filter(s => selectedStreamIds.has(s.id));
-            const nervaSelected = nervaStreams.filter(s => selectedStreamIds.has(s.id));
-            const battleGoeTot = goeSelected.reduce((a, s) => a + (s.viewers || 0), 0);
-            const battleNervaTot = nervaSelected.reduce((a, s) => a + (s.viewers || 0), 0);
-            const battleTot = battleGoeTot + battleNervaTot;
-            const bGoePct = battleTot > 0 ? (battleGoeTot / battleTot * 100).toFixed(1) : 50.0;
-            const bNervaPct = battleTot > 0 ? (battleNervaTot / battleTot * 100).toFixed(1) : 50.0;
+            // --- 2. UPDATE SECTION 1: OFICJALNY POJEDYNEK (GOE VS NERVARIEN OFICJALNY) ---
+            const nervaOfficialStreams = nervaStreams.filter(s => !s.is_costream && !s.is_curiosity);
+            const liveGoeTot = goeStreams.reduce((a, s) => a + (s.viewers || 0), 0);
+            const liveNervaOffTot = nervaOfficialStreams.reduce((a, s) => a + (s.viewers || 0), 0);
+            const offTot = liveGoeTot + liveNervaOffTot;
+            const offGoePct = offTot > 0 ? (liveGoeTot / offTot * 100).toFixed(1) : 50.0;
+            const offNervaPct = offTot > 0 ? (liveNervaOffTot / offTot * 100).toFixed(1) : 50.0;
 
             if (isLive) {
-                document.getElementById('battle-goe-score').innerText = battleGoeTot.toLocaleString('pl-PL');
-                document.getElementById('battle-goe-share').innerText = `${bGoePct}% widowni (${battleGoeTot.toLocaleString('pl-PL')})`;
-                document.getElementById('battle-nerva-score').innerText = battleNervaTot.toLocaleString('pl-PL');
-                document.getElementById('battle-nerva-share').innerText = `${bNervaPct}% widowni (${battleNervaTot.toLocaleString('pl-PL')})`;
-                document.getElementById('battle-bar-goe').style.width = `${bGoePct}%`;
-                document.getElementById('battle-bar-nerva').style.width = `${bNervaPct}%`;
-            } else if (st) {
+                document.getElementById('battle-goe-score').innerText = liveGoeTot.toLocaleString('pl-PL');
+                document.getElementById('battle-goe-share').innerText = `${offGoePct}% widowni (${liveGoeTot.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-nerva-score').innerText = liveNervaOffTot.toLocaleString('pl-PL');
+                document.getElementById('battle-nerva-share').innerText = `${offNervaPct}% widowni (${liveNervaOffTot.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-bar-goe').style.width = `${offGoePct}%`;
+                document.getElementById('battle-bar-nerva').style.width = `${offNervaPct}%`;
+            } else if (hasDataHistory) {
                 const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
                 const nPk = st.nerva_peak;
                 const totPk = gPk + nPk;
@@ -1258,30 +1561,113 @@
                 document.getElementById('battle-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
                 document.getElementById('battle-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
                 document.getElementById('battle-nerva-score').innerText = `${nPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('battle-nerva-share').innerText = `Pik transmisji (Śr: ${st.nerva_avg.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-nerva-share').innerText = `Oficjalne kanały (Śr: ${st.nerva_avg.toLocaleString('pl-PL')})`;
                 document.getElementById('battle-bar-goe').style.width = `${gPct}%`;
                 document.getElementById('battle-bar-nerva').style.width = `${nPct}%`;
+            } else {
+                document.getElementById('battle-goe-score').innerText = '--';
+                document.getElementById('battle-goe-share').innerText = 'Oczekiwanie na start';
+                document.getElementById('battle-nerva-score').innerText = '--';
+                document.getElementById('battle-nerva-share').innerText = 'Oczekiwanie na start';
+                document.getElementById('battle-bar-goe').style.width = '50%';
+                document.getElementById('battle-bar-nerva').style.width = '50%';
             }
 
-            // 3. Render Stream Cards
+            // --- 3. UPDATE SECTION 2: Z CO-STREAMAMI (GOE VS CAŁY OBÓZ) ---
+            const liveNervaCostream = nervaStreams.filter(s => s.platform === 'YouTube' && (s.is_costream || s.is_curiosity)).reduce((a, s) => a + (s.viewers || 0), 0);
+            const liveTobiasCostream = nervaStreams.filter(s => s.id === 'ttobias_lol' || (s.platform === 'Twitch' && s.is_costream)).reduce((a, s) => a + (s.viewers || 0), 0);
+            const liveCampTot = liveNervaOffTot + liveNervaCostream + liveTobiasCostream;
+
+            const campTotSum = liveGoeTot + liveCampTot;
+            const campGoePct = campTotSum > 0 ? (liveGoeTot / campTotSum * 100).toFixed(1) : 50.0;
+            const campTotalPct = campTotSum > 0 ? (liveCampTot / campTotSum * 100).toFixed(1) : 50.0;
+
+            if (isLive) {
+                document.getElementById('camp-goe-score').innerText = liveGoeTot.toLocaleString('pl-PL');
+                document.getElementById('camp-goe-share').innerText = `${campGoePct}% widowni (${liveGoeTot.toLocaleString('pl-PL')})`;
+                document.getElementById('camp-total-score').innerText = liveCampTot.toLocaleString('pl-PL');
+                document.getElementById('camp-total-share').innerText = `${campTotalPct}% widowni (${liveCampTot.toLocaleString('pl-PL')})`;
+                document.getElementById('camp-bar-goe').style.width = `${campGoePct}%`;
+                document.getElementById('camp-bar-nerva').style.width = `${campTotalPct}%`;
+
+                // Breakdown values
+                document.getElementById('breakdown-val-goe').innerText = liveGoeTot.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-goe').innerText = 'Na żywo';
+                document.getElementById('breakdown-val-nerva-off').innerText = liveNervaOffTot.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-nerva-off').innerText = 'Na żywo (2 kanały)';
+                document.getElementById('breakdown-val-nerva-costream').innerText = liveNervaCostream.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-nerva-costream').innerText = 'YouTube Co-stream';
+                document.getElementById('breakdown-val-tobias').innerText = liveTobiasCostream.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-tobias').innerText = 'Twitch Co-stream';
+                document.getElementById('breakdown-val-camp-total').innerText = liveCampTot.toLocaleString('pl-PL');
+                document.getElementById('breakdown-sub-camp-total').innerText = 'Suma całego obozu';
+            } else if (hasDataHistory) {
+                const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
+                const campPk = st.camp_peak || (st.nerva_peak + (st.nerva_costream_peak || 0) + (st.tobias_costream_peak || 0));
+                const totAllPk = gPk + campPk;
+                const cGoePct = totAllPk > 0 ? (gPk / totAllPk * 100).toFixed(1) : 50.0;
+                const cCampPct = totAllPk > 0 ? (campPk / totAllPk * 100).toFixed(1) : 50.0;
+
+                document.getElementById('camp-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('camp-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
+                document.getElementById('camp-total-score').innerText = `${campPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('camp-total-share').innerText = `Obóz z co-streamami (Śr: ${(st.camp_avg || (st.nerva_avg + (st.nerva_costream_avg || 0))).toLocaleString('pl-PL')})`;
+                document.getElementById('camp-bar-goe').style.width = `${cGoePct}%`;
+                document.getElementById('camp-bar-nerva').style.width = `${cCampPct}%`;
+
+                // Breakdown values with finished peaks & averages
+                document.getElementById('breakdown-val-goe').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-goe').innerText = `Średnia: ${st.goe_avg.toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-val-nerva-off').innerText = `${st.nerva_peak.toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-nerva-off').innerText = `Średnia: ${st.nerva_avg.toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-val-nerva-costream').innerText = `${(st.nerva_costream_peak || 0).toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-nerva-costream').innerText = `Średnia: ${(st.nerva_costream_avg || 0).toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-val-tobias').innerText = `${(st.tobias_costream_peak || 0).toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-tobias').innerText = `Średnia: ${(st.tobias_costream_avg || 0).toLocaleString('pl-PL')}`;
+                document.getElementById('breakdown-val-camp-total').innerText = `${campPk.toLocaleString('pl-PL')} pik`;
+                document.getElementById('breakdown-sub-camp-total').innerText = `Średnia: ${(st.camp_avg || 0).toLocaleString('pl-PL')}`;
+            } else {
+                document.getElementById('camp-goe-score').innerText = '--';
+                document.getElementById('camp-goe-share').innerText = 'Oczekiwanie na start';
+                document.getElementById('camp-total-score').innerText = '--';
+                document.getElementById('camp-total-share').innerText = 'Oczekiwanie na start';
+                document.getElementById('camp-bar-goe').style.width = '50%';
+                document.getElementById('camp-bar-nerva').style.width = '50%';
+
+                document.getElementById('breakdown-val-goe').innerText = '--';
+                document.getElementById('breakdown-sub-goe').innerText = 'Brak danych';
+                document.getElementById('breakdown-val-nerva-off').innerText = '--';
+                document.getElementById('breakdown-sub-nerva-off').innerText = 'Brak danych';
+                document.getElementById('breakdown-val-nerva-costream').innerText = '--';
+                document.getElementById('breakdown-sub-nerva-costream').innerText = 'Brak danych';
+                document.getElementById('breakdown-val-tobias').innerText = '--';
+                document.getElementById('breakdown-sub-tobias').innerText = 'Brak danych';
+                document.getElementById('breakdown-val-camp-total').innerText = '--';
+                document.getElementById('breakdown-sub-camp-total').innerText = 'Brak danych';
+            }
+
+            // --- 4. RENDER STREAM CARDS GRID ---
             renderStreamsGrids(goeStreams, nervaStreams);
 
-            // 4. Update Momentum
+            // --- 5. UPDATE MOMENTUM ---
             if (isLive && rawData.momentum) {
                 renderDelta('goe-hero-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
                 renderDelta('battle-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
                 renderDelta('battle-nerva-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
+                renderDelta('camp-goe-momentum', rawData.momentum.goe_delta, rawData.momentum.minutes);
+                renderDelta('camp-total-momentum', rawData.momentum.nerva_delta, rawData.momentum.minutes);
             } else {
-                const timeSpan = st ? `Zakończono: ${st.start_time} — ${st.end_time}` : 'Transmisja zakończona';
-                document.getElementById('goe-hero-momentum').innerText = `🔴 ${timeSpan}`;
-                document.getElementById('goe-hero-momentum').className = 'momentum-badge';
-                document.getElementById('battle-goe-momentum').innerText = `🔴 ${timeSpan}`;
-                document.getElementById('battle-goe-momentum').className = 'momentum-badge';
-                document.getElementById('battle-nerva-momentum').innerText = `🔴 ${timeSpan}`;
-                document.getElementById('battle-nerva-momentum').className = 'momentum-badge';
+                const timeSpan = hasDataHistory ? `Zakończono: ${st.start_time} — ${st.end_time}` : '🔴 Oczekiwanie na transmisję';
+                ['goe-hero-momentum', 'battle-goe-momentum', 'battle-nerva-momentum', 'camp-goe-momentum', 'camp-total-momentum'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.innerText = timeSpan;
+                        el.className = 'momentum-badge';
+                    }
+                });
             }
 
-            // 5. Update Charts
+            // --- 6. UPDATE CHARTS ---
             updateChartSeries();
         }
 
@@ -1349,22 +1735,38 @@
         }
 
         function updateChartSeries() {
-            if (!detailedHistory || detailedHistory.length === 0) return;
+            if (!detailedHistory || detailedHistory.length === 0) {
+                if (goeChartInstance) {
+                    goeChartInstance.data.labels = [];
+                    goeChartInstance.data.datasets = [];
+                    goeChartInstance.update();
+                }
+                if (comparisonChartInstance) {
+                    comparisonChartInstance.data.labels = [];
+                    comparisonChartInstance.data.datasets = [];
+                    comparisonChartInstance.update();
+                }
+                if (costreamComparisonChartInstance) {
+                    costreamComparisonChartInstance.data.labels = [];
+                    costreamComparisonChartInstance.data.datasets = [];
+                    costreamComparisonChartInstance.update();
+                }
+                return;
+            }
 
             const labels = detailedHistory.map(pt => pt.timestamp.split(' ')[1] || pt.timestamp);
 
             // --- 1. UPDATE GOE DEDICATED CHART (ONLY GOE) ---
             if (goeChartInstance) {
                 const goeDatasets = [];
-
                 const goeYtId = ALL_STREAM_IDS.find(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE' && STREAM_METADATA[id].platform === 'YouTube') || 'I2E60nEUXWo';
                 const goeTwId = 'goe_stream';
                 const hasYt = selectedStreamIds.has(goeYtId);
                 const hasTw = selectedStreamIds.has(goeTwId);
 
                 const totalGoeData = detailedHistory.map(pt => {
-                    const yt_s = pt.streams[goeYtId];
-                    const tw_s = pt.streams[goeTwId];
+                    const yt_s = pt.streams && pt.streams[goeYtId];
+                    const tw_s = pt.streams && pt.streams[goeTwId];
                     const yt_v = yt_s ? (filterBots ? (yt_s.viewers || 0) : (yt_s.viewers_raw || yt_s.viewers || 0)) : 0;
                     const tw_v = tw_s ? (tw_s.viewers || 0) : 0;
 
@@ -1389,12 +1791,12 @@
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
 
-                if (goeYtId && (selectedStreamIds.has(goeYtId) || (!selectedStreamIds.has(goeYtId) && !selectedStreamIds.has(goeTwId)))) {
+                if (goeYtId && (hasYt || (!hasYt && !hasTw))) {
                     const ytMeta = STREAM_METADATA[goeYtId] || { name: 'YouTube' };
                     goeDatasets.push({
                         label: filterBots ? `YouTube (${ytMeta.name} - Oczyszczone)` : `YouTube (${ytMeta.name} - Z botami)`,
                         data: detailedHistory.map(pt => {
-                            const s = pt.streams[goeYtId];
+                            const s = pt.streams && pt.streams[goeYtId];
                             if (!s) return 0;
                             return filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
                         }),
@@ -1406,10 +1808,10 @@
                     });
                 }
 
-                if (selectedStreamIds.has(goeTwId) || (!selectedStreamIds.has(goeYtId) && !selectedStreamIds.has(goeTwId))) {
+                if (hasTw || (!hasYt && !hasTw)) {
                     goeDatasets.push({
                         label: 'Twitch (GoE_stream)',
-                        data: detailedHistory.map(pt => pt.streams[goeTwId] ? (pt.streams[goeTwId].viewers || 0) : 0),
+                        data: detailedHistory.map(pt => (pt.streams && pt.streams[goeTwId]) ? (pt.streams[goeTwId].viewers || 0) : 0),
                         borderColor: '#9146ff',
                         borderDash: [3, 3],
                         borderWidth: 2,
@@ -1423,51 +1825,16 @@
                 goeChartInstance.update();
             }
 
-            // --- 2. UPDATE COMPARISON DEDICATED CHART (GOE VS NERVA) ---
+            // --- 2. UPDATE CHART: OFICJALNY POJEDYNEK (2 VS 2) ---
             if (comparisonChartInstance) {
                 const compDatasets = [];
 
-                const goeLine = detailedHistory.map(pt => {
-                    let s = 0;
-                    let hasAnyGoeSelected = false;
-                    ALL_STREAM_IDS.forEach(id => {
-                        if (STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE' && selectedStreamIds.has(id)) {
-                            hasAnyGoeSelected = true;
-                            if (pt.streams && pt.streams[id]) {
-                                if (STREAM_METADATA[id].platform === 'YouTube') {
-                                    s += filterBots ? (pt.streams[id].viewers || 0) : (pt.streams[id].viewers_raw || pt.streams[id].viewers || 0);
-                                } else {
-                                    s += pt.streams[id].viewers || 0;
-                                }
-                            }
-                        }
-                    });
-                    if (!hasAnyGoeSelected || s === 0) {
-                        return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total);
-                    }
-                    return s;
-                });
-
-                const nervaLine = detailedHistory.map(pt => {
-                    let s = 0;
-                    let hasSelected = false;
-                    OFFICIAL_STREAM_IDS.forEach(id => {
-                        if (STREAM_METADATA[id] && STREAM_METADATA[id].group === 'NERVA') {
-                            if (selectedStreamIds.has(id)) {
-                                hasSelected = true;
-                                if (pt.streams && pt.streams[id]) s += (pt.streams[id].viewers || 0);
-                            }
-                        }
-                    });
-                    if (!hasSelected || s === 0) {
-                        return pt.nerva_total;
-                    }
-                    return s;
-                });
+                const goeOfficialData = detailedHistory.map(pt => filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total));
+                const nervaOfficialData = detailedHistory.map(pt => pt.nerva_total);
 
                 compDatasets.push({
                     label: filterBots ? 'GOE (Kielecki Bunkier - Organiczne)' : 'GOE (Kielecki Bunkier - Z botami)',
-                    data: goeLine,
+                    data: goeOfficialData,
                     borderColor: '#ff1824',
                     backgroundColor: 'rgba(255, 24, 36, 0.15)',
                     tension: 0.25,
@@ -1478,7 +1845,7 @@
 
                 compDatasets.push({
                     label: 'NERVARIEN (Oficjalnie łącznie)',
-                    data: nervaLine,
+                    data: nervaOfficialData,
                     borderColor: '#ffffff',
                     backgroundColor: 'rgba(255, 255, 255, 0.05)',
                     tension: 0.25,
@@ -1487,59 +1854,144 @@
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
 
-                // Check for any selected co-streams (Nerva Co-stream, Tobiasz, etc.)
-                const selectedCostreamIds = Array.from(selectedStreamIds).filter(
-                    id => STREAM_METADATA[id] && (STREAM_METADATA[id].is_costream || STREAM_METADATA[id].is_curiosity)
-                );
-                selectedCostreamIds.forEach(cId => {
-                    const cMeta = STREAM_METADATA[cId];
-                    const cColor = cMeta.color || (cId === 'ttobias_lol' ? '#d97706' : '#f59e0b');
-                    compDatasets.push({
-                        label: `💡 ${cMeta.name} (Co-stream)`,
-                        data: detailedHistory.map(pt => {
-                            const s = pt.streams && pt.streams[cId];
-                            return s ? (s.viewers || 0) : 0;
-                        }),
-                        borderColor: cColor,
-                        backgroundColor: 'rgba(245, 158, 11, 0.05)',
-                        borderDash: [5, 5],
-                        tension: 0.25,
-                        fill: false,
-                        borderWidth: 2,
-                        pointRadius: labels.length > 60 ? 0 : 2
-                    });
-                });
-
                 comparisonChartInstance.data.labels = labels;
                 comparisonChartInstance.data.datasets = compDatasets;
                 comparisonChartInstance.update();
+            }
+
+            // --- 3. UPDATE CHART: Z CO-STREAMAMI (GOE VS OBÓZ NERVARIENA + CO-STREAMY) ---
+            if (costreamComparisonChartInstance) {
+                const costreamDatasets = [];
+
+                const goeData = detailedHistory.map(pt => filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total));
+                const nervaOffData = detailedHistory.map(pt => pt.nerva_total);
+
+                const nervaCostreamData = detailedHistory.map(pt => {
+                    const streams = pt.streams || {};
+                    let v = 0;
+                    ['woX6jXefVdw', 'N3i_DQlKL_U'].forEach(vid => {
+                        if (streams[vid]) v = streams[vid].viewers || 0;
+                    });
+                    return v;
+                });
+
+                const tobiasCostreamData = detailedHistory.map(pt => {
+                    const streams = pt.streams || {};
+                    return streams['ttobias_lol'] ? (streams['ttobias_lol'].viewers || 0) : 0;
+                });
+
+                const campTotalData = detailedHistory.map((pt, i) => {
+                    return (nervaOffData[i] || 0) + (nervaCostreamData[i] || 0) + (tobiasCostreamData[i] || 0);
+                });
+
+                costreamDatasets.push({
+                    label: filterBots ? 'GOE (Kielecki Bunkier)' : 'GOE (Z botami)',
+                    data: goeData,
+                    borderColor: '#ff1824',
+                    backgroundColor: 'rgba(255, 24, 36, 0.12)',
+                    tension: 0.25,
+                    fill: true,
+                    borderWidth: 3,
+                    pointRadius: labels.length > 60 ? 0 : 3
+                });
+
+                costreamDatasets.push({
+                    label: 'NERVARIEN (Oficjalny)',
+                    data: nervaOffData,
+                    borderColor: '#ffffff',
+                    tension: 0.25,
+                    fill: false,
+                    borderWidth: 2,
+                    pointRadius: labels.length > 60 ? 0 : 2
+                });
+
+                costreamDatasets.push({
+                    label: '💡 Nerva Co-stream',
+                    data: nervaCostreamData,
+                    borderColor: '#f59e0b',
+                    borderDash: [5, 5],
+                    tension: 0.25,
+                    fill: false,
+                    borderWidth: 2,
+                    pointRadius: labels.length > 60 ? 0 : 2
+                });
+
+                costreamDatasets.push({
+                    label: '💡 Tobiasz Co-stream',
+                    data: tobiasCostreamData,
+                    borderColor: '#fb923c',
+                    borderDash: [3, 3],
+                    tension: 0.25,
+                    fill: false,
+                    borderWidth: 2,
+                    pointRadius: labels.length > 60 ? 0 : 2
+                });
+
+                costreamDatasets.push({
+                    label: '⚡ CAŁY OBÓZ NERVARIENA (ŁĄCZNIE)',
+                    data: campTotalData,
+                    borderColor: '#c084fc',
+                    backgroundColor: 'rgba(192, 132, 252, 0.08)',
+                    tension: 0.25,
+                    fill: true,
+                    borderWidth: 2.5,
+                    pointRadius: labels.length > 60 ? 0 : 3
+                });
+
+                costreamComparisonChartInstance.data.labels = labels;
+                costreamComparisonChartInstance.data.datasets = costreamDatasets;
+                costreamComparisonChartInstance.update();
             }
         }
 
         function setTimeRange(range) {
             currentTimeRange = range;
             document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll(`.time-goe-${range}, .time-comp-${range}`).forEach(b => b.classList.add('active'));
+            document.querySelectorAll(`.time-btn-${range}`).forEach(b => b.classList.add('active'));
             applyTimeRangeSlice();
+            const rangeNames = { '15m': '15 minut', '30m': '30 minut', '1h': '1 godzina', '2h': '2 godziny', 'all': 'Cały stream' };
+            showToast(`Zakres osi czasu: ${rangeNames[range] || range}`);
         }
 
         function applyTimeRangeSlice() {
             if (!fullHistory || fullHistory.length === 0) {
+                detailedHistory = [];
                 const goeSub = document.getElementById('goe-chart-sub-label');
-                if (goeSub) goeSub.innerText = 'Brak danych w wybranym dniu';
+                if (goeSub) goeSub.innerText = 'Brak danych w wybranym dniu (Oczekiwanie na transmisję)';
                 const compSub = document.getElementById('comp-chart-sub-label');
-                if (compSub) compSub.innerText = 'Brak danych w wybranym dniu';
+                if (compSub) compSub.innerText = 'Brak danych w wybranym dniu (Oczekiwanie na transmisję)';
+                const costreamSub = document.getElementById('costream-chart-sub-label');
+                if (costreamSub) costreamSub.innerText = 'Brak danych w wybranym dniu (Oczekiwanie na transmisję)';
                 updateChartSeries();
                 return;
             }
 
-            let limit = fullHistory.length;
-            if (currentTimeRange === '15m') limit = 60;
-            else if (currentTimeRange === '30m') limit = 120;
-            else if (currentTimeRange === '1h') limit = 240;
-            else if (currentTimeRange === '2h') limit = 480;
+            if (currentTimeRange === 'all') {
+                detailedHistory = [...fullHistory];
+            } else {
+                const lastPt = fullHistory[fullHistory.length - 1];
+                let lastUnix = lastPt.unix_time;
+                if (!lastUnix && lastPt.timestamp) {
+                    lastUnix = new Date(lastPt.timestamp.replace(' ', 'T')).getTime() / 1000;
+                }
+                let durationSec = 15 * 60;
+                if (currentTimeRange === '15m') durationSec = 15 * 60;
+                else if (currentTimeRange === '30m') durationSec = 30 * 60;
+                else if (currentTimeRange === '1h') durationSec = 60 * 60;
+                else if (currentTimeRange === '2h') durationSec = 120 * 60;
 
-            detailedHistory = fullHistory.slice(-limit);
+                const cutoff = lastUnix - durationSec;
+                detailedHistory = fullHistory.filter(pt => {
+                    let u = pt.unix_time;
+                    if (!u && pt.timestamp) {
+                        u = new Date(pt.timestamp.replace(' ', 'T')).getTime() / 1000;
+                    }
+                    return u >= cutoff;
+                });
+                if (detailedHistory.length === 0) {
+                    detailedHistory = fullHistory.slice(-Math.min(60, fullHistory.length));
+                }
+            }
 
             const count = detailedHistory.length;
             let rangeLabel = 'Brak historii';
@@ -1552,7 +2004,9 @@
             const goeSub = document.getElementById('goe-chart-sub-label');
             if (goeSub) goeSub.innerText = `YouTube & Twitch • ${rangeLabel}`;
             const compSub = document.getElementById('comp-chart-sub-label');
-            if (compSub) compSub.innerText = `GoE vs Nervarien • ${rangeLabel}`;
+            if (compSub) compSub.innerText = `Oficjalne kanały (2 vs 2) • ${rangeLabel}`;
+            const costreamSub = document.getElementById('costream-chart-sub-label');
+            if (costreamSub) costreamSub.innerText = `GoE vs Obóz Nervariena z Co-streamami • ${rangeLabel}`;
 
             updateChartSeries();
         }
@@ -1599,19 +2053,30 @@
 
         async function loadDayData(dayId) {
             try {
+                // Clear state immediately to prevent stale chart memory from previous day
+                fullHistory = [];
+                detailedHistory = [];
+
                 const dataUrl = `./data_${dayId}.json?t=` + Date.now();
                 const histUrl = `./history_${dayId}.json?t=` + Date.now();
 
                 const [dataResp, histResp] = await Promise.all([
-                    fetch(dataUrl).catch(() => fetch('./data.json?t=' + Date.now())),
-                    fetch(histUrl).catch(() => fetch('./history.json?t=' + Date.now()))
+                    fetch(dataUrl).catch(() => null),
+                    fetch(histUrl).catch(() => null)
                 ]);
 
                 if (dataResp && dataResp.ok) {
                     rawData = await dataResp.json();
                 } else {
-                    const fallbackResp = await fetch('./data.json?t=' + Date.now());
-                    if (fallbackResp.ok) rawData = await fallbackResp.json();
+                    const fallbackResp = await fetch('./data.json?t=' + Date.now()).catch(() => null);
+                    if (fallbackResp && fallbackResp.ok) {
+                        const fb = await fallbackResp.json();
+                        if (fb.active_day_id === dayId || fb.day_id === dayId) {
+                            rawData = fb;
+                        } else {
+                            rawData = null;
+                        }
+                    }
                 }
 
                 if (histResp && histResp.ok) {
@@ -1622,6 +2087,11 @@
 
                 if (rawData && rawData.days) {
                     renderDayTabs(rawData.days);
+                }
+
+                const banner = document.getElementById('bot-alert-banner');
+                if (banner) {
+                    banner.style.display = (dayId === 'day-1') ? 'flex' : 'none';
                 }
 
                 updateStreamsMetadataFromData();
@@ -1675,6 +2145,7 @@
 
         function showToast(msg) {
             const t = document.getElementById('toast');
+            if (!t) return;
             t.innerText = msg;
             t.style.display = 'block';
             setTimeout(() => { t.style.display = 'none'; }, 2000);
@@ -1683,8 +2154,8 @@
         window.onload = async () => {
             initCharts();
             try {
-                const initResp = await fetch('./data.json?t=' + Date.now());
-                if (initResp.ok) {
+                const initResp = await fetch('./data.json?t=' + Date.now()).catch(() => null);
+                if (initResp && initResp.ok) {
                     const initData = await initResp.json();
                     if (initData.active_day_id) {
                         currentDayId = initData.active_day_id;

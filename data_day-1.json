@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 11:24:13",
+  "timestamp": "2026-11-04 13:24:00",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -27,8 +27,8 @@
         {
           "id": "I2E60nEUXWo",
           "platform": "YouTube",
-          "channel": "YouTube",
-          "title": "",
+          "channel": "Gadają o Esporcie",
+          "title": "TOP Esports vs Invictus Gaming | ĆWIERĆFINAŁ WORLDS 2026 | Otwarcie BUNKRA",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -59,8 +59,8 @@
         {
           "id": "SGAaZFSc3Zk",
           "platform": "YouTube",
-          "channel": "YouTube",
-          "title": "",
+          "channel": "Nervarien",
+          "title": "🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -72,7 +72,7 @@
           "id": "woX6jXefVdw",
           "platform": "YouTube",
           "channel": "Nerva Co-stream",
-          "title": "",
+          "title": "🔴NERVARIEN CO-STREAM🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -89,7 +89,7 @@
   "day_name": "Dzień 1 (03.11)",
   "day_date": "2026-11-03",
   "is_finished": true,
-  "is_active": true,
+  "is_active": false,
   "momentum": {
     "goe_delta": -17,
     "nerva_delta": -42,
@@ -108,7 +108,16 @@
     "end_time": "03:00",
     "goe_raw_peak": 6857,
     "goe_raw_peak_time": "00:30",
-    "is_bot_filtered": true
+    "is_bot_filtered": true,
+    "nerva_costream_peak": 6371,
+    "nerva_costream_peak_time": "02:58",
+    "nerva_costream_avg": 3354,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "camp_peak": 8757,
+    "camp_peak_time": "02:08",
+    "camp_avg": 6674
   },
   "summary_stats_raw": {
     "count": 1657,
@@ -122,9 +131,18 @@
     "end_time": "03:00",
     "goe_raw_peak": 6857,
     "goe_raw_peak_time": "00:30",
-    "is_bot_filtered": false
+    "is_bot_filtered": false,
+    "nerva_costream_peak": 6371,
+    "nerva_costream_peak_time": "02:58",
+    "nerva_costream_avg": 3354,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "camp_peak": 8757,
+    "camp_peak_time": "02:08",
+    "camp_avg": 6674
   },
-  "active_day_id": "day-1",
+  "active_day_id": "day-2",
   "days": [
     {
       "id": "day-1",
@@ -132,7 +150,7 @@
       "label": "Dzień 1 • 03.11 (Zakończony)",
       "date": "2026-11-03",
       "is_finished": true,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-1.json",
       "history_url": "./history_day-1.json",
       "csv_url": "./stream_data_day-1.csv",
@@ -145,7 +163,7 @@
       "label": "Dzień 2 • 04.11 (Dzisiejszy)",
       "date": "2026-11-04",
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-2.json",
       "history_url": "./history_day-2.json",
       "csv_url": "./stream_data_day-2.csv",
