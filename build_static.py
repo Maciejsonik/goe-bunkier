@@ -216,9 +216,9 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
             except Exception:
                 history = []
         elif os.path.exists(DB_PATH):
-            history = get_detailed_history(limit=5000, day_id="day-2")
+            history = get_detailed_history(limit=5000, day_id=day_id)
 
-        if any_live:
+        if is_active and any_live:
             save_snapshot(data, day_id=day_id)
             all_s_map = {}
             for grp in data["groups"].values():

@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-04 19:14:10",
-  "total_viewers": 0,
-  "leader": "REMIS",
-  "diff": 0,
-  "ratio_goe": 50.0,
-  "ratio_nerva": 50.0,
+  "timestamp": "2026-11-04 21:18:37",
+  "total_viewers": 679,
+  "leader": "GOE",
+  "diff": 277,
+  "ratio_goe": 40.8,
+  "ratio_nerva": 0.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 0,
+      "total_viewers": 277,
       "streams": [
         {
           "id": "goe_stream",
           "platform": "Twitch",
           "channel": "GoE_stream",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "LYON vs GENG| ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 3,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -30,8 +30,8 @@
           "channel": "Gadają o Esporcie",
           "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
           "category": "YouTube Live",
-          "is_live": false,
-          "viewers": 0,
+          "is_live": true,
+          "viewers": 274,
           "url": "https://www.youtube.com/watch?v=dKZGkF2mIDU",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "dKZGkF2mIDU",
@@ -78,16 +78,16 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 0,
+      "total_viewers": 402,
       "streams": [
         {
           "id": "ttobias_lol",
           "platform": "Twitch",
           "channel": "Tobiasz",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "LYON VS GENG🔥23:00 ĆWIERĆFINAŁ WORLDS 2026🔥 ⭐️SERCEM ZA POLAKIEM⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 402,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
@@ -111,7 +111,7 @@
     "nerva_delta": 0,
     "minutes": 5
   },
-  "is_live": false,
+  "is_live": true,
   "summary_stats": {
     "count": 0,
     "goe_peak": 0,

@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-04 19:14:01",
-  "total_viewers": 0,
-  "leader": "REMIS",
-  "diff": 0,
-  "ratio_goe": 50.0,
-  "ratio_nerva": 50.0,
+  "timestamp": "2026-11-04 21:18:30",
+  "total_viewers": 3,
+  "leader": "GOE",
+  "diff": 3,
+  "ratio_goe": 100.0,
+  "ratio_nerva": 0.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 0,
+      "total_viewers": 3,
       "streams": [
         {
           "id": "goe_stream",
           "platform": "Twitch",
           "channel": "GoE_stream",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "LYON vs GENG| ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 3,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -27,8 +27,8 @@
         {
           "id": "I2E60nEUXWo",
           "platform": "YouTube",
-          "channel": "YouTube",
-          "title": "",
+          "channel": "Gadają o Esporcie",
+          "title": "TOP Esports vs Invictus Gaming | ĆWIERĆFINAŁ WORLDS 2026 | Otwarcie BUNKRA",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -59,8 +59,8 @@
         {
           "id": "SGAaZFSc3Zk",
           "platform": "YouTube",
-          "channel": "YouTube",
-          "title": "",
+          "channel": "Nervarien",
+          "title": "🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -72,7 +72,7 @@
           "id": "woX6jXefVdw",
           "platform": "YouTube",
           "channel": "Nerva Co-stream",
-          "title": "",
+          "title": "🔴NERVARIEN CO-STREAM🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -101,7 +101,7 @@
     "nerva_delta": -42,
     "minutes": 5
   },
-  "is_live": false,
+  "is_live": true,
   "summary_stats": {
     "count": 1657,
     "goe_peak": 2815,
