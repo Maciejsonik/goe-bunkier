@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 14:25:18",
+  "timestamp": "2026-11-04 16:02:04",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -108,6 +108,12 @@
   "day_id": "day-2",
   "day_name": "Dzień 2 (04.11)",
   "day_date": "2026-11-04",
+  "schedule": {
+    "goe_start": "21:30",
+    "nerva_start": "22:30",
+    "match_start": "23:00",
+    "goe_start_iso": "2026-11-04T21:30:00+01:00"
+  },
   "is_finished": false,
   "is_active": true,
   "momentum": {
@@ -169,26 +175,80 @@
       "name": "Dzień 1 (03.11)",
       "label": "Dzień 1 • 03.11 (Zakończony)",
       "date": "2026-11-03",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-03T21:30:00+01:00"
+      },
       "is_finished": true,
       "is_active": false,
       "data_url": "./data_day-1.json",
       "history_url": "./history_day-1.json",
       "csv_url": "./stream_data_day-1.csv",
       "summary_card": "./stream_summary_day-1.png",
-      "goe_card": "./goe_summary_day-1.png"
+      "goe_card": "./goe_summary_day-1.png",
+      "camps_card": "./camps_summary_day-1.png"
     },
     {
       "id": "day-2",
       "name": "Dzień 2 (04.11)",
       "label": "Dzień 2 • 04.11 (Dzisiejszy)",
       "date": "2026-11-04",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-04T21:30:00+01:00"
+      },
       "is_finished": false,
       "is_active": true,
       "data_url": "./data_day-2.json",
       "history_url": "./history_day-2.json",
       "csv_url": "./stream_data_day-2.csv",
       "summary_card": "./stream_summary_day-2.png",
-      "goe_card": "./goe_summary_day-2.png"
+      "goe_card": "./goe_summary_day-2.png",
+      "camps_card": "./camps_summary_day-2.png"
+    },
+    {
+      "id": "day-3",
+      "name": "Dzień 3 (05.11)",
+      "label": "Dzień 3 • 05.11 (Jutrzejszy)",
+      "date": "2026-11-05",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-05T21:30:00+01:00"
+      },
+      "is_finished": false,
+      "is_active": false,
+      "data_url": "./data_day-3.json",
+      "history_url": "./history_day-3.json",
+      "csv_url": "./stream_data_day-3.csv",
+      "summary_card": "./stream_summary_day-3.png",
+      "goe_card": "./goe_summary_day-3.png",
+      "camps_card": "./camps_summary_day-3.png"
+    },
+    {
+      "id": "day-4",
+      "name": "Dzień 4 (06.11)",
+      "label": "Dzień 4 • 06.11 (Pojutrzejszy)",
+      "date": "2026-11-06",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-06T21:30:00+01:00"
+      },
+      "is_finished": false,
+      "is_active": false,
+      "data_url": "./data_day-4.json",
+      "history_url": "./history_day-4.json",
+      "csv_url": "./stream_data_day-4.csv",
+      "summary_card": "./stream_summary_day-4.png",
+      "goe_card": "./goe_summary_day-4.png",
+      "camps_card": "./camps_summary_day-4.png"
     }
   ]
 }
