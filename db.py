@@ -339,9 +339,7 @@ def get_history(limit: int = 500, platform: str = "ALL") -> list[dict]:
             tot = goe_v + nerva_v
             diff = abs(goe_v - nerva_v)
             leader = (
-                "GOE"
-                if goe_total > nerva_total
-                else ("NERVA" if nerva_total > goe_total else "REMIS")
+                "GOE" if goe_v > nerva_v else ("NERVA" if nerva_v > goe_v else "REMIS")
             )
             ratio_goe = round((goe_v / tot * 100), 1) if tot > 0 else 50.0
             ratio_nerva = round((nerva_v / tot * 100), 1) if tot > 0 else 50.0
