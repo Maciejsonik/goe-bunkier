@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-04 02:23:42",
-  "total_viewers": 10085,
+  "timestamp": "2026-11-04 02:25:19",
+  "total_viewers": 10135,
   "leader": "NERVA",
-  "diff": 7073,
+  "diff": 7123,
   "ratio_goe": 14.9,
   "ratio_nerva": 85.1,
   "groups": {
@@ -42,7 +42,7 @@
       "id": "NERVA",
       "name": "Nervarien & Co-streams",
       "color": "#ef4444",
-      "total_viewers": 8579,
+      "total_viewers": 8629,
       "streams": [
         {
           "id": "nervarien",
@@ -75,7 +75,7 @@
           "title": "🔴TOP ESPORTS vs INVICTUS GAMING🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1421,
+          "viewers": 1471,
           "url": "https://www.youtube.com/watch?v=SGAaZFSc3Zk",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -84,8 +84,8 @@
     }
   },
   "momentum": {
-    "goe_delta": -1,
-    "nerva_delta": 14,
+    "goe_delta": -5,
+    "nerva_delta": 25,
     "minutes": 5
   }
 }
