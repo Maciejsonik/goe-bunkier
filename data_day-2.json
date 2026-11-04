@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 19:58:30",
+  "timestamp": "2026-11-04 18:59:10",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -59,25 +59,25 @@
         {
           "id": "00uONX5EBiA",
           "platform": "YouTube",
-          "channel": "YT (00uONX5EBiA)",
-          "title": "Błąd pobierania: HTTP Error 429: Too Many Requests",
+          "channel": "Nervarien",
+          "title": "🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.youtube.com/watch?v=00uONX5EBiA",
-          "avatar_url": "",
+          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
         },
         {
           "id": "N3i_DQlKL_U",
           "platform": "YouTube",
           "channel": "Nerva Co-stream",
-          "title": "Błąd pobierania: HTTP Error 429: Too Many Requests",
+          "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
-          "avatar_url": "",
+          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA",
           "is_costream": true,
           "is_curiosity": true
