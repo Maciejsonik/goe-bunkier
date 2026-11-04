@@ -1387,10 +1387,37 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(csv_data.encode("utf-8"))
 
-        else:
-            self.send_response(404)
+        # Serve static repository files if requested (e.g. data_day-2.json, battle_card.png)
+        rel_path = path.lstrip("/")
+        file_path = os.path.join(os.path.dirname(__file__), rel_path)
+        if os.path.isfile(file_path):
+            content_type = "application/octet-stream"
+            if file_path.endswith(".json"):
+                content_type = "application/json; charset=utf-8"
+            elif file_path.endswith(".png"):
+                content_type = "image/png"
+            elif file_path.endswith(".csv"):
+                content_type = "text/csv; charset=utf-8"
+            elif file_path.endswith(".html"):
+                content_type = "text/html; charset=utf-8"
+            elif file_path.endswith(".js"):
+                content_type = "application/javascript"
+            elif file_path.endswith(".css"):
+                content_type = "text/css"
+
+            with open(file_path, "rb") as f:
+                content = f.read()
+
+            self.send_response(200)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
-            self.wfile.write(b"Not Found")
+            self.wfile.write(content)
+            return
+
+        self.send_response(404)
+        self.end_headers()
+        self.wfile.write(b"Not Found")
 
     def log_message(self, format, *args):
         return
@@ -1398,11 +1425,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
 def background_collector_loop():
     """Background thread collecting data every 15 seconds while streams are live,
-    stopping only after 30 consecutive minutes of all streams being offline."""
-    print(f"[Collector] Uruchomiono inteligentne zbieranie danych co {POLL_INTERVAL}s.")
-    print(
-        "[Collector] Monitorowanie aktywne dopóki trwają transmisje (zakończenie po 30 min ciągłego braku sygnału)."
-    )
+    updating static dashboard files and generating cards."""
+    from build_static import build
+
+    print(f"[Collector] Uruchomiono zbieranie danych co {POLL_INTERVAL}s.")
+    print("[Collector] Monitorowanie aktywne dopóki trwają transmisje.")
 
     card_path = os.path.join(os.path.dirname(__file__), "battle_card.png")
     goe_summary_path = os.path.join(os.path.dirname(__file__), "goe_summary.png")
@@ -1416,16 +1443,18 @@ def background_collector_loop():
     while True:
         try:
             data = fetch_all_data()
-            any_live = any(
-                s.get("is_live", False)
-                for s in data["groups"]["GOE"]["streams"]
-                + data["groups"]["NERVA"]["streams"]
-            )
+            all_streams = [
+                s
+                for grp in data.get("groups", {}).values()
+                for s in grp.get("streams", [])
+            ]
+            any_live = any(s.get("is_live", False) for s in all_streams)
 
             if any_live:
                 had_live_stream = True
                 consecutive_offline_seconds = 0
                 save_snapshot(data)
+                build()
                 create_battle_card(data, card_path)
                 create_summary_card(goe_summary_path, mode="GOE", filter_bots=True)
                 create_summary_card(
@@ -1434,8 +1463,13 @@ def background_collector_loop():
                 ts = datetime.now().strftime("%H:%M:%S")
                 goe_v = data["groups"]["GOE"]["total_viewers"]
                 nerva_v = data["groups"]["NERVA"]["total_viewers"]
+                tobias_v = (
+                    data["groups"]["TOBIASZ"]["total_viewers"]
+                    if "TOBIASZ" in data.get("groups", {})
+                    else 0
+                )
                 print(
-                    f"[{ts}] Zapisano: GOE={goe_v:,} | NERVA={nerva_v:,}".replace(
+                    f"[{ts}] Zapisano: GOE={goe_v:,} | NERVA={nerva_v:,} | TOBIASZ={tobias_v:,}".replace(
                         ",", " "
                     )
                 )
@@ -1444,17 +1478,21 @@ def background_collector_loop():
                 offline_mins = consecutive_offline_seconds // 60
                 ts = datetime.now().strftime("%H:%M:%S")
                 if consecutive_offline_seconds % 60 == 0:
-                    print(
-                        f"[{ts}] Wszystkie streamy offline ({offline_mins}/30 min)..."
+                    status_note = (
+                        "oczekiwanie na start..."
+                        if not had_live_stream
+                        else f"offline {offline_mins} min"
                     )
+                    print(f"[{ts}] Wszystkie streamy offline ({status_note})...")
 
                 if (
                     had_live_stream
                     and consecutive_offline_seconds >= OFFLINE_TIMEOUT_SECONDS
                 ):
                     print(
-                        f"[{ts}] Wszystkie transmisje zakończone (30 min offline). Generowanie ostatecznych podsumowań..."
+                        f"[{ts}] Transmisje zakończone (30 min offline). Generowanie podsumowań..."
                     )
+                    build()
                     create_summary_card(goe_summary_path, mode="GOE", filter_bots=True)
                     create_summary_card(
                         comparison_summary_path,
@@ -1462,9 +1500,10 @@ def background_collector_loop():
                         filter_bots=True,
                     )
                     print(
-                        "[Collector] Podsumowania zapisane. Przejście w tryb czuwania."
+                        "[Collector] Podsumowania zapisane. Przejście w tryb czuwania na kolejne mecze."
                     )
-                    break
+                    had_live_stream = False
+                    consecutive_offline_seconds = 0
         except Exception as e:
             print(f"[Collector Error] {e}")
 
