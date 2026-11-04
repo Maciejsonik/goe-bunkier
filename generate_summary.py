@@ -220,7 +220,7 @@ def create_summary_card(
                 "NERVA CO-STREAM",
                 f"{peak_costream:,}".replace(",", " "),
                 (245, 158, 11),
-                "YOUTUBE • CIEKAWOSTKA",
+                "YOUTUBE • DAMIAN",
             ),
         ]
     else:
