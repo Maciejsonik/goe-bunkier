@@ -176,6 +176,8 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     day_goe_raw_path = os.path.join(BASE_DIR, f"goe_summary_raw_{day_id}.png")
     day_comp_clean_path = os.path.join(BASE_DIR, f"stream_summary_{day_id}.png")
     day_comp_raw_path = os.path.join(BASE_DIR, f"stream_summary_raw_{day_id}.png")
+    day_camps_clean_path = os.path.join(BASE_DIR, f"camps_summary_{day_id}.png")
+    day_camps_raw_path = os.path.join(BASE_DIR, f"camps_summary_raw_{day_id}.png")
 
     # 1. Fetch current status of streams for this day
     data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
@@ -250,6 +252,7 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     data["day_id"] = day_id
     data["day_name"] = day_cfg["name"]
     data["day_date"] = day_cfg["date"]
+    data["schedule"] = day_cfg.get("schedule", {})
     data["is_finished"] = day_cfg.get("is_finished", False)
     data["is_active"] = is_active
     data["momentum"] = momentum
@@ -316,6 +319,24 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     except Exception as e:
         print(f"⚠️ Błąd wykresu porównania ({day_id}): {e}")
 
+    try:
+        create_summary_card(
+            day_camps_clean_path,
+            mode="CAMPS",
+            custom_history=history,
+            filter_bots=True,
+        )
+        print(f"🏕️ Wykres 3 Obozów ({day_id}): {day_camps_clean_path}")
+        create_summary_card(
+            day_camps_raw_path,
+            mode="CAMPS",
+            custom_history=history,
+            filter_bots=False,
+        )
+        print(f"🏕️ Wykres 3 Obozów surowy ({day_id}): {day_camps_raw_path}")
+    except Exception as e:
+        print(f"⚠️ Błąd wykresu 3 obozów ({day_id}): {e}")
+
     return {
         "data_path": day_data_path,
         "hist_path": day_hist_path,
@@ -325,6 +346,8 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
         "goe_raw_path": day_goe_raw_path,
         "comp_clean_path": day_comp_clean_path,
         "comp_raw_path": day_comp_raw_path,
+        "camps_clean_path": day_camps_clean_path,
+        "camps_raw_path": day_camps_raw_path,
     }
 
 
@@ -338,6 +361,7 @@ def build():
             "name": cfg["name"],
             "label": cfg["label"],
             "date": cfg["date"],
+            "schedule": cfg.get("schedule", {}),
             "is_finished": cfg.get("is_finished", False),
             "is_active": (d_id == active_day),
             "data_url": f"./data_{d_id}.json",
@@ -345,6 +369,7 @@ def build():
             "csv_url": f"./stream_data_{d_id}.csv",
             "summary_card": f"./stream_summary_{d_id}.png",
             "goe_card": f"./goe_summary_{d_id}.png",
+            "camps_card": f"./camps_summary_{d_id}.png",
         }
         for d_id, cfg in DAYS_CONFIG.items()
     ]
@@ -374,6 +399,12 @@ def build():
     )
     shutil.copyfile(
         act_out["comp_raw_path"], os.path.join(BASE_DIR, "stream_summary_raw.png")
+    )
+    shutil.copyfile(
+        act_out["camps_clean_path"], os.path.join(BASE_DIR, "camps_summary.png")
+    )
+    shutil.copyfile(
+        act_out["camps_raw_path"], os.path.join(BASE_DIR, "camps_summary_raw.png")
     )
 
     print(

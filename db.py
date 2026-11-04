@@ -30,6 +30,79 @@ BOT_ATTACK_WINDOWS = [
 ]
 
 
+def apply_adaptive_anomaly_detection(
+    points: list[dict], enabled: bool = True
+) -> list[dict]:
+    """Adaptive rolling anomaly detector for Day 2+ stream points.
+    Automatically detects sudden artificial viewer surges (>800 in <3 minutes)
+    without corresponding Twitch movement and normalizes them to genuine baseline.
+    """
+    if len(points) < 8:
+        return points
+
+    import statistics
+
+    yt_raw_series = []
+    for p in points:
+        raw_val = p.get("goe_total_raw", p.get("goe_total", 0))
+        yt_raw_series.append(raw_val)
+
+    in_spike = False
+    spike_start = None
+    base_start = 0
+    spike_windows = []
+
+    for i in range(5, len(points)):
+        prev_pts = yt_raw_series[max(0, i - 10) : i]
+        prev_median = statistics.median(prev_pts)
+        curr = yt_raw_series[i]
+
+        if not in_spike:
+            if prev_median > 400 and (curr - prev_median) > 800:
+                in_spike = True
+                spike_start = i
+                base_start = prev_median
+        else:
+            if curr <= base_start + 350 or (i - spike_start > 200):
+                in_spike = False
+                spike_windows.append((spike_start, i, base_start, curr, i - spike_start + 1))
+
+    if in_spike:
+        spike_windows.append(
+            (spike_start, len(points) - 1, base_start, base_start, len(points) - spike_start + 1)
+        )
+
+    for s_idx, e_idx, b_start, b_end, dur_steps in spike_windows:
+        for idx in range(s_idx, min(e_idx + 1, len(points))):
+            p = points[idx]
+            p["is_bot_attack"] = True
+            p["goe_total_raw"] = p.get("goe_total_raw", p.get("goe_total", 0))
+
+            if enabled and dur_steps > 1:
+                prog = (idx - s_idx) / float(dur_steps)
+                clean_yt = int(b_start + prog * (b_end - b_start))
+
+                for sid, s in p.get("streams", {}).items():
+                    if s.get("group") == "GOE" and s.get("platform") == "YouTube":
+                        s["viewers_raw"] = s.get("viewers_raw", s.get("viewers", clean_yt))
+                        s["viewers"] = clean_yt
+                        s["is_bot_attack"] = True
+
+                tw_v = p.get("streams", {}).get("goe_stream", {}).get("viewers", 0)
+                p["goe_total"] = tw_v + clean_yt
+                nerva_v = p.get("nerva_total", 0)
+                p["total_viewers"] = p["goe_total"] + nerva_v
+                p["diff"] = abs(p["goe_total"] - nerva_v)
+                p["leader"] = "GOE" if p["goe_total"] > nerva_v else ("NERVA" if nerva_v > p["goe_total"] else "REMIS")
+            elif not enabled:
+                p["goe_total"] = p.get("goe_total_raw", p.get("goe_total", 0))
+                nerva_v = p.get("nerva_total", 0)
+                p["total_viewers"] = p["goe_total"] + nerva_v
+                p["diff"] = abs(p["goe_total"] - nerva_v)
+
+    return points
+
+
 def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
     """Normalizes the 2 YouTube viewbotting spikes for GoE:
     - Attack 1: 2026-11-04 00:18:25 to 2026-11-04 00:39:09
@@ -95,7 +168,22 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
         nerva_tot = nerva_tw + nerva_yt
         p["nerva_total"] = nerva_tot
 
-        yt_stream = streams.get("I2E60nEUXWo")
+        # Locate GoE YouTube stream dynamically
+        yt_stream = None
+        yt_stream_id = None
+        for sid, s in streams.items():
+            if s.get("group") == "GOE" and s.get("platform") == "YouTube":
+                yt_stream = s
+                yt_stream_id = sid
+                break
+        if not yt_stream:
+            if "I2E60nEUXWo" in streams:
+                yt_stream = streams["I2E60nEUXWo"]
+                yt_stream_id = "I2E60nEUXWo"
+            elif "@gadaja_" in streams:
+                yt_stream = streams["@gadaja_"]
+                yt_stream_id = "@gadaja_"
+
         tw_stream = streams.get("goe_stream")
 
         goe_tot = p.get("goe_total", 0)
@@ -112,13 +200,13 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
                     clean_yt = int(w["yt_start"] + prog * (w["yt_end"] - w["yt_start"]))
                     tw_v = tw_stream.get("viewers", 0) if tw_stream else 0
 
-                    if yt_stream:
+                    if yt_stream and yt_stream_id:
                         yt_stream["viewers_raw"] = yt_stream.get(
                             "viewers_raw", yt_stream.get("viewers", clean_yt)
                         )
                         yt_stream["viewers"] = clean_yt
                         yt_stream["is_bot_attack"] = True
-                        streams["I2E60nEUXWo"] = yt_stream
+                        streams[yt_stream_id] = yt_stream
 
                     clean_goe = tw_v + clean_yt
                     p["goe_total"] = clean_goe
@@ -144,6 +232,15 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
 
         p["streams"] = streams
         cleaned.append(p)
+
+    # For Day 2+ points, apply adaptive rolling anomaly detection
+    day2_cutoff_str = "2026-11-04 12:00:00"
+    day1_pts = [p for p in cleaned if p.get("timestamp", "") < day2_cutoff_str]
+    day2_pts = [p for p in cleaned if p.get("timestamp", "") >= day2_cutoff_str]
+
+    if day2_pts:
+        day2_pts = apply_adaptive_anomaly_detection(day2_pts, enabled=enabled)
+        return day1_pts + day2_pts
 
     return cleaned
 

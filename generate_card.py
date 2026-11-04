@@ -235,13 +235,13 @@ def create_battle_card(
     )
     draw.text((75, 235), "GOE", fill=(255, 0, 51), font=font_team_name)
     draw.text(
-        (75, 280),
+        (75, 266),
         f"{goe_total:,}".replace(",", " "),
         fill=(255, 255, 255),
         font=font_score,
     )
     draw.text(
-        (75, 390),
+        (75, 394),
         f"{goe_pct}% WIDZÓW",
         fill=(255, 255, 255) if goe_total >= nerva_total else (160, 160, 170),
         font=font_score_sub,
@@ -266,13 +266,13 @@ def create_battle_card(
     )
     draw.text((620, 235), "NERVARIEN", fill=(255, 255, 255), font=font_team_name)
     draw.text(
-        (620, 280),
+        (620, 266),
         f"{nerva_total:,}".replace(",", " "),
         fill=(255, 255, 255),
         font=font_score,
     )
     draw.text(
-        (620, 390),
+        (620, 394),
         f"{nerva_pct}% WIDZÓW",
         fill=(255, 255, 255) if nerva_total > goe_total else (160, 160, 170),
         font=font_score_sub,

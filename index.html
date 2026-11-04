@@ -382,6 +382,7 @@
         }
         .day-dot-finished { background: #71717a; }
         .day-dot-live { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+        .day-dot-upcoming { background: #3b82f6; }
         .day-pill-tag {
             font-size: 10px;
             padding: 2px 6px;
@@ -1081,7 +1082,7 @@
                     <span>🎙️</span>
                     <span>WORLDS 2026</span>
                     <span style="color: var(--goe-red);">•</span>
-                    <span>OFFICIAL STREAM BATTLE</span>
+                    <span>STUDIO BUNKROWE LIVE</span>
                 </div>
                 <h1>
                     <span class="title-white">CO-STREAM</span>
@@ -1095,7 +1096,7 @@
             <div class="header-controls">
                 <div class="api-status-pill">
                     <span class="api-dot" id="api-dot"></span>
-                    <span id="api-label">LIVE</span>
+                    <span id="api-label">LIVE SYNC</span>
                 </div>
                 <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁ.</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
@@ -1108,6 +1109,7 @@
                 <button class="btn-red" onclick="downloadLiveCard()">📸 Karta LIVE</button>
                 <button class="btn-summary" onclick="downloadSummaryCard('goe')">📊 GoE</button>
                 <button class="btn-summary" onclick="downloadSummaryCard('comparison')">⚖️ Starcie</button>
+                <button class="btn-summary" onclick="downloadSummaryCard('camps')">🏕️ 3 Obozy</button>
                 <button class="btn-primary" onclick="downloadCSV()">📥 CSV</button>
             </div>
         </header>
@@ -1142,6 +1144,16 @@
                             <span>Dzień 2 (04.11)</span>
                             <span class="day-pill-tag">Dzisiejszy</span>
                         </button>
+                        <button class="segmented-btn" id="day-tab-day-3" onclick="switchDay('day-3')">
+                            <span class="day-dot day-dot-upcoming"></span>
+                            <span>Dzień 3 (05.11)</span>
+                            <span class="day-pill-tag">Jutro</span>
+                        </button>
+                        <button class="segmented-btn" id="day-tab-day-4" onclick="switchDay('day-4')">
+                            <span class="day-dot day-dot-upcoming"></span>
+                            <span>Dzień 4 (06.11)</span>
+                            <span class="day-pill-tag">Pojutrze</span>
+                        </button>
                     </div>
 
                     <div class="deck-divider"></div>
@@ -1152,7 +1164,7 @@
                             🔴 Spis GoE
                         </button>
                         <button class="segmented-btn" id="tab-battle" onclick="switchMode('battle')">
-                            ⚔️ Oficjalny Pojedynek (2v2)
+                            ⚔️ Pojedynek Główny (2v2)
                         </button>
                         <button class="segmented-btn" id="tab-costream" onclick="switchMode('costream')">
                             ⚡ Starcie 3 Obozów
@@ -1174,10 +1186,10 @@
                     <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Presety:</span>
                     <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f97316; color: #fdba74;">Wszystkie Obozy</button>
                     <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
-                    <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek (2v2)</button>
+                    <button class="preset-btn" onclick="applyPreset('all')">Pojedynek główny (2v2)</button>
                     <button class="preset-btn" onclick="applyPreset('tobias_only')" style="border-color: #f97316; color: #fdba74;">Tylko Tobiasz</button>
                     <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
-                    <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (oficjalne)</button>
+                    <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (główne)</button>
                 </div>
                 <div class="stream-chips" id="stream-chips-container"></div>
             </div>
@@ -1251,10 +1263,10 @@
         <!-- PARENT CONTAINER FOR COMPARISON MODES -->
         <div id="view-battle" class="tab-view" style="display: none;">
             
-            <!-- SUB-VIEW A: OFICJALNY POJEDYNEK 2 VS 2 -->
+            <!-- SUB-VIEW A: POJEDYNEK GŁÓWNY 2 VS 2 -->
             <div id="sec-comp-official">
                 <div class="category-header-banner">
-                    <div style="font-weight: 900; font-size: 14px; color: #ffffff; letter-spacing: 1px;">⚔️ OFICJALNY POJEDYNEK 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
+                    <div style="font-weight: 900; font-size: 14px; color: #ffffff; letter-spacing: 1px;">⚔️ POJEDYNEK GŁÓWNY 2 VS 2 (TYLKO KANAŁY GŁÓWNE)</div>
                     <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Ścisłe porównanie głównych transmisji: GoE (Twitch + YouTube) vs Nervarien (Twitch + YouTube). Wyklucza co-streamy.</div>
                 </div>
 
@@ -1267,7 +1279,7 @@
                     </div>
                     <div class="vs-badge">VS</div>
                     <div class="team-card nerva">
-                        <div class="team-name">NERVARIEN (OFICJALNIE)</div>
+                        <div class="team-name">NERVARIEN (KANAŁY GŁÓWNE)</div>
                         <div class="team-score" id="battle-nerva-score">--</div>
                         <div class="team-share" id="battle-nerva-share">--% widowni</div>
                         <div class="momentum-badge" id="battle-nerva-momentum">Trend: --</div>
@@ -1279,11 +1291,11 @@
                     <div id="battle-bar-nerva" class="bar-segment-nerva" style="width: 50%;"></div>
                 </div>
 
-                <!-- DEDICATED CHART: OFICJALNY POJEDYNEK -->
+                <!-- DEDICATED CHART: POJEDYNEK GŁÓWNY -->
                 <div class="chart-box">
                     <div class="chart-header">
                         <div>
-                            <div class="chart-title">⚔️ Przebieg Pojedynku Oficjalnego: GoE vs Nervarien</div>
+                            <div class="chart-title">⚔️ Przebieg Pojedynku Głównego: GoE vs Nervarien</div>
                             <div id="comp-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
                         </div>
                         <div class="time-range-group">
@@ -1300,9 +1312,9 @@
                     </div>
                 </div>
 
-                <!-- Official Channels Stream List -->
+                <!-- Main Channels Stream List -->
                 <div class="streams-section">
-                    <div class="column-title">Oficjalne Transmisje (GoE & Nervarien)</div>
+                    <div class="column-title">Główne Transmisje (GoE & Nervarien)</div>
                     <div class="streams-grid" id="official-streams-grid"></div>
                 </div>
             </div>
@@ -1351,7 +1363,7 @@
                         <div class="costream-mini-sub" id="breakdown-sub-goe">Śr: --</div>
                     </div>
                     <div class="costream-mini-card" id="mini-card-nerva-off" style="border-color: rgba(255, 255, 255, 0.4);">
-                        <div class="costream-mini-label"><span class="live-dot" style="background: #ffffff;"></span> Nerva Oficjalnie</div>
+                        <div class="costream-mini-label"><span class="live-dot" style="background: #ffffff;"></span> Nerva Główny</div>
                         <div class="costream-mini-val" id="breakdown-val-nerva-off">--</div>
                         <div class="costream-mini-sub" id="breakdown-sub-nerva-off">Śr: --</div>
                     </div>
@@ -1427,7 +1439,44 @@
         let costreamComparisonChartInstance = null;
         let isFilterDrawerOpen = false;
 
-        let currentDayId = (new Date().toISOString() >= '2026-11-04T12:00:00Z') ? 'day-2' : 'day-1';
+        function computeDefaultDayId() {
+            const now = new Date().toISOString();
+            if (now < '2026-11-04T12:00:00Z') return 'day-1';
+            if (now < '2026-11-05T12:00:00Z') return 'day-2';
+            if (now < '2026-11-06T12:00:00Z') return 'day-3';
+            return 'day-4';
+        }
+        let currentDayId = computeDefaultDayId();
+        let countdownTimerInterval = null;
+
+        function stopCountdownTimer() {
+            if (countdownTimerInterval) {
+                clearInterval(countdownTimerInterval);
+                countdownTimerInterval = null;
+            }
+        }
+
+        function startCountdownTimer(targetIso) {
+            stopCountdownTimer();
+            function render() {
+                const totalEl = document.getElementById('goe-hero-total');
+                if (!totalEl) return;
+                const diff = new Date(targetIso).getTime() - Date.now();
+                if (diff <= 0) {
+                    totalEl.innerHTML = `<span style="font-size: 26px; color: #ff0033; letter-spacing: 1px;">OCZEKIWANIE NA START TRANSMISJI</span>`;
+                    return;
+                }
+                const h = Math.floor(diff / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                const hStr = String(h).padStart(2, '0');
+                const mStr = String(m).padStart(2, '0');
+                const sStr = String(s).padStart(2, '0');
+                totalEl.innerHTML = `<span style="font-size: 13px; color: #a1a1aa; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px;">DO STARTU BUNKRA (21:30):</span><span style="font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: 2px;">${hStr}:${mStr}:${sStr}</span>`;
+            }
+            render();
+            countdownTimerInterval = setInterval(render, 1000);
+        }
         let ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk', 'woX6jXefVdw', 'ttobias_lol'];
         let OFFICIAL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
@@ -1803,7 +1852,13 @@
             const goeTotal = ytV + twV;
             const goeSumForPct = (ytV + twV) || 1;
 
+            const isFinished = rawData && rawData.is_finished;
+            const schedule = rawData && rawData.schedule;
+            const targetIso = schedule && schedule.goe_start_iso;
+            const isUpcoming = targetIso && (new Date(targetIso).getTime() > Date.now());
+
             if (isLive) {
+                stopCountdownTimer();
                 document.getElementById('goe-hero-total').innerText = goeTotal.toLocaleString('pl-PL');
                 document.getElementById('goe-yt-viewers').innerText = ytV.toLocaleString('pl-PL');
                 document.getElementById('goe-tw-viewers').innerText = twV.toLocaleString('pl-PL');
@@ -1811,7 +1866,24 @@
                 document.getElementById('goe-tw-pct').innerText = `${((twV / goeSumForPct) * 100).toFixed(1)}% widowni`;
                 document.getElementById('goe-sub-bar-yt').style.width = `${((ytV / goeSumForPct) * 100).toFixed(1)}%`;
                 document.getElementById('goe-sub-bar-tw').style.width = `${((twV / goeSumForPct) * 100).toFixed(1)}%`;
+            } else if (!isFinished && isUpcoming) {
+                startCountdownTimer(targetIso);
+                document.getElementById('goe-yt-viewers').innerText = 'START: 21:30';
+                document.getElementById('goe-tw-viewers').innerText = 'START: 21:30';
+                document.getElementById('goe-yt-pct').innerText = 'Oczekiwanie na start';
+                document.getElementById('goe-tw-pct').innerText = 'Oczekiwanie na start';
+                document.getElementById('goe-sub-bar-yt').style.width = '50%';
+                document.getElementById('goe-sub-bar-tw').style.width = '50%';
+
+                const heroMom = document.getElementById('goe-hero-momentum');
+                if (heroMom) {
+                    heroMom.innerText = '🔴 START: 21:30 CET';
+                    heroMom.className = 'momentum-badge';
+                    heroMom.style.borderColor = '#ff0033';
+                    heroMom.style.color = '#ff4d6d';
+                }
             } else {
+                stopCountdownTimer();
                 document.getElementById('goe-hero-total').innerText = hasDataHistory ? `${st.goe_peak.toLocaleString('pl-PL')} pik` : 'OFFLINE';
                 document.getElementById('goe-yt-viewers').innerText = 'OFFLINE';
                 document.getElementById('goe-tw-viewers').innerText = 'OFFLINE';
@@ -1822,7 +1894,16 @@
             }
 
             // GoE Hero Peak badge
-            if (hasDataHistory) {
+            if (!isLive && !isFinished && isUpcoming) {
+                document.getElementById('goe-hero-peak').innerHTML = `
+                    <div style="font-size: 13px; color: #ff4d6d; font-weight: 800;">
+                        ⏱️ DO STARTU BUNKRA: 21:30 CET
+                    </div>
+                    <div style="font-size: 12px; color: #a1a1aa; margin-top: 2px;">
+                        Mecz BO5 ćwierćfinał: 23:00 CET
+                    </div>
+                `;
+            } else if (hasDataHistory) {
                 const pk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
                 const pkTime = filterBots ? st.goe_peak_time : (st.goe_raw_peak_time || st.goe_peak_time);
                 const avg = st.goe_avg;
@@ -1842,7 +1923,7 @@
                 `;
             }
 
-            // --- 2. UPDATE SECTION 1: OFICJALNY POJEDYNEK (GOE VS NERVARIEN OFICJALNY) ---
+            // --- 2. UPDATE SECTION 1: POJEDYNEK GŁÓWNY (GOE VS NERVARIEN GŁÓWNY) ---
             const nervaOfficialStreams = nervaStreams.filter(s => !s.is_costream && !s.is_curiosity);
             const liveGoeTot = goeStreams.reduce((a, s) => a + (s.viewers || 0), 0);
             const liveNervaOffTot = nervaOfficialStreams.reduce((a, s) => a + (s.viewers || 0), 0);
@@ -1857,6 +1938,15 @@
                 document.getElementById('battle-nerva-share').innerText = `${offNervaPct}% widowni (${liveNervaOffTot.toLocaleString('pl-PL')})`;
                 document.getElementById('battle-bar-goe').style.width = `${offGoePct}%`;
                 document.getElementById('battle-bar-nerva').style.width = `${offNervaPct}%`;
+            } else if (!isFinished && isUpcoming) {
+                document.getElementById('battle-goe-score').innerText = '21:30';
+                document.getElementById('battle-goe-share').innerText = 'Kielecki Bunkier';
+                document.getElementById('battle-goe-momentum').innerText = '🔴 START: 21:30 CET';
+                document.getElementById('battle-nerva-score').innerText = '~22:30';
+                document.getElementById('battle-nerva-share').innerText = 'Przewidywany start';
+                document.getElementById('battle-nerva-momentum').innerText = '⚪ START: ~22:30 / 22:45';
+                document.getElementById('battle-bar-goe').style.width = '50%';
+                document.getElementById('battle-bar-nerva').style.width = '50%';
             } else if (hasDataHistory) {
                 const gPk = filterBots ? st.goe_peak : (st.goe_raw_peak || st.goe_peak);
                 const nPk = st.nerva_peak;
@@ -1866,7 +1956,7 @@
                 document.getElementById('battle-goe-score').innerText = `${gPk.toLocaleString('pl-PL')} pik`;
                 document.getElementById('battle-goe-share').innerText = `${filterBots ? 'Organiczny' : 'Z botami'} (Śr: ${st.goe_avg.toLocaleString('pl-PL')})`;
                 document.getElementById('battle-nerva-score').innerText = `${nPk.toLocaleString('pl-PL')} pik`;
-                document.getElementById('battle-nerva-share').innerText = `Oficjalne kanały (Śr: ${st.nerva_avg.toLocaleString('pl-PL')})`;
+                document.getElementById('battle-nerva-share').innerText = `Główne kanały (Śr: ${st.nerva_avg.toLocaleString('pl-PL')})`;
                 document.getElementById('battle-bar-goe').style.width = `${gPct}%`;
                 document.getElementById('battle-bar-nerva').style.width = `${nPct}%`;
             } else {
@@ -2247,7 +2337,7 @@
                         return sum;
                     });
                     compDatasets.push({
-                        label: 'NERVARIEN (Oficjalnie łącznie)',
+                        label: 'NERVARIEN (Główne kanały)',
                         data: nervaOffData,
                         borderColor: '#ffffff',
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -2300,7 +2390,7 @@
                         return sum;
                     });
                     costreamDatasets.push({
-                        label: '⚪ NERVARIEN (Oficjalny)',
+                        label: '⚪ NERVARIEN (Główny)',
                         data: nervaOffData,
                         borderColor: '#ffffff',
                         tension: 0.25,
@@ -2442,7 +2532,7 @@
             const goeSub = document.getElementById('goe-chart-sub-label');
             if (goeSub) goeSub.innerText = `YouTube & Twitch • ${rangeLabel}`;
             const compSub = document.getElementById('comp-chart-sub-label');
-            if (compSub) compSub.innerText = `Oficjalne kanały (2 vs 2) • ${rangeLabel}`;
+            if (compSub) compSub.innerText = `Główne kanały (2 vs 2) • ${rangeLabel}`;
             const costreamSub = document.getElementById('costream-chart-sub-label');
             if (costreamSub) costreamSub.innerText = `Starcie 3 obozów: GoE vs Nervarien vs Tobiasz • ${rangeLabel}`;
 
@@ -2476,8 +2566,8 @@
                 btn.className = `segmented-btn ${isCurrent ? 'active' : ''}`;
                 btn.onclick = () => switchDay(d.id);
 
-                const statusClass = d.is_finished ? 'day-dot-finished' : 'day-dot-live';
-                const tagText = d.is_finished ? 'Zakończony' : (d.is_active ? 'Na żywo' : 'Dzisiejszy');
+                const statusClass = d.is_finished ? 'day-dot-finished' : (d.is_active ? 'day-dot-live' : 'day-dot-upcoming');
+                const tagText = d.is_finished ? 'Zakończony' : (d.is_active ? (rawData && rawData.is_live ? 'Na żywo' : 'Dzisiejszy') : 'Nadchodzący');
 
                 btn.innerHTML = `
                     <span class="day-dot ${statusClass}"></span>
@@ -2571,6 +2661,8 @@
         function downloadSummaryCard(mode = 'goe') {
             if (mode === 'goe') {
                 window.open(filterBots ? `./goe_summary_${currentDayId}.png` : `./goe_summary_raw_${currentDayId}.png`, '_blank');
+            } else if (mode === 'camps') {
+                window.open(filterBots ? `./camps_summary_${currentDayId}.png` : `./camps_summary_raw_${currentDayId}.png`, '_blank');
             } else {
                 window.open(filterBots ? `./stream_summary_${currentDayId}.png` : `./stream_summary_raw_${currentDayId}.png`, '_blank');
             }

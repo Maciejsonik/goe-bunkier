@@ -78,7 +78,13 @@ def create_summary_card(
     )
 
     # Slanted Main Title
-    title_text = "CO-STREAM GOE" if mode == "GOE" else "GOE vs NERVARIEN"
+    if mode == "GOE":
+        title_text = "CO-STREAM GOE"
+    elif mode == "CAMPS":
+        title_text = "STARCIE 3 OBOZÓW"
+    else:
+        title_text = "GOE vs NERVARIEN"
+
     draw_slanted_text(
         img,
         title_text,
@@ -93,11 +99,12 @@ def create_summary_card(
         if stats.get("start_time")
         else ""
     )
-    sub_title_text = (
-        f"w Kieleckim bunkrze • Widownia Co-stream GoE • {time_range}"
-        if mode == "GOE"
-        else f"w Kieleckim bunkrze vs Nervarien • Porównanie • {time_range}"
-    )
+    if mode == "GOE":
+        sub_title_text = f"w Kieleckim bunkrze • Widownia Co-stream GoE • {time_range}"
+    elif mode == "CAMPS":
+        sub_title_text = f"w Kieleckim bunkrze • GoE vs Nervarien vs Tobiasz • {time_range}"
+    else:
+        sub_title_text = f"w Kieleckim bunkrze vs Nervarien • Porównanie • {time_range}"
     draw.text(
         (width // 2, 172),
         sub_title_text,
@@ -138,8 +145,8 @@ def create_summary_card(
     )
 
     box_w = 225
-    box_h = 122
-    y_boxes = 236
+    box_h = 126
+    y_boxes = 234
     x_positions = [50, 305, 560, 805]
 
     # Stats setup
@@ -192,6 +199,51 @@ def create_summary_card(
                 "GOE_STREAM",
             ),
         ]
+    elif mode == "CAMPS":
+        peak_tobias = max(
+            (
+                p.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
+                for p in history_points
+            ),
+            default=0,
+        )
+
+        def _get_costream_v(p):
+            for sid, s in p.get("streams", {}).items():
+                if sid != "ttobias_lol" and (
+                    s.get("is_costream") or s.get("is_curiosity")
+                ):
+                    return s.get("viewers", 0)
+            return 0
+
+        peak_costream = max((_get_costream_v(p) for p in history_points), default=0)
+
+        stat_items = [
+            (
+                "PIK GOE",
+                f"{stats['goe_peak']:,}".replace(",", " "),
+                (255, 24, 36),
+                f"ŁĄCZNIE O {stats.get('goe_peak_time', '')}",
+            ),
+            (
+                "PIK NERVA",
+                f"{stats['nerva_peak']:,}".replace(",", " "),
+                (255, 255, 255),
+                f"TWITCH + YT O {stats.get('nerva_peak_time', '')}",
+            ),
+            (
+                "PIK TOBIASZ",
+                f"{peak_tobias:,}".replace(",", " "),
+                (249, 115, 22),
+                "TWITCH • TTOBIAS_LOL",
+            ),
+            (
+                "NERVA CO-STREAM",
+                f"{peak_costream:,}".replace(",", " "),
+                (245, 158, 11),
+                "YOUTUBE • CIEKAWOSTKA",
+            ),
+        ]
     else:
         goe_peak_sub = (
             f"PIK O {stats['goe_peak_time']}"
@@ -231,7 +283,7 @@ def create_summary_card(
             ),
         ]
 
-    font_stat_val = _get_font(42, font_type="anton")
+    font_stat_val = _get_font(40, font_type="anton")
     font_stat_lbl = _get_font(15, font_type="rajdhani")
     font_stat_sub = _get_font(13, font_type="rajdhani")
 
@@ -245,14 +297,14 @@ def create_summary_card(
             width=1,
         )
         draw.text(
-            (bx + 16, y_boxes + 13),
+            (bx + 16, y_boxes + 11),
             label,
             fill=(180, 180, 190),
             font=font_stat_lbl,
         )
-        draw.text((bx + 16, y_boxes + 30), val, fill=color, font=font_stat_val)
+        draw.text((bx + 16, y_boxes + 26), val, fill=color, font=font_stat_val)
         draw.text(
-            (bx + 16, y_boxes + 95),
+            (bx + 16, y_boxes + 98),
             sub,
             fill=(135, 135, 145),
             font=font_stat_sub,
@@ -304,6 +356,51 @@ def create_summary_card(
         draw.text(
             (chart_x2 - 115, chart_y1 + 14),
             "Twitch",
+            fill=(255, 255, 255),
+            font=font_legend,
+        )
+    elif mode == "CAMPS":
+        # 4 legend items: GOE, NERVA, TOBIASZ, CO-STREAM
+        draw.rectangle(
+            [chart_x2 - 460, chart_y1 + 14, chart_x2 - 444, chart_y1 + 30],
+            fill=(255, 24, 36),
+        )
+        draw.text(
+            (chart_x2 - 435, chart_y1 + 14),
+            "GOE",
+            fill=(255, 255, 255),
+            font=font_legend,
+        )
+
+        draw.rectangle(
+            [chart_x2 - 370, chart_y1 + 14, chart_x2 - 354, chart_y1 + 30],
+            fill=(255, 255, 255),
+        )
+        draw.text(
+            (chart_x2 - 345, chart_y1 + 14),
+            "NERVARIEN",
+            fill=(255, 255, 255),
+            font=font_legend,
+        )
+
+        draw.rectangle(
+            [chart_x2 - 230, chart_y1 + 14, chart_x2 - 214, chart_y1 + 30],
+            fill=(249, 115, 22),
+        )
+        draw.text(
+            (chart_x2 - 205, chart_y1 + 14),
+            "TOBIASZ",
+            fill=(255, 255, 255),
+            font=font_legend,
+        )
+
+        draw.rectangle(
+            [chart_x2 - 110, chart_y1 + 14, chart_x2 - 94, chart_y1 + 30],
+            fill=(245, 158, 11),
+        )
+        draw.text(
+            (chart_x2 - 85, chart_y1 + 14),
+            "CO-STREAM",
             fill=(255, 255, 255),
             font=font_legend,
         )
@@ -365,6 +462,33 @@ def create_summary_card(
                 for p in history_points
             ),
             default=100,
+        )
+    elif mode == "CAMPS":
+        def _get_costream_v_pt(p):
+            for sid, s in p.get("streams", {}).items():
+                if sid != "ttobias_lol" and (s.get("is_costream") or s.get("is_curiosity")):
+                    return s.get("viewers", 0)
+            return 0
+
+        max_v = max(
+            max(
+                (
+                    p.get("goe_total", 0)
+                    if filter_bots
+                    else p.get("goe_total_raw", p.get("goe_total", 0))
+                )
+                for p in history_points
+            ),
+            max(p.get("nerva_total", 0) for p in history_points),
+            max(
+                (
+                    p.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
+                    for p in history_points
+                ),
+                default=0,
+            ),
+            max((_get_costream_v_pt(p) for p in history_points), default=0),
+            100,
         )
     else:
         max_v = max(
@@ -497,6 +621,85 @@ def create_summary_card(
                 width=2,
             )
 
+    elif mode == "CAMPS":
+        # 3 Camps mode: GoE vs Nervarien vs Tobiasz + Nerva Co-stream
+        goe_coords = []
+        nerva_coords = []
+        tobias_coords = []
+        costream_coords = []
+        max_goe_idx = 0
+        curr_max_goe = -1
+
+        def _get_cs_v(p):
+            for sid, s in p.get("streams", {}).items():
+                if sid != "ttobias_lol" and (s.get("is_costream") or s.get("is_curiosity")):
+                    return s.get("viewers", 0)
+            return 0
+
+        for idx, pt in enumerate(history_points):
+            x = plot_x1 if num_pts == 1 else plot_x1 + int((idx / (num_pts - 1)) * plot_w)
+            gv = pt.get("goe_total", 0) if filter_bots else pt.get("goe_total_raw", pt.get("goe_total", 0))
+            nv = pt.get("nerva_total", 0)
+            tv = pt.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
+            cv = _get_cs_v(pt)
+
+            if gv > curr_max_goe:
+                curr_max_goe = gv
+                max_goe_idx = idx
+
+            y_goe = plot_y2 - int((gv / max_y) * plot_h)
+            y_nerva = plot_y2 - int((nv / max_y) * plot_h)
+            y_tobias = plot_y2 - int((tv / max_y) * plot_h)
+            y_costream = plot_y2 - int((cv / max_y) * plot_h)
+
+            goe_coords.append((x, y_goe))
+            nerva_coords.append((x, y_nerva))
+            tobias_coords.append((x, y_tobias))
+            costream_coords.append((x, y_costream))
+
+        # Fill GoE
+        if len(goe_coords) >= 2:
+            fill_poly = [(plot_x1, plot_y2)] + goe_coords + [(plot_x2, plot_y2)]
+            overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+            overlay_draw = ImageDraw.Draw(overlay)
+            overlay_draw.polygon(fill_poly, fill=(255, 24, 36, 40))
+            img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+            draw = ImageDraw.Draw(img)
+
+        # 1. Co-stream (yellow line)
+        for i in range(len(costream_coords) - 1):
+            draw.line([costream_coords[i], costream_coords[i + 1]], fill=(245, 158, 11), width=2)
+
+        # 2. Tobiasz (orange line)
+        for i in range(len(tobias_coords) - 1):
+            draw.line([tobias_coords[i], tobias_coords[i + 1]], fill=(249, 115, 22), width=3)
+        for x, y in tobias_coords[:: max(1, num_pts // 30)]:
+            draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(249, 115, 22))
+
+        # 3. Nervarien (white line)
+        for i in range(len(nerva_coords) - 1):
+            draw.line([nerva_coords[i], nerva_coords[i + 1]], fill=(255, 255, 255), width=3)
+        for x, y in nerva_coords[:: max(1, num_pts // 30)]:
+            draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(255, 255, 255))
+
+        # 4. GoE (red line)
+        for i in range(len(goe_coords) - 1):
+            draw.line([goe_coords[i], goe_coords[i + 1]], fill=(255, 24, 36), width=4)
+        for x, y in goe_coords[:: max(1, num_pts // 30)]:
+            draw.ellipse([x - 4, y - 4, x + 4, y + 4], fill=(255, 24, 36), outline=(255, 255, 255), width=2)
+
+        # Peak GoE Callout
+        if goe_coords and curr_max_goe > 0:
+            pk_x, pk_y = goe_coords[max_goe_idx]
+            callout_text = f"⚡ PIK GOE: {curr_max_goe:,}".replace(",", " ")
+            cb_w = 125
+            cb_h = 24
+            cb_x1 = max(plot_x1 + 10, min(plot_x2 - cb_w - 10, pk_x - cb_w // 2))
+            cb_y1 = max(plot_y1 + 5, pk_y - 36)
+            draw.rounded_rectangle([cb_x1, cb_y1, cb_x1 + cb_w, cb_y1 + cb_h], radius=4, fill=(255, 24, 36))
+            draw.text((cb_x1 + cb_w // 2, cb_y1 + cb_h // 2), callout_text, fill=(255, 255, 255), font=font_callout, anchor="mm")
+            draw.line([(pk_x, pk_y), (pk_x, cb_y1 + cb_h)], fill=(255, 24, 36), width=2)
+
     else:
         # Comparison mode: GoE vs Nervarien
         goe_coords = []
@@ -582,7 +785,10 @@ def create_summary_card(
     step = max(1, num_pts // 5)
     time_indices = list(range(0, num_pts, step))
     if num_pts - 1 not in time_indices:
-        time_indices.append(num_pts - 1)
+        if len(time_indices) > 1 and (num_pts - 1) - time_indices[-1] < step // 2:
+            time_indices[-1] = num_pts - 1
+        else:
+            time_indices.append(num_pts - 1)
 
     for t_idx in time_indices:
         pt = history_points[t_idx]
