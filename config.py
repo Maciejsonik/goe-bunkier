@@ -1,7 +1,7 @@
 """Configuration for the Stream Battle Scraper with Multi-Day Support."""
 
-from datetime import datetime, timezone
 import os
+from datetime import UTC, datetime
 
 # Multi-day configuration for Worlds 2026
 # Day 1: Nov 3 12:00 UTC to Nov 4 12:00 UTC
@@ -29,6 +29,7 @@ DAYS_CONFIG = {
                 "youtube": ["SGAaZFSc3Zk", "woX6jXefVdw"],
             },
         },
+        "costream_streams": ["woX6jXefVdw"],
         "curiosity_streams": ["woX6jXefVdw"],
     },
     "day-2": {
@@ -49,23 +50,30 @@ DAYS_CONFIG = {
             "NERVA": {
                 "name": "Nervarien & Co-streams",
                 "color": "#ef4444",  # Crimson Red
-                "twitch": ["nervarien"],
+                "twitch": ["nervarien", "ttobias_lol"],
                 "youtube": ["00uONX5EBiA", "N3i_DQlKL_U"],
             },
         },
-        "curiosity_streams": ["N3i_DQlKL_U"],
+        "costream_streams": ["N3i_DQlKL_U", "ttobias_lol"],
+        "curiosity_streams": ["N3i_DQlKL_U", "ttobias_lol"],
     },
 }
 
-# Curiosity / trivia streams mapped across all days
+# Co-stream channels mapped across all days
 # Tracked on the dashboard but excluded from official duel sums
-CURIOSITY_STREAMS = {
-    "woX6jXefVdw": {"name": "Nerva Co-stream", "group": "NERVA"},
-    "N3i_DQlKL_U": {"name": "Nerva Co-stream", "group": "NERVA"},
+COSTREAM_STREAMS = {
+    "woX6jXefVdw": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
+    "N3i_DQlKL_U": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
+    "ttobias_lol": {
+        "name": "Tobiasz Co-stream",
+        "group": "NERVA",
+        "platform": "Twitch",
+    },
 }
+CURIOSITY_STREAMS = COSTREAM_STREAMS
 
 
-def get_active_day_id(now_utc: datetime = None) -> str:
+def get_active_day_id(now_utc: datetime | None = None) -> str:
     """Returns active day id based on the 12:00 UTC rollover rule:
     - Before 2026-11-04 12:00:00 UTC -> 'day-1'
     - From 2026-11-04 12:00:00 UTC onwards -> 'day-2'
@@ -76,16 +84,20 @@ def get_active_day_id(now_utc: datetime = None) -> str:
         return override
 
     if now_utc is None:
-        now_utc = datetime.now(timezone.utc)
+        now_utc = datetime.now(UTC)
 
-    day2_cutoff = datetime(2026, 11, 4, 12, 0, 0, tzinfo=timezone.utc)
+    day2_cutoff = datetime(2026, 11, 4, 12, 0, 0, tzinfo=UTC)
     if now_utc < day2_cutoff:
         return "day-1"
     return "day-2"
 
 
-def get_groups_config(day_id: str = None) -> dict:
+def get_groups_config(day_id: str | None = None) -> dict:
     """Returns groups configuration dictionary for a given day id."""
+    if day_id is None:
+        day_id = get_active_day_id()
+    day_entry = DAYS_CONFIG.get(day_id, DAYS_CONFIG["day-1"])
+    return day_entry["groups"]
     if day_id is None:
         day_id = get_active_day_id()
     day_entry = DAYS_CONFIG.get(day_id, DAYS_CONFIG["day-1"])

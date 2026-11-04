@@ -238,22 +238,22 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        .stream-chip.curiosity-chip {
+        .stream-chip.costream-chip, .stream-chip.curiosity-chip {
             border-style: dashed;
         }
 
-        .stream-chip.selected.curiosity-chip {
+        .stream-chip.selected.costream-chip, .stream-chip.selected.curiosity-chip {
             border-color: #f59e0b;
             background: rgba(245, 158, 11, 0.15);
             color: #fef3c7;
         }
 
-        .stream-chip.selected.curiosity-chip .chip-dot {
+        .stream-chip.selected.costream-chip .chip-dot, .stream-chip.selected.curiosity-chip .chip-dot {
             background: #f59e0b;
             box-shadow: 0 0 8px #f59e0b;
         }
 
-        .curiosity-badge {
+        .costream-badge, .curiosity-badge {
             background: rgba(245, 158, 11, 0.2);
             border: 1px solid #f59e0b;
             color: #f59e0b;
@@ -783,8 +783,8 @@
                 <div class="filter-title">🔍 Filtry transmisji (kliknij, aby wybrać pojedyncze streamy):</div>
                 <div class="preset-buttons">
                     <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
-                    <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek (4)</button>
-                    <button class="preset-btn" onclick="applyPreset('all_plus_curiosity')" style="border-color: #f59e0b; color: #f59e0b;">+ Nerva Co-stream (5)</button>
+                    <button class="preset-btn" onclick="applyPreset('all')">Oficjalny pojedynek</button>
+                    <button class="preset-btn" onclick="applyPreset('all_plus_costream')" style="border-color: #f59e0b; color: #f59e0b;">+ Co-streamy</button>
                     <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
                     <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube (oficjalne)</button>
                 </div>
@@ -950,9 +950,10 @@
             'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff1824' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
             'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
-            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_curiosity: true },
+            'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
             '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' },
-            'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_curiosity: true }
+            'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true, is_curiosity: true },
+            'ttobias_lol': { name: 'Tobiasz (Co-stream)', platform: 'Twitch', group: 'NERVA', color: '#d97706', is_costream: true, is_curiosity: true }
         };
 
         function updateStreamsMetadataFromData() {
@@ -966,21 +967,27 @@
 
             allStreams.forEach(s => {
                 ALL_STREAM_IDS.push(s.id);
-                if (!s.is_curiosity) {
+                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U' || s.id === 'ttobias_lol');
+                if (!isCostream) {
                     OFFICIAL_STREAM_IDS.push(s.id);
                 }
                 let color = '#3b82f6';
                 if (s.group === 'GOE') {
                     color = s.platform === 'Twitch' ? '#9146ff' : '#ff1824';
                 } else {
-                    color = s.is_curiosity ? '#f59e0b' : (s.platform === 'Twitch' ? '#a855f7' : '#ef4444');
+                    if (isCostream) {
+                        color = s.id === 'ttobias_lol' ? '#d97706' : '#f59e0b';
+                    } else {
+                        color = s.platform === 'Twitch' ? '#a855f7' : '#ef4444';
+                    }
                 }
                 STREAM_METADATA[s.id] = {
-                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : 'YouTube'),
+                    name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : s.id),
                     platform: s.platform,
                     group: s.group,
                     color: color,
-                    is_curiosity: !!s.is_curiosity
+                    is_costream: isCostream,
+                    is_curiosity: isCostream
                 };
             });
 
@@ -1115,7 +1122,7 @@
             } else if (preset === 'all') {
                 selectedStreamIds = new Set(OFFICIAL_STREAM_IDS.length > 0 ? OFFICIAL_STREAM_IDS : ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
-            } else if (preset === 'all_plus_curiosity') {
+            } else if (preset === 'all_plus_costream' || preset === 'all_plus_curiosity') {
                 selectedStreamIds = new Set(ALL_STREAM_IDS);
                 if (currentMode !== 'battle') switchMode('battle');
             } else if (preset === 'twitch') {
@@ -1152,7 +1159,7 @@
                 const meta = STREAM_METADATA[id];
                 const isSelected = selectedStreamIds.has(id);
                 const isNerva = meta.group === 'NERVA';
-                const isCuriosity = !!meta.is_curiosity;
+                const isCostream = !!(meta.is_costream || meta.is_curiosity);
 
                 let viewers = 0;
                 if (rawData) {
@@ -1162,12 +1169,12 @@
                 }
 
                 const chip = document.createElement('div');
-                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''} ${isCuriosity ? 'curiosity-chip' : ''}`;
+                chip.className = `stream-chip ${isSelected ? 'selected' : ''} ${isNerva ? 'nerva-chip' : ''} ${isCostream ? 'costream-chip' : ''}`;
                 chip.onclick = () => toggleStream(id);
                 
                 let labelHtml = `<span>${meta.name}</span>`;
-                if (isCuriosity) {
-                    labelHtml = `<span>${meta.name}</span> <span class="curiosity-badge">Ciekawostka</span>`;
+                if (isCostream) {
+                    labelHtml = `<span>${meta.name}</span> <span class="costream-badge">Co-stream</span>`;
                 }
 
                 chip.innerHTML = `
@@ -1189,10 +1196,10 @@
             const nervaStreams = (rawData.groups.NERVA.streams || []).map(s => ({ ...s, group: 'NERVA' }));
 
             // 1. Update GoE Hub
-            const goeYt = goeStreams.find(s => s.id === 'I2E60nEUXWo');
-            const goeTw = goeStreams.find(s => s.id === 'goe_stream');
-            let ytV = (goeYt && selectedStreamIds.has('I2E60nEUXWo')) ? goeYt.viewers : (goeYt ? goeYt.viewers : 0);
-            let twV = (goeTw && selectedStreamIds.has('goe_stream')) ? goeTw.viewers : (goeTw ? goeTw.viewers : 0);
+            const goeYt = goeStreams.find(s => s.platform === 'YouTube');
+            const goeTw = goeStreams.find(s => s.platform === 'Twitch');
+            let ytV = (goeYt && selectedStreamIds.has(goeYt.id)) ? goeYt.viewers : (goeYt ? goeYt.viewers : 0);
+            let twV = (goeTw && selectedStreamIds.has(goeTw.id)) ? goeTw.viewers : (goeTw ? goeTw.viewers : 0);
             const goeTotal = ytV + twV;
             const goeSumForPct = (ytV + twV) || 1;
 
@@ -1311,8 +1318,9 @@
                 const dotClass = st.is_live ? 'live-dot' : 'offline-dot';
                 const viewersText = st.is_live ? `${st.viewers.toLocaleString('pl-PL')} widzów` : 'OFFLINE';
                 const avatarSrc = st.avatar_url || 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517eb-aca7-43f8-963e-aca743f8963e-profile_image-150x150.png';
-                const curiosityTag = (st.is_curiosity || st.id === 'woX6jXefVdw') 
-                    ? `<span class="curiosity-badge" style="margin-left: 6px;">Ciekawostka</span>` 
+                const isCostream = !!(st.is_costream || st.is_curiosity || st.id === 'woX6jXefVdw' || st.id === 'N3i_DQlKL_U' || st.id === 'ttobias_lol');
+                const costreamTag = isCostream 
+                    ? `<span class="costream-badge" style="margin-left: 6px;">Co-stream</span>` 
                     : '';
 
                 const a = document.createElement('a');
@@ -1329,7 +1337,7 @@
                                 <span class="${dotClass}"></span>
                                 <span class="platform-badge ${badgeClass}">${st.platform}</span>
                                 <span>${st.channel}</span>
-                                ${curiosityTag}
+                                ${costreamTag}
                             </div>
                         </div>
                         <div class="stream-title" title="${st.title}">${st.title || ''}</div>
@@ -1349,14 +1357,16 @@
             if (goeChartInstance) {
                 const goeDatasets = [];
 
+                const goeYtId = ALL_STREAM_IDS.find(id => STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE' && STREAM_METADATA[id].platform === 'YouTube') || 'I2E60nEUXWo';
+                const goeTwId = 'goe_stream';
+                const hasYt = selectedStreamIds.has(goeYtId);
+                const hasTw = selectedStreamIds.has(goeTwId);
+
                 const totalGoeData = detailedHistory.map(pt => {
-                    const yt_s = pt.streams['I2E60nEUXWo'];
-                    const tw_s = pt.streams['goe_stream'];
+                    const yt_s = pt.streams[goeYtId];
+                    const tw_s = pt.streams[goeTwId];
                     const yt_v = yt_s ? (filterBots ? (yt_s.viewers || 0) : (yt_s.viewers_raw || yt_s.viewers || 0)) : 0;
                     const tw_v = tw_s ? (tw_s.viewers || 0) : 0;
-
-                    const hasYt = selectedStreamIds.has('I2E60nEUXWo');
-                    const hasTw = selectedStreamIds.has('goe_stream');
 
                     if (hasYt && hasTw) {
                         return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total || (yt_v + tw_v));
@@ -1379,11 +1389,12 @@
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
 
-                if (selectedStreamIds.has('I2E60nEUXWo') || (!selectedStreamIds.has('I2E60nEUXWo') && !selectedStreamIds.has('goe_stream'))) {
+                if (goeYtId && (selectedStreamIds.has(goeYtId) || (!selectedStreamIds.has(goeYtId) && !selectedStreamIds.has(goeTwId)))) {
+                    const ytMeta = STREAM_METADATA[goeYtId] || { name: 'YouTube' };
                     goeDatasets.push({
-                        label: filterBots ? 'YouTube (Gadają o Esporcie - Oczyszczone)' : 'YouTube (Gadają o Esporcie - Z botami)',
+                        label: filterBots ? `YouTube (${ytMeta.name} - Oczyszczone)` : `YouTube (${ytMeta.name} - Z botami)`,
                         data: detailedHistory.map(pt => {
-                            const s = pt.streams['I2E60nEUXWo'];
+                            const s = pt.streams[goeYtId];
                             if (!s) return 0;
                             return filterBots ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
                         }),
@@ -1395,10 +1406,10 @@
                     });
                 }
 
-                if (selectedStreamIds.has('goe_stream') || (!selectedStreamIds.has('I2E60nEUXWo') && !selectedStreamIds.has('goe_stream'))) {
+                if (selectedStreamIds.has(goeTwId) || (!selectedStreamIds.has(goeYtId) && !selectedStreamIds.has(goeTwId))) {
                     goeDatasets.push({
                         label: 'Twitch (GoE_stream)',
-                        data: detailedHistory.map(pt => pt.streams['goe_stream'] ? (pt.streams['goe_stream'].viewers || 0) : 0),
+                        data: detailedHistory.map(pt => pt.streams[goeTwId] ? (pt.streams[goeTwId].viewers || 0) : 0),
                         borderColor: '#9146ff',
                         borderDash: [3, 3],
                         borderWidth: 2,
@@ -1418,16 +1429,20 @@
 
                 const goeLine = detailedHistory.map(pt => {
                     let s = 0;
-                    ['I2E60nEUXWo', 'goe_stream'].forEach(id => {
-                        if (selectedStreamIds.has(id) && pt.streams[id]) {
-                            if (id === 'I2E60nEUXWo') {
-                                s += filterBots ? (pt.streams[id].viewers || 0) : (pt.streams[id].viewers_raw || pt.streams[id].viewers || 0);
-                            } else {
-                                s += pt.streams[id].viewers || 0;
+                    let hasAnyGoeSelected = false;
+                    ALL_STREAM_IDS.forEach(id => {
+                        if (STREAM_METADATA[id] && STREAM_METADATA[id].group === 'GOE' && selectedStreamIds.has(id)) {
+                            hasAnyGoeSelected = true;
+                            if (pt.streams && pt.streams[id]) {
+                                if (STREAM_METADATA[id].platform === 'YouTube') {
+                                    s += filterBots ? (pt.streams[id].viewers || 0) : (pt.streams[id].viewers_raw || pt.streams[id].viewers || 0);
+                                } else {
+                                    s += pt.streams[id].viewers || 0;
+                                }
                             }
                         }
                     });
-                    if (s === 0) {
+                    if (!hasAnyGoeSelected || s === 0) {
                         return filterBots ? pt.goe_total : (pt.goe_total_raw || pt.goe_total);
                     }
                     return s;
@@ -1472,19 +1487,20 @@
                     pointRadius: labels.length > 60 ? 0 : 3
                 });
 
-                // Check for any curiosity co-stream in selectedStreamIds
-                const curiosityStreamId = Array.from(selectedStreamIds).find(
-                    id => STREAM_METADATA[id] && STREAM_METADATA[id].is_curiosity
+                // Check for any selected co-streams (Nerva Co-stream, Tobiasz, etc.)
+                const selectedCostreamIds = Array.from(selectedStreamIds).filter(
+                    id => STREAM_METADATA[id] && (STREAM_METADATA[id].is_costream || STREAM_METADATA[id].is_curiosity)
                 );
-                if (curiosityStreamId) {
-                    const cMeta = STREAM_METADATA[curiosityStreamId];
+                selectedCostreamIds.forEach(cId => {
+                    const cMeta = STREAM_METADATA[cId];
+                    const cColor = cMeta.color || (cId === 'ttobias_lol' ? '#d97706' : '#f59e0b');
                     compDatasets.push({
-                        label: `💡 ${cMeta.name} (Ciekawostka)`,
+                        label: `💡 ${cMeta.name} (Co-stream)`,
                         data: detailedHistory.map(pt => {
-                            const s = pt.streams && pt.streams[curiosityStreamId];
+                            const s = pt.streams && pt.streams[cId];
                             return s ? (s.viewers || 0) : 0;
                         }),
-                        borderColor: '#f59e0b',
+                        borderColor: cColor,
                         backgroundColor: 'rgba(245, 158, 11, 0.05)',
                         borderDash: [5, 5],
                         tension: 0.25,
@@ -1492,7 +1508,7 @@
                         borderWidth: 2,
                         pointRadius: labels.length > 60 ? 0 : 2
                     });
-                }
+                });
 
                 comparisonChartInstance.data.labels = labels;
                 comparisonChartInstance.data.datasets = compDatasets;

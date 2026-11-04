@@ -1,10 +1,10 @@
 """Builds static JSON data and graphics for GitHub Pages with multi-day support."""
 
-from datetime import datetime
 import json
 import os
 import shutil
 import sys
+from datetime import datetime
 
 # Ensure this directory is in path
 sys.path.insert(0, os.path.dirname(__file__))
@@ -74,6 +74,8 @@ def export_csv_from_history(history: list[dict], filepath: str):
         "goe_yt_raw_viewers",
         "nerva_twitch_viewers",
         "nerva_yt_viewers",
+        "nerva_costream",
+        "tobias_costream",
         "nerva_costream_ciekawostka",
     ]
 
@@ -91,8 +93,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
             goe_yt_raw_v = 0
             for sid, s in streams.items():
                 if sid != "goe_stream" and (
-                    s.get("group") == "GOE"
-                    or s.get("platform") == "YouTube"
+                    (s.get("group") == "GOE" and s.get("platform") == "YouTube")
                     or sid == "I2E60nEUXWo"
                 ):
                     goe_yt_v = s.get("viewers", 0)
@@ -113,22 +114,27 @@ def export_csv_from_history(history: list[dict], filepath: str):
                     if (
                         s.get("group") == "NERVA"
                         and s.get("platform") == "YouTube"
+                        and not s.get("is_costream")
                         and not s.get("is_curiosity")
                     ):
                         nerva_yt_v = s.get("viewers", 0)
                         break
 
-            # 5. Nerva Co-stream (Ciekawostka)
-            curiosity_v = 0
+            # 5. Co-streams (Nerva & Tobiasz)
+            nerva_costream_v = 0
             for vid in ("woX6jXefVdw", "N3i_DQlKL_U"):
                 if vid in streams:
-                    curiosity_v = streams[vid].get("viewers", 0)
+                    nerva_costream_v = streams[vid].get("viewers", 0)
                     break
-            if curiosity_v == 0:
+            if nerva_costream_v == 0:
                 for sid, s in streams.items():
-                    if s.get("is_curiosity"):
-                        curiosity_v = s.get("viewers", 0)
+                    if sid != "ttobias_lol" and (
+                        s.get("is_costream") or s.get("is_curiosity")
+                    ):
+                        nerva_costream_v = s.get("viewers", 0)
                         break
+
+            tobias_costream_v = streams.get("ttobias_lol", {}).get("viewers", 0)
 
             writer.writerow(
                 {
@@ -142,7 +148,9 @@ def export_csv_from_history(history: list[dict], filepath: str):
                     "goe_yt_raw_viewers": goe_yt_raw_v,
                     "nerva_twitch_viewers": nerva_tw_v,
                     "nerva_yt_viewers": nerva_yt_v,
-                    "nerva_costream_ciekawostka": curiosity_v,
+                    "nerva_costream": nerva_costream_v,
+                    "tobias_costream": tobias_costream_v,
+                    "nerva_costream_ciekawostka": nerva_costream_v,
                 }
             )
 

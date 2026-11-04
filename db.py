@@ -1,13 +1,13 @@
 """SQLite persistence, platform filtering, momentum calculation, CSV export, and granular stream history."""
 
 import csv
-from datetime import datetime
 import io
 import os
 import sqlite3
 import time
+from datetime import datetime
 
-from config import CURIOSITY_STREAMS, get_active_day_id
+from config import COSTREAM_STREAMS, get_active_day_id
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "history.db")
 
@@ -70,17 +70,24 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
 
         p = dict(pt)
         streams = {k: dict(v) for k, v in p.get("streams", {}).items()}
-        # Mark curiosity streams (not counted in official duel)
-        for cid, cinfo in CURIOSITY_STREAMS.items():
+        # Mark costream streams (not counted in official duel)
+        for cid, cinfo in COSTREAM_STREAMS.items():
             if cid in streams:
-                streams[cid]["channel"] = cinfo.get("name", "Nerva Co-stream")
+                streams[cid]["channel"] = cinfo.get(
+                    "name", streams[cid].get("channel", "Co-stream")
+                )
+                streams[cid]["is_costream"] = True
                 streams[cid]["is_curiosity"] = True
 
         nerva_tw = streams.get("nervarien", {}).get("viewers", 0)
         nerva_yt = 0
         for sid, s in streams.items():
             if s.get("group") == "NERVA" and s.get("platform") == "YouTube":
-                if sid not in CURIOSITY_STREAMS and not s.get("is_curiosity"):
+                if (
+                    sid not in COSTREAM_STREAMS
+                    and not s.get("is_costream")
+                    and not s.get("is_curiosity")
+                ):
                     nerva_yt += s.get("viewers", 0)
             elif sid in ("SGAaZFSc3Zk", "00uONX5EBiA"):
                 nerva_yt += s.get("viewers", 0)
@@ -194,10 +201,17 @@ def init_db():
         except sqlite3.OperationalError:
             pass
 
+        try:
+            conn.execute(
+                "ALTER TABLE snapshots ADD COLUMN day_id TEXT DEFAULT 'day-1'"
+            )
+        except sqlite3.OperationalError:
+            pass
+
         conn.commit()
 
 
-def save_snapshot(data: dict, day_id: str = None) -> int:
+def save_snapshot(data: dict, day_id: str | None = None) -> int:
     """Saves a fresh scrape snapshot into SQLite with day association."""
     init_db()
     if day_id is None:
@@ -261,7 +275,7 @@ def save_snapshot(data: dict, day_id: str = None) -> int:
         return snapshot_id
 
 
-def get_detailed_history(limit: int = 2000, day_id: str = None) -> list[dict]:
+def get_detailed_history(limit: int = 2000, day_id: str | None = None) -> list[dict]:
     """Retrieves chronological snapshots with granular per-stream viewer data, optionally filtered by day_id."""
     init_db()
     with get_connection() as conn:
@@ -291,7 +305,7 @@ def get_detailed_history(limit: int = 2000, day_id: str = None) -> list[dict]:
                     "id": sid,
                     "timestamp": r["timestamp"],
                     "unix_time": r["unix_time"],
-                    "day_id": r["day_id"] if "day_id" in r.keys() else "day-1",
+                    "day_id": r["day_id"] if "day_id" in r else "day-1",
                     "total_viewers": r["total_viewers"],
                     "goe_total": r["goe_total"],
                     "nerva_total": r["nerva_total"],
@@ -389,7 +403,7 @@ def get_history(limit: int = 500, platform: str = "ALL") -> list[dict]:
 
 def get_summary_stats(
     platform: str = "ALL",
-    custom_history: list[dict] = None,
+    custom_history: list[dict] | None = None,
     filter_bots: bool = True,
 ) -> dict:
     """Calculates peak, average, and summary statistics across recorded history per platform,
@@ -465,8 +479,8 @@ def get_summary_stats(
         "nerva_peak": nerva_peak,
         "goe_peak_time": goe_peak_time,
         "nerva_peak_time": nerva_peak_time,
-        "goe_avg": int(round(goe_sum / count)) if count > 0 else 0,
-        "nerva_avg": int(round(nerva_sum / count)) if count > 0 else 0,
+        "goe_avg": round(goe_sum / count) if count > 0 else 0,
+        "nerva_avg": round(nerva_sum / count) if count > 0 else 0,
         "start_time": start_ts,
         "end_time": end_ts,
         "goe_raw_peak": goe_raw_peak,
@@ -500,7 +514,7 @@ def get_momentum(minutes: int = 5) -> dict:
         }
 
 
-def export_to_csv(filepath: str = None) -> str:
+def export_to_csv(filepath: str | None = None) -> str:
     """Exports entire recorded history to a CSV string or file."""
     init_db()
     with get_connection() as conn:

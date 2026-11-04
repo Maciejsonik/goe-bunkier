@@ -1,15 +1,14 @@
 """Stream Scraper for Twitch and YouTube (zero API keys required)."""
 
-from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
 import json
 import re
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 
 from config import (
-    CURIOSITY_STREAMS,
-    GROUPS,
+    COSTREAM_STREAMS,
     TWITCH_PUBLIC_CLIENT_ID,
     USER_AGENT,
     get_groups_config,
@@ -24,8 +23,8 @@ def fetch_twitch_batch(channel_logins: list[str]) -> dict[str, dict]:
     gql_query = [
         {
             "query": (
-                'query { user(login: "%s") { displayName login profileImageURL(width: 150) '
-                "stream { viewersCount title game { name } } } }" % ch
+                f'query {{ user(login: "{ch}") {{ displayName login profileImageURL(width: 150) '
+                "stream { viewersCount title game { name } } } }"
             )
         }
         for ch in channel_logins
@@ -167,7 +166,9 @@ def fetch_youtube_stream(video_id: str) -> dict:
         }
 
 
-def fetch_all_data(groups_config: dict = None, day_id: str = None) -> dict:
+def fetch_all_data(
+    groups_config: dict | None = None, day_id: str | None = None
+) -> dict:
     """Fetches all streams concurrently and returns grouped comparison data."""
     if groups_config is None:
         groups_config = get_groups_config(day_id)
@@ -189,8 +190,7 @@ def fetch_all_data(groups_config: dict = None, day_id: str = None) -> dict:
         }
 
         twitch_results = twitch_future.result()
-        for fut in yt_futures:
-            vid = yt_futures[fut]
+        for fut, vid in yt_futures.items():
             yt_results[vid] = fut.result()
 
     grouped = {}
@@ -206,8 +206,22 @@ def fetch_all_data(groups_config: dict = None, day_id: str = None) -> dict:
             if st:
                 st_item = dict(st)
                 st_item["group"] = grp_key
+                is_costream = (
+                    ch.lower() in COSTREAM_STREAMS
+                    or st_item.get("id") in COSTREAM_STREAMS
+                )
+                if is_costream:
+                    costream_info = COSTREAM_STREAMS.get(
+                        ch.lower(), COSTREAM_STREAMS.get(st_item.get("id"), {})
+                    )
+                    st_item["channel"] = costream_info.get(
+                        "name", st_item.get("channel", "Co-stream")
+                    )
+                    st_item["is_costream"] = True
+                    st_item["is_curiosity"] = True  # Backward-compatible
                 streams.append(st_item)
-                if st.get("is_live", False):
+                # Co-streams are excluded from the official head-to-head duel sum
+                if st.get("is_live", False) and not is_costream:
                     group_total += st.get("viewers", 0)
 
         # YouTube streams
@@ -216,15 +230,16 @@ def fetch_all_data(groups_config: dict = None, day_id: str = None) -> dict:
             if st:
                 st_item = dict(st)
                 st_item["group"] = grp_key
-                is_curiosity = vid in CURIOSITY_STREAMS
-                if is_curiosity:
-                    st_item["channel"] = CURIOSITY_STREAMS[vid].get(
+                is_costream = vid in COSTREAM_STREAMS
+                if is_costream:
+                    st_item["channel"] = COSTREAM_STREAMS[vid].get(
                         "name", "Nerva Co-stream"
                     )
-                    st_item["is_curiosity"] = True
+                    st_item["is_costream"] = True
+                    st_item["is_curiosity"] = True  # Backward-compatible
                 streams.append(st_item)
-                # Curiosity streams are tracked for trivia only; official duel sum excludes them
-                if st.get("is_live", False) and not is_curiosity:
+                # Co-streams are excluded from the official head-to-head duel sum
+                if st.get("is_live", False) and not is_costream:
                     group_total += st.get("viewers", 0)
 
         grouped[grp_key] = {
