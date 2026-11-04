@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 18:46:37",
+  "timestamp": "2026-11-04 19:58:29",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -27,13 +27,13 @@
         {
           "id": "I2E60nEUXWo",
           "platform": "YouTube",
-          "channel": "YouTube",
-          "title": "",
+          "channel": "YT (I2E60nEUXWo)",
+          "title": "Błąd pobierania: HTTP Error 429: Too Many Requests",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.youtube.com/watch?v=I2E60nEUXWo",
-          "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
+          "avatar_url": "",
           "group": "GOE"
         }
       ]
@@ -59,25 +59,25 @@
         {
           "id": "SGAaZFSc3Zk",
           "platform": "YouTube",
-          "channel": "YouTube",
-          "title": "",
+          "channel": "YT (SGAaZFSc3Zk)",
+          "title": "Błąd pobierania: HTTP Error 429: Too Many Requests",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.youtube.com/watch?v=SGAaZFSc3Zk",
-          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
+          "avatar_url": "",
           "group": "NERVA"
         },
         {
           "id": "woX6jXefVdw",
           "platform": "YouTube",
           "channel": "Nerva Co-stream",
-          "title": "",
+          "title": "Błąd pobierania: HTTP Error 429: Too Many Requests",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.youtube.com/watch?v=woX6jXefVdw",
-          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
+          "avatar_url": "",
           "group": "NERVA",
           "is_costream": true,
           "is_curiosity": true
