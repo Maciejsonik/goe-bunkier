@@ -27,7 +27,6 @@ POLL_INTERVAL = 15
 OFFLINE_TIMEOUT_SECONDS = 30 * 60  # 30 consecutive minutes offline to end collection
 
 
-
 class DashboardHandler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         self.send_response(200)
@@ -65,7 +64,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
         elif path == "/api/data":
             active_day = get_active_day_id()
             day_cfg = DAYS_CONFIG.get(active_day, {})
-            data = fetch_all_data(groups_config=day_cfg.get("groups"), day_id=active_day)
+            data = fetch_all_data(
+                groups_config=day_cfg.get("groups"), day_id=active_day
+            )
             save_snapshot(data, day_id=active_day)
             data["day_id"] = active_day
             data["day_name"] = day_cfg.get("name")
@@ -212,11 +213,14 @@ def background_collector_loop():
     print(f"[Collector] Uruchomiono zbieranie danych co {POLL_INTERVAL}s.")
     print("[Collector] Monitorowanie aktywne dopóki trwają transmisje.")
 
-    card_path = os.path.join(os.path.dirname(__file__), "battle_card.png")
-    goe_summary_path = os.path.join(os.path.dirname(__file__), "goe_summary.png")
-    comparison_summary_path = os.path.join(
-        os.path.dirname(__file__), "stream_summary.png"
+    base_dir = (
+        os.path.dirname(os.path.abspath(__file__))
+        if "__file__" in globals()
+        else os.getcwd()
     )
+    card_path = os.path.join(base_dir, "battle_card.png")
+    goe_summary_path = os.path.join(base_dir, "goe_summary.png")
+    comparison_summary_path = os.path.join(base_dir, "stream_summary.png")
 
     consecutive_offline_seconds = 0
     had_live_stream = False
