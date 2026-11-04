@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-04 14:13:59",
+  "timestamp": "2026-11-04 15:24:17",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -22,6 +22,18 @@
           "viewers": 0,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
+          "group": "GOE"
+        },
+        {
+          "id": "@gadaja_",
+          "platform": "YouTube",
+          "channel": "Gadają o Esporcie",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/@gadaja_/live",
+          "avatar_url": "https://yt3.googleusercontent.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s900-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
         }
       ]
