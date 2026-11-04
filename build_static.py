@@ -90,9 +90,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
                     "goe_stream_viewers": streams.get("goe_stream", {}).get(
                         "viewers", 0
                     ),
-                    "goe_yt_viewers": streams.get("I2E60nEUXWo", {}).get(
-                        "viewers", 0
-                    ),
+                    "goe_yt_viewers": streams.get("I2E60nEUXWo", {}).get("viewers", 0),
                     "nerva_twitch_viewers": streams.get("nervarien", {}).get(
                         "viewers", 0
                     ),
@@ -178,9 +176,7 @@ def build():
         print(f"⚠️ [Build] Błąd karty LIVE: {e}")
 
     try:
-        create_summary_card(
-            GOE_SUMMARY_PATH, mode="GOE", custom_history=history
-        )
+        create_summary_card(GOE_SUMMARY_PATH, mode="GOE", custom_history=history)
         print(f"📊 [Build] Wykres GoE: {GOE_SUMMARY_PATH}")
     except Exception as e:
         print(f"⚠️ [Build] Błąd wykresu GoE: {e}")
@@ -198,4 +194,3 @@ def build():
 
 if __name__ == "__main__":
     build()
-

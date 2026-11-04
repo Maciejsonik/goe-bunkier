@@ -4,11 +4,13 @@ from datetime import datetime, timedelta
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
+import subprocess
 import sys
 import threading
 import time
 import urllib.parse
 
+from build_static import build as build_static_files
 from db import (
     export_to_csv,
     get_detailed_history,
@@ -1417,7 +1419,11 @@ def background_collector_loop():
         os.path.dirname(__file__), "stream_summary.png"
     )
 
+    cycle_count = 0
+    repo_dir = os.path.dirname(os.path.abspath(__file__))
+
     while datetime.now() < end_time:
+        cycle_count += 1
         try:
             data = fetch_all_data()
             save_snapshot(data)
@@ -1430,6 +1436,44 @@ def background_collector_loop():
             print(
                 f"[{ts}] Zapisano: GOE={goe_v:,} | NERVA={nerva_v:,}".replace(",", " ")
             )
+
+            # Auto-sync to GitHub Pages every ~90 seconds (6 cycles)
+            if cycle_count % 6 == 0:
+                try:
+                    build_static_files()
+                    subprocess.run(
+                        [
+                            "git",
+                            "add",
+                            "data.json",
+                            "history.json",
+                            "stream_data.csv",
+                            "battle_card.png",
+                            "goe_summary.png",
+                            "stream_summary.png",
+                        ],
+                        cwd=repo_dir,
+                        capture_output=True,
+                    )
+                    subprocess.run(
+                        [
+                            "git",
+                            "commit",
+                            "-m",
+                            f"Live update: {ts} [skip ci]",
+                        ],
+                        cwd=repo_dir,
+                        capture_output=True,
+                    )
+                    subprocess.run(
+                        ["git", "push", "origin", "main"],
+                        cwd=repo_dir,
+                        capture_output=True,
+                    )
+                    print(f"[{ts}] 🚀 Zsynchronizowano z GitHub Pages!")
+                except Exception as sync_e:
+                    print(f"[{ts}] ⚠️ Błąd auto-sync do GitHuba: {sync_e}")
+
         except Exception as e:
             print(f"[Collector Error] {e}")
 
@@ -1438,6 +1482,19 @@ def background_collector_loop():
     print("[Collector] Osiągnięto 03:00 AM. Wygenerowano ostateczne podsumowania.")
     create_summary_card(goe_summary_path, mode="GOE")
     create_summary_card(comparison_summary_path, mode="COMPARISON")
+    try:
+        build_static_files()
+        subprocess.run(["git", "add", "."], cwd=repo_dir, capture_output=True)
+        subprocess.run(
+            ["git", "commit", "-m", "Final stream summary [skip ci]"],
+            cwd=repo_dir,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "push", "origin", "main"], cwd=repo_dir, capture_output=True
+        )
+    except Exception:
+        pass
 
 
 def run_server(port: int = PORT):
