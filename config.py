@@ -12,7 +12,7 @@ GROUPS = {
         "name": "Nervarien & Co-streams",
         "color": "#ef4444",  # Crimson Red
         "twitch": ["nervarien"],
-        "youtube": ["woX6jXefVdw", "SGAaZFSc3Zk"],
+        "youtube": ["SGAaZFSc3Zk"],
     },
 }
 

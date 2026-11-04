@@ -68,6 +68,15 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
 
         p = dict(pt)
         streams = {k: dict(v) for k, v in p.get("streams", {}).items()}
+        # Exclude duplicate/secondary stream woX6jXefVdw - only count Twitch + SGAaZFSc3Zk
+        if "woX6jXefVdw" in streams:
+            del streams["woX6jXefVdw"]
+
+        nerva_tw = streams.get("nervarien", {}).get("viewers", 0)
+        nerva_yt = streams.get("SGAaZFSc3Zk", {}).get("viewers", 0)
+        nerva_tot = nerva_tw + nerva_yt
+        p["nerva_total"] = nerva_tot
+
         yt_stream = streams.get("I2E60nEUXWo")
         tw_stream = streams.get("goe_stream")
 
@@ -95,17 +104,6 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
 
                     clean_goe = tw_v + clean_yt
                     p["goe_total"] = clean_goe
-                    p["total_viewers"] = clean_goe + p.get("nerva_total", 0)
-                    p["diff"] = abs(clean_goe - p.get("nerva_total", 0))
-                    tot = p["total_viewers"]
-                    p["ratio_goe"] = (
-                        round((clean_goe / tot * 100), 1) if tot > 0 else 50.0
-                    )
-                    p["ratio_nerva"] = (
-                        round((p.get("nerva_total", 0) / tot * 100), 1)
-                        if tot > 0
-                        else 50.0
-                    )
                 elif not enabled:
                     raw_goe = p.get("goe_total_raw", p.get("goe_total", 0))
                     p["goe_total"] = raw_goe
@@ -113,18 +111,18 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
                         yt_stream["viewers"] = yt_stream.get(
                             "viewers_raw", yt_stream.get("viewers", 0)
                         )
-                    p["total_viewers"] = raw_goe + p.get("nerva_total", 0)
-                    p["diff"] = abs(raw_goe - p.get("nerva_total", 0))
-                    tot = p["total_viewers"]
-                    p["ratio_goe"] = (
-                        round((raw_goe / tot * 100), 1) if tot > 0 else 50.0
-                    )
-                    p["ratio_nerva"] = (
-                        round((p.get("nerva_total", 0) / tot * 100), 1)
-                        if tot > 0
-                        else 50.0
-                    )
                 break
+
+        tot = p["goe_total"] + nerva_tot
+        p["total_viewers"] = tot
+        p["diff"] = abs(p["goe_total"] - nerva_tot)
+        p["leader"] = (
+            "GOE"
+            if p["goe_total"] > nerva_tot
+            else ("NERVA" if nerva_tot > p["goe_total"] else "REMIS")
+        )
+        p["ratio_goe"] = round((p["goe_total"] / tot * 100), 1) if tot > 0 else 50.0
+        p["ratio_nerva"] = round((nerva_tot / tot * 100), 1) if tot > 0 else 50.0
 
         p["streams"] = streams
         cleaned.append(p)

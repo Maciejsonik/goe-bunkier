@@ -643,7 +643,7 @@
                 <div class="filter-title">🔍 Filtry transmisji (kliknij, aby wybrać pojedyncze streamy):</div>
                 <div class="preset-buttons">
                     <button class="preset-btn" onclick="applyPreset('goe_only')">Tylko GoE</button>
-                    <button class="preset-btn" onclick="applyPreset('all')">Wszystkie 5</button>
+                    <button class="preset-btn" onclick="applyPreset('all')">Wszystkie 4</button>
                     <button class="preset-btn" onclick="applyPreset('twitch')">Tylko Twitch</button>
                     <button class="preset-btn" onclick="applyPreset('youtube')">Tylko YouTube</button>
                 </div>
@@ -799,15 +799,14 @@
         let goeChartInstance = null;
         let comparisonChartInstance = null;
 
-        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'];
+        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
         const STREAM_METADATA = {
             'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#9146ff' },
             'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff1824' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
-            'woX6jXefVdw': { name: 'Nervarien YT #1', platform: 'YouTube', group: 'NERVA', color: '#f97316' },
-            'SGAaZFSc3Zk': { name: 'Nervarien YT #2', platform: 'YouTube', group: 'NERVA', color: '#ef4444' }
+            'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' }
         };
 
         function toggleBotFilter() {
@@ -934,7 +933,7 @@
             } else if (preset === 'twitch') {
                 selectedStreamIds = new Set(['goe_stream', 'nervarien']);
             } else if (preset === 'youtube') {
-                selectedStreamIds = new Set(['I2E60nEUXWo', 'woX6jXefVdw', 'SGAaZFSc3Zk']);
+                selectedStreamIds = new Set(['I2E60nEUXWo', 'SGAaZFSc3Zk']);
             }
             renderFilterChips();
             updateUI();
@@ -1235,13 +1234,11 @@
 
                 const nervaLine = detailedHistory.map(pt => {
                     let s = 0;
-                    ['nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'].forEach(id => {
+                    ['nervarien', 'SGAaZFSc3Zk'].forEach(id => {
                         if (selectedStreamIds.has(id) && pt.streams[id]) s += (pt.streams[id].viewers || 0);
                     });
                     if (s === 0) {
-                        ['nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'].forEach(id => {
-                            if (pt.streams[id]) s += (pt.streams[id].viewers || 0);
-                        });
+                        return pt.nerva_total;
                     }
                     return s;
                 });

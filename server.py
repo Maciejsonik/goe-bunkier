@@ -788,15 +788,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         let comparisonChartInstance = null;
 
         // Set of currently selected stream IDs
-        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'];
+        const ALL_STREAM_IDS = ['goe_stream', 'I2E60nEUXWo', 'nervarien', 'SGAaZFSc3Zk'];
         let selectedStreamIds = new Set(['goe_stream', 'I2E60nEUXWo']);
 
         const STREAM_METADATA = {
             'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#9146ff' },
             'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ff1824' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#a855f7' },
-            'woX6jXefVdw': { name: 'Nervarien YT #1', platform: 'YouTube', group: 'NERVA', color: '#f97316' },
-            'SGAaZFSc3Zk': { name: 'Nervarien YT #2', platform: 'YouTube', group: 'NERVA', color: '#ef4444' }
+            'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#ef4444' }
         };
 
         function initCharts() {
@@ -879,7 +878,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             } else if (preset === 'twitch') {
                 selectedStreamIds = new Set(['goe_stream', 'nervarien']);
             } else if (preset === 'youtube') {
-                selectedStreamIds = new Set(['I2E60nEUXWo', 'woX6jXefVdw', 'SGAaZFSc3Zk']);
+                selectedStreamIds = new Set(['I2E60nEUXWo', 'SGAaZFSc3Zk']);
             }
             renderFilterChips();
             updateUI();
@@ -1100,11 +1099,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                 const nervaLine = detailedHistory.map(pt => {
                     let s = 0;
-                    ['nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'].forEach(id => {
+                    ['nervarien', 'SGAaZFSc3Zk'].forEach(id => {
                         if (selectedStreamIds.has(id) && pt.streams[id]) s += pt.streams[id].viewers;
                     });
                     if (s === 0) {
-                        ['nervarien', 'woX6jXefVdw', 'SGAaZFSc3Zk'].forEach(id => {
+                        ['nervarien', 'SGAaZFSc3Zk'].forEach(id => {
                             if (pt.streams[id]) s += pt.streams[id].viewers;
                         });
                     }
