@@ -1,1 +1,1 @@
-[]
+[{"timestamp": "2026-11-05 21:24:08", "goe_total": 1686, "goe_total_raw": 1686, "is_bot_attack": false, "nerva_total": 0, "streams": {"goe_stream": {"viewers": 203, "is_live": true}, "@gadaja_": {"viewers": 1483, "is_live": true}, "nervarien": {"viewers": 0, "is_live": false}, "x3HI_AwFKEU": {"viewers": 0, "is_live": false}, "ttobias_lol": {"viewers": 788, "is_live": true, "channel": "Tobiasz", "is_costream": true, "is_curiosity": true}}, "total_viewers": 1686, "diff": 1686, "leader": "GOE", "ratio_goe": 100.0, "ratio_nerva": 0.0}]

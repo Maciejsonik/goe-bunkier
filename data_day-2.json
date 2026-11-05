@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-05 19:29:42",
-  "total_viewers": 0,
-  "leader": "REMIS",
-  "diff": 0,
-  "ratio_goe": 50.0,
-  "ratio_nerva": 50.0,
+  "timestamp": "2026-11-05 21:24:05",
+  "total_viewers": 991,
+  "leader": "GOE",
+  "diff": 203,
+  "ratio_goe": 20.5,
+  "ratio_nerva": 0.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 0,
+      "total_viewers": 203,
       "streams": [
         {
           "id": "goe_stream",
           "platform": "Twitch",
           "channel": "GoE_stream",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "BLG vs DK | ĆWIERĆFINAŁ WORLDS 2026 | Tajemnice BUNKRA",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 203,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -88,16 +88,16 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 0,
+      "total_viewers": 788,
       "streams": [
         {
           "id": "ttobias_lol",
           "platform": "Twitch",
           "channel": "Tobiasz",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "BLG VS DK🔥23:00 ĆWIERĆFINAŁ WORLDS 2026🔥 ⭐️PRAWDZIWE HIGHELO LEPIEJ BYC NIE MOZE⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 788,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
@@ -121,7 +121,7 @@
     "nerva_delta": 0,
     "minutes": 5
   },
-  "is_live": false,
+  "is_live": true,
   "summary_stats": {
     "count": 780,
     "goe_peak": 3802,
