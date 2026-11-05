@@ -1736,7 +1736,7 @@
                 isTwitch: false,
                 getValue: (pt, fb) => {
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (sid === 'I2E60nEUXWo' || sid === '@gadaja_' || STREAM_METADATA[sid]?.platform === 'YouTube' && STREAM_METADATA[sid]?.group === 'GOE') {
+                        if (sid === 'I2E60nEUXWo' || sid === 'dKZGkF2mIDU' || sid === 'jcO4IHpR7XE' || sid === '@gadaja_' || STREAM_METADATA[sid]?.platform === 'YouTube' && STREAM_METADATA[sid]?.group === 'GOE') {
                             return fb ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
                         }
                     }
@@ -1883,6 +1883,7 @@
             'goe_stream': { name: 'GoE Twitch', platform: 'Twitch', group: 'GOE', color: '#a855f7' },
             'I2E60nEUXWo': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             'dKZGkF2mIDU': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
+            'jcO4IHpR7XE': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             '@gadaja_': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#cbd5e1' },
             'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },

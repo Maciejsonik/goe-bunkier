@@ -63,15 +63,31 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/data":
             active_day = get_active_day_id()
-            day_cfg = DAYS_CONFIG.get(active_day, {})
-            data = fetch_all_data(
-                groups_config=day_cfg.get("groups"), day_id=active_day
+            data_file = os.path.join(
+                os.path.dirname(__file__), f"data_{active_day}.json"
             )
-            save_snapshot(data, day_id=active_day)
-            data["day_id"] = active_day
-            data["day_name"] = day_cfg.get("name")
-            data["schedule"] = day_cfg.get("schedule", {})
-            data["is_finished"] = day_cfg.get("is_finished", False)
+            if not os.path.exists(data_file):
+                data_file = os.path.join(os.path.dirname(__file__), "data.json")
+
+            data = None
+            if os.path.exists(data_file):
+                try:
+                    with open(data_file, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                except Exception:
+                    data = None
+
+            if not data:
+                day_cfg = DAYS_CONFIG.get(active_day, {})
+                data = fetch_all_data(
+                    groups_config=day_cfg.get("groups"), day_id=active_day
+                )
+                save_snapshot(data, day_id=active_day)
+                data["day_id"] = active_day
+                data["day_name"] = day_cfg.get("name")
+                data["schedule"] = day_cfg.get("schedule", {})
+                data["is_finished"] = day_cfg.get("is_finished", False)
+
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Access-Control-Allow-Origin", "*")

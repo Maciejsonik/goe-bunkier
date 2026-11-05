@@ -96,13 +96,13 @@ DAYS_CONFIG = {
                 "name": "Gadają o Esporcie (GOE)",
                 "color": "#3b82f6",
                 "twitch": ["goe_stream"],
-                "youtube": ["@gadaja_"],
+                "youtube": ["jcO4IHpR7XE"],
             },
             "NERVA": {
                 "name": "Nervarien",
                 "color": "#ef4444",
                 "twitch": ["nervarien"],
-                "youtube": ["x3HI_AwFKEU", "@nervarien"],
+                "youtube": ["x3HI_AwFKEU"],
             },
             "TOBIASZ": {
                 "name": "Tobiasz",

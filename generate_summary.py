@@ -136,7 +136,7 @@ def create_summary_card(
                 if sid != "goe_stream" and (
                     s.get("platform") == "YouTube"
                     or s.get("group") == "GOE"
-                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
+                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "jcO4IHpR7XE", "@gadaja_")
                 ):
                     return s.get(
                         "viewers" if filter_bots else "viewers_raw", s.get("viewers", 0)
@@ -522,7 +522,7 @@ def create_summary_card(
                 if sid != "goe_stream" and (
                     s.get("platform") == "YouTube"
                     or s.get("group") == "GOE"
-                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
+                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "jcO4IHpR7XE", "@gadaja_")
                 ):
                     yt_s = s
                     break

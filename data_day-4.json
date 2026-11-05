@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-05 21:24:10",
-  "total_viewers": 2474,
-  "leader": "GOE",
-  "diff": 1686,
-  "ratio_goe": 68.1,
-  "ratio_nerva": 0.0,
+  "timestamp": "2026-11-05 23:56:36",
+  "total_viewers": 8844,
+  "leader": "NERVA",
+  "diff": 2152,
+  "ratio_goe": 27.5,
+  "ratio_nerva": 51.8,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 1686,
+      "total_viewers": 2429,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "BLG vs DK | ĆWIERĆFINAŁ WORLDS 2026 | Tajemnice BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 203,
+          "viewers": 313,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -31,7 +31,7 @@
           "title": "DK vs BLG | ĆWIERĆFINAŁ WORLDS 2026 | Tajemnice BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1483,
+          "viewers": 2116,
           "url": "https://www.youtube.com/watch?v=jcO4IHpR7XE",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "jcO4IHpR7XE",
@@ -44,16 +44,16 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 0,
+      "total_viewers": 4581,
       "streams": [
         {
           "id": "nervarien",
           "platform": "Twitch",
           "channel": "Nervarien",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "🔴Bilibili Gaming vs Dplus Kia🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 1944,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -64,8 +64,8 @@
           "channel": "Nervarien",
           "title": "🔴BILIBILI GAMING vs DPLUSKIA🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": false,
-          "viewers": 0,
+          "is_live": true,
+          "viewers": 2637,
           "url": "https://www.youtube.com/watch?v=x3HI_AwFKEU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "x3HI_AwFKEU",
@@ -78,7 +78,7 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 788,
+      "total_viewers": 1834,
       "streams": [
         {
           "id": "ttobias_lol",
@@ -87,7 +87,7 @@
           "title": "BLG VS DK🔥23:00 ĆWIERĆFINAŁ WORLDS 2026🔥 ⭐️PRAWDZIWE HIGHELO LEPIEJ BYC NIE MOZE⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 788,
+          "viewers": 1834,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"

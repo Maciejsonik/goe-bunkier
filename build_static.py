@@ -94,7 +94,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
             for sid, s in streams.items():
                 if sid != "goe_stream" and (
                     (s.get("group") == "GOE" and s.get("platform") == "YouTube")
-                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
+                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "jcO4IHpR7XE", "@gadaja_")
                 ):
                     goe_yt_v = s.get("viewers", 0)
                     goe_yt_raw_v = s.get("viewers_raw", goe_yt_v)
@@ -179,8 +179,17 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     day_camps_clean_path = os.path.join(BASE_DIR, f"camps_summary_{day_id}.png")
     day_camps_raw_path = os.path.join(BASE_DIR, f"camps_summary_raw_{day_id}.png")
 
-    # 1. Fetch current status of streams for this day
-    data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
+    # 1. Fetch current status of streams for this day (only scrape live for active day)
+    if is_active:
+        data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
+    elif os.path.exists(day_data_path):
+        try:
+            with open(day_data_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
+    else:
+        data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     any_live = any(
         s.get("is_live", False)
         for grp in data["groups"].values()

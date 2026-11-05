@@ -2,6 +2,7 @@
 
 import json
 import re
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -13,6 +14,9 @@ from config import (
     USER_AGENT,
     get_groups_config,
 )
+
+# In-memory cache of last successful live stream data to prevent 0-viewer drops on temporary network glitches / HTTP 429
+_STREAM_CACHE: dict[str, dict] = {}
 
 
 def fetch_twitch_batch(channel_logins: list[str]) -> dict[str, dict]:
@@ -50,7 +54,7 @@ def fetch_twitch_batch(channel_logins: list[str]) -> dict[str, dict]:
                     continue
                 login = u.get("login", "").lower()
                 stream = u.get("stream")
-                results[login] = {
+                st_obj = {
                     "id": login,
                     "platform": "Twitch",
                     "channel": u.get("displayName") or login,
@@ -63,9 +67,20 @@ def fetch_twitch_batch(channel_logins: list[str]) -> dict[str, dict]:
                     "url": f"https://www.twitch.tv/{login}",
                     "avatar_url": u.get("profileImageURL", ""),
                 }
+                results[login] = st_obj
+                if stream is not None:
+                    _STREAM_CACHE[login] = {
+                        "data": dict(st_obj),
+                        "timestamp": time.time(),
+                    }
     except Exception as e:
+        now_t = time.time()
         for ch in channel_logins:
-            results[ch.lower()] = {
+            k = ch.lower()
+            if k in _STREAM_CACHE and (now_t - _STREAM_CACHE[k]["timestamp"]) < 300:
+                results[k] = dict(_STREAM_CACHE[k]["data"])
+                continue
+            results[k] = {
                 "id": ch,
                 "platform": "Twitch",
                 "channel": ch,
@@ -161,7 +176,7 @@ def fetch_youtube_stream(video_id: str) -> dict:
                         if cleaned:
                             viewers = int(cleaned)
 
-            return {
+            st_obj = {
                 "id": video_id,
                 "platform": "YouTube",
                 "channel": channel,
@@ -172,7 +187,20 @@ def fetch_youtube_stream(video_id: str) -> dict:
                 "url": url,
                 "avatar_url": avatar_url,
             }
+            if is_live:
+                _STREAM_CACHE[video_id] = {
+                    "data": dict(st_obj),
+                    "timestamp": time.time(),
+                }
+            return st_obj
     except Exception as e:
+        cached = _STREAM_CACHE.get(video_id)
+        if cached and (time.time() - cached["timestamp"]) < 300:
+            print(
+                f"[YouTube Fallback] {video_id} błąd ({e}), zachowuję ostatni stan: {cached['data'].get('viewers', 0)} widzów"
+            )
+            return dict(cached["data"])
+
         return {
             "id": video_id,
             "platform": "YouTube",
@@ -336,10 +364,22 @@ def fetch_youtube_channel_live(handle: str) -> dict:
                             )
                 if avatar_url and not stream_data.get("avatar_url"):
                     stream_data["avatar_url"] = avatar_url
+                if stream_data.get("is_live"):
+                    _STREAM_CACHE[clean_handle] = {
+                        "data": dict(stream_data),
+                        "timestamp": time.time(),
+                    }
                 return stream_data
 
     except Exception as e:
         print(f"[YouTube Observer] Sprawdzanie {clean_handle}/live: {e}")
+
+    cached = _STREAM_CACHE.get(clean_handle)
+    if cached and (time.time() - cached["timestamp"]) < 300:
+        print(
+            f"[YouTube Observer Fallback] {clean_handle} błąd, zachowuję ostatni stan: {cached['data'].get('viewers', 0)} widzów"
+        )
+        return dict(cached["data"])
 
     return {
         "id": clean_handle,

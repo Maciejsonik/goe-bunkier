@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-05 21:24:04",
-  "total_viewers": 203,
-  "leader": "GOE",
-  "diff": 203,
-  "ratio_goe": 100.0,
-  "ratio_nerva": 0.0,
+  "timestamp": "2026-11-05 23:56:31",
+  "total_viewers": 2257,
+  "leader": "NERVA",
+  "diff": 1631,
+  "ratio_goe": 13.9,
+  "ratio_nerva": 86.1,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 203,
+      "total_viewers": 313,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "BLG vs DK | ĆWIERĆFINAŁ WORLDS 2026 | Tajemnice BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 203,
+          "viewers": 313,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -42,16 +42,16 @@
       "id": "NERVA",
       "name": "Nervarien & Co-streams",
       "color": "#ef4444",
-      "total_viewers": 0,
+      "total_viewers": 1944,
       "streams": [
         {
           "id": "nervarien",
           "platform": "Twitch",
           "channel": "Nervarien",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "🔴Bilibili Gaming vs Dplus Kia🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 1944,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"

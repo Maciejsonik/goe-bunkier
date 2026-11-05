@@ -57,19 +57,33 @@ def apply_adaptive_anomaly_detection(
         prev_median = statistics.median(prev_pts)
         curr = yt_raw_series[i]
 
+        # Ignore outage recoveries: if recent history had an outage (< 600) or curr is within 30-min peak
+        broader_pts = yt_raw_series[max(0, i - 40) : i]
+        broader_max = max(broader_pts) if broader_pts else curr
+        had_recent_outage = any(v < 600 for v in prev_pts)
+
         if not in_spike:
-            if prev_median > 400 and (curr - prev_median) > 800:
+            # A real bot attack is a massive artificial surge (>1500) above previous 30-min peak, curr > 3600
+            if (
+                not had_recent_outage
+                and prev_median > 800
+                and (curr - prev_median) > 1500
+                and curr > broader_max + 1000
+                and curr > 3600
+            ):
                 in_spike = True
                 spike_start = i
                 base_start = prev_median
         else:
-            if curr <= base_start + 350 or (i - spike_start > 200):
+            if curr <= base_start + 400 or (i - spike_start > 50):
+                # If it didn't drop within 50 steps (~12 mins), it's legitimate audience growth, not a spike
+                if curr <= base_start + 400:
+                    spike_windows.append(
+                        (spike_start, i, base_start, curr, i - spike_start + 1)
+                    )
                 in_spike = False
-                spike_windows.append(
-                    (spike_start, i, base_start, curr, i - spike_start + 1)
-                )
 
-    if in_spike:
+    if in_spike and (len(points) - 1 - spike_start <= 40):
         spike_windows.append(
             (
                 spike_start,
