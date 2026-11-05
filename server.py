@@ -233,9 +233,16 @@ def background_collector_loop():
                 for grp in data.get("groups", {}).values()
                 for s in grp.get("streams", [])
             ]
-            any_live = any(s.get("is_live", False) for s in all_streams)
+            main_streams = [
+                s
+                for s in all_streams
+                if not s.get("is_costream") and not s.get("is_curiosity")
+            ]
+            any_live = any(s.get("is_live", False) for s in main_streams)
+            active_day = get_active_day_id()
+            day_finished = DAYS_CONFIG.get(active_day, {}).get("is_finished", False)
 
-            if any_live:
+            if any_live and not day_finished:
                 had_live_stream = True
                 consecutive_offline_seconds = 0
                 save_snapshot(data)

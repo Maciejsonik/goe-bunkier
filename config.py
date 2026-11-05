@@ -43,9 +43,9 @@ DAYS_CONFIG = {
     "day-2": {
         "id": "day-2",
         "name": "Dzień 2 (04.11)",
-        "label": "Dzień 2 • 04.11 (Dzisiejszy)",
+        "label": "Dzień 2 • 04.11 (Zakończony)",
         "date": "2026-11-04",
-        "is_finished": False,
+        "is_finished": True,
         "start_utc": "2026-11-04 12:00:00",
         "end_utc": "2026-11-05 12:00:00",
         "schedule": {

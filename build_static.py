@@ -185,30 +185,23 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
         s.get("is_live", False)
         for grp in data["groups"].values()
         for s in grp.get("streams", [])
+        if not s.get("is_costream") and not s.get("is_curiosity")
     )
 
     # 2. Load History for this day
     history = []
-    if day_id == "day-1":
-        # Day 1 is finished - load existing complete history
+    if day_cfg.get("is_finished"):
+        # Finished day - load existing complete history
         if os.path.exists(day_hist_path):
             try:
                 with open(day_hist_path, "r", encoding="utf-8") as f:
                     history = json.load(f)
             except Exception:
                 history = []
-        elif os.path.exists(os.path.join(BASE_DIR, "history.json")):
-            try:
-                with open(
-                    os.path.join(BASE_DIR, "history.json"), "r", encoding="utf-8"
-                ) as f:
-                    history = json.load(f)
-            except Exception:
-                history = []
         elif os.path.exists(DB_PATH):
-            history = get_detailed_history(limit=5000, day_id="day-1")
+            history = get_detailed_history(limit=5000, day_id=day_id)
     else:
-        # Day 2 / Upcoming / Active day
+        # Upcoming / Active live day
         if os.path.exists(day_hist_path):
             try:
                 with open(day_hist_path, "r", encoding="utf-8") as f:
@@ -276,8 +269,7 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     export_csv_from_history(history, day_csv_path)
     print(f"✅ Zapisano: {day_csv_path}")
 
-    # 6. Generate graphics (skip re-rendering for finished days if images already exist)
-    is_finished = day_cfg.get("is_finished", False)
+    # 6. Generate graphics (skip re-rendering for day-1 if images already exist)
     all_graphics_exist = (
         os.path.exists(day_card_path)
         and os.path.exists(day_goe_clean_path)
@@ -285,7 +277,7 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
         and os.path.exists(day_camps_clean_path)
     )
 
-    if not (is_finished and all_graphics_exist):
+    if not (day_id == "day-1" and all_graphics_exist):
         try:
             create_battle_card(data, day_card_path)
             print(f"📸 Karta LIVE ({day_id}): {day_card_path}")

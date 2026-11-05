@@ -575,6 +575,11 @@ def get_summary_stats(
     camp_peak_time = ""
     camp_sum = 0
 
+    yt_peak = 0
+    yt_peak_time = ""
+    tw_peak = 0
+    tw_peak_time = ""
+
     for pt in history:
         gv_clean = pt.get("goe_total", 0)
         gv_raw = pt.get("goe_total_raw", gv_clean)
@@ -599,6 +604,28 @@ def get_summary_stats(
 
         # Co-stream metrics
         streams = pt.get("streams", {})
+
+        # GoE YouTube vs Twitch peaks
+        tw_s = streams.get("goe_stream", {})
+        tw_v_pt = tw_s.get("viewers", 0)
+        yt_v_pt = 0
+        for sid, s in streams.items():
+            if sid != "goe_stream" and (
+                s.get("platform") == "YouTube"
+                or s.get("group") == "GOE"
+                or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "@gadaja_")
+            ):
+                yt_v_pt = s.get(
+                    "viewers" if filter_bots else "viewers_raw", s.get("viewers", 0)
+                )
+                break
+        if yt_v_pt > yt_peak:
+            yt_peak = yt_v_pt
+            yt_peak_time = ts_short
+        if tw_v_pt > tw_peak:
+            tw_peak = tw_v_pt
+            tw_peak_time = ts_short
+
         nc_v = 0
         for vid in ("woX6jXefVdw", "N3i_DQlKL_U"):
             if vid in streams:
@@ -666,6 +693,10 @@ def get_summary_stats(
         "camp_peak": camp_peak,
         "camp_peak_time": camp_peak_time,
         "camp_avg": round(camp_sum / count) if count > 0 else 0,
+        "yt_peak": yt_peak,
+        "yt_peak_time": yt_peak_time,
+        "tw_peak": tw_peak,
+        "tw_peak_time": tw_peak_time,
     }
 
 
