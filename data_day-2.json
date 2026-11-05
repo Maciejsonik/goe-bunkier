@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-05 06:28:34",
+  "timestamp": "2026-11-05 14:55:10",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -74,8 +74,8 @@
           "channel": "Nerva Co-stream",
           "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 66,
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA",
@@ -115,7 +115,7 @@
     "goe_start_iso": "2026-11-04T21:30:00+01:00"
   },
   "is_finished": true,
-  "is_active": true,
+  "is_active": false,
   "momentum": {
     "goe_delta": -949,
     "nerva_delta": 0,
@@ -188,7 +188,7 @@
     "tw_peak": 329,
     "tw_peak_time": "23:48"
   },
-  "active_day_id": "day-2",
+  "active_day_id": "day-3",
   "days": [
     {
       "id": "day-1",
@@ -222,7 +222,7 @@
         "goe_start_iso": "2026-11-04T21:30:00+01:00"
       },
       "is_finished": true,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-2.json",
       "history_url": "./history_day-2.json",
       "csv_url": "./stream_data_day-2.csv",
@@ -242,7 +242,7 @@
         "goe_start_iso": "2026-11-05T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-3.json",
       "history_url": "./history_day-3.json",
       "csv_url": "./stream_data_day-3.csv",

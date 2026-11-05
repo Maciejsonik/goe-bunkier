@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-11-05 06:28:37",
-  "total_viewers": 66,
-  "leader": "NERVA",
-  "diff": 66,
-  "ratio_goe": 0.0,
-  "ratio_nerva": 100.0,
+  "timestamp": "2026-11-05 14:55:14",
+  "total_viewers": 0,
+  "leader": "REMIS",
+  "diff": 0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
   "groups": {
     "GOE": {
       "id": "GOE",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 66,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "nervarien",
@@ -62,14 +62,14 @@
           "id": "@nervarien",
           "platform": "YouTube",
           "channel": "Nervarien",
-          "title": "🔴NERVARIEN CO-STREAM🔴LYON vs GENG🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
+          "title": "🔴BILIBILI GAMING vs DPLUSKIA🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 66,
-          "url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/watch?v=x3HI_AwFKEU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
-          "video_id": "N3i_DQlKL_U",
-          "direct_watch_url": "https://www.youtube.com/watch?v=N3i_DQlKL_U",
+          "video_id": "x3HI_AwFKEU",
+          "direct_watch_url": "https://www.youtube.com/watch?v=x3HI_AwFKEU",
           "group": "NERVA"
         }
       ]
@@ -105,13 +105,13 @@
     "goe_start_iso": "2026-11-05T21:30:00+01:00"
   },
   "is_finished": false,
-  "is_active": false,
+  "is_active": true,
   "momentum": {
     "goe_delta": 0,
     "nerva_delta": 0,
     "minutes": 5
   },
-  "is_live": true,
+  "is_live": false,
   "summary_stats": {
     "count": 0,
     "goe_peak": 0,
@@ -158,7 +158,7 @@
     "camp_peak_time": "",
     "camp_avg": 0
   },
-  "active_day_id": "day-2",
+  "active_day_id": "day-3",
   "days": [
     {
       "id": "day-1",
@@ -192,7 +192,7 @@
         "goe_start_iso": "2026-11-04T21:30:00+01:00"
       },
       "is_finished": true,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-2.json",
       "history_url": "./history_day-2.json",
       "csv_url": "./stream_data_day-2.csv",
@@ -212,7 +212,7 @@
         "goe_start_iso": "2026-11-05T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-3.json",
       "history_url": "./history_day-3.json",
       "csv_url": "./stream_data_day-3.csv",

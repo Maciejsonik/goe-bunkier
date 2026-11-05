@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-05 06:28:33",
+  "timestamp": "2026-11-05 14:55:09",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -168,7 +168,7 @@
     "tw_peak": 240,
     "tw_peak_time": "23:52"
   },
-  "active_day_id": "day-2",
+  "active_day_id": "day-3",
   "days": [
     {
       "id": "day-1",
@@ -202,7 +202,7 @@
         "goe_start_iso": "2026-11-04T21:30:00+01:00"
       },
       "is_finished": true,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-2.json",
       "history_url": "./history_day-2.json",
       "csv_url": "./stream_data_day-2.csv",
@@ -222,7 +222,7 @@
         "goe_start_iso": "2026-11-05T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-3.json",
       "history_url": "./history_day-3.json",
       "csv_url": "./stream_data_day-3.csv",
