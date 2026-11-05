@@ -797,10 +797,12 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
             ",", " "
         )
     else:
-        status_text = "START O 21:30 CET"
+        goe_start = data.get("schedule", {}).get("goe_start", "21:15")
+        status_text = f"START O {goe_start} CET"
         status_color = (255, 77, 109)
-        main_val = "21:30 CET"
-        main_sub = "START STUDIA BUNKROWEGO • MECZ: 23:00"
+        main_val = f"{goe_start} CET"
+        match_start = data.get("schedule", {}).get("match_start", "23:00")
+        main_sub = f"START STUDIA BUNKROWEGO • MECZ: {match_start}"
 
     if is_live:
         bbox_st = font_hero_title.getbbox(status_text)
@@ -935,7 +937,8 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
             ",", " "
         )
     else:
-        context_str = "KONTEKST RYNKOWY: GoE (start 21:30) vs Nervarien (przewidywany start ~22:30 • mecz 23:00)"
+        goe_start = data.get("schedule", {}).get("goe_start", "21:15")
+        context_str = f"KONTEKST RYNKOWY: GoE (start {goe_start}) vs Nervarien (przewidywany start ~22:30 • mecz 23:00)"
 
     draw.text(
         (width // 2, 456),

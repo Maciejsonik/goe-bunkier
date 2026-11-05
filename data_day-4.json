@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-05 14:55:16",
+  "timestamp": "2026-11-05 20:27:47",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -28,7 +28,7 @@
           "id": "@gadaja_",
           "platform": "YouTube",
           "channel": "Gadają o Esporcie",
-          "title": "LYON vs GENG | ĆWIERĆFINAŁ WORLDS 2026 | Powrót BUNKRA",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
@@ -203,13 +203,13 @@
     {
       "id": "day-3",
       "name": "Dzień 3 (05.11)",
-      "label": "Dzień 3 • 05.11 (Jutrzejszy)",
+      "label": "Dzień 3 • 05.11 (Dzisiejszy)",
       "date": "2026-11-05",
       "schedule": {
-        "goe_start": "21:30",
+        "goe_start": "21:15",
         "nerva_start": "22:30",
         "match_start": "23:00",
-        "goe_start_iso": "2026-11-05T21:30:00+01:00"
+        "goe_start_iso": "2026-11-05T21:15:00+01:00"
       },
       "is_finished": false,
       "is_active": true,
@@ -223,7 +223,7 @@
     {
       "id": "day-4",
       "name": "Dzień 4 (06.11)",
-      "label": "Dzień 4 • 06.11 (Pojutrzejszy)",
+      "label": "Dzień 4 • 06.11 (Jutrzejszy)",
       "date": "2026-11-06",
       "schedule": {
         "goe_start": "21:30",

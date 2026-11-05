@@ -105,7 +105,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
 
             # 4. Nervarien Official YouTube
             nerva_yt_v = 0
-            for vid in ("SGAaZFSc3Zk", "00uONX5EBiA"):
+            for vid in ("SGAaZFSc3Zk", "00uONX5EBiA", "x3HI_AwFKEU"):
                 if vid in streams:
                     nerva_yt_v = streams[vid].get("viewers", 0)
                     break

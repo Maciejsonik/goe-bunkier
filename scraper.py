@@ -117,7 +117,11 @@ def fetch_youtube_stream(video_id: str) -> dict:
                 channel_m = re.search(
                     r'"channelMetadataRenderer":\{.*?"title":"([^"]+)"', html
                 )
-            channel = channel_m.group(1) if channel_m else ("Gadają o Esporcie" if "gadaja" in html.lower() else "YouTube")
+            channel = (
+                channel_m.group(1)
+                if channel_m
+                else ("Gadają o Esporcie" if "gadaja" in html.lower() else "YouTube")
+            )
 
             # Avatar URL
             avatar_m = re.search(r'"avatar":\{"thumbnails":\[\{"url":"([^"]+)"', html)
@@ -211,7 +215,9 @@ def fetch_youtube_channel_live(handle: str) -> dict:
         if "gadaja" in clean_handle.lower()
         else ""
     )
-    channel_name = "Gadają o Esporcie" if "gadaja" in clean_handle.lower() else clean_handle
+    channel_name = (
+        "Gadają o Esporcie" if "gadaja" in clean_handle.lower() else clean_handle
+    )
 
     try:
         with urllib.request.urlopen(req, timeout=7) as resp:
@@ -219,15 +225,21 @@ def fetch_youtube_channel_live(handle: str) -> dict:
             html = resp.read().decode("utf-8", errors="ignore")
 
             # Extract avatar if present in HTML
-            av_m = re.search(r'"avatar":\{"thumbnails":\[\{"url":"(https://[^"]+)"', html)
+            av_m = re.search(
+                r'"avatar":\{"thumbnails":\[\{"url":"(https://[^"]+)"', html
+            )
             if not av_m:
-                av_m = re.search(r'<meta property="og:image" content="(https://[^"]+)">', html)
+                av_m = re.search(
+                    r'<meta property="og:image" content="(https://[^"]+)">', html
+                )
             if av_m:
                 avatar_url = av_m.group(1)
 
             ch_m = re.search(r'"ownerChannelName":"([^"]+)"', html)
             if not ch_m:
-                ch_m = re.search(r'"channelMetadataRenderer":\{.*?"title":"([^"]+)"', html)
+                ch_m = re.search(
+                    r'"channelMetadataRenderer":\{.*?"title":"([^"]+)"', html
+                )
             if ch_m:
                 channel_name = ch_m.group(1)
 
@@ -306,9 +318,22 @@ def fetch_youtube_channel_live(handle: str) -> dict:
                 stream_data = fetch_youtube_stream(vid)
                 stream_data["id"] = clean_handle
                 stream_data["video_id"] = vid
-                stream_data["direct_watch_url"] = f"https://www.youtube.com/watch?v={vid}"
+                stream_data["direct_watch_url"] = (
+                    f"https://www.youtube.com/watch?v={vid}"
+                )
                 if stream_data.get("is_live"):
                     stream_data["url"] = f"https://www.youtube.com/watch?v={vid}"
+                else:
+                    if '"endTimestamp"' in html or not stream_data.get("is_live"):
+                        # If video is not live, show clean waiting message rather than yesterday's title
+                        if (
+                            not stream_data.get("title")
+                            or "LYON" in stream_data.get("title", "")
+                            or "BUNKRA" in stream_data.get("title", "")
+                        ):
+                            stream_data["title"] = (
+                                "Stream offline (oczekiwanie na start transmisji...)"
+                            )
                 if avatar_url and not stream_data.get("avatar_url"):
                     stream_data["avatar_url"] = avatar_url
                 return stream_data
@@ -394,16 +419,23 @@ def fetch_all_data(
                         group_total += st.get("viewers", 0)
 
         # YouTube streams
+        seen_yt_vids = set()
         for vid in grp_info.get("youtube", []):
             st = yt_results.get(vid, {})
             if st:
+                actual_vid = st.get("video_id") or st.get("id")
+                if actual_vid in seen_yt_vids:
+                    continue
+                seen_yt_vids.add(actual_vid)
+
                 st_item = dict(st)
                 st_item["group"] = grp_key
-                is_costream = vid in COSTREAM_STREAMS
+                is_costream = vid in COSTREAM_STREAMS or actual_vid in COSTREAM_STREAMS
                 if is_costream:
-                    st_item["channel"] = COSTREAM_STREAMS[vid].get(
-                        "name", "Nerva Co-stream"
+                    costream_info = COSTREAM_STREAMS.get(
+                        vid, COSTREAM_STREAMS.get(actual_vid, {})
                     )
+                    st_item["channel"] = costream_info.get("name", "Nerva Co-stream")
                     st_item["is_costream"] = True
                     st_item["is_curiosity"] = True  # Backward-compatible
                 streams.append(st_item)

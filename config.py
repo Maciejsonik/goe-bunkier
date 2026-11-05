@@ -5,9 +5,9 @@ from datetime import UTC, datetime
 
 # Multi-day configuration for Worlds 2026 Quarter-Finals
 # Day 1: Nov 3 12:00 UTC to Nov 4 12:00 UTC (Completed)
-# Day 2: Nov 4 12:00 UTC to Nov 5 12:00 UTC (Today - Start GoE: 21:30 CET)
-# Day 3: Nov 5 12:00 UTC to Nov 6 12:00 UTC (Tomorrow - Start GoE: 21:30 CET)
-# Day 4: Nov 6 12:00 UTC to Nov 7 12:00 UTC (Day after tomorrow - Start GoE: 21:30 CET)
+# Day 2: Nov 4 12:00 UTC to Nov 5 12:00 UTC (Completed)
+# Day 3: Nov 5 12:00 UTC to Nov 6 12:00 UTC (Today - Start GoE: 21:15 CET)
+# Day 4: Nov 6 12:00 UTC to Nov 7 12:00 UTC (Tomorrow - Start GoE: 21:30 CET)
 DAYS_CONFIG = {
     "day-1": {
         "id": "day-1",
@@ -80,16 +80,16 @@ DAYS_CONFIG = {
     "day-3": {
         "id": "day-3",
         "name": "Dzień 3 (05.11)",
-        "label": "Dzień 3 • 05.11 (Jutrzejszy)",
+        "label": "Dzień 3 • 05.11 (Dzisiejszy)",
         "date": "2026-11-05",
         "is_finished": False,
         "start_utc": "2026-11-05 12:00:00",
         "end_utc": "2026-11-06 12:00:00",
         "schedule": {
-            "goe_start": "21:30",
+            "goe_start": "21:15",
             "nerva_start": "22:30",
             "match_start": "23:00",
-            "goe_start_iso": "2026-11-05T21:30:00+01:00",
+            "goe_start_iso": "2026-11-05T21:15:00+01:00",
         },
         "groups": {
             "GOE": {
@@ -102,7 +102,7 @@ DAYS_CONFIG = {
                 "name": "Nervarien",
                 "color": "#ef4444",
                 "twitch": ["nervarien"],
-                "youtube": ["@nervarien"],
+                "youtube": ["x3HI_AwFKEU", "@nervarien"],
             },
             "TOBIASZ": {
                 "name": "Tobiasz",
@@ -117,7 +117,7 @@ DAYS_CONFIG = {
     "day-4": {
         "id": "day-4",
         "name": "Dzień 4 (06.11)",
-        "label": "Dzień 4 • 06.11 (Pojutrzejszy)",
+        "label": "Dzień 4 • 06.11 (Jutrzejszy)",
         "date": "2026-11-06",
         "is_finished": False,
         "start_utc": "2026-11-06 12:00:00",
