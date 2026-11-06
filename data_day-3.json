@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-11-06 01:43:18",
-  "total_viewers": 390,
-  "leader": "NERVA",
-  "diff": 390,
-  "ratio_goe": 0.0,
-  "ratio_nerva": 100.0,
+  "timestamp": "2026-11-06 08:32:45",
+  "total_viewers": 0,
+  "leader": "REMIS",
+  "diff": 0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
   "groups": {
     "GOE": {
       "id": "GOE",
@@ -42,7 +42,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 390,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "nervarien",
@@ -62,8 +62,8 @@
           "channel": "Nervarien",
           "title": "🔴BILIBILI GAMING vs DPLUSKIA🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 390,
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.youtube.com/watch?v=x3HI_AwFKEU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -107,7 +107,7 @@
     "nerva_delta": -1886,
     "minutes": 5
   },
-  "is_live": true,
+  "is_live": false,
   "summary_stats": {
     "count": 390,
     "goe_peak": 2788,
