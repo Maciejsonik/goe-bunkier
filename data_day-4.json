@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-05 23:56:36",
-  "total_viewers": 8844,
-  "leader": "NERVA",
-  "diff": 2152,
-  "ratio_goe": 27.5,
-  "ratio_nerva": 51.8,
+  "timestamp": "2026-11-06 16:14:52",
+  "total_viewers": 0,
+  "leader": "REMIS",
+  "diff": 0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 2429,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "goe_stream",
           "platform": "Twitch",
           "channel": "GoE_stream",
-          "title": "BLG vs DK | ĆWIERĆFINAŁ WORLDS 2026 | Tajemnice BUNKRA",
-          "category": "League of Legends",
-          "is_live": true,
-          "viewers": 313,
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -28,10 +28,10 @@
           "id": "@gadaja_",
           "platform": "YouTube",
           "channel": "Gadają o Esporcie",
-          "title": "DK vs BLG | ĆWIERĆFINAŁ WORLDS 2026 | Tajemnice BUNKRA",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 2116,
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.youtube.com/watch?v=jcO4IHpR7XE",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "jcO4IHpR7XE",
@@ -44,16 +44,16 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 4581,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "nervarien",
           "platform": "Twitch",
           "channel": "Nervarien",
-          "title": "🔴Bilibili Gaming vs Dplus Kia🔴BO5🔴WORLDS'26 - QUARTERFINALS !WORLDS🔴",
-          "category": "League of Legends",
-          "is_live": true,
-          "viewers": 1944,
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -64,8 +64,8 @@
           "channel": "Nervarien",
           "title": "🔴BILIBILI GAMING vs DPLUSKIA🔴ĆWIERĆFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 2637,
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.youtube.com/watch?v=x3HI_AwFKEU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "x3HI_AwFKEU",
@@ -78,16 +78,16 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 1834,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "ttobias_lol",
           "platform": "Twitch",
           "channel": "Tobiasz",
-          "title": "BLG VS DK🔥23:00 ĆWIERĆFINAŁ WORLDS 2026🔥 ⭐️PRAWDZIWE HIGHELO LEPIEJ BYC NIE MOZE⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
-          "category": "League of Legends",
-          "is_live": true,
-          "viewers": 1834,
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
@@ -105,13 +105,13 @@
     "goe_start_iso": "2026-11-06T21:30:00+01:00"
   },
   "is_finished": false,
-  "is_active": false,
+  "is_active": true,
   "momentum": {
     "goe_delta": 0,
     "nerva_delta": 0,
     "minutes": 5
   },
-  "is_live": true,
+  "is_live": false,
   "summary_stats": {
     "count": 0,
     "goe_peak": 0,
@@ -158,7 +158,7 @@
     "camp_peak_time": "",
     "camp_avg": 0
   },
-  "active_day_id": "day-3",
+  "active_day_id": "day-4",
   "days": [
     {
       "id": "day-1",
@@ -212,7 +212,7 @@
         "goe_start_iso": "2026-11-05T21:15:00+01:00"
       },
       "is_finished": false,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-3.json",
       "history_url": "./history_day-3.json",
       "csv_url": "./stream_data_day-3.csv",
@@ -232,7 +232,7 @@
         "goe_start_iso": "2026-11-06T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-4.json",
       "history_url": "./history_day-4.json",
       "csv_url": "./stream_data_day-4.csv",

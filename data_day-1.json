@@ -168,7 +168,7 @@
     "tw_peak": 240,
     "tw_peak_time": "23:52"
   },
-  "active_day_id": "day-3",
+  "active_day_id": "day-4",
   "days": [
     {
       "id": "day-1",
@@ -222,7 +222,7 @@
         "goe_start_iso": "2026-11-05T21:15:00+01:00"
       },
       "is_finished": false,
-      "is_active": true,
+      "is_active": false,
       "data_url": "./data_day-3.json",
       "history_url": "./history_day-3.json",
       "csv_url": "./stream_data_day-3.csv",
@@ -242,7 +242,7 @@
         "goe_start_iso": "2026-11-06T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-4.json",
       "history_url": "./history_day-4.json",
       "csv_url": "./stream_data_day-4.csv",
