@@ -430,7 +430,7 @@ def get_detailed_history(limit: int = 2000, day_id: str | None = None) -> list[d
                     "id": sid,
                     "timestamp": r["timestamp"],
                     "unix_time": r["unix_time"],
-                    "day_id": r.get("day_id", "day-1"),
+                    "day_id": r["day_id"] if "day_id" in r.keys() else "day-1",
                     "total_viewers": r["total_viewers"],
                     "goe_total": r["goe_total"],
                     "nerva_total": r["nerva_total"],
