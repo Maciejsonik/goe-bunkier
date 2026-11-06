@@ -213,7 +213,7 @@
     {
       "id": "day-3",
       "name": "Dzień 3 (05.11)",
-      "label": "Dzień 3 • 05.11 (Dzisiejszy)",
+      "label": "Dzień 3 • 05.11 (Zakończony)",
       "date": "2026-11-05",
       "schedule": {
         "goe_start": "21:15",
@@ -221,7 +221,7 @@
         "match_start": "23:00",
         "goe_start_iso": "2026-11-05T21:15:00+01:00"
       },
-      "is_finished": false,
+      "is_finished": true,
       "is_active": false,
       "data_url": "./data_day-3.json",
       "history_url": "./history_day-3.json",
@@ -233,13 +233,13 @@
     {
       "id": "day-4",
       "name": "Dzień 4 (06.11)",
-      "label": "Dzień 4 • 06.11 (Jutrzejszy)",
+      "label": "Dzień 4 • 06.11 (Dzisiejszy)",
       "date": "2026-11-06",
       "schedule": {
-        "goe_start": "21:30",
+        "goe_start": "21:15",
         "nerva_start": "22:30",
         "match_start": "23:00",
-        "goe_start_iso": "2026-11-06T21:30:00+01:00"
+        "goe_start_iso": "2026-11-06T21:15:00+01:00"
       },
       "is_finished": false,
       "is_active": true,

@@ -94,7 +94,14 @@ def export_csv_from_history(history: list[dict], filepath: str):
             for sid, s in streams.items():
                 if sid != "goe_stream" and (
                     (s.get("group") == "GOE" and s.get("platform") == "YouTube")
-                    or sid in ("I2E60nEUXWo", "dKZGkF2mIDU", "jcO4IHpR7XE", "@gadaja_")
+                    or sid
+                    in (
+                        "I2E60nEUXWo",
+                        "dKZGkF2mIDU",
+                        "jcO4IHpR7XE",
+                        "Zv_21UIAKAc",
+                        "@gadaja_",
+                    )
                 ):
                     goe_yt_v = s.get("viewers", 0)
                     goe_yt_raw_v = s.get("viewers_raw", goe_yt_v)
@@ -105,7 +112,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
 
             # 4. Nervarien Official YouTube
             nerva_yt_v = 0
-            for vid in ("SGAaZFSc3Zk", "00uONX5EBiA", "x3HI_AwFKEU"):
+            for vid in ("SGAaZFSc3Zk", "00uONX5EBiA", "x3HI_AwFKEU", "vxdgguSxRyE"):
                 if vid in streams:
                     nerva_yt_v = streams[vid].get("viewers", 0)
                     break
@@ -122,7 +129,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
 
             # 5. Co-streams (Nerva & Tobiasz)
             nerva_costream_v = 0
-            for vid in ("woX6jXefVdw", "N3i_DQlKL_U"):
+            for vid in ("woX6jXefVdw", "N3i_DQlKL_U", "d97hINx-EHU"):
                 if vid in streams:
                     nerva_costream_v = streams[vid].get("viewers", 0)
                     break

@@ -6,8 +6,8 @@ from datetime import UTC, datetime
 # Multi-day configuration for Worlds 2026 Quarter-Finals
 # Day 1: Nov 3 12:00 UTC to Nov 4 12:00 UTC (Completed)
 # Day 2: Nov 4 12:00 UTC to Nov 5 12:00 UTC (Completed)
-# Day 3: Nov 5 12:00 UTC to Nov 6 12:00 UTC (Today - Start GoE: 21:15 CET)
-# Day 4: Nov 6 12:00 UTC to Nov 7 12:00 UTC (Tomorrow - Start GoE: 21:30 CET)
+# Day 3: Nov 5 12:00 UTC to Nov 6 12:00 UTC (Completed)
+# Day 4: Nov 6 12:00 UTC to Nov 7 12:00 UTC (Today - Start GoE: 21:15 CET)
 DAYS_CONFIG = {
     "day-1": {
         "id": "day-1",
@@ -80,9 +80,9 @@ DAYS_CONFIG = {
     "day-3": {
         "id": "day-3",
         "name": "Dzień 3 (05.11)",
-        "label": "Dzień 3 • 05.11 (Dzisiejszy)",
+        "label": "Dzień 3 • 05.11 (Zakończony)",
         "date": "2026-11-05",
-        "is_finished": False,
+        "is_finished": True,
         "start_utc": "2026-11-05 12:00:00",
         "end_utc": "2026-11-06 12:00:00",
         "schedule": {
@@ -117,29 +117,29 @@ DAYS_CONFIG = {
     "day-4": {
         "id": "day-4",
         "name": "Dzień 4 (06.11)",
-        "label": "Dzień 4 • 06.11 (Jutrzejszy)",
+        "label": "Dzień 4 • 06.11 (Dzisiejszy)",
         "date": "2026-11-06",
         "is_finished": False,
         "start_utc": "2026-11-06 12:00:00",
         "end_utc": "2026-11-07 12:00:00",
         "schedule": {
-            "goe_start": "21:30",
+            "goe_start": "21:15",
             "nerva_start": "22:30",
             "match_start": "23:00",
-            "goe_start_iso": "2026-11-06T21:30:00+01:00",
+            "goe_start_iso": "2026-11-06T21:15:00+01:00",
         },
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
                 "color": "#3b82f6",
                 "twitch": ["goe_stream"],
-                "youtube": ["@gadaja_"],
+                "youtube": ["Zv_21UIAKAc"],
             },
             "NERVA": {
                 "name": "Nervarien",
                 "color": "#ef4444",
                 "twitch": ["nervarien"],
-                "youtube": ["@nervarien"],
+                "youtube": ["vxdgguSxRyE", "d97hINx-EHU"],
             },
             "TOBIASZ": {
                 "name": "Tobiasz",
@@ -148,8 +148,8 @@ DAYS_CONFIG = {
                 "youtube": [],
             },
         },
-        "costream_streams": [],
-        "curiosity_streams": [],
+        "costream_streams": ["d97hINx-EHU"],
+        "curiosity_streams": ["d97hINx-EHU"],
     },
 }
 
@@ -158,6 +158,7 @@ DAYS_CONFIG = {
 COSTREAM_STREAMS = {
     "woX6jXefVdw": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "N3i_DQlKL_U": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
+    "d97hINx-EHU": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "ttobias_lol": {
         "name": "Tobiasz",
         "group": "TOBIASZ",
