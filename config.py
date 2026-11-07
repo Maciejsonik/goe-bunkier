@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 # Day 3: Nov 5 12:00 UTC to Nov 6 12:00 UTC (Completed)
 # Day 4: Nov 6 12:00 UTC to Nov 7 12:00 UTC (Completed)
 # Day 5: Nov 7 12:00 UTC to Nov 8 12:00 UTC (Today - Start GoE: 20:30 CET)
+# Day 6: Nov 8 12:00 UTC to Nov 9 12:00 UTC (Tomorrow - Start GoE: 21:30 CET, Match: 23:00 CET)
 DAYS_CONFIG = {
     "day-1": {
         "id": "day-1",
@@ -189,6 +190,43 @@ DAYS_CONFIG = {
         "costream_streams": ["f4jsbC6bgNc"],
         "curiosity_streams": ["f4jsbC6bgNc"],
     },
+    "day-6": {
+        "id": "day-6",
+        "name": "Dzień 6 (08.11)",
+        "label": "Dzień 6 • 08.11 (Nadchodzący)",
+        "date": "2026-11-08",
+        "is_finished": False,
+        "start_utc": "2026-11-08 12:00:00",
+        "end_utc": "2026-11-09 12:00:00",
+        "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-08T21:30:00+01:00",
+        },
+        "groups": {
+            "GOE": {
+                "name": "Gadają o Esporcie (GOE)",
+                "color": "#3b82f6",
+                "twitch": ["goe_stream"],
+                "youtube": ["@gadaja_"],
+            },
+            "NERVA": {
+                "name": "Nervarien",
+                "color": "#ef4444",
+                "twitch": ["nervarien"],
+                "youtube": ["@nervarien"],
+            },
+            "TOBIASZ": {
+                "name": "Tobiasz",
+                "color": "#f97316",
+                "twitch": ["ttobias_lol"],
+                "youtube": [],
+            },
+        },
+        "costream_streams": [],
+        "curiosity_streams": [],
+    },
 }
 
 # Co-stream channels mapped across all days
@@ -213,7 +251,8 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
     - 2026-11-04 12:00 to 2026-11-05 12:00 UTC -> 'day-2'
     - 2026-11-05 12:00 to 2026-11-06 12:00 UTC -> 'day-3'
     - 2026-11-06 12:00 to 2026-11-07 12:00 UTC -> 'day-4'
-    - From 2026-11-07 12:00 UTC onwards -> 'day-5'
+    - 2026-11-07 12:00 to 2026-11-08 12:00 UTC -> 'day-5'
+    - From 2026-11-08 12:00 UTC onwards -> 'day-6'
     Can be manually overridden with STREAM_DAY environment variable.
     """
     override = os.environ.get("STREAM_DAY")
@@ -227,6 +266,7 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
     d3 = datetime(2026, 11, 5, 12, 0, 0, tzinfo=UTC)
     d4 = datetime(2026, 11, 6, 12, 0, 0, tzinfo=UTC)
     d5 = datetime(2026, 11, 7, 12, 0, 0, tzinfo=UTC)
+    d6 = datetime(2026, 11, 8, 12, 0, 0, tzinfo=UTC)
 
     if now_utc < d2:
         return "day-1"
@@ -236,8 +276,10 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
         return "day-3"
     elif now_utc < d5:
         return "day-4"
-    else:
+    elif now_utc < d6:
         return "day-5"
+    else:
+        return "day-6"
 
 
 def get_groups_config(day_id: str | None = None) -> dict:

@@ -1646,7 +1646,8 @@
             if (now < '2026-11-05T12:00:00Z') return 'day-2';
             if (now < '2026-11-06T12:00:00Z') return 'day-3';
             if (now < '2026-11-07T12:00:00Z') return 'day-4';
-            return 'day-5';
+            if (now < '2026-11-08T12:00:00Z') return 'day-5';
+            return 'day-6';
         }
         let currentDayId = computeDefaultDayId();
 
@@ -2567,7 +2568,8 @@
 
         async function copyLiveCardToClipboard() {
             try {
-                const cardUrl = (currentDayId === 'day-5') ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
+                const activeDay = rawData?.active_day_id || 'day-5';
+                const cardUrl = (currentDayId === activeDay) ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
                 const resp = await fetch(cardUrl);
                 if (!resp.ok) throw new Error('Błąd ładowania pliku karty');
                 const blob = await resp.blob();
@@ -2582,22 +2584,25 @@
         }
 
         function downloadLiveCard() {
-            const file = (currentDayId === 'day-5') ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
+            const activeDay = rawData?.active_day_id || 'day-5';
+            const file = (currentDayId === activeDay) ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
             window.open(file, '_blank');
         }
 
         function downloadSummaryCard(type = 'goe') {
+            const activeDay = rawData?.active_day_id || 'day-5';
             let file = '';
             if (type === 'goe') {
-                file = (currentDayId === 'day-5') ? 'goe_summary.png' : `goe_summary_${currentDayId}.png`;
+                file = (currentDayId === activeDay) ? 'goe_summary.png' : `goe_summary_${currentDayId}.png`;
             } else {
-                file = (currentDayId === 'day-5') ? 'stream_summary.png' : `stream_summary_${currentDayId}.png`;
+                file = (currentDayId === activeDay) ? 'stream_summary.png' : `stream_summary_${currentDayId}.png`;
             }
             window.open(file, '_blank');
         }
 
         function downloadCSV() {
-            const file = (currentDayId === 'day-5') ? 'stream_data.csv' : `stream_data_${currentDayId}.csv`;
+            const activeDay = rawData?.active_day_id || 'day-5';
+            const file = (currentDayId === activeDay) ? 'stream_data.csv' : `stream_data_${currentDayId}.csv`;
             window.open(file, '_blank');
         }
 

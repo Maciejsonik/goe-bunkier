@@ -1,0 +1,280 @@
+{
+  "timestamp": "2026-11-07 21:07:51",
+  "total_viewers": 0,
+  "leader": "REMIS",
+  "diff": 0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
+  "groups": {
+    "GOE": {
+      "id": "GOE",
+      "name": "Gadają o Esporcie (GOE)",
+      "color": "#3b82f6",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "goe_stream",
+          "platform": "Twitch",
+          "channel": "goe_stream",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/goe_stream",
+          "avatar_url": "",
+          "group": "GOE"
+        },
+        {
+          "id": "@gadaja_",
+          "platform": "YouTube",
+          "channel": "Gadają o Esporcie (GOE)",
+          "title": "Stream offline",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/@gadaja_",
+          "avatar_url": "",
+          "group": "GOE"
+        }
+      ]
+    },
+    "NERVA": {
+      "id": "NERVA",
+      "name": "Nervarien",
+      "color": "#ef4444",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "nervarien",
+          "platform": "Twitch",
+          "channel": "nervarien",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/nervarien",
+          "avatar_url": "",
+          "group": "NERVA"
+        },
+        {
+          "id": "@nervarien",
+          "platform": "YouTube",
+          "channel": "Nervarien",
+          "title": "Stream offline",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.youtube.com/@nervarien",
+          "avatar_url": "",
+          "group": "NERVA"
+        }
+      ]
+    },
+    "TOBIASZ": {
+      "id": "TOBIASZ",
+      "name": "Tobiasz",
+      "color": "#f97316",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "ttobias_lol",
+          "platform": "Twitch",
+          "channel": "ttobias_lol",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/ttobias_lol",
+          "avatar_url": "",
+          "group": "TOBIASZ"
+        }
+      ]
+    }
+  },
+  "day_id": "day-6",
+  "day_name": "Dzień 6 (08.11)",
+  "day_date": "2026-11-08",
+  "schedule": {
+    "goe_start": "21:30",
+    "nerva_start": "22:30",
+    "match_start": "23:00",
+    "goe_start_iso": "2026-11-08T21:30:00+01:00"
+  },
+  "is_finished": false,
+  "is_active": false,
+  "momentum": {
+    "goe_delta": 0,
+    "nerva_delta": 0,
+    "minutes": 5
+  },
+  "is_live": false,
+  "summary_stats": {
+    "count": 0,
+    "goe_peak": 0,
+    "nerva_peak": 0,
+    "goe_peak_time": "",
+    "nerva_peak_time": "",
+    "goe_avg": 0,
+    "nerva_avg": 0,
+    "start_time": "",
+    "end_time": "",
+    "goe_raw_peak": 0,
+    "goe_raw_peak_time": "",
+    "is_bot_filtered": true,
+    "nerva_costream_peak": 0,
+    "nerva_costream_peak_time": "",
+    "nerva_costream_avg": 0,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "camp_peak": 0,
+    "camp_peak_time": "",
+    "camp_avg": 0
+  },
+  "summary_stats_raw": {
+    "count": 0,
+    "goe_peak": 0,
+    "nerva_peak": 0,
+    "goe_peak_time": "",
+    "nerva_peak_time": "",
+    "goe_avg": 0,
+    "nerva_avg": 0,
+    "start_time": "",
+    "end_time": "",
+    "goe_raw_peak": 0,
+    "goe_raw_peak_time": "",
+    "is_bot_filtered": false,
+    "nerva_costream_peak": 0,
+    "nerva_costream_peak_time": "",
+    "nerva_costream_avg": 0,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "camp_peak": 0,
+    "camp_peak_time": "",
+    "camp_avg": 0
+  },
+  "active_day_id": "day-5",
+  "days": [
+    {
+      "id": "day-1",
+      "name": "Dzień 1 (03.11)",
+      "label": "Dzień 1 • 03.11 (Zakończony)",
+      "date": "2026-11-03",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-03T21:30:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-1.json",
+      "history_url": "./history_day-1.json",
+      "csv_url": "./stream_data_day-1.csv",
+      "summary_card": "./stream_summary_day-1.png",
+      "goe_card": "./goe_summary_day-1.png",
+      "camps_card": "./camps_summary_day-1.png"
+    },
+    {
+      "id": "day-2",
+      "name": "Dzień 2 (04.11)",
+      "label": "Dzień 2 • 04.11 (Zakończony)",
+      "date": "2026-11-04",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-04T21:30:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-2.json",
+      "history_url": "./history_day-2.json",
+      "csv_url": "./stream_data_day-2.csv",
+      "summary_card": "./stream_summary_day-2.png",
+      "goe_card": "./goe_summary_day-2.png",
+      "camps_card": "./camps_summary_day-2.png"
+    },
+    {
+      "id": "day-3",
+      "name": "Dzień 3 (05.11)",
+      "label": "Dzień 3 • 05.11 (Zakończony)",
+      "date": "2026-11-05",
+      "schedule": {
+        "goe_start": "21:15",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-05T21:15:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-3.json",
+      "history_url": "./history_day-3.json",
+      "csv_url": "./stream_data_day-3.csv",
+      "summary_card": "./stream_summary_day-3.png",
+      "goe_card": "./goe_summary_day-3.png",
+      "camps_card": "./camps_summary_day-3.png"
+    },
+    {
+      "id": "day-4",
+      "name": "Dzień 4 (06.11)",
+      "label": "Dzień 4 • 06.11 (Zakończony)",
+      "date": "2026-11-06",
+      "schedule": {
+        "goe_start": "21:15",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-06T21:15:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-4.json",
+      "history_url": "./history_day-4.json",
+      "csv_url": "./stream_data_day-4.csv",
+      "summary_card": "./stream_summary_day-4.png",
+      "goe_card": "./goe_summary_day-4.png",
+      "camps_card": "./camps_summary_day-4.png"
+    },
+    {
+      "id": "day-5",
+      "name": "Dzień 5 (07.11)",
+      "label": "Dzień 5 • 07.11 (Dzisiejszy)",
+      "date": "2026-11-07",
+      "schedule": {
+        "goe_start": "20:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-07T20:30:00+01:00"
+      },
+      "is_finished": false,
+      "is_active": true,
+      "data_url": "./data_day-5.json",
+      "history_url": "./history_day-5.json",
+      "csv_url": "./stream_data_day-5.csv",
+      "summary_card": "./stream_summary_day-5.png",
+      "goe_card": "./goe_summary_day-5.png",
+      "camps_card": "./camps_summary_day-5.png"
+    },
+    {
+      "id": "day-6",
+      "name": "Dzień 6 (08.11)",
+      "label": "Dzień 6 • 08.11 (Nadchodzący)",
+      "date": "2026-11-08",
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-08T21:30:00+01:00"
+      },
+      "is_finished": false,
+      "is_active": false,
+      "data_url": "./data_day-6.json",
+      "history_url": "./history_day-6.json",
+      "csv_url": "./stream_data_day-6.csv",
+      "summary_card": "./stream_summary_day-6.png",
+      "goe_card": "./goe_summary_day-6.png",
+      "camps_card": "./camps_summary_day-6.png"
+    }
+  ]
+}

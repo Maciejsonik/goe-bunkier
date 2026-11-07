@@ -196,14 +196,67 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     # 1. Fetch current status of streams for this day (only scrape live for active day)
     if is_active:
         data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
-    elif os.path.exists(day_data_path):
+    elif day_cfg.get("is_finished") and os.path.exists(day_data_path):
         try:
             with open(day_data_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except Exception:
             data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     else:
-        data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
+        # Upcoming day - initialize clean offline placeholder
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        data = {
+            "timestamp": now_str,
+            "total_viewers": 0,
+            "leader": "REMIS",
+            "diff": 0,
+            "ratio_goe": 50.0,
+            "ratio_nerva": 50.0,
+            "groups": {},
+        }
+        for grp_id, grp in day_cfg["groups"].items():
+            streams_list = []
+            for tw in grp.get("twitch", []):
+                streams_list.append(
+                    {
+                        "id": tw,
+                        "platform": "Twitch",
+                        "channel": tw,
+                        "title": "Stream offline",
+                        "category": "",
+                        "is_live": False,
+                        "viewers": 0,
+                        "url": f"https://www.twitch.tv/{tw}",
+                        "avatar_url": "",
+                        "group": grp_id,
+                    }
+                )
+            for yt in grp.get("youtube", []):
+                streams_list.append(
+                    {
+                        "id": yt,
+                        "platform": "YouTube",
+                        "channel": grp["name"],
+                        "title": "Stream offline",
+                        "category": "YouTube Live",
+                        "is_live": False,
+                        "viewers": 0,
+                        "url": (
+                            f"https://www.youtube.com/{yt}"
+                            if yt.startswith("@")
+                            else f"https://www.youtube.com/watch?v={yt}"
+                        ),
+                        "avatar_url": "",
+                        "group": grp_id,
+                    }
+                )
+            data["groups"][grp_id] = {
+                "id": grp_id,
+                "name": grp["name"],
+                "color": grp["color"],
+                "total_viewers": 0,
+                "streams": streams_list,
+            }
     any_live = any(
         s.get("is_live", False)
         for grp in data["groups"].values()
