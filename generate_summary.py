@@ -196,12 +196,24 @@ def create_summary_card(
         )
 
         def _get_costream_v(p):
-            for sid, s in p.get("streams", {}).items():
-                if sid != "ttobias_lol" and (
-                    s.get("is_costream") or s.get("is_curiosity")
-                ):
-                    return s.get("viewers", 0)
-            return 0
+            cs_vals = [
+                s.get("viewers", 0)
+                for sid, s in p.get("streams", {}).items()
+                if sid != "ttobias_lol"
+                and (
+                    s.get("is_costream")
+                    or s.get("is_curiosity")
+                    or sid
+                    in (
+                        "woX6jXefVdw",
+                        "N3i_DQlKL_U",
+                        "d97hINx-EHU",
+                        "f4jsbC6bgNc",
+                        "aD1nB7lMtoY",
+                    )
+                )
+            ]
+            return max(cs_vals, default=0)
 
         peak_costream = max((_get_costream_v(p) for p in history_points), default=0)
 
@@ -453,12 +465,24 @@ def create_summary_card(
     elif mode == "CAMPS":
 
         def _get_costream_v_pt(p):
-            for sid, s in p.get("streams", {}).items():
-                if sid != "ttobias_lol" and (
-                    s.get("is_costream") or s.get("is_curiosity")
-                ):
-                    return s.get("viewers", 0)
-            return 0
+            cs_vals = [
+                s.get("viewers", 0)
+                for sid, s in p.get("streams", {}).items()
+                if sid != "ttobias_lol"
+                and (
+                    s.get("is_costream")
+                    or s.get("is_curiosity")
+                    or sid
+                    in (
+                        "woX6jXefVdw",
+                        "N3i_DQlKL_U",
+                        "d97hINx-EHU",
+                        "f4jsbC6bgNc",
+                        "aD1nB7lMtoY",
+                    )
+                )
+            ]
+            return max(cs_vals, default=0)
 
         max_v = max(
             max(
@@ -629,12 +653,24 @@ def create_summary_card(
         curr_max_goe = -1
 
         def _get_cs_v(p):
-            for sid, s in p.get("streams", {}).items():
-                if sid != "ttobias_lol" and (
-                    s.get("is_costream") or s.get("is_curiosity")
-                ):
-                    return s.get("viewers", 0)
-            return 0
+            cs_vals = [
+                s.get("viewers", 0)
+                for sid, s in p.get("streams", {}).items()
+                if sid != "ttobias_lol"
+                and (
+                    s.get("is_costream")
+                    or s.get("is_curiosity")
+                    or sid
+                    in (
+                        "woX6jXefVdw",
+                        "N3i_DQlKL_U",
+                        "d97hINx-EHU",
+                        "f4jsbC6bgNc",
+                        "aD1nB7lMtoY",
+                    )
+                )
+            ]
+            return max(cs_vals, default=0)
 
         for idx, pt in enumerate(history_points):
             x = (

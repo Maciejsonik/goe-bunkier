@@ -135,24 +135,29 @@ def export_csv_from_history(history: list[dict], filepath: str):
                         break
 
             # 5. Co-streams (Nerva & Tobiasz)
-            nerva_costream_v = 0
-            for vid in (
-                "woX6jXefVdw",
-                "N3i_DQlKL_U",
-                "d97hINx-EHU",
-                "f4jsbC6bgNc",
-                "aD1nB7lMtoY",
-            ):
-                if vid in streams:
-                    nerva_costream_v = streams[vid].get("viewers", 0)
-                    break
-            if nerva_costream_v == 0:
-                for sid, s in streams.items():
-                    if sid != "ttobias_lol" and (
-                        s.get("is_costream") or s.get("is_curiosity")
-                    ):
-                        nerva_costream_v = s.get("viewers", 0)
-                        break
+            cs_candidates = [
+                streams[vid].get("viewers", 0)
+                for vid in (
+                    "woX6jXefVdw",
+                    "N3i_DQlKL_U",
+                    "d97hINx-EHU",
+                    "f4jsbC6bgNc",
+                    "aD1nB7lMtoY",
+                )
+                if vid in streams
+            ]
+            if cs_candidates:
+                nerva_costream_v = max(cs_candidates)
+            else:
+                nerva_costream_v = max(
+                    [
+                        s.get("viewers", 0)
+                        for sid, s in streams.items()
+                        if sid != "ttobias_lol"
+                        and (s.get("is_costream") or s.get("is_curiosity"))
+                    ],
+                    default=0,
+                )
 
             tobias_costream_v = streams.get("ttobias_lol", {}).get("viewers", 0)
 
@@ -298,8 +303,14 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
                 "nerva_total": data["groups"]["NERVA"]["total_viewers"],
                 "streams": {
                     sid: {
+                        "id": sid,
+                        "channel": s.get("channel", sid),
                         "viewers": s.get("viewers", 0),
+                        "platform": s.get("platform", "YouTube"),
+                        "group": s.get("group", ""),
                         "is_live": s.get("is_live", False),
+                        "is_costream": s.get("is_costream", False),
+                        "is_curiosity": s.get("is_curiosity", False),
                     }
                     for sid, s in all_s_map.items()
                 },

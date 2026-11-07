@@ -183,14 +183,21 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
         nerva_tw = streams.get("nervarien", {}).get("viewers", 0)
         nerva_yt = 0
         for sid, s in streams.items():
-            if s.get("group") == "NERVA" and s.get("platform") == "YouTube":
-                if (
-                    sid not in COSTREAM_STREAMS
-                    and not s.get("is_costream")
-                    and not s.get("is_curiosity")
-                ):
-                    nerva_yt += s.get("viewers", 0)
-            elif sid in ("SGAaZFSc3Zk", "00uONX5EBiA"):
+            is_nerva_yt = (
+                s.get("group") == "NERVA" and s.get("platform") == "YouTube"
+            ) or sid in (
+                "SGAaZFSc3Zk",
+                "00uONX5EBiA",
+                "x3HI_AwFKEU",
+                "vxdgguSxRyE",
+                "MqZfKdM3ZXI",
+            )
+            if (
+                is_nerva_yt
+                and sid not in COSTREAM_STREAMS
+                and not s.get("is_costream")
+                and not s.get("is_curiosity")
+            ):
                 nerva_yt += s.get("viewers", 0)
 
         nerva_tot = nerva_tw + nerva_yt
@@ -648,18 +655,24 @@ def get_summary_stats(
             tw_peak = tw_v_pt
             tw_peak_time = ts_short
 
-        nc_v = 0
-        for vid in ("woX6jXefVdw", "N3i_DQlKL_U"):
-            if vid in streams:
-                nc_v = streams[vid].get("viewers", 0)
-                break
-        if nc_v == 0:
-            for sid, s in streams.items():
-                if sid != "ttobias_lol" and (
-                    s.get("is_costream") or s.get("is_curiosity")
-                ):
-                    nc_v = s.get("viewers", 0)
-                    break
+        nc_candidates = [
+            s.get("viewers", 0)
+            for sid, s in streams.items()
+            if sid != "ttobias_lol"
+            and (
+                s.get("is_costream")
+                or s.get("is_curiosity")
+                or sid
+                in (
+                    "woX6jXefVdw",
+                    "N3i_DQlKL_U",
+                    "d97hINx-EHU",
+                    "f4jsbC6bgNc",
+                    "aD1nB7lMtoY",
+                )
+            )
+        ]
+        nc_v = max(nc_candidates, default=0)
 
         tb_v = streams.get("ttobias_lol", {}).get("viewers", 0)
         # Obóz Nervariena jest liczony bez Tobiasza (Tobiasz to osobny obóz)

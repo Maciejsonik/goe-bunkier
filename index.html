@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CO-STREAM GOE • Worlds 2026 #bunkier</title>
-    <meta name="description" content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE (#bunkier) vs Nervarien vs Tobiasz.">
+    <meta name="description"
+        content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE (#bunkier) vs Nervarien vs Tobiasz.">
     <!-- OpenGraph Metadata -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="CO-STREAM GOE • Kielecki Bunkier (Worlds 2026)">
-    <meta property="og:description" content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE vs Nervarien vs Tobiasz.">
+    <meta property="og:description"
+        content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE vs Nervarien vs Tobiasz.">
     <meta property="og:image" content="https://maciejsonik.github.io/goe-bunkier/og_preview.png">
     <meta property="og:url" content="https://maciejsonik.github.io/goe-bunkier/">
     <!-- Twitter Card Metadata -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="CO-STREAM GOE • Kielecki Bunkier (Worlds 2026)">
-    <meta name="twitter:description" content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE vs Nervarien vs Tobiasz.">
+    <meta name="twitter:description"
+        content="Widownia na żywo, statystyki i porównanie co-streamów Worlds 2026: GoE vs Nervarien vs Tobiasz.">
     <meta name="twitter:image" content="https://maciejsonik.github.io/goe-bunkier/og_preview.png">
     <!-- Official Fonts: Teko (Condense Aggressive), Anton (Ultra Display), Outfit (Geometric Grotesk), Rajdhani (Tech) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@600;700;800;900&family=Rajdhani:ital,wght@0,600;0,700;1,700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@600;700;800;900&family=Rajdhani:ital,wght@0,600;0,700;1,700&family=Teko:wght@600;700&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -64,7 +70,7 @@
             color: var(--text-main);
             padding: 24px 20px;
             min-height: 100vh;
-            background-image: 
+            background-image:
                 linear-gradient(135deg, rgba(255, 0, 51, 0.12) 0%, transparent 40%),
                 linear-gradient(315deg, rgba(255, 0, 51, 0.08) 0%, transparent 40%),
                 radial-gradient(circle at 50% 0%, rgba(255, 0, 51, 0.16) 0%, transparent 55%),
@@ -189,7 +195,8 @@
             flex-wrap: wrap;
         }
 
-        button, select {
+        button,
+        select {
             background-color: #0d0d12;
             color: white;
             border: 1px solid var(--card-border-subtle);
@@ -209,11 +216,31 @@
             background-color: #16161f;
         }
 
-        .btn-primary { background-color: #121218; border-color: rgba(255, 255, 255, 0.15); }
-        .btn-red { background-color: var(--goe-red); border-color: var(--goe-red); color: white; }
-        .btn-red:hover { background-color: #d60029; box-shadow: 0 0 16px rgba(255, 0, 51, 0.5); }
-        .btn-summary { background: #121218; border: 1px solid var(--card-border-subtle); color: #ffffff; }
-        .btn-summary:hover { border-color: var(--goe-red); }
+        .btn-primary {
+            background-color: #121218;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-red {
+            background-color: var(--goe-red);
+            border-color: var(--goe-red);
+            color: white;
+        }
+
+        .btn-red:hover {
+            background-color: #d60029;
+            box-shadow: 0 0 16px rgba(255, 0, 51, 0.5);
+        }
+
+        .btn-summary {
+            background: #121218;
+            border: 1px solid var(--card-border-subtle);
+            color: #ffffff;
+        }
+
+        .btn-summary:hover {
+            border-color: var(--goe-red);
+        }
 
         .api-status-pill {
             display: inline-flex;
@@ -228,6 +255,7 @@
             border-radius: 20px;
             border: 1px solid var(--card-border-subtle);
         }
+
         .api-dot {
             width: 7px;
             height: 7px;
@@ -346,7 +374,9 @@
         }
 
         @media (max-width: 820px) {
-            .deck-divider { display: none; }
+            .deck-divider {
+                display: none;
+            }
         }
 
         .filter-toggle-btn {
@@ -392,9 +422,20 @@
             border-radius: 50%;
             display: inline-block;
         }
-        .day-dot-finished { background: #71717a; }
-        .day-dot-live { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
-        .day-dot-upcoming { background: #3b82f6; }
+
+        .day-dot-finished {
+            background: #71717a;
+        }
+
+        .day-dot-live {
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+        }
+
+        .day-dot-upcoming {
+            background: #3b82f6;
+        }
+
         .day-pill-tag {
             font-size: 10px;
             padding: 2px 6px;
@@ -402,6 +443,7 @@
             background: rgba(255, 255, 255, 0.08);
             color: #a1a1aa;
         }
+
         .segmented-btn.active .day-pill-tag {
             background: rgba(255, 255, 255, 0.2);
             color: #ffffff;
@@ -618,8 +660,15 @@
             color: #a1a1aa;
         }
 
-        .momentum-up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
-        .momentum-down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+        .momentum-up {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .momentum-down {
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
 
         .goe-breakdown {
             display: grid;
@@ -629,7 +678,9 @@
         }
 
         @media (max-width: 640px) {
-            .goe-breakdown { grid-template-columns: 1fr; }
+            .goe-breakdown {
+                grid-template-columns: 1fr;
+            }
         }
 
         .breakdown-box {
@@ -678,8 +729,17 @@
             display: flex;
         }
 
-        .goe-bar-yt { background: #ff0000; height: 100%; transition: width 0.4s; }
-        .goe-bar-tw { background: #9146ff; height: 100%; transition: width 0.4s; }
+        .goe-bar-yt {
+            background: #ff0000;
+            height: 100%;
+            transition: width 0.4s;
+        }
+
+        .goe-bar-tw {
+            background: #9146ff;
+            height: 100%;
+            transition: width 0.4s;
+        }
 
         /* ANGULAR FRAMING & SECTION BANNERS */
         .category-header-banner {
@@ -712,8 +772,15 @@
         }
 
         @media (max-width: 860px) {
-            .scoreboard, .scoreboard.scoreboard-3camps { grid-template-columns: 1fr; }
-            .vs-badge { margin: 6px auto; }
+
+            .scoreboard,
+            .scoreboard.scoreboard-3camps {
+                grid-template-columns: 1fr;
+            }
+
+            .vs-badge {
+                margin: 6px auto;
+            }
         }
 
         /* PREDICTION / MATCH TILES AESTHETIC */
@@ -751,9 +818,17 @@
             color: var(--goe-red);
         }
 
-        .team-card.nerva .team-name { color: #f4f4f5; }
-        .team-card.camp .team-name { color: var(--nerva-light-purple); }
-        .team-card.tobias .team-name { color: var(--tobias-orange); }
+        .team-card.nerva .team-name {
+            color: #f4f4f5;
+        }
+
+        .team-card.camp .team-name {
+            color: var(--nerva-light-purple);
+        }
+
+        .team-card.tobias .team-name {
+            color: var(--tobias-orange);
+        }
 
         .team-score {
             font-family: var(--font-display);
@@ -800,10 +875,29 @@
             border: 1px solid var(--card-border-subtle);
         }
 
-        .bar-segment-goe { height: 100%; background: var(--goe-red); transition: width 0.4s; }
-        .bar-segment-nerva { height: 100%; background: #ffffff; transition: width 0.4s; }
-        .bar-segment-camp { height: 100%; background: var(--nerva-purple); transition: width 0.4s; }
-        .bar-segment-tobias { height: 100%; background: var(--tobias-orange); transition: width 0.4s; }
+        .bar-segment-goe {
+            height: 100%;
+            background: var(--goe-red);
+            transition: width 0.4s;
+        }
+
+        .bar-segment-nerva {
+            height: 100%;
+            background: #ffffff;
+            transition: width 0.4s;
+        }
+
+        .bar-segment-camp {
+            height: 100%;
+            background: var(--nerva-purple);
+            transition: width 0.4s;
+        }
+
+        .bar-segment-tobias {
+            height: 100%;
+            background: var(--tobias-orange);
+            transition: width 0.4s;
+        }
 
         /* 3-CAMPS 5 MINI BREAKDOWN CARDS (Bingo Card Style) */
         .costream-breakdown-grid {
@@ -974,7 +1068,9 @@
         }
 
         @media (max-width: 860px) {
-            .streams-grid { grid-template-columns: 1fr; }
+            .streams-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .stream-item {
@@ -1006,17 +1102,85 @@
             background: #141418;
         }
 
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .stream-info { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-        .stream-item-header { display: flex; justify-content: space-between; align-items: center; }
-        .platform-badge { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; }
-        .badge-twitch { background-color: var(--twitch-color); }
-        .badge-yt { background-color: var(--yt-color); }
-        .channel-name { font-family: var(--font-heading); font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 6px; }
-        .live-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--goe-red); box-shadow: 0 0 10px var(--goe-red); display: inline-block; }
-        .offline-dot { width: 8px; height: 8px; border-radius: 50%; background-color: #52525b; display: inline-block; }
-        .stream-viewers { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #ffffff; flex-shrink: 0; line-height: 1; }
-        .stream-title { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .stream-info {
+            flex-grow: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stream-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .platform-badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .badge-twitch {
+            background-color: var(--twitch-color);
+        }
+
+        .badge-yt {
+            background-color: var(--yt-color);
+        }
+
+        .channel-name {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--goe-red);
+            box-shadow: 0 0 10px var(--goe-red);
+            display: inline-block;
+        }
+
+        .offline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #52525b;
+            display: inline-block;
+        }
+
+        .stream-viewers {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .stream-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         /* BRANDING FOOTER (Matches official Worlds 2026 / #bunkier graphics) */
         footer {
@@ -1121,14 +1285,14 @@
             padding: 12px 20px;
             border-radius: var(--radius-md);
             border: 1px solid var(--goe-red);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
             display: none;
             z-index: 100;
             font-family: var(--font-heading);
             font-size: 13px;
             font-weight: 800;
         }
-    
+
         /* COLLAPSIBLE TWITCH LIVE PLAYER */
         .twitch-player-panel {
             background: #0c0c10;
@@ -1226,7 +1390,8 @@
             color: #c084fc !important;
         }
 
-        .btn-twitch-live:hover, .btn-twitch-live.active {
+        .btn-twitch-live:hover,
+        .btn-twitch-live.active {
             background: rgba(145, 70, 255, 0.2) !important;
             color: #ffffff !important;
             border-color: #9146ff !important;
@@ -1389,6 +1554,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Geometric Background Shard Accents -->
     <div class="bg-shard-top-right"></div>
@@ -1419,8 +1585,11 @@
                     <span id="api-label">LIVE SYNC</span>
                     <span id="sync-countdown" style="font-size: 11px; opacity: 0.8; margin-left: 2px;">• 30s</span>
                 </div>
-                <button id="header-twitch-btn" class="btn-primary btn-twitch-live" onclick="toggleTwitchPlayer('goe_stream')">▶️ OGLĄDAJ BUNKIER (TWITCH)</button>
-                <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()" style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️ Filtr botów: WŁ.</button>
+                <button id="header-twitch-btn" class="btn-primary btn-twitch-live"
+                    onclick="toggleTwitchPlayer('goe_stream')">▶️ OGLĄDAJ BUNKIER (TWITCH)</button>
+                <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()"
+                    style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️
+                    Filtr botów: WŁ.</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
                     <option value="30" selected>Auto: 30s</option>
                     <option value="60">Auto: 60s</option>
@@ -1442,18 +1611,25 @@
             <div class="twitch-player-header">
                 <div class="player-channel-info">
                     <span class="live-dot" style="background: #9146ff; box-shadow: 0 0 10px #9146ff;"></span>
-                    <span id="player-active-label" style="font-weight: 800; font-size: 14px; color: #ffffff;">Oglądasz: GoE_stream (Twitch)</span>
+                    <span id="player-active-label" style="font-weight: 800; font-size: 14px; color: #ffffff;">Oglądasz:
+                        GoE_stream (Twitch)</span>
                 </div>
                 <div class="player-channel-switcher">
-                    <button class="player-chan-btn active" id="pbtn-goe" onclick="loadTwitchStream('goe_stream', 'GoE_stream (Bunkier)')">🔴 Bunkier (GoE)</button>
-                    <button class="player-chan-btn" id="pbtn-nerva" onclick="loadTwitchStream('nervarien', 'Nervarien')">👁️ Nervarien</button>
-                    <button class="player-chan-btn" id="pbtn-tobias" onclick="loadTwitchStream('ttobias_lol', 'Tobiasz')">👁️ Tobiasz</button>
-                    <a id="player-external-link" href="https://www.twitch.tv/goe_stream" target="_blank" class="player-link-btn" title="Otwórz na Twitchu">↗️ Otwórz na Twitchu</a>
-                    <button class="player-close-btn" onclick="toggleTwitchPlayer()" title="Zamknij odtwarzacz">✕ Zwiń</button>
+                    <button class="player-chan-btn active" id="pbtn-goe"
+                        onclick="loadTwitchStream('goe_stream', 'GoE_stream (Bunkier)')">🔴 Bunkier (GoE)</button>
+                    <button class="player-chan-btn" id="pbtn-nerva"
+                        onclick="loadTwitchStream('nervarien', 'Nervarien')">👁️ Nervarien</button>
+                    <button class="player-chan-btn" id="pbtn-tobias"
+                        onclick="loadTwitchStream('ttobias_lol', 'Tobiasz')">👁️ Tobiasz</button>
+                    <a id="player-external-link" href="https://www.twitch.tv/goe_stream" target="_blank"
+                        class="player-link-btn" title="Otwórz na Twitchu">↗️ Otwórz na Twitchu</a>
+                    <button class="player-close-btn" onclick="toggleTwitchPlayer()" title="Zamknij odtwarzacz">✕
+                        Zwiń</button>
                 </div>
             </div>
             <div class="twitch-iframe-holder">
-                <iframe id="twitch-iframe" src="" height="480" width="100%" allowfullscreen frameborder="0" scrolling="no"></iframe>
+                <iframe id="twitch-iframe" src="" height="480" width="100%" allowfullscreen frameborder="0"
+                    scrolling="no"></iframe>
             </div>
         </div>
 
@@ -1462,13 +1638,17 @@
             <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
                 <span style="font-size: 22px;">🛡️</span>
                 <div>
-                    <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane oczyszczone)</strong>
+                    <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane
+                        oczyszczone)</strong>
                     <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                        Zneutralizowano 2 sztuczne fale viewbotów na YouTube. Prezentowane dane są w 100% organiczne (Prawdziwy pik GoE: <strong>2 815</strong>).
+                        Zneutralizowano 2 sztuczne fale viewbotów na YouTube. Prezentowane dane są w 100% organiczne
+                        (Prawdziwy pik GoE: <strong>2 815</strong>).
                     </div>
                 </div>
             </div>
-            <button onclick="toggleBotFilter()" style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż surowe z botami</button>
+            <button onclick="toggleBotFilter()"
+                style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż
+                surowe z botami</button>
         </div>
 
         <!-- UNIFIED CONTROL DECK -->
@@ -1484,7 +1664,8 @@
 
                     <!-- Presets for Chart & Cards -->
                     <div class="segmented-group">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 6px; display: inline-flex; align-items: center;">Presety:</span>
+                        <span
+                            style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 6px; display: inline-flex; align-items: center;">Presety:</span>
                         <button class="segmented-btn active" id="preset-goe" onclick="applyQuickPreset('goe_only')">
                             🔴 Bunkier GoE
                         </button>
@@ -1502,14 +1683,15 @@
 
                 <div style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
                     <span>Aktywne serie na wykresie:</span>
-                    <span id="active-series-count-badge" class="filter-count-badge" style="background: var(--goe-red); color: #ffffff;">3 / 9</span>
+                    <span id="active-series-count-badge" class="filter-count-badge"
+                        style="background: var(--goe-red); color: #ffffff;">3 / 9</span>
                 </div>
             </div>
         </div>
 
         <!-- MAIN DASHBOARD -->
         <main class="main-dashboard-body">
-            
+
             <!-- SECTION 1: GOE HERO STATS & CONTEXT CARD -->
             <div class="hero-goe-card">
                 <div class="hero-header">
@@ -1519,7 +1701,8 @@
                     </div>
                     <div style="text-align: right;">
                         <div class="momentum-badge" id="goe-hero-momentum">Trend: --</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;" id="goe-hero-peak">Pik: --</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;" id="goe-hero-peak">Pik:
+                            --</div>
                     </div>
                 </div>
 
@@ -1527,14 +1710,18 @@
                 <div class="goe-breakdown">
                     <div class="breakdown-box">
                         <div>
-                            <div class="breakdown-platform"><span class="live-dot" style="background:#ff0000; box-shadow: 0 0 8px #ff0000;"></span> YouTube (Gadają o Esporcie)</div>
+                            <div class="breakdown-platform"><span class="live-dot"
+                                    style="background:#ff0000; box-shadow: 0 0 8px #ff0000;"></span> YouTube (Gadają o
+                                Esporcie)</div>
                             <div class="breakdown-val" id="goe-yt-viewers">--</div>
                         </div>
                         <div class="breakdown-pct" id="goe-yt-pct">--% widowni</div>
                     </div>
                     <div class="breakdown-box">
                         <div>
-                            <div class="breakdown-platform"><span class="live-dot" style="background:#9146ff; box-shadow: 0 0 8px #9146ff;"></span> Twitch (GoE_stream)</div>
+                            <div class="breakdown-platform"><span class="live-dot"
+                                    style="background:#9146ff; box-shadow: 0 0 8px #9146ff;"></span> Twitch (GoE_stream)
+                            </div>
                             <div class="breakdown-val" id="goe-tw-viewers">--</div>
                         </div>
                         <div class="breakdown-pct" id="goe-tw-pct">--% widowni</div>
@@ -1568,9 +1755,11 @@
                 <!-- Quick actions -->
                 <div class="card-quick-actions" style="margin-top: 16px;">
                     <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
-                    <button class="quick-action-btn" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę (Ctrl+V)</button>
+                    <button class="quick-action-btn" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę
+                        (Ctrl+V)</button>
                     <button class="quick-action-btn" onclick="downloadSummaryCard('goe')">📊 Wykres GoE (PNG)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2 (PNG)</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2
+                        (PNG)</button>
                     <button class="quick-action-btn" onclick="copyShareLink()">🔗 Kopiuj Link</button>
                 </div>
             </div>
@@ -1580,10 +1769,13 @@
                 <div class="chart-header">
                     <div>
                         <div class="chart-title">📈 Przebieg widowni w czasie</div>
-                        <div id="main-chart-sub-label" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...</div>
+                        <div id="main-chart-sub-label"
+                            style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...
+                        </div>
                     </div>
                     <div class="time-range-group">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                        <span
+                            style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
                         <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
                         <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
                         <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
@@ -1598,10 +1790,13 @@
 
             <!-- SECTION 3: 9 INTERACTIVE CHANNELS & SUMS -->
             <div class="channels-master-section">
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
                     <div>
-                        <div class="column-title" style="margin-bottom: 2px;">⚡ Wybór kanałów i sum (Kliknij kafelek, aby włączyć/wyłączyć na wykresie)</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Zarządzaj seriami na wykresie i uruchamiaj podgląd transmisji Twitcha</div>
+                        <div class="column-title" style="margin-bottom: 2px;">⚡ Wybór kanałów i sum (Kliknij kafelek,
+                            aby włączyć/wyłączyć na wykresie)</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Zarządzaj seriami na wykresie i
+                            uruchamiaj podgląd transmisji Twitcha</div>
                     </div>
                     <div style="font-size: 12px; color: var(--text-dim);">
                         Wskazówka: Aktywne kafelki podświetlają się swoim kolorem
@@ -1827,14 +2022,16 @@
                 fill: false,
                 isTwitch: false,
                 getValue: (pt) => {
+                    let maxV = 0;
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U') {
-                            return s.viewers || 0;
+                        if (sid !== 'ttobias_lol' && (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U' || sid === 'd97hINx-EHU' || sid === 'f4jsbC6bgNc' || sid === 'aD1nB7lMtoY')) {
+                            const v = s.viewers || 0;
+                            if (v > maxV) maxV = v;
                         }
                     }
-                    return 0;
+                    return maxV;
                 },
-                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U')
+                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => (s.is_costream || s.is_curiosity) && s.is_live) || (d?.groups?.NERVA?.streams || []).find(s => s.is_costream || s.is_curiosity)
             },
             'nerva_all_total': {
                 id: 'nerva_all_total',
@@ -1849,12 +2046,14 @@
                 isTwitch: false,
                 getValue: (pt) => {
                     let sum = pt.nerva_total || 0;
+                    let maxCs = 0;
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U') {
-                            sum += (s.viewers || 0);
+                        if (sid !== 'ttobias_lol' && (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U' || sid === 'd97hINx-EHU' || sid === 'f4jsbC6bgNc' || sid === 'aD1nB7lMtoY')) {
+                            const v = s.viewers || 0;
+                            if (v > maxCs) maxCs = v;
                         }
                     }
-                    return sum;
+                    return sum + maxCs;
                 },
                 getLiveViewers: (d) => {
                     const st = (d?.groups?.NERVA?.streams || []);
@@ -1909,7 +2108,7 @@
             const allStreams = Object.values(rawData.groups).flatMap(g => g.streams || []);
             allStreams.forEach(s => {
                 const isTobias = (s.id === 'ttobias_lol' || s.group === 'TOBIASZ');
-                const isCostream = !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U');
+                const isCostream = !isTobias && !!(s.is_costream || s.is_curiosity || s.id === 'woX6jXefVdw' || s.id === 'N3i_DQlKL_U' || s.id === 'd97hINx-EHU' || s.id === 'f4jsbC6bgNc' || s.id === 'aD1nB7lMtoY');
                 STREAM_METADATA[s.id] = {
                     name: s.channel || (s.id === 'goe_stream' ? 'GoE Twitch' : (isTobias ? 'Tobiasz' : s.id)),
                     platform: s.platform,
@@ -1999,7 +2198,7 @@
 
                 const isLiveNow = (rawData && rawData.is_live && liveViewers > 0);
                 const viewersFormatted = isLiveNow 
-                    ? `${liveViewers.toLocaleString('pl-PL')} widzów` 
+                   ? `${liveViewers.toLocaleString('pl-PL')} widzów` 
                     : (rawData && rawData.is_finished ? 'Zakończony' : 'OFFLINE');
 
                 const card = document.createElement('div');
@@ -2082,7 +2281,7 @@
                             bodyFont: { family: 'Rajdhani', size: 13 },
                             padding: 12,
                             displayColors: true,
-                            callbacks: {
+                             callbacks: {
                                 label: function(context) {
                                     return ` ${context.dataset.label}: ${context.parsed.y.toLocaleString('pl-PL')} widzów`;
                                 }
@@ -2157,7 +2356,7 @@
                 const activeNames = Array.from(activeSeriesSet).map(k => SERIES_CONFIG[k]?.name).filter(Boolean).join(', ');
                 sub.innerText = `Zakres: ${rangeLabel} • Aktywne: ${activeNames}`;
             }
-        }
+         }
 
         function getRangeLabel(range) {
             switch(range) {
@@ -2611,7 +2810,7 @@
             const toast = document.getElementById('toast');
             if (!toast) return;
             toast.innerText = msg;
-            toast.className = 'toast show';
+            toast.classNam'tow';
             setTimeout(() => {
                 toast.className = 'toast';
             }, 3000);
@@ -2625,4 +2824,5 @@
         });
     </script>
 </body>
+
 </html>
