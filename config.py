@@ -178,7 +178,7 @@ DAYS_CONFIG = {
                 "name": "Nervarien",
                 "color": "#ef4444",
                 "twitch": ["nervarien"],
-                "youtube": ["MqZfKdM3ZXI", "f4jsbC6bgNc"],
+                "youtube": ["MqZfKdM3ZXI", "f4jsbC6bgNc", "aD1nB7lMtoY"],
             },
             "TOBIASZ": {
                 "name": "Tobiasz",
@@ -187,8 +187,8 @@ DAYS_CONFIG = {
                 "youtube": [],
             },
         },
-        "costream_streams": ["f4jsbC6bgNc"],
-        "curiosity_streams": ["f4jsbC6bgNc"],
+        "costream_streams": ["f4jsbC6bgNc", "aD1nB7lMtoY"],
+        "curiosity_streams": ["f4jsbC6bgNc", "aD1nB7lMtoY"],
     },
     "day-6": {
         "id": "day-6",
@@ -236,6 +236,7 @@ COSTREAM_STREAMS = {
     "N3i_DQlKL_U": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "d97hINx-EHU": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "f4jsbC6bgNc": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
+    "aD1nB7lMtoY": {"name": "Nerva Co-stream", "group": "NERVA", "platform": "YouTube"},
     "ttobias_lol": {
         "name": "Tobiasz",
         "group": "TOBIASZ",

@@ -136,7 +136,13 @@ def export_csv_from_history(history: list[dict], filepath: str):
 
             # 5. Co-streams (Nerva & Tobiasz)
             nerva_costream_v = 0
-            for vid in ("woX6jXefVdw", "N3i_DQlKL_U", "d97hINx-EHU", "f4jsbC6bgNc"):
+            for vid in (
+                "woX6jXefVdw",
+                "N3i_DQlKL_U",
+                "d97hINx-EHU",
+                "f4jsbC6bgNc",
+                "aD1nB7lMtoY",
+            ):
                 if vid in streams:
                     nerva_costream_v = streams[vid].get("viewers", 0)
                     break
