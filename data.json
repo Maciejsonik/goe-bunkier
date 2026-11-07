@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-08 00:24:42",
-  "total_viewers": 11230,
+  "timestamp": "2026-11-07 23:25:17",
+  "total_viewers": 11296,
   "leader": "NERVA",
-  "diff": 3334,
-  "ratio_goe": 24.2,
-  "ratio_nerva": 53.9,
+  "diff": 3424,
+  "ratio_goe": 24.0,
+  "ratio_nerva": 54.3,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 2718,
+      "total_viewers": 2706,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "GENG vs IG | PÓŁFINAŁ WORLDS 2026 | Pojednanie BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 376,
+          "viewers": 371,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -31,7 +31,7 @@
           "title": "GENG vs IG | PÓŁFINAŁ WORLDS 2026 | Pojednanie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2342,
+          "viewers": 2335,
           "url": "https://www.youtube.com/watch?v=_PfE0hBYM-o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
@@ -42,7 +42,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 6052,
+      "total_viewers": 6130,
       "streams": [
         {
           "id": "nervarien",
@@ -63,7 +63,7 @@
           "title": "🔴GENG vs INVICTUS GAMING🔴PÓŁFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 3454,
+          "viewers": 3532,
           "url": "https://www.youtube.com/watch?v=MqZfKdM3ZXI",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -89,7 +89,7 @@
           "title": "🔴NERVARIEN CO-STREAM🔴GENG vs INVICTUS GAMING🔴PÓŁFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1153,
+          "viewers": 1142,
           "url": "https://www.youtube.com/watch?v=aD1nB7lMtoY",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA",
