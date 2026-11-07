@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-07 21:07:51",
-  "total_viewers": 1191,
+  "timestamp": "2026-11-07 20:09:09",
+  "total_viewers": 1216,
   "leader": "GOE",
-  "diff": 595,
-  "ratio_goe": 50.0,
+  "diff": 620,
+  "ratio_goe": 51.0,
   "ratio_nerva": 0.0,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 595,
+      "total_viewers": 620,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "GENG vs IG | PÓŁFINAŁ WORLDS 2026 | Pojednanie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 516,
+          "viewers": 541,
           "url": "https://www.youtube.com/watch?v=_PfE0hBYM-o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
