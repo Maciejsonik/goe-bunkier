@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-07 20:09:09",
-  "total_viewers": 1216,
-  "leader": "GOE",
-  "diff": 620,
-  "ratio_goe": 51.0,
-  "ratio_nerva": 0.0,
+  "timestamp": "2026-11-07 22:26:42",
+  "total_viewers": 10577,
+  "leader": "NERVA",
+  "diff": 2833,
+  "ratio_goe": 25.1,
+  "ratio_nerva": 51.9,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 620,
+      "total_viewers": 2657,
       "streams": [
         {
           "id": "goe_stream",
@@ -19,7 +19,7 @@
           "title": "GENG vs IG | PÓŁFINAŁ WORLDS 2026 | Pojednanie BUNKRA",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 79,
+          "viewers": 337,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -31,7 +31,7 @@
           "title": "GENG vs IG | PÓŁFINAŁ WORLDS 2026 | Pojednanie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 541,
+          "viewers": 2320,
           "url": "https://www.youtube.com/watch?v=_PfE0hBYM-o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
@@ -42,16 +42,16 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 0,
+      "total_viewers": 5490,
       "streams": [
         {
           "id": "nervarien",
           "platform": "Twitch",
           "channel": "Nervarien",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "🔴Gen.G vs Invictus Gaming🔴BO5🔴WORLDS'26 - SEMIFINALS !WORLDS🔴",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 2406,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -62,8 +62,8 @@
           "channel": "Nervarien",
           "title": "🔴GENG vs INVICTUS GAMING🔴PÓŁFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": false,
-          "viewers": 0,
+          "is_live": true,
+          "viewers": 3084,
           "url": "https://www.youtube.com/watch?v=MqZfKdM3ZXI",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -74,8 +74,8 @@
           "channel": "Nerva Co-stream",
           "title": "🔴NERVARIEN CO-STREAM🔴GENG vs INVICTUS GAMING🔴PÓŁFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": false,
-          "viewers": 0,
+          "is_live": true,
+          "viewers": 1387,
           "url": "https://www.youtube.com/watch?v=f4jsbC6bgNc",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA",
@@ -88,7 +88,7 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 596,
+      "total_viewers": 2430,
       "streams": [
         {
           "id": "ttobias_lol",
@@ -97,7 +97,7 @@
           "title": "GENG VS IG🔥23:00 PÓŁFINAŁ WORLDS 2026🔥 ⭐️CZY CHOVY ZCHOKUJE???????????⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 596,
+          "viewers": 2430,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
