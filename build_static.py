@@ -100,6 +100,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
                         "dKZGkF2mIDU",
                         "jcO4IHpR7XE",
                         "Zv_21UIAKAc",
+                        "_PfE0hBYM-o",
                         "@gadaja_",
                     )
                 ):
@@ -112,7 +113,13 @@ def export_csv_from_history(history: list[dict], filepath: str):
 
             # 4. Nervarien Official YouTube
             nerva_yt_v = 0
-            for vid in ("SGAaZFSc3Zk", "00uONX5EBiA", "x3HI_AwFKEU", "vxdgguSxRyE"):
+            for vid in (
+                "SGAaZFSc3Zk",
+                "00uONX5EBiA",
+                "x3HI_AwFKEU",
+                "vxdgguSxRyE",
+                "MqZfKdM3ZXI",
+            ):
                 if vid in streams:
                     nerva_yt_v = streams[vid].get("viewers", 0)
                     break
@@ -129,7 +136,7 @@ def export_csv_from_history(history: list[dict], filepath: str):
 
             # 5. Co-streams (Nerva & Tobiasz)
             nerva_costream_v = 0
-            for vid in ("woX6jXefVdw", "N3i_DQlKL_U", "d97hINx-EHU"):
+            for vid in ("woX6jXefVdw", "N3i_DQlKL_U", "d97hINx-EHU", "f4jsbC6bgNc"):
                 if vid in streams:
                     nerva_costream_v = streams[vid].get("viewers", 0)
                     break
@@ -206,26 +213,16 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
 
     # 2. Load History for this day
     history = []
-    if day_cfg.get("is_finished"):
-        # Finished day - load existing complete history
-        if os.path.exists(day_hist_path):
-            try:
-                with open(day_hist_path, "r", encoding="utf-8") as f:
-                    history = json.load(f)
-            except Exception:
-                history = []
-        elif os.path.exists(DB_PATH):
-            history = get_detailed_history(limit=5000, day_id=day_id)
-    else:
-        # Upcoming / Active live day
-        if os.path.exists(day_hist_path):
-            try:
-                with open(day_hist_path, "r", encoding="utf-8") as f:
-                    history = json.load(f)
-            except Exception:
-                history = []
-        elif os.path.exists(DB_PATH):
-            history = get_detailed_history(limit=5000, day_id=day_id)
+    if os.path.exists(day_hist_path):
+        try:
+            with open(day_hist_path, "r", encoding="utf-8") as f:
+                history = json.load(f)
+        except Exception:
+            history = []
+    if os.path.exists(DB_PATH):
+        db_hist = get_detailed_history(limit=5000, day_id=day_id)
+        if len(db_hist) > len(history):
+            history = db_hist
 
         if is_active and any_live:
             save_snapshot(data, day_id=day_id)
@@ -285,7 +282,7 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     export_csv_from_history(history, day_csv_path)
     print(f"✅ Zapisano: {day_csv_path}")
 
-    # 6. Generate graphics (skip re-rendering for day-1 if images already exist)
+    # 6. Generate graphics (skip re-rendering for finished days if images already exist)
     all_graphics_exist = (
         os.path.exists(day_card_path)
         and os.path.exists(day_goe_clean_path)
@@ -293,7 +290,7 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
         and os.path.exists(day_camps_clean_path)
     )
 
-    if not (day_id == "day-1" and all_graphics_exist):
+    if not (day_cfg.get("is_finished") and all_graphics_exist):
         try:
             create_battle_card(data, day_card_path)
             print(f"📸 Karta LIVE ({day_id}): {day_card_path}")

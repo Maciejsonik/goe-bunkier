@@ -142,6 +142,7 @@ def create_summary_card(
                         "dKZGkF2mIDU",
                         "jcO4IHpR7XE",
                         "Zv_21UIAKAc",
+                        "_PfE0hBYM-o",
                         "@gadaja_",
                     )
                 ):
@@ -535,6 +536,7 @@ def create_summary_card(
                         "dKZGkF2mIDU",
                         "jcO4IHpR7XE",
                         "Zv_21UIAKAc",
+                        "_PfE0hBYM-o",
                         "@gadaja_",
                     )
                 ):

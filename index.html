@@ -1645,7 +1645,8 @@
             if (now < '2026-11-04T12:00:00Z') return 'day-1';
             if (now < '2026-11-05T12:00:00Z') return 'day-2';
             if (now < '2026-11-06T12:00:00Z') return 'day-3';
-            return 'day-4';
+            if (now < '2026-11-07T12:00:00Z') return 'day-4';
+            return 'day-5';
         }
         let currentDayId = computeDefaultDayId();
 
@@ -1736,7 +1737,7 @@
                 isTwitch: false,
                 getValue: (pt, fb) => {
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (sid === 'I2E60nEUXWo' || sid === 'dKZGkF2mIDU' || sid === 'jcO4IHpR7XE' || sid === 'Zv_21UIAKAc' || sid === '@gadaja_' || STREAM_METADATA[sid]?.platform === 'YouTube' && STREAM_METADATA[sid]?.group === 'GOE') {
+                        if (sid === 'I2E60nEUXWo' || sid === 'dKZGkF2mIDU' || sid === 'jcO4IHpR7XE' || sid === 'Zv_21UIAKAc' || sid === '_PfE0hBYM-o' || sid === '@gadaja_' || STREAM_METADATA[sid]?.platform === 'YouTube' && STREAM_METADATA[sid]?.group === 'GOE') {
                             return fb ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
                         }
                     }
@@ -1885,16 +1886,19 @@
             'dKZGkF2mIDU': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             'jcO4IHpR7XE': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             'Zv_21UIAKAc': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
+            '_PfE0hBYM-o': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             '@gadaja_': { name: 'GoE YouTube', platform: 'YouTube', group: 'GOE', color: '#ef4444' },
             'nervarien': { name: 'Nervarien Twitch', platform: 'Twitch', group: 'NERVA', color: '#cbd5e1' },
             'SGAaZFSc3Zk': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
             '00uONX5EBiA': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
             'x3HI_AwFKEU': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
             'vxdgguSxRyE': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
+            'MqZfKdM3ZXI': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
             '@nervarien': { name: 'Nervarien YouTube', platform: 'YouTube', group: 'NERVA', color: '#dc2626' },
             'woX6jXefVdw': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true },
             'N3i_DQlKL_U': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true },
             'd97hINx-EHU': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true },
+            'f4jsbC6bgNc': { name: 'Nerva Co-stream', platform: 'YouTube', group: 'NERVA', color: '#f59e0b', is_costream: true },
             'ttobias_lol': { name: 'Tobiasz', platform: 'Twitch', group: 'TOBIASZ', color: '#f97316', is_tobias: true }
         };
 
@@ -2563,7 +2567,7 @@
 
         async function copyLiveCardToClipboard() {
             try {
-                const cardUrl = (currentDayId === 'day-1') ? 'battle_card_day-1.png' : 'battle_card.png';
+                const cardUrl = (currentDayId === 'day-5') ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
                 const resp = await fetch(cardUrl);
                 if (!resp.ok) throw new Error('Błąd ładowania pliku karty');
                 const blob = await resp.blob();
@@ -2578,22 +2582,22 @@
         }
 
         function downloadLiveCard() {
-            const file = (currentDayId === 'day-1') ? 'battle_card_day-1.png' : 'battle_card.png';
+            const file = (currentDayId === 'day-5') ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
             window.open(file, '_blank');
         }
 
         function downloadSummaryCard(type = 'goe') {
             let file = '';
             if (type === 'goe') {
-                file = (currentDayId === 'day-1') ? 'goe_summary_day-1.png' : 'goe_summary.png';
+                file = (currentDayId === 'day-5') ? 'goe_summary.png' : `goe_summary_${currentDayId}.png`;
             } else {
-                file = (currentDayId === 'day-1') ? 'stream_summary_day-1.png' : 'stream_summary.png';
+                file = (currentDayId === 'day-5') ? 'stream_summary.png' : `stream_summary_${currentDayId}.png`;
             }
             window.open(file, '_blank');
         }
 
         function downloadCSV() {
-            const file = (currentDayId === 'day-1') ? 'stream_data_day-1.csv' : 'stream_data.csv';
+            const file = (currentDayId === 'day-5') ? 'stream_data.csv' : `stream_data_${currentDayId}.csv`;
             window.open(file, '_blank');
         }
 
