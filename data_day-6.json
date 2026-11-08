@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-08 08:03:56",
+  "timestamp": "2026-11-08 13:20:49",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -15,25 +15,27 @@
         {
           "id": "goe_stream",
           "platform": "Twitch",
-          "channel": "goe_stream",
+          "channel": "GoE_stream",
           "title": "Stream offline",
           "category": "",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.twitch.tv/goe_stream",
-          "avatar_url": "",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
         },
         {
           "id": "@gadaja_",
           "platform": "YouTube",
-          "channel": "Gadają o Esporcie (GOE)",
-          "title": "Stream offline",
+          "channel": "Gadają o Esporcie",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
-          "url": "https://www.youtube.com/@gadaja_",
-          "avatar_url": "",
+          "url": "https://www.youtube.com/watch?v=_PfE0hBYM-o",
+          "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
+          "video_id": "_PfE0hBYM-o",
+          "direct_watch_url": "https://www.youtube.com/watch?v=_PfE0hBYM-o",
           "group": "GOE"
         }
       ]
@@ -47,25 +49,27 @@
         {
           "id": "nervarien",
           "platform": "Twitch",
-          "channel": "nervarien",
+          "channel": "Nervarien",
           "title": "Stream offline",
           "category": "",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.twitch.tv/nervarien",
-          "avatar_url": "",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
         },
         {
           "id": "@nervarien",
           "platform": "YouTube",
           "channel": "Nervarien",
-          "title": "Stream offline",
+          "title": "🔴T1 vs BILIBILI GAMING🔴PÓŁFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
-          "url": "https://www.youtube.com/@nervarien",
-          "avatar_url": "",
+          "url": "https://www.youtube.com/watch?v=JiL6EGqs-74",
+          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
+          "video_id": "JiL6EGqs-74",
+          "direct_watch_url": "https://www.youtube.com/watch?v=JiL6EGqs-74",
           "group": "NERVA"
         }
       ]
@@ -79,13 +83,13 @@
         {
           "id": "ttobias_lol",
           "platform": "Twitch",
-          "channel": "ttobias_lol",
+          "channel": "Tobiasz",
           "title": "Stream offline",
           "category": "",
           "is_live": false,
           "viewers": 0,
           "url": "https://www.twitch.tv/ttobias_lol",
-          "avatar_url": "",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
         }
       ]
@@ -101,7 +105,7 @@
     "goe_start_iso": "2026-11-08T21:30:00+01:00"
   },
   "is_finished": false,
-  "is_active": false,
+  "is_active": true,
   "momentum": {
     "goe_delta": 0,
     "nerva_delta": 0,
@@ -154,7 +158,7 @@
     "camp_peak_time": "",
     "camp_avg": 0
   },
-  "active_day_id": "day-5",
+  "active_day_id": "day-6",
   "days": [
     {
       "id": "day-1",
@@ -239,7 +243,7 @@
     {
       "id": "day-5",
       "name": "Dzień 5 (07.11)",
-      "label": "Dzień 5 • 07.11 (Dzisiejszy)",
+      "label": "Dzień 5 • 07.11 (Zakończony)",
       "date": "2026-11-07",
       "schedule": {
         "goe_start": "20:30",
@@ -247,8 +251,8 @@
         "match_start": "23:00",
         "goe_start_iso": "2026-11-07T20:30:00+01:00"
       },
-      "is_finished": false,
-      "is_active": true,
+      "is_finished": true,
+      "is_active": false,
       "data_url": "./data_day-5.json",
       "history_url": "./history_day-5.json",
       "csv_url": "./stream_data_day-5.csv",
@@ -259,7 +263,7 @@
     {
       "id": "day-6",
       "name": "Dzień 6 (08.11)",
-      "label": "Dzień 6 • 08.11 (Nadchodzący)",
+      "label": "Dzień 6 • 08.11 (Dzisiejszy)",
       "date": "2026-11-08",
       "schedule": {
         "goe_start": "21:30",
@@ -268,7 +272,7 @@
         "goe_start_iso": "2026-11-08T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-6.json",
       "history_url": "./history_day-6.json",
       "csv_url": "./stream_data_day-6.csv",

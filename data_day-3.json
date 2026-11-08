@@ -174,7 +174,7 @@
     "tw_peak": 322,
     "tw_peak_time": "23:35"
   },
-  "active_day_id": "day-5",
+  "active_day_id": "day-6",
   "days": [
     {
       "id": "day-1",
@@ -259,7 +259,7 @@
     {
       "id": "day-5",
       "name": "Dzień 5 (07.11)",
-      "label": "Dzień 5 • 07.11 (Dzisiejszy)",
+      "label": "Dzień 5 • 07.11 (Zakończony)",
       "date": "2026-11-07",
       "schedule": {
         "goe_start": "20:30",
@@ -267,8 +267,8 @@
         "match_start": "23:00",
         "goe_start_iso": "2026-11-07T20:30:00+01:00"
       },
-      "is_finished": false,
-      "is_active": true,
+      "is_finished": true,
+      "is_active": false,
       "data_url": "./data_day-5.json",
       "history_url": "./history_day-5.json",
       "csv_url": "./stream_data_day-5.csv",
@@ -279,7 +279,7 @@
     {
       "id": "day-6",
       "name": "Dzień 6 (08.11)",
-      "label": "Dzień 6 • 08.11 (Nadchodzący)",
+      "label": "Dzień 6 • 08.11 (Dzisiejszy)",
       "date": "2026-11-08",
       "schedule": {
         "goe_start": "21:30",
@@ -288,7 +288,7 @@
         "goe_start_iso": "2026-11-08T21:30:00+01:00"
       },
       "is_finished": false,
-      "is_active": false,
+      "is_active": true,
       "data_url": "./data_day-6.json",
       "history_url": "./history_day-6.json",
       "csv_url": "./stream_data_day-6.csv",

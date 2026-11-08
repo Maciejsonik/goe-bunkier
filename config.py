@@ -156,9 +156,9 @@ DAYS_CONFIG = {
     "day-5": {
         "id": "day-5",
         "name": "Dzień 5 (07.11)",
-        "label": "Dzień 5 • 07.11 (Dzisiejszy)",
+        "label": "Dzień 5 • 07.11 (Zakończony)",
         "date": "2026-11-07",
-        "is_finished": False,
+        "is_finished": True,
         "start_utc": "2026-11-07 12:00:00",
         "end_utc": "2026-11-08 12:00:00",
         "schedule": {
@@ -193,7 +193,7 @@ DAYS_CONFIG = {
     "day-6": {
         "id": "day-6",
         "name": "Dzień 6 (08.11)",
-        "label": "Dzień 6 • 08.11 (Nadchodzący)",
+        "label": "Dzień 6 • 08.11 (Dzisiejszy)",
         "date": "2026-11-08",
         "is_finished": False,
         "start_utc": "2026-11-08 12:00:00",

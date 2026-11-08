@@ -1758,8 +1758,8 @@
                     <button class="quick-action-btn" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę
                         (Ctrl+V)</button>
                     <button class="quick-action-btn" onclick="downloadSummaryCard('goe')">📊 Wykres GoE (PNG)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2
-                        (PNG)</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2 (PNG)</button>
+                    <button class="quick-action-btn" onclick="downloadSummaryCard('camps')">🏕️ 3 Obozy (PNG)</button>
                     <button class="quick-action-btn" onclick="copyShareLink()">🔗 Kopiuj Link</button>
                 </div>
             </div>
@@ -2784,16 +2784,18 @@
         }
 
         function downloadLiveCard() {
-            const activeDay = rawData?.active_day_id || 'day-5';
+            const activeDay = rawData?.active_day_id || 'day-6';
             const file = (currentDayId === activeDay) ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
             window.open(file, '_blank');
         }
 
         function downloadSummaryCard(type = 'goe') {
-            const activeDay = rawData?.active_day_id || 'day-5';
+            const activeDay = rawData?.active_day_id || 'day-6';
             let file = '';
             if (type === 'goe') {
                 file = (currentDayId === activeDay) ? 'goe_summary.png' : `goe_summary_${currentDayId}.png`;
+            } else if (type === 'camps') {
+                file = (currentDayId === activeDay) ? 'camps_summary.png' : `camps_summary_${currentDayId}.png`;
             } else {
                 file = (currentDayId === activeDay) ? 'stream_summary.png' : `stream_summary_${currentDayId}.png`;
             }
@@ -2801,7 +2803,7 @@
         }
 
         function downloadCSV() {
-            const activeDay = rawData?.active_day_id || 'day-5';
+            const activeDay = rawData?.active_day_id || 'day-6';
             const file = (currentDayId === activeDay) ? 'stream_data.csv' : `stream_data_${currentDayId}.csv`;
             window.open(file, '_blank');
         }
@@ -2810,7 +2812,7 @@
             const toast = document.getElementById('toast');
             if (!toast) return;
             toast.innerText = msg;
-            toast.classNam'tow';
+            toast.className = 'toast show';
             setTimeout(() => {
                 toast.className = 'toast';
             }, 3000);
