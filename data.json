@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-11-08 01:45:28",
-  "total_viewers": 606,
+  "timestamp": "2026-11-08 08:03:54",
+  "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
-  "ratio_goe": 0.0,
-  "ratio_nerva": 0.0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
   "groups": {
     "GOE": {
       "id": "GOE",
@@ -102,16 +102,16 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 606,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "ttobias_lol",
           "platform": "Twitch",
           "channel": "Tobiasz",
-          "title": "GENG VS IG🔥23:00 PÓŁFINAŁ WORLDS 2026🔥 ⭐️CZY CHOVY ZCHOKUJE???????????⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
-          "category": "League of Legends",
-          "is_live": true,
-          "viewers": 606,
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
@@ -135,7 +135,7 @@
     "nerva_delta": -755,
     "minutes": 5
   },
-  "is_live": true,
+  "is_live": false,
   "summary_stats": {
     "count": 1454,
     "goe_peak": 2919,
