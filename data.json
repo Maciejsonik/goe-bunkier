@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-08 19:40:22",
-  "total_viewers": 493,
-  "leader": "REMIS",
-  "diff": 0,
-  "ratio_goe": 0.0,
-  "ratio_nerva": 0.0,
+  "timestamp": "2026-11-08 23:11:05",
+  "total_viewers": 15392,
+  "leader": "NERVA",
+  "diff": 6509,
+  "ratio_goe": 19.2,
+  "ratio_nerva": 61.5,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 0,
+      "total_viewers": 2950,
       "streams": [
         {
           "id": "goe_stream",
           "platform": "Twitch",
           "channel": "GoE_stream",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "T1 vs BLG | PÓŁFINAŁ WORLDS 2026 | Celebracja BUNKRA",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 377,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -30,8 +30,8 @@
           "channel": "Gadają o Esporcie",
           "title": "T1 vs BLG | PÓŁFINAŁ WORLDS 2026 | Celebracja BUNKRA",
           "category": "YouTube Live",
-          "is_live": false,
-          "viewers": 0,
+          "is_live": true,
+          "viewers": 2573,
           "url": "https://www.youtube.com/watch?v=p7f_l6Volf8",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
@@ -42,16 +42,16 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#ef4444",
-      "total_viewers": 0,
+      "total_viewers": 9459,
       "streams": [
         {
           "id": "nervarien",
           "platform": "Twitch",
           "channel": "Nervarien",
-          "title": "Stream offline",
-          "category": "",
-          "is_live": false,
-          "viewers": 0,
+          "title": "🔴T1 vs Bilibili Gaming🔴BO5🔴WORLDS'26 - SEMIFINALS !WORLDS🔴",
+          "category": "League of Legends",
+          "is_live": true,
+          "viewers": 3377,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -62,8 +62,8 @@
           "channel": "Nervarien",
           "title": "🔴T1 vs BILIBILI GAMING🔴PÓŁFINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
-          "is_live": false,
-          "viewers": 0,
+          "is_live": true,
+          "viewers": 6082,
           "url": "https://www.youtube.com/watch?v=JiL6EGqs-74",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "group": "NERVA"
@@ -74,7 +74,7 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 493,
+      "total_viewers": 2983,
       "streams": [
         {
           "id": "ttobias_lol",
@@ -83,7 +83,7 @@
           "title": "T1 VS BLG🔥23:00 PÓŁFINAŁ WORLDS 2026🔥 ⭐️T1 HATEROOM FAKER NIE WYGRA WORLDSÓW W TYM ROKU⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 493,
+          "viewers": 2983,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"
