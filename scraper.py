@@ -394,12 +394,70 @@ def fetch_youtube_channel_live(handle: str) -> dict:
     }
 
 
+_LAST_DISCOVERY = {}
+_DISCOVERED_VIDS = {}
+
+
+def check_channel_live_streams(handle: str, force: bool = False) -> list[str]:
+    """Auto-discovers all currently live stream video IDs on a YouTube channel's /streams page."""
+    now = time.time()
+    if not force and handle in _LAST_DISCOVERY and (now - _LAST_DISCOVERY[handle]) < 45:
+        return _DISCOVERED_VIDS.get(handle, [])
+
+    try:
+        clean = handle.replace("https://www.youtube.com/", "").replace("/", "").strip()
+        if not clean.startswith("@"):
+            clean = f"@{clean}"
+        url = f"https://www.youtube.com/{clean}/streams"
+        req = urllib.request.Request(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            html = resp.read().decode("utf-8", errors="ignore")
+            blocks = re.split(r"\"(?:videoRenderer|lockupViewModel)\":", html)
+            live_ids = []
+            for b in blocks[1:]:
+                is_live = (
+                    '"imageName":"LIVE"' in b
+                    or '"BADGE_STYLE_TYPE_LIVE_NOW"' in b
+                    or '"THUMBNAIL_OVERLAY_BADGE_STYLE_LIVE' in b
+                )
+                if is_live:
+                    vid_m = re.search(r"\"videoId\":\"([a-zA-Z0-9_-]{11})\"", b)
+                    if vid_m:
+                        vid = vid_m.group(1)
+                        if vid not in live_ids:
+                            live_ids.append(vid)
+            _LAST_DISCOVERY[handle] = now
+            _DISCOVERED_VIDS[handle] = live_ids
+            return live_ids
+    except Exception as e:
+        print(f"[Auto-Discovery] Błąd skanowania {handle}/streams: {e}")
+        return _DISCOVERED_VIDS.get(handle, [])
+
+
 def fetch_all_data(
     groups_config: dict | None = None, day_id: str | None = None
 ) -> dict:
     """Fetches all streams concurrently and returns grouped comparison data."""
     if groups_config is None:
         groups_config = get_groups_config(day_id)
+
+    # Dynamic auto-discovery of live streams for GoE and Nervarien
+    channel_handles = {"GOE": "@gadaja_", "NERVA": "@nervarien"}
+    for grp_key, handle in channel_handles.items():
+        if grp_key in groups_config:
+            grp_yt = groups_config[grp_key].setdefault("youtube", [])
+            live_discovered = check_channel_live_streams(handle)
+            for vid in live_discovered:
+                if vid not in grp_yt:
+                    print(
+                        f"[{grp_key} Auto-Discovery] Wykryto nową transmisję na żywo: {vid}"
+                    )
+                    grp_yt.append(vid)
 
     all_twitch_channels = []
     all_yt_ids = []
@@ -470,8 +528,18 @@ def fetch_all_data(
 
                 st_item = dict(st)
                 st_item["group"] = grp_key
-                is_costream = vid in COSTREAM_STREAMS or actual_vid in COSTREAM_STREAMS
+                is_costream = (
+                    vid in COSTREAM_STREAMS
+                    or actual_vid in COSTREAM_STREAMS
+                    or "CO-STREAM" in (st.get("title") or "").upper()
+                )
                 if is_costream:
+                    if actual_vid and actual_vid not in COSTREAM_STREAMS:
+                        COSTREAM_STREAMS[actual_vid] = {
+                            "name": "Nerva Co-stream",
+                            "group": "NERVA",
+                            "platform": "YouTube",
+                        }
                     costream_info = COSTREAM_STREAMS.get(
                         vid, COSTREAM_STREAMS.get(actual_vid, {})
                     )
