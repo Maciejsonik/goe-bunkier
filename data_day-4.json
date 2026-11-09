@@ -293,7 +293,7 @@
     {
       "id": "day-6",
       "name": "Dzień 6 (08.11)",
-      "label": "Dzień 6 • 08.11 (Dzisiejszy)",
+      "label": "Dzień 6 • 08.11 (Zakończony)",
       "date": "2026-11-08",
       "schedule": {
         "goe_start": "21:30",
@@ -301,7 +301,7 @@
         "match_start": "23:00",
         "goe_start_iso": "2026-11-08T21:30:00+01:00"
       },
-      "is_finished": false,
+      "is_finished": true,
       "is_active": true,
       "data_url": "./data_day-6.json",
       "history_url": "./history_day-6.json",

@@ -180,7 +180,9 @@ def export_csv_from_history(history: list[dict], filepath: str):
             )
 
 
-def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
+def build_day(
+    day_id: str, active_day: str, days_manifest: list[dict], force: bool = False
+) -> dict:
     """Builds static artifacts for a specific day."""
     print(f"\n==================== [Build: {day_id.upper()}] ====================")
     day_cfg = DAYS_CONFIG[day_id]
@@ -360,7 +362,7 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
         and os.path.exists(day_camps_clean_path)
     )
 
-    if not (day_cfg.get("is_finished") and all_graphics_exist):
+    if force or not (day_cfg.get("is_finished") and all_graphics_exist):
         try:
             create_battle_card(data, day_card_path)
             print(f"📸 Karta LIVE ({day_id}): {day_card_path}")
@@ -435,7 +437,10 @@ def build_day(day_id: str, active_day: str, days_manifest: list[dict]) -> dict:
     }
 
 
-def build():
+def build(force: bool = False):
+    import sys
+
+    force = force or ("--force" in sys.argv)
     active_day = get_active_day_id()
     print(f"🌟 [Multi-Day Build] Aktywny dzień (wg reguły 12:00 UTC): {active_day}")
 
@@ -460,7 +465,11 @@ def build():
 
     day_outputs = {}
     for day_id in DAYS_CONFIG:
-        day_outputs[day_id] = build_day(day_id, active_day, days_manifest)
+        # Force re-rendering only for active day unless global force
+        day_force = force or (day_id == active_day)
+        day_outputs[day_id] = build_day(
+            day_id, active_day, days_manifest, force=day_force
+        )
 
     # Mirror active day artifacts to standard root names for backward compatibility & GitHub Pages root
     print(
