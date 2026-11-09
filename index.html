@@ -2077,10 +2077,10 @@
                     style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️
                     Filtr botów: WŁ.</button>
                 <select id="auto-refresh-select" onchange="setupAutoRefresh()">
-                    <option value="30" selected>Auto: 30s</option>
+                    <option value="0" selected>Auto: wyłączone</option>
+                    <option value="30">Auto: 30s</option>
                     <option value="60">Auto: 60s</option>
                     <option value="120">Auto: 2 min</option>
-                    <option value="0">Auto: wyłączone</option>
                 </select>
                 <button class="btn-primary" onclick="loadData(true)">🔄 Odśwież</button>
                 <button class="btn-primary" onclick="downloadCSV()">📥 CSV</button>
@@ -3615,11 +3615,44 @@
 
                 const timeStr = rawData ? rawData.timestamp : '';
                 document.getElementById('last-updated').innerText = `W KIELECKIM STUDIU • ${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
-                document.getElementById('api-dot').style.background = '#4ade80';
-                document.getElementById('api-label').innerText = 'LIVE';
+
+                // Update live / archive status pill
+                const isDayLive = rawData && !rawData.is_finished && !!rawData.is_live;
+                const dotEl = document.getElementById('api-dot');
+                const labelEl = document.getElementById('api-label');
+                const pillEl = document.getElementById('sync-pill');
+                const twitchBtn = document.getElementById('header-twitch-btn');
+
+                if (isDayLive) {
+                    if (dotEl) {
+                        dotEl.style.background = '#4ade80';
+                        dotEl.style.boxShadow = '0 0 6px #4ade80';
+                    }
+                    if (labelEl) labelEl.innerText = 'LIVE SYNC';
+                    if (pillEl) pillEl.title = 'Transmisja na żywo • Automatyczna synchronizacja danych';
+                    if (twitchBtn) {
+                        twitchBtn.innerText = '▶️ OGLĄDAJ BUNKIER (TWITCH)';
+                        twitchBtn.classList.add('btn-twitch-live');
+                    }
+                } else {
+                    if (dotEl) {
+                        dotEl.style.background = '#64748b';
+                        dotEl.style.boxShadow = 'none';
+                    }
+                    if (labelEl) labelEl.innerText = 'ARCHIWUM';
+                    if (pillEl) pillEl.title = 'Transmisja zakończona • Dane archiwalne';
+                    if (twitchBtn) {
+                        twitchBtn.innerText = '📺 KANAŁ TWITCH';
+                        twitchBtn.classList.remove('btn-twitch-live');
+                    }
+                }
             } catch (err) {
                 console.error("Load day data error:", err);
-                document.getElementById('api-dot').style.background = '#f59e0b';
+                const dotEl = document.getElementById('api-dot');
+                if (dotEl) {
+                    dotEl.style.background = '#f59e0b';
+                    dotEl.style.boxShadow = 'none';
+                }
             }
         }
 
@@ -3659,6 +3692,26 @@
 
             renderStageView(stageId);
             const stageTitle = stageId === 'tournament' ? 'Cały Turniej' : (stageId === 'semis' ? 'Półfinały' : 'Ćwierćfinały');
+            
+            // Update status pill for stage summary
+            const dotEl = document.getElementById('api-dot');
+            const labelEl = document.getElementById('api-label');
+            const pillEl = document.getElementById('sync-pill');
+            const countdownEl = document.getElementById('sync-countdown');
+            if (dotEl) {
+                dotEl.style.background = '#64748b';
+                dotEl.style.boxShadow = 'none';
+            }
+            if (labelEl) labelEl.innerText = 'PODSUMOWANIE';
+            if (pillEl) pillEl.title = 'Zbiorcze statystyki etapu turnieju';
+            if (countdownEl && (!document.getElementById('auto-refresh-select') || parseInt(document.getElementById('auto-refresh-select').value, 10) === 0)) {
+                countdownEl.innerText = '• Statyczne';
+            }
+            const lastUpdatedEl = document.getElementById('last-updated');
+            if (lastUpdatedEl) {
+                lastUpdatedEl.innerText = `W KIELECKIM STUDIU • Podsumowanie etapu: ${stageTitle} • Dane archiwalne`;
+            }
+
             showToast(`Przełączono na podsumowanie: ${stageTitle}`);
         }
 
@@ -3971,12 +4024,13 @@
 
         function updateRefreshProgressUI() {
             const selectEl = document.getElementById('auto-refresh-select');
-            const total = selectEl ? parseInt(selectEl.value, 10) : 30;
+            const total = selectEl ? parseInt(selectEl.value, 10) : 0;
             const barEl = document.getElementById('refresh-progress-bar');
             const countdownEl = document.getElementById('sync-countdown');
+            const isDayLive = rawData && !rawData.is_finished && !!rawData.is_live;
 
             if (total === 0) {
-                if (countdownEl) countdownEl.innerText = '• Wył.';
+                if (countdownEl) countdownEl.innerText = isDayLive ? '• Wył.' : '• Statyczne';
                 if (barEl) barEl.style.width = '0%';
                 return;
             }
