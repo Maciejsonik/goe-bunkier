@@ -2141,7 +2141,8 @@
                 <div class="deck-left-cluster">
                     <!-- Day Picker -->
                     <div style="display: flex; align-items: center; gap: 6px;">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Dni:</span>
+                        <span
+                            style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Dni:</span>
                         <div class="segmented-group" id="day-tabs-container">
                             <!-- Rendered dynamically -->
                         </div>
@@ -2151,15 +2152,19 @@
 
                     <!-- Stage Summaries Picker -->
                     <div style="display: flex; align-items: center; gap: 6px;">
-                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Etapy:</span>
+                        <span
+                            style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Etapy:</span>
                         <div class="segmented-group" id="stage-tabs-container">
-                            <button class="segmented-btn stage-tab-btn" id="stage-tab-quarters" onclick="switchStage('quarters')">
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-quarters"
+                                onclick="switchStage('quarters')">
                                 🥊 Ćwierćfinały (1–4)
                             </button>
-                            <button class="segmented-btn stage-tab-btn" id="stage-tab-semis" onclick="switchStage('semis')">
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-semis"
+                                onclick="switchStage('semis')">
                                 🔥 Półfinały (5–6)
                             </button>
-                            <button class="segmented-btn stage-tab-btn" id="stage-tab-tournament" onclick="switchStage('tournament')">
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-tournament"
+                                onclick="switchStage('tournament')">
                                 🏆 Cały Turniej (1–6)
                             </button>
                         </div>
@@ -2186,7 +2191,8 @@
                     </div>
                 </div>
 
-                <div id="single-day-active-series" style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
+                <div id="single-day-active-series"
+                    style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
                     <span>Aktywne serie na wykresie:</span>
                     <span id="active-series-count-badge" class="filter-count-badge"
                         style="background: var(--goe-red); color: #ffffff;">3 / 9</span>
@@ -2214,119 +2220,128 @@
 
                 <!-- SECTION 1: GOE HERO STATS & CONTEXT CARD -->
                 <div class="hero-goe-card">
-                <div class="hero-header">
-                    <div class="hero-title-group">
-                        <h2>Widownia Co-stream GoE (Kielecki Bunkier)</h2>
-                        <div class="hero-total-viewers" id="goe-hero-total">--</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="momentum-badge" id="goe-hero-momentum">Trend: --</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;" id="goe-hero-peak">Pik:
-                            --</div>
-                    </div>
-                </div>
-
-                <!-- GoE Platforms Breakdown -->
-                <div class="goe-breakdown">
-                    <div class="breakdown-box">
-                        <div>
-                            <div class="breakdown-platform"><span class="live-dot"
-                                    style="background:#ff0000; box-shadow: 0 0 8px #ff0000;"></span> YouTube (Gadają o
-                                Esporcie)</div>
-                            <div class="breakdown-val" id="goe-yt-viewers">--</div>
+                    <div class="hero-header">
+                        <div class="hero-title-group">
+                            <h2>Widownia Co-stream GoE (Kielecki Bunkier)</h2>
+                            <div class="hero-total-viewers" id="goe-hero-total">--</div>
                         </div>
-                        <div class="breakdown-pct" id="goe-yt-pct">--% widowni</div>
+                        <div style="text-align: right;">
+                            <div class="momentum-badge" id="goe-hero-momentum">Trend: --</div>
+                            <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;" id="goe-hero-peak">
+                                Pik:
+                                --</div>
+                        </div>
                     </div>
-                    <div class="breakdown-box">
-                        <div>
-                            <div class="breakdown-platform"><span class="live-dot"
-                                    style="background:#9146ff; box-shadow: 0 0 8px #9146ff;"></span> Twitch (GoE_stream)
+
+                    <!-- GoE Platforms Breakdown -->
+                    <div class="goe-breakdown">
+                        <div class="breakdown-box">
+                            <div>
+                                <div class="breakdown-platform"><span class="live-dot"
+                                        style="background:#ff0000; box-shadow: 0 0 8px #ff0000;"></span> YouTube (Gadają
+                                    o
+                                    Esporcie)</div>
+                                <div class="breakdown-val" id="goe-yt-viewers">--</div>
                             </div>
-                            <div class="breakdown-val" id="goe-tw-viewers">--</div>
+                            <div class="breakdown-pct" id="goe-yt-pct">--% widowni</div>
                         </div>
-                        <div class="breakdown-pct" id="goe-tw-pct">--% widowni</div>
-                    </div>
-                </div>
-
-                <!-- Platform proportional bar -->
-                <div class="goe-bar-container">
-                    <div id="goe-sub-bar-yt" class="goe-bar-yt" style="width: 50%;"></div>
-                    <div id="goe-sub-bar-tw" class="goe-bar-tw" style="width: 50%;"></div>
-                </div>
-
-                <!-- Secondary Contextual Duel Bar (Nervarien Battle Context) -->
-                <div class="goe-context-banner">
-                    <div class="context-banner-header">
-                        <div class="context-label">
-                            <span style="color: var(--goe-red); font-weight: 900;">⚔️ KONTEKST RYNKOWY:</span>
-                            <span id="goe-context-summary">Ładowanie starcia...</span>
-                        </div>
-                        <div class="context-score" id="goe-context-score">
-                            --
+                        <div class="breakdown-box">
+                            <div>
+                                <div class="breakdown-platform"><span class="live-dot"
+                                        style="background:#9146ff; box-shadow: 0 0 8px #9146ff;"></span> Twitch
+                                    (GoE_stream)
+                                </div>
+                                <div class="breakdown-val" id="goe-tw-viewers">--</div>
+                            </div>
+                            <div class="breakdown-pct" id="goe-tw-pct">--% widowni</div>
                         </div>
                     </div>
-                    <div class="battle-bar-container" style="margin-bottom: 0;">
-                        <div id="goe-context-bar-left" class="bar-segment-goe" style="width: 50%;"></div>
-                        <div id="goe-context-bar-right" class="bar-segment-nerva" style="width: 50%;"></div>
+
+                    <!-- Platform proportional bar -->
+                    <div class="goe-bar-container">
+                        <div id="goe-sub-bar-yt" class="goe-bar-yt" style="width: 50%;"></div>
+                        <div id="goe-sub-bar-tw" class="goe-bar-tw" style="width: 50%;"></div>
                     </div>
-                </div>
 
-
-                <!-- Quick actions -->
-                <div class="card-quick-actions" style="margin-top: 16px;">
-                    <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE (PNG)</button>
-                    <button class="quick-action-btn" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę
-                        (Ctrl+V)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('goe')">📊 Wykres GoE (PNG)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2 (PNG)</button>
-                    <button class="quick-action-btn" onclick="downloadSummaryCard('camps')">🏕️ 3 Obozy (PNG)</button>
-                    <button class="quick-action-btn" onclick="copyShareLink()">🔗 Kopiuj Link</button>
-                </div>
-            </div>
-
-            <!-- SECTION 2: MASTER INTERACTIVE CHART -->
-            <div class="chart-box">
-                <div class="chart-header">
-                    <div>
-                        <div class="chart-title">📈 Przebieg widowni w czasie</div>
-                        <div id="main-chart-sub-label"
-                            style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...
+                    <!-- Secondary Contextual Duel Bar (Nervarien Battle Context) -->
+                    <div class="goe-context-banner">
+                        <div class="context-banner-header">
+                            <div class="context-label">
+                                <span style="color: var(--goe-red); font-weight: 900;">⚔️ KONTEKST RYNKOWY:</span>
+                                <span id="goe-context-summary">Ładowanie starcia...</span>
+                            </div>
+                            <div class="context-score" id="goe-context-score">
+                                --
+                            </div>
+                        </div>
+                        <div class="battle-bar-container" style="margin-bottom: 0;">
+                            <div id="goe-context-bar-left" class="bar-segment-goe" style="width: 50%;"></div>
+                            <div id="goe-context-bar-right" class="bar-segment-nerva" style="width: 50%;"></div>
                         </div>
                     </div>
-                    <div class="time-range-group">
-                        <span
-                            style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
-                        <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
-                        <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
-                        <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
-                        <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
-                        <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały stream</button>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="mainChart"></canvas>
-                </div>
-            </div>
 
-            <!-- SECTION 3: 9 INTERACTIVE CHANNELS & SUMS -->
-            <div class="channels-master-section">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                    <div>
-                        <div class="column-title" style="margin-bottom: 2px;">⚡ Wybór kanałów i sum (Kliknij kafelek,
-                            aby włączyć/wyłączyć na wykresie)</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Zarządzaj seriami na wykresie i
-                            uruchamiaj podgląd transmisji Twitcha</div>
-                    </div>
-                    <div style="font-size: 12px; color: var(--text-dim);">
-                        Wskazówka: Aktywne kafelki podświetlają się swoim kolorem
+
+                    <!-- Quick actions -->
+                    <div class="card-quick-actions" style="margin-top: 16px;">
+                        <button class="quick-action-btn" onclick="downloadLiveCard()">📸 Pobierz Kartę LIVE
+                            (PNG)</button>
+                        <button class="quick-action-btn" onclick="copyLiveCardToClipboard()">📋 Kopiuj grafikę
+                            (Ctrl+V)</button>
+                        <button class="quick-action-btn" onclick="downloadSummaryCard('goe')">📊 Wykres GoE
+                            (PNG)</button>
+                        <button class="quick-action-btn" onclick="downloadSummaryCard('comparison')">⚖️ Starcie 2v2
+                            (PNG)</button>
+                        <button class="quick-action-btn" onclick="downloadSummaryCard('camps')">🏕️ 3 Obozy
+                            (PNG)</button>
+                        <button class="quick-action-btn" onclick="copyShareLink()">🔗 Kopiuj Link</button>
                     </div>
                 </div>
-                <div class="channels-master-grid" id="channels-master-grid">
-                    <!-- Rendered dynamically -->
+
+                <!-- SECTION 2: MASTER INTERACTIVE CHART -->
+                <div class="chart-box">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">📈 Przebieg widowni w czasie</div>
+                            <div id="main-chart-sub-label"
+                                style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ładowanie historii...
+                            </div>
+                        </div>
+                        <div class="time-range-group">
+                            <span
+                                style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 4px;">Zakres:</span>
+                            <button class="time-btn time-btn-15m" onclick="setTimeRange('15m')">15 min</button>
+                            <button class="time-btn time-btn-30m" onclick="setTimeRange('30m')">30 min</button>
+                            <button class="time-btn time-btn-1h" onclick="setTimeRange('1h')">1 godz.</button>
+                            <button class="time-btn time-btn-2h" onclick="setTimeRange('2h')">2 godz.</button>
+                            <button class="time-btn time-btn-all active" onclick="setTimeRange('all')">Cały
+                                stream</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="mainChart"></canvas>
+                    </div>
                 </div>
-            </div>
-            <!-- /channels-master-section -->
+
+                <!-- SECTION 3: 9 INTERACTIVE CHANNELS & SUMS -->
+                <div class="channels-master-section">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                        <div>
+                            <div class="column-title" style="margin-bottom: 2px;">⚡ Wybór kanałów i sum (Kliknij
+                                kafelek,
+                                aby włączyć/wyłączyć na wykresie)</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">Zarządzaj seriami na wykresie i
+                                uruchamiaj podgląd transmisji Twitcha</div>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-dim);">
+                            Wskazówka: Aktywne kafelki podświetlają się swoim kolorem
+                        </div>
+                    </div>
+                    <div class="channels-master-grid" id="channels-master-grid">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+                <!-- /channels-master-section -->
 
             </div>
             <!-- /#single-day-view -->
@@ -2339,10 +2354,12 @@
                     <div class="stage-hero-header">
                         <div class="stage-hero-title-group">
                             <h2 id="stage-hero-title">🥊 ĆWIERĆFINAŁY (DNI 1–4)</h2>
-                            <div class="stage-hero-subtitle" id="stage-hero-subtitle">4 mecze BO5 • 8 czołowych drużyn świata</div>
+                            <div class="stage-hero-subtitle" id="stage-hero-subtitle">4 mecze BO5 • 8 czołowych drużyn
+                                świata</div>
                         </div>
                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <button class="quick-action-btn" onclick="downloadStageCard()">📸 Pobierz Infografikę Etapu (PNG)</button>
+                            <button class="quick-action-btn" onclick="downloadStageCard()">📸 Pobierz Infografikę Etapu
+                                (PNG)</button>
                             <button class="quick-action-btn" onclick="downloadStageJson()">📥 Pobierz JSON</button>
                         </div>
                     </div>
@@ -2382,14 +2399,19 @@
                         <div class="stage-camp-header">
                             <div>
                                 <div class="stage-camp-name" style="color: var(--goe-red);">
-                                    <span class="live-dot" style="background: var(--goe-red); box-shadow: 0 0 8px var(--goe-red);"></span>
+                                    <span class="live-dot"
+                                        style="background: var(--goe-red); box-shadow: 0 0 8px var(--goe-red);"></span>
                                     Kielecki Bunkier (GoE)
                                 </div>
-                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Gadają o Esporcie (YouTube + Twitch)</div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Gadają o Esporcie
+                                    (YouTube + Twitch)</div>
                             </div>
                             <div style="text-align: right;">
-                                <div class="stage-camp-share" style="color: var(--goe-red);" id="stage-goe-share">--%</div>
-                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Udział</div>
+                                <div class="stage-camp-share" style="color: var(--goe-red);" id="stage-goe-share">--%
+                                </div>
+                                <div
+                                    style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
+                                    Udział</div>
                             </div>
                         </div>
                         <div class="stage-camp-stats-list">
@@ -2421,14 +2443,19 @@
                         <div class="stage-camp-header">
                             <div>
                                 <div class="stage-camp-name" style="color: var(--nerva-light-purple);">
-                                    <span class="live-dot" style="background: var(--nerva-purple); box-shadow: 0 0 8px var(--nerva-purple);"></span>
+                                    <span class="live-dot"
+                                        style="background: var(--nerva-purple); box-shadow: 0 0 8px var(--nerva-purple);"></span>
                                     Obóz Nervariena
                                 </div>
-                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Nervarien + Co-streamerzy</div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Nervarien +
+                                    Co-streamerzy</div>
                             </div>
                             <div style="text-align: right;">
-                                <div class="stage-camp-share" style="color: var(--nerva-light-purple);" id="stage-nerva-share">--%</div>
-                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Udział</div>
+                                <div class="stage-camp-share" style="color: var(--nerva-light-purple);"
+                                    id="stage-nerva-share">--%</div>
+                                <div
+                                    style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
+                                    Udział</div>
                             </div>
                         </div>
                         <div class="stage-camp-stats-list">
@@ -2460,14 +2487,19 @@
                         <div class="stage-camp-header">
                             <div>
                                 <div class="stage-camp-name" style="color: var(--tobias-orange);">
-                                    <span class="live-dot" style="background: var(--tobias-orange); box-shadow: 0 0 8px var(--tobias-orange);"></span>
+                                    <span class="live-dot"
+                                        style="background: var(--tobias-orange); box-shadow: 0 0 8px var(--tobias-orange);"></span>
                                     Obóz Tobiasza
                                 </div>
-                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">ttobias_lol (Twitch)</div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">ttobias_lol
+                                    (Twitch)</div>
                             </div>
                             <div style="text-align: right;">
-                                <div class="stage-camp-share" style="color: var(--tobias-orange);" id="stage-tobias-share">--%</div>
-                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Udział</div>
+                                <div class="stage-camp-share" style="color: var(--tobias-orange);"
+                                    id="stage-tobias-share">--%</div>
+                                <div
+                                    style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
+                                    Udział</div>
                             </div>
                         </div>
                         <div class="stage-camp-stats-list">
@@ -2502,14 +2534,18 @@
                         <div class="chart-header">
                             <div>
                                 <div class="chart-title">📊 Porównanie Meczów w Etapie</div>
-                                <div id="stage-chart-sub" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">
+                                <div id="stage-chart-sub"
+                                    style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">
                                     Wybierz metrykę, aby porównać 3 obozy mecz po meczu
                                 </div>
                             </div>
                             <div class="time-range-group">
-                                <button class="time-btn active" id="btn-stage-metric-peaks" onclick="switchStageMetric('peaks')">🔥 Szczyty (Peak)</button>
-                                <button class="time-btn" id="btn-stage-metric-avg" onclick="switchStageMetric('live_avg')">⏱️ Średnia Live</button>
-                                <button class="time-btn" id="btn-stage-metric-watch" onclick="switchStageMetric('watch_hours')">⌛ Widzogodziny</button>
+                                <button class="time-btn active" id="btn-stage-metric-peaks"
+                                    onclick="switchStageMetric('peaks')">🔥 Szczyty (Peak)</button>
+                                <button class="time-btn" id="btn-stage-metric-avg"
+                                    onclick="switchStageMetric('live_avg')">⏱️ Średnia Live</button>
+                                <button class="time-btn" id="btn-stage-metric-watch"
+                                    onclick="switchStageMetric('watch_hours')">⌛ Widzogodziny</button>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -2522,20 +2558,24 @@
                         <div class="chart-header">
                             <div class="chart-title">🥧 Udział w Widzogodzinach (%)</div>
                         </div>
-                        <div class="chart-wrapper" style="height: 320px; display: flex; align-items: center; justify-content: center;">
+                        <div class="chart-wrapper"
+                            style="height: 320px; display: flex; align-items: center; justify-content: center;">
                             <canvas id="stageShareChart"></canvas>
                         </div>
                         <div style="font-size: 11px; text-align: center; color: var(--text-dim); margin-top: 10px;">
-                            Na podstawie sumy <span id="stage-share-total-hrs" style="color: #ffffff; font-weight: 700;">--</span> wygenerowanych widzogodzin
+                            Na podstawie sumy <span id="stage-share-total-hrs"
+                                style="color: #ffffff; font-weight: 700;">--</span> wygenerowanych widzogodzin
                         </div>
                     </div>
                 </div>
 
                 <!-- MATCH-BY-MATCH BREAKDOWN TABLE -->
                 <div class="stage-table-box">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                         <div class="chart-title">📋 Zestawienie Mecz po Meczu (Worlds 2026)</div>
-                        <div style="font-size: 12px; color: var(--text-dim);">Oficjalne drabinki Riot Games • Kliknij "Przejdź", aby zobaczyć szczegóły danego dnia</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">Oficjalne drabinki Riot Games • Kliknij
+                            "Przejdź", aby zobaczyć szczegóły danego dnia</div>
                     </div>
                     <table class="stage-table">
                         <thead>
@@ -2565,13 +2605,21 @@
                     </div>
                     <div class="stage-methodology-text">
                         <p style="margin-bottom: 6px;">
-                            <strong>Prawdziwa Średnia Live (Live Broadcast Window):</strong> Tradycyjna średnia arytmetyczna z całego dnia drastycznie zaniża wyniki twórców, którzy rozpoczęli transmisję później lub zakończyli wcześniej (wliczanie zer). W naszym modelu średnia liczona jest wyłącznie w rzeczywistym przedziale nadawania danego streamera: <code>Średnia = Widzogodziny / Czas Transmisji</code>.
+                            <strong>Prawdziwa Średnia Live (Live Broadcast Window):</strong> Tradycyjna średnia
+                            arytmetyczna z całego dnia drastycznie zaniża wyniki twórców, którzy rozpoczęli transmisję
+                            później lub zakończyli wcześniej (wliczanie zer). W naszym modelu średnia liczona jest
+                            wyłącznie w rzeczywistym przedziale nadawania danego streamera:
+                            <code>Średnia = Widzogodziny / Czas Transmisji</code>.
                         </p>
                         <p style="margin-bottom: 6px;">
-                            <strong>Widzogodziny:</strong> Sumowane co 15 sekund ze wzoru: <code>Widzowie × (15 / 3600)</code>.
+                            <strong>Widzogodziny:</strong> Sumowane co 15 sekund ze wzoru:
+                            <code>Widzowie × (15 / 3600)</code>.
                         </p>
                         <p id="stage-methodology-disclaimers">
-                            <strong>Korekty telemetryczne:</strong> W Dniu 1 dane GoE zostały oczyszczone z 2 fal viewbotów filtrem adaptywnym (organiczny pik 2 815 vs sztuczny 6 857). W Dniu 3 obcięto późną sesję solo po meczu (02:11 CET). W Dniach 2 i 4 wygładzono pojedyncze timeouty pobierania danych YouTube API.
+                            <strong>Korekty telemetryczne:</strong> W Dniu 1 dane GoE zostały oczyszczone z 2 fal
+                            viewbotów filtrem adaptywnym (organiczny pik 2 815 vs sztuczny 6 857). W Dniu 3 obcięto
+                            późną sesję solo po meczu (02:11 CET). W Dniach 2 i 4 wygładzono pojedyncze timeouty
+                            pobierania danych YouTube API.
                         </p>
                     </div>
                 </div>
@@ -2695,7 +2743,7 @@
                 isTwitch: false,
                 getValue: (pt, fb) => fb ? (pt.goe_total || 0) : (pt.goe_total_raw || pt.goe_total || 0),
                 getLiveViewers: (d) => {
-                    const st = (d?.groups?.GOE?.streams || []).filter(s => s.id !== 'I2E60nEUXWo');
+                    const st = d?.groups?.GOE?.streams || [];
                     return st.reduce((acc, s) => acc + (s.viewers || 0), 0);
                 }
             },
@@ -2749,7 +2797,7 @@
                 isTwitch: false,
                 getValue: (pt) => pt.nerva_total || 0,
                 getLiveViewers: (d) => {
-                    const st = (d?.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity && s.id !== 'SGAaZFSc3Zk');
+                    const st = (d?.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity);
                     return st.reduce((acc, s) => acc + (s.viewers || 0), 0);
                 }
             },
@@ -2965,6 +3013,8 @@
             if (!container) return;
             container.innerHTML = '';
 
+            const isFinished = !!rawData?.is_finished;
+
             Object.entries(SERIES_CONFIG).forEach(([key, cfg]) => {
                 const isActive = activeSeriesSet.has(key);
                 let liveViewers = 0;
@@ -2977,13 +3027,21 @@
                     liveViewers = streamObj ? (streamObj.viewers || 0) : 0;
                 }
 
-                const isLiveNow = (rawData && rawData.is_live && liveViewers > 0);
-                const viewersFormatted = isLiveNow 
-                   ? `${liveViewers.toLocaleString('pl-PL')} widzów` 
-                    : (rawData && rawData.is_finished ? 'Zakończony' : 'OFFLINE');
+                let viewersFormatted = '';
+                let peakVal = 0;
+
+                if (isFinished) {
+                    const vals = (fullHistory || []).map(pt => cfg.getValue(pt, filterBots));
+                    peakVal = vals.length > 0 ? Math.max(...vals) : 0;
+                    viewersFormatted = peakVal > 0 ? `${peakVal.toLocaleString('pl-PL')} pik` : 'Brak transmisji';
+                } else if (rawData && rawData.is_live && liveViewers > 0) {
+                    viewersFormatted = `${liveViewers.toLocaleString('pl-PL')} widzów`;
+                } else {
+                    viewersFormatted = 'OFFLINE';
+                }
 
                 const card = document.createElement('div');
-                card.className = `channel-master-card ${isActive ? 'active' : ''} ${cfg.is_aggregate ? 'is-aggregate' : ''}`;
+                card.className = `channel-master-card ${isActive ? 'active' : ''} ${cfg.is_aggregate ? 'is-aggregate' : ''} ${(isFinished && peakVal === 0) ? 'stream-item-dimmed' : ''}`;
                 card.style.setProperty('--series-color', cfg.color);
                 card.onclick = () => toggleSeries(key);
 
@@ -3062,8 +3120,8 @@
                             bodyFont: { family: 'Rajdhani', size: 13 },
                             padding: 12,
                             displayColors: true,
-                             callbacks: {
-                                label: function(context) {
+                            callbacks: {
+                                label: function (context) {
                                     return ` ${context.dataset.label}: ${context.parsed.y.toLocaleString('pl-PL')} widzów`;
                                 }
                             }
@@ -3137,10 +3195,10 @@
                 const activeNames = Array.from(activeSeriesSet).map(k => SERIES_CONFIG[k]?.name).filter(Boolean).join(', ');
                 sub.innerText = `Zakres: ${rangeLabel} • Aktywne: ${activeNames}`;
             }
-         }
+        }
 
         function getRangeLabel(range) {
-            switch(range) {
+            switch (range) {
                 case '15m': return 'Ostatnie 15 minut';
                 case '30m': return 'Ostatnie 30 minut';
                 case '1h': return 'Ostatnia godzina';
@@ -3302,54 +3360,81 @@
                 }
             }
 
-            const stGoe = (rawData.groups?.GOE?.streams || []).filter(s => s.id !== 'I2E60nEUXWo');
-            const stNervaOff = (rawData.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity && s.id !== 'SGAaZFSc3Zk');
+            const isFinished = !!rawData.is_finished;
+            const isLive = !isFinished && !!rawData.is_live;
+            const summaryStats = (filterBots ? rawData.summary_stats : rawData.summary_stats_raw) || rawData.summary_stats || {};
+
+            const stGoe = rawData.groups?.GOE?.streams || [];
+            const stNervaOff = (rawData.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity);
 
             const goeTotalLive = stGoe.reduce((acc, s) => acc + (s.viewers || 0), 0);
             const nervaTotalLive = stNervaOff.reduce((acc, s) => acc + (s.viewers || 0), 0);
-
-            const isLive = !!rawData.is_live;
-            const isFinished = !!rawData.is_finished;
-            const summaryStats = rawData.summary_stats || {};
 
             // 1. GoE Hero Box
             const heroTotalEl = document.getElementById('goe-hero-total');
             const heroPeakEl = document.getElementById('goe-hero-peak');
             const heroMomentumEl = document.getElementById('goe-hero-momentum');
 
-            if (isLive) {
+            if (isFinished) {
+                stopCountdownTimer();
+                const pkVal = (summaryStats.goe_peak || 0).toLocaleString('pl-PL');
+                if (heroTotalEl) {
+                    heroTotalEl.innerHTML = `${pkVal} <span style="font-size: 26px; color: var(--text-muted); font-weight: 700; margin-left: 6px;">SZCZYT</span>`;
+                }
+                const liveAvg = (summaryStats.goe_live_avg || summaryStats.goe_avg || 0).toLocaleString('pl-PL');
+                const watchHrs = summaryStats.goe_watch_hours ? ` • <strong>${(summaryStats.goe_watch_hours).toLocaleString('pl-PL')} h</strong> widzogodzin` : '';
+                if (heroPeakEl) {
+                    heroPeakEl.innerHTML = `Prawdziwa Średnia Live: <strong>${liveAvg}</strong> widzów${watchHrs}`;
+                }
+                if (heroMomentumEl) {
+                    heroMomentumEl.className = 'momentum-badge';
+                    const timeWindow = (summaryStats.start_time && summaryStats.end_time) ? ` (${summaryStats.start_time} – ${summaryStats.end_time})` : '';
+                    heroMomentumEl.innerText = `🏁 Transmisja Zakończona${timeWindow}`;
+                }
+            } else if (isLive) {
                 stopCountdownTimer();
                 if (heroTotalEl) heroTotalEl.innerText = `${goeTotalLive.toLocaleString('pl-PL')} widzów`;
                 if (heroPeakEl) heroPeakEl.innerText = `Pik: ${(summaryStats.goe_peak || goeTotalLive).toLocaleString('pl-PL')}`;
-            } else if (isFinished) {
-                stopCountdownTimer();
-                if (heroTotalEl) heroTotalEl.innerText = `${(summaryStats.goe_peak || 0).toLocaleString('pl-PL')} pik`;
-                const liveAvg = summaryStats.goe_live_avg || summaryStats.goe_avg || 0;
-                const watchHrs = summaryStats.goe_watch_hours ? ` • ${(summaryStats.goe_watch_hours).toLocaleString('pl-PL')} h` : '';
-                if (heroPeakEl) heroPeakEl.innerText = `Średnia Live: ${liveAvg.toLocaleString('pl-PL')} widzów${watchHrs}`;
+                renderDelta('goe-hero-momentum', rawData.momentum?.goe, 5);
             } else {
                 // Scheduled day (e.g. Day 2 before 21:30 CET)
                 const goeStart = rawData.goe_start_time || '2026-11-04T20:30:00Z';
                 startCountdownTimer(goeStart);
                 if (heroPeakEl) heroPeakEl.innerText = `Start: 21:30 CET`;
+                if (heroMomentumEl) {
+                    heroMomentumEl.className = 'momentum-badge';
+                    heroMomentumEl.innerText = '⏳ Oczekiwanie na start';
+                }
             }
-
-            renderDelta('goe-hero-momentum', rawData.momentum?.goe, 5);
 
             // 2. GoE Platforms Breakdown
             const ytStream = stGoe.find(s => s.platform === 'YouTube');
             const twStream = stGoe.find(s => s.platform === 'Twitch');
-
-            const ytV = ytStream ? (filterBots ? (ytStream.viewers || 0) : (ytStream.viewers_raw || ytStream.viewers || 0)) : 0;
-            const twV = twStream ? (twStream.viewers || 0) : 0;
-            const goeSum = ytV + twV;
 
             const ytEl = document.getElementById('goe-yt-viewers');
             const twEl = document.getElementById('goe-tw-viewers');
             const ytPctEl = document.getElementById('goe-yt-pct');
             const twPctEl = document.getElementById('goe-tw-pct');
 
-            if (isLive) {
+            if (isFinished) {
+                const ytP = summaryStats.yt_peak || 0;
+                const twP = summaryStats.tw_peak || 0;
+                const totGoeP = ytP + twP;
+                const ytPct = totGoeP > 0 ? ((ytP / totGoeP) * 100).toFixed(1) : 50;
+                const twPct = totGoeP > 0 ? ((twP / totGoeP) * 100).toFixed(1) : 50;
+
+                if (ytEl) ytEl.innerText = `${ytP.toLocaleString('pl-PL')} pik`;
+                if (twEl) twEl.innerText = `${twP.toLocaleString('pl-PL')} pik`;
+                if (ytPctEl) ytPctEl.innerText = `Śr: ${(summaryStats.yt_avg || 0).toLocaleString('pl-PL')} • ${ytPct}% Bunkra`;
+                if (twPctEl) twPctEl.innerText = `Śr: ${(summaryStats.tw_avg || 0).toLocaleString('pl-PL')} • ${twPct}% Bunkra`;
+
+                document.getElementById('goe-sub-bar-yt').style.width = `${ytPct}%`;
+                document.getElementById('goe-sub-bar-tw').style.width = `${twPct}%`;
+            } else if (isLive) {
+                const ytV = ytStream ? (filterBots ? (ytStream.viewers || 0) : (ytStream.viewers_raw || ytStream.viewers || 0)) : 0;
+                const twV = twStream ? (twStream.viewers || 0) : 0;
+                const goeSum = ytV + twV;
+
                 if (ytEl) ytEl.innerText = `${ytV.toLocaleString('pl-PL')} widzów`;
                 if (twEl) twEl.innerText = `${twV.toLocaleString('pl-PL')} widzów`;
                 const ytPct = goeSum > 0 ? ((ytV / goeSum) * 100).toFixed(1) : 50;
@@ -3358,13 +3443,6 @@
                 if (twPctEl) twPctEl.innerText = `${twPct}% widowni Bunkra`;
                 document.getElementById('goe-sub-bar-yt').style.width = `${ytPct}%`;
                 document.getElementById('goe-sub-bar-tw').style.width = `${twPct}%`;
-            } else if (isFinished) {
-                if (ytEl) ytEl.innerText = `${(summaryStats.yt_peak || 0).toLocaleString('pl-PL')} pik`;
-                if (twEl) twEl.innerText = `${(summaryStats.tw_peak || 0).toLocaleString('pl-PL')} pik`;
-                if (ytPctEl) ytPctEl.innerText = `Śr: ${(summaryStats.yt_avg || 0).toLocaleString('pl-PL')}`;
-                if (twPctEl) twPctEl.innerText = `Śr: ${(summaryStats.tw_avg || 0).toLocaleString('pl-PL')}`;
-                document.getElementById('goe-sub-bar-yt').style.width = `50%`;
-                document.getElementById('goe-sub-bar-tw').style.width = `50%`;
             } else {
                 if (ytEl) ytEl.innerText = `Czeka na start`;
                 if (twEl) twEl.innerText = `Czeka na start`;
@@ -3380,7 +3458,22 @@
             const barLeft = document.getElementById('goe-context-bar-left');
             const barRight = document.getElementById('goe-context-bar-right');
 
-            if (isLive) {
+            if (isFinished) {
+                const pkGoe = summaryStats.goe_peak || 0;
+                const pkNerva = summaryStats.nerva_peak || 0;
+                const totPk = pkGoe + pkNerva;
+                const goePct = totPk > 0 ? ((pkGoe / totPk) * 100).toFixed(1) : 50.0;
+                const nervaPct = (100 - goePct).toFixed(1);
+
+                const liveAvgGoe = (summaryStats.goe_live_avg || summaryStats.goe_avg || 0).toLocaleString('pl-PL');
+                const liveAvgNerva = (summaryStats.nerva_live_avg || summaryStats.nerva_avg || 0).toLocaleString('pl-PL');
+
+                if (ctxSummary) ctxSummary.innerText = `Wynik dnia: GoE ${pkGoe.toLocaleString('pl-PL')} pik vs Nervarien ${pkNerva.toLocaleString('pl-PL')} pik (${goePct}% udziału)`;
+                if (ctxScore) ctxScore.innerText = `Średnia Live: GoE ${liveAvgGoe} vs Nerva ${liveAvgNerva}`;
+                if (barLeft) barLeft.style.width = `${goePct}%`;
+                if (barRight) barRight.style.width = `${nervaPct}%`;
+                document.title = `🏁 ${rawData.day_name || 'Dzień'} Zakończony | Co-stream GoE #bunkier`;
+            } else if (isLive) {
                 const totalDuel = goeTotalLive + nervaTotalLive;
                 const goePct = totalDuel > 0 ? ((goeTotalLive / totalDuel) * 100).toFixed(1) : 50.0;
                 const nervaPct = totalDuel > 0 ? ((nervaTotalLive / totalDuel) * 100).toFixed(1) : 50.0;
@@ -3394,21 +3487,6 @@
 
                 // Update document tab title
                 document.title = `🔴 GoE ${goeTotalLive.toLocaleString('pl-PL')} vs ${nervaTotalLive.toLocaleString('pl-PL')} | #bunkier`;
-            } else if (isFinished) {
-                const pkGoe = summaryStats.goe_peak || 0;
-                const pkNerva = summaryStats.nerva_peak || 0;
-                const totPk = pkGoe + pkNerva;
-                const goePct = totPk > 0 ? ((pkGoe / totPk) * 100).toFixed(1) : 50.0;
-                const nervaPct = totPk > 0 ? ((pkNerva / totPk) * 100).toFixed(1) : 50.0;
-
-                const liveAvgGoe = (summaryStats.goe_live_avg || summaryStats.goe_avg || 0).toLocaleString('pl-PL');
-                const liveAvgNerva = (summaryStats.nerva_live_avg || summaryStats.nerva_avg || 0).toLocaleString('pl-PL');
-
-                if (ctxSummary) ctxSummary.innerText = `Wynik dnia: GoE ${pkGoe.toLocaleString('pl-PL')} pik vs Nervarien ${pkNerva.toLocaleString('pl-PL')} pik (${goePct}% udziału)`;
-                if (ctxScore) ctxScore.innerText = `Średnia Live: GoE ${liveAvgGoe} vs Nerva ${liveAvgNerva}`;
-                if (barLeft) barLeft.style.width = `${goePct}%`;
-                if (barRight) barRight.style.width = `${nervaPct}%`;
-                document.title = `🏁 ${rawData.day_name || 'Dzień'} Zakończony | Co-stream GoE #bunkier`;
             } else {
                 if (ctxSummary) ctxSummary.innerText = `Pojedynek wieczoru: GoE (start 21:30) vs Nervarien (przewidywany start ~22:30)`;
                 if (ctxScore) ctxScore.innerText = `Mecz ćwierćfinałowy: 23:00 CET`;
@@ -3801,7 +3879,7 @@
                             },
                             tooltip: {
                                 callbacks: {
-                                    label: function(ctx) {
+                                    label: function (ctx) {
                                         return ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('pl-PL')}`;
                                     }
                                 }
@@ -3861,7 +3939,7 @@
                             },
                             tooltip: {
                                 callbacks: {
-                                    label: function(ctx) {
+                                    label: function (ctx) {
                                         return ` ${ctx.label}: ${ctx.raw}% widzogodzin`;
                                     }
                                 }

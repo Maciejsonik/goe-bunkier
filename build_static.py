@@ -207,7 +207,7 @@ def build_day(
     day_camps_raw_path = os.path.join(BASE_DIR, f"camps_summary_raw_{day_id}.png")
 
     # 1. Fetch current status of streams for this day (only scrape live for active day)
-    if is_active:
+    if is_active and not day_cfg.get("is_finished"):
         data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     elif day_cfg.get("is_finished") and os.path.exists(day_data_path):
         try:
@@ -216,7 +216,7 @@ def build_day(
         except Exception:
             data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     else:
-        # Upcoming day - initialize clean offline placeholder
+        # Upcoming or clean day - initialize clean offline placeholder
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data = {
             "timestamp": now_str,
@@ -270,12 +270,24 @@ def build_day(
                 "total_viewers": 0,
                 "streams": streams_list,
             }
-    any_live = any(
-        s.get("is_live", False)
-        for grp in data["groups"].values()
-        for s in grp.get("streams", [])
-        if not s.get("is_costream") and not s.get("is_curiosity")
-    )
+
+    if day_cfg.get("is_finished"):
+        any_live = False
+        data["total_viewers"] = 0
+        data["is_live"] = False
+        data["is_finished"] = True
+        for grp in data.get("groups", {}).values():
+            grp["total_viewers"] = 0
+            for s in grp.get("streams", []):
+                s["is_live"] = False
+                s["viewers"] = 0
+    else:
+        any_live = any(
+            s.get("is_live", False)
+            for grp in data["groups"].values()
+            for s in grp.get("streams", [])
+            if not s.get("is_costream") and not s.get("is_curiosity")
+        )
 
     # 2. Load History for this day
     history = []
@@ -338,9 +350,9 @@ def build_day(
     data["disclaimers"] = day_cfg.get("disclaimers", [])
     data["schedule"] = day_cfg.get("schedule", {})
     data["is_finished"] = day_cfg.get("is_finished", False)
-    data["is_active"] = is_active
+    data["is_active"] = is_active and not data["is_finished"]
     data["momentum"] = momentum
-    data["is_live"] = any_live
+    data["is_live"] = any_live and not data["is_finished"]
     data["summary_stats"] = get_summary_stats(custom_history=history, filter_bots=True)
     data["summary_stats_raw"] = get_summary_stats(
         custom_history=history, filter_bots=False

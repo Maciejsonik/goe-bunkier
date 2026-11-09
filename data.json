@@ -109,7 +109,7 @@
     "goe_start_iso": "2026-11-08T21:30:00+01:00"
   },
   "is_finished": true,
-  "is_active": true,
+  "is_active": false,
   "momentum": {
     "goe_delta": -374,
     "nerva_delta": 0,
