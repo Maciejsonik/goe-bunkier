@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-09 03:45:21",
+  "timestamp": "2026-11-09 02:46:35",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -10,16 +10,16 @@
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#3b82f6",
-      "total_viewers": 768,
+      "total_viewers": 0,
       "streams": [
         {
           "id": "goe_stream",
           "platform": "Twitch",
           "channel": "GoE_stream",
-          "title": "T1 vs BLG | PÓŁFINAŁ WORLDS 2026 | Celebracja BUNKRA",
-          "category": "League of Legends",
-          "is_live": true,
-          "viewers": 93,
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.twitch.tv/goe_stream",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
           "group": "GOE"
@@ -30,8 +30,8 @@
           "channel": "Gadają o Esporcie",
           "title": "T1 vs BLG | PÓŁFINAŁ WORLDS 2026 | Celebracja BUNKRA",
           "category": "YouTube Live",
-          "is_live": true,
-          "viewers": 675,
+          "is_live": false,
+          "viewers": 0,
           "url": "https://www.youtube.com/watch?v=p7f_l6Volf8",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "group": "GOE"
