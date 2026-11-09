@@ -583,6 +583,9 @@ def get_summary_stats(
     nerva_peak_time = ""
     goe_sum = 0
     nerva_sum = 0
+    goe_active_pts = 0
+    nerva_active_pts = 0
+    tobias_active_pts = 0
 
     nerva_costream_peak = 0
     nerva_costream_peak_time = ""
@@ -622,6 +625,10 @@ def get_summary_stats(
 
         goe_sum += gv
         nerva_sum += nv
+        if gv > 0:
+            goe_active_pts += 1
+        if nv > 0:
+            nerva_active_pts += 1
 
         # Co-stream metrics
         streams = pt.get("streams", {})
@@ -675,6 +682,8 @@ def get_summary_stats(
         nc_v = max(nc_candidates, default=0)
 
         tb_v = streams.get("ttobias_lol", {}).get("viewers", 0)
+        if tb_v > 0:
+            tobias_active_pts += 1
         # Obóz Nervariena jest liczony bez Tobiasza (Tobiasz to osobny obóz)
         camp_v = nv + nc_v
 
@@ -732,6 +741,16 @@ def get_summary_stats(
         "yt_peak_time": yt_peak_time,
         "tw_peak": tw_peak,
         "tw_peak_time": tw_peak_time,
+        "goe_live_avg": round(goe_sum / goe_active_pts) if goe_active_pts > 0 else 0,
+        "nerva_live_avg": round(nerva_sum / nerva_active_pts)
+        if nerva_active_pts > 0
+        else 0,
+        "tobias_live_avg": round(tobias_costream_sum / tobias_active_pts)
+        if tobias_active_pts > 0
+        else 0,
+        "goe_watch_hours": round(goe_sum * 15 / 3600),
+        "nerva_watch_hours": round(nerva_sum * 15 / 3600),
+        "tobias_watch_hours": round(tobias_costream_sum * 15 / 3600),
     }
 
 

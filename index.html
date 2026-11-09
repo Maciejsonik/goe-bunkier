@@ -1552,6 +1552,492 @@
             background: rgba(145, 70, 255, 0.2);
             color: #ffffff;
         }
+
+        /* --- STAGE NAVIGATION & COMPARISON VIEW STYLES --- */
+        .stage-tab-btn {
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .stage-tab-btn:hover {
+            border-color: rgba(255, 0, 51, 0.6);
+            background: rgba(255, 0, 51, 0.12);
+            color: #ffffff;
+        }
+
+        .stage-tab-btn.active {
+            background: linear-gradient(135deg, rgba(255, 0, 51, 0.25), rgba(168, 85, 247, 0.25));
+            border-color: var(--goe-red);
+            color: #ffffff;
+            box-shadow: 0 0 16px rgba(255, 0, 51, 0.35);
+        }
+
+        #stage-tab-tournament.active {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(255, 0, 51, 0.3));
+            border-color: #f59e0b;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Match Info Banner */
+        .match-info-banner {
+            background: #08080b;
+            border: 1px solid var(--card-border-subtle);
+            border-left: 5px solid var(--goe-red);
+            border-radius: var(--radius-md);
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .match-stage-tag {
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .match-teams {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .match-score-badge {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            background: #14141c;
+            border: 1px solid var(--goe-red);
+            color: #ffffff;
+            padding: 3px 12px;
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        .match-winner-note {
+            font-family: var(--font-tech);
+            font-size: 13px;
+            font-weight: 700;
+            color: #4ade80;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Universal Day Disclaimer Banner */
+        .day-disclaimer-banner {
+            background: rgba(14, 14, 20, 0.95);
+            border: 1px solid rgba(255, 0, 51, 0.35);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .disclaimer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .disclaimer-title {
+            font-family: var(--font-heading);
+            font-size: 12px;
+            font-weight: 800;
+            color: #f59e0b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .disclaimer-item {
+            font-size: 12px;
+            color: #d4d4d8;
+            line-height: 1.45;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .disclaimer-bullet {
+            color: var(--goe-red);
+            font-weight: 900;
+        }
+
+        /* Stage Summary View Layout */
+        .stage-summary-view {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .stage-hero-banner {
+            background: var(--card-bg);
+            border: 1px solid var(--goe-red);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+            box-shadow: var(--shadow-red-glow), var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-hero-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 250px;
+            height: 100%;
+            background: linear-gradient(225deg, rgba(255, 0, 51, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .stage-hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .stage-hero-title-group h2 {
+            font-family: var(--font-display);
+            font-size: 52px;
+            font-weight: 700;
+            font-style: italic;
+            color: #ffffff;
+            line-height: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stage-hero-subtitle {
+            font-family: var(--font-heading);
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        .stage-matches-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .stage-match-pill {
+            background: #121218;
+            border: 1px solid var(--card-border-subtle);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #d4d4d8;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stage-match-pill:hover {
+            border-color: var(--goe-red);
+            color: #ffffff;
+            background: #181822;
+        }
+
+        .stage-match-pill .pill-score {
+            color: var(--goe-red);
+            font-weight: 900;
+        }
+
+        /* Top 4 KPI Grid */
+        .stage-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 980px) {
+            .stage-kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 540px) {
+            .stage-kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stage-kpi-card {
+            background: #08080b;
+            border: 1px solid var(--card-border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.2s;
+        }
+
+        .stage-kpi-card:hover {
+            border-color: var(--goe-red);
+            transform: translateY(-2px);
+        }
+
+        .stage-kpi-card.hero-kpi {
+            border-color: var(--goe-red);
+            background: linear-gradient(135deg, #0d0d12 0%, rgba(255, 0, 51, 0.08) 100%);
+            box-shadow: 0 0 20px rgba(255, 0, 51, 0.15);
+        }
+
+        .stage-kpi-label {
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stage-kpi-val {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .stage-kpi-sub {
+            font-family: var(--font-tech);
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+
+        /* 3 Camps Stage Cards */
+        .stage-camps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .stage-camps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stage-camp-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border-subtle);
+            border-radius: var(--radius-md);
+            padding: 22px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            box-shadow: var(--shadow-card);
+        }
+
+        .stage-camp-card.goe {
+            border-color: var(--goe-red);
+            box-shadow: 0 0 24px rgba(255, 0, 51, 0.18);
+        }
+
+        .stage-camp-card.nerva {
+            border-color: var(--nerva-purple);
+            box-shadow: 0 0 24px rgba(168, 85, 247, 0.15);
+        }
+
+        .stage-camp-card.tobias {
+            border-color: var(--tobias-orange);
+            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
+        }
+
+        .stage-camp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .stage-camp-name {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-camp-share {
+            font-family: var(--font-display);
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stage-camp-stats-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stage-stat-item {
+            background: #08080b;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+
+        .stage-stat-label {
+            font-family: var(--font-heading);
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stage-stat-val {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+
+        .stage-stat-sub {
+            font-family: var(--font-tech);
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        /* Stage Charts Grid */
+        .stage-charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .stage-charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Matches Breakdown Table */
+        .stage-table-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-card);
+            overflow-x: auto;
+        }
+
+        .stage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .stage-table th {
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--card-border-subtle);
+        }
+
+        .stage-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .stage-table tr:hover td {
+            background: rgba(255, 0, 51, 0.04);
+        }
+
+        /* Methodology & Disclaimer Box */
+        .stage-methodology-card {
+            background: #08080b;
+            border: 1px solid var(--card-border-subtle);
+            border-left: 5px solid #3b82f6;
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .stage-methodology-title {
+            font-family: var(--font-heading);
+            font-size: 13px;
+            font-weight: 800;
+            color: #60a5fa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-methodology-text {
+            font-size: 12px;
+            color: #a1a1aa;
+            line-height: 1.5;
+        }
+
+        .stage-methodology-text code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ffffff;
+            font-family: monospace;
+        }
     </style>
 </head>
 
@@ -1633,22 +2119,20 @@
             </div>
         </div>
 
-        <!-- BOT ALERT BANNER -->
-        <div id="bot-alert-banner" style="display: none;">
-            <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-                <span style="font-size: 22px;">🛡️</span>
-                <div>
-                    <strong style="color: #4ade80; font-size: 14px;">Filtr ataków botowych: Aktywny (Dane
-                        oczyszczone)</strong>
-                    <div style="color: #d4d4d8; font-size: 12px; margin-top: 2px;">
-                        Zneutralizowano 2 sztuczne fale viewbotów na YouTube. Prezentowane dane są w 100% organiczne
-                        (Prawdziwy pik GoE: <strong>2 815</strong>).
-                    </div>
+        <!-- UNIVERSAL DAY DISCLAIMER BANNER -->
+        <div id="day-disclaimer-banner" class="day-disclaimer-banner" style="display: none;">
+            <div class="disclaimer-header">
+                <div class="disclaimer-title" id="day-disclaimer-title">
+                    <span>🛡️</span>
+                    <span>Informacje pomiarowe i disclaimer dnia</span>
                 </div>
+                <button id="day-bot-toggle-btn" onclick="toggleBotFilter()"
+                    style="display: none; padding: 5px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px; cursor: pointer;">
+                    Pokaż surowe z botami
+                </button>
             </div>
-            <button onclick="toggleBotFilter()"
-                style="padding: 6px 12px; font-size: 11px; border-color: #4ade80; color: #4ade80; background: #141418; border-radius: 6px;">Pokaż
-                surowe z botami</button>
+            <ul class="disclaimer-list" id="day-disclaimer-list">
+            </ul>
         </div>
 
         <!-- UNIFIED CONTROL DECK -->
@@ -1656,14 +2140,35 @@
             <div class="deck-primary-row">
                 <div class="deck-left-cluster">
                     <!-- Day Picker -->
-                    <div class="segmented-group" id="day-tabs-container">
-                        <!-- Rendered dynamically -->
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Dni:</span>
+                        <div class="segmented-group" id="day-tabs-container">
+                            <!-- Rendered dynamically -->
+                        </div>
                     </div>
 
                     <div class="deck-divider"></div>
 
-                    <!-- Presets for Chart & Cards -->
-                    <div class="segmented-group">
+                    <!-- Stage Summaries Picker -->
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase;">Etapy:</span>
+                        <div class="segmented-group" id="stage-tabs-container">
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-quarters" onclick="switchStage('quarters')">
+                                🥊 Ćwierćfinały (1–4)
+                            </button>
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-semis" onclick="switchStage('semis')">
+                                🔥 Półfinały (5–6)
+                            </button>
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-tournament" onclick="switchStage('tournament')">
+                                🏆 Cały Turniej (1–6)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="deck-divider" id="single-day-divider"></div>
+
+                    <!-- Presets for Single-Day Chart & Cards -->
+                    <div class="segmented-group" id="single-day-presets">
                         <span
                             style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-right: 6px; display: inline-flex; align-items: center;">Presety:</span>
                         <button class="segmented-btn active" id="preset-goe" onclick="applyQuickPreset('goe_only')">
@@ -1681,7 +2186,7 @@
                     </div>
                 </div>
 
-                <div style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
+                <div id="single-day-active-series" style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
                     <span>Aktywne serie na wykresie:</span>
                     <span id="active-series-count-badge" class="filter-count-badge"
                         style="background: var(--goe-red); color: #ffffff;">3 / 9</span>
@@ -1692,8 +2197,23 @@
         <!-- MAIN DASHBOARD -->
         <main class="main-dashboard-body">
 
-            <!-- SECTION 1: GOE HERO STATS & CONTEXT CARD -->
-            <div class="hero-goe-card">
+            <!-- SINGLE DAY VIEW CONTAINER -->
+            <div id="single-day-view">
+
+                <!-- MATCH INFO BANNER -->
+                <div class="match-info-banner" id="match-info-banner" style="display: none;">
+                    <div>
+                        <div class="match-stage-tag" id="match-stage-tag">🥊 Ćwierćfinał Worlds 2026</div>
+                        <div class="match-teams" id="match-teams-title">TOP Esports vs Invictus Gaming</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                        <div class="match-score-badge" id="match-score-badge">1 : 3</div>
+                        <div class="match-winner-note" id="match-winner-note">🏆 Zwycięzca: Invictus Gaming</div>
+                    </div>
+                </div>
+
+                <!-- SECTION 1: GOE HERO STATS & CONTEXT CARD -->
+                <div class="hero-goe-card">
                 <div class="hero-header">
                     <div class="hero-title-group">
                         <h2>Widownia Co-stream GoE (Kielecki Bunkier)</h2>
@@ -1806,6 +2326,258 @@
                     <!-- Rendered dynamically -->
                 </div>
             </div>
+            <!-- /channels-master-section -->
+
+            </div>
+            <!-- /#single-day-view -->
+
+            <!-- STAGE SUMMARY VIEW CONTAINER -->
+            <div id="stage-summary-view" class="stage-summary-view" style="display: none;">
+
+                <!-- HERO STAGE BANNER -->
+                <div class="stage-hero-banner">
+                    <div class="stage-hero-header">
+                        <div class="stage-hero-title-group">
+                            <h2 id="stage-hero-title">🥊 ĆWIERĆFINAŁY (DNI 1–4)</h2>
+                            <div class="stage-hero-subtitle" id="stage-hero-subtitle">4 mecze BO5 • 8 czołowych drużyn świata</div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="quick-action-btn" onclick="downloadStageCard()">📸 Pobierz Infografikę Etapu (PNG)</button>
+                            <button class="quick-action-btn" onclick="downloadStageJson()">📥 Pobierz JSON</button>
+                        </div>
+                    </div>
+                    <div class="stage-matches-pills" id="stage-matches-pills">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- TOP 4 KPI CARDS -->
+                <div class="stage-kpi-grid">
+                    <div class="stage-kpi-card hero-kpi">
+                        <div class="stage-kpi-label">⌛ Łączne Widzogodziny</div>
+                        <div class="stage-kpi-val" id="stage-kpi-watch">--</div>
+                        <div class="stage-kpi-sub" id="stage-kpi-watch-sub">Cały rynek co-streamowy</div>
+                    </div>
+                    <div class="stage-kpi-card">
+                        <div class="stage-kpi-label">🔥 Rekordowy Pik Sceny</div>
+                        <div class="stage-kpi-val" id="stage-kpi-peak">--</div>
+                        <div class="stage-kpi-sub" id="stage-kpi-peak-sub">Mecz: --</div>
+                    </div>
+                    <div class="stage-kpi-card hero-kpi">
+                        <div class="stage-kpi-label">🎯 Udział Bunkra GoE</div>
+                        <div class="stage-kpi-val" id="stage-kpi-share">--%</div>
+                        <div class="stage-kpi-sub" id="stage-kpi-share-sub">Udział w rynku etapu</div>
+                    </div>
+                    <div class="stage-kpi-card">
+                        <div class="stage-kpi-label">⏱️ Prawdziwa Średnia Live GoE</div>
+                        <div class="stage-kpi-val" id="stage-kpi-avg">--</div>
+                        <div class="stage-kpi-sub">W oknie transmisji (bez zer)</div>
+                    </div>
+                </div>
+
+                <!-- 3 CAMPS DETAILED COMPARISON -->
+                <div class="stage-camps-grid">
+                    <!-- GOE -->
+                    <div class="stage-camp-card goe">
+                        <div class="stage-camp-header">
+                            <div>
+                                <div class="stage-camp-name" style="color: var(--goe-red);">
+                                    <span class="live-dot" style="background: var(--goe-red); box-shadow: 0 0 8px var(--goe-red);"></span>
+                                    Kielecki Bunkier (GoE)
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Gadają o Esporcie (YouTube + Twitch)</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="stage-camp-share" style="color: var(--goe-red);" id="stage-goe-share">--%</div>
+                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Udział</div>
+                            </div>
+                        </div>
+                        <div class="stage-camp-stats-list">
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">⌛ Widzogodziny</div>
+                                <div class="stage-stat-val" id="stage-goe-watch">--</div>
+                                <div class="stage-stat-sub" id="stage-goe-watch-sub">godzin łącznie</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">🔥 Szczyt (Pik)</div>
+                                <div class="stage-stat-val" id="stage-goe-peak">--</div>
+                                <div class="stage-stat-sub" id="stage-goe-peak-match">Mecz: --</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">⏱️ Średnia Live</div>
+                                <div class="stage-stat-val" id="stage-goe-avg">--</div>
+                                <div class="stage-stat-sub">w oknie streamu</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">📻 Czas na antenie</div>
+                                <div class="stage-stat-val" id="stage-goe-duration">--</div>
+                                <div class="stage-stat-sub" id="stage-goe-split">--% YT • --% TW</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NERVA -->
+                    <div class="stage-camp-card nerva">
+                        <div class="stage-camp-header">
+                            <div>
+                                <div class="stage-camp-name" style="color: var(--nerva-light-purple);">
+                                    <span class="live-dot" style="background: var(--nerva-purple); box-shadow: 0 0 8px var(--nerva-purple);"></span>
+                                    Obóz Nervariena
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Nervarien + Co-streamerzy</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="stage-camp-share" style="color: var(--nerva-light-purple);" id="stage-nerva-share">--%</div>
+                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Udział</div>
+                            </div>
+                        </div>
+                        <div class="stage-camp-stats-list">
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">⌛ Widzogodziny</div>
+                                <div class="stage-stat-val" id="stage-nerva-watch">--</div>
+                                <div class="stage-stat-sub">godzin łącznie</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">🔥 Szczyt (Pik)</div>
+                                <div class="stage-stat-val" id="stage-nerva-peak">--</div>
+                                <div class="stage-stat-sub" id="stage-nerva-peak-match">Mecz: --</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">⏱️ Średnia Live</div>
+                                <div class="stage-stat-val" id="stage-nerva-avg">--</div>
+                                <div class="stage-stat-sub">w oknie streamu</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">📻 Czas na antenie</div>
+                                <div class="stage-stat-val" id="stage-nerva-duration">--</div>
+                                <div class="stage-stat-sub">łącznie w etapie</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOBIAS -->
+                    <div class="stage-camp-card tobias">
+                        <div class="stage-camp-header">
+                            <div>
+                                <div class="stage-camp-name" style="color: var(--tobias-orange);">
+                                    <span class="live-dot" style="background: var(--tobias-orange); box-shadow: 0 0 8px var(--tobias-orange);"></span>
+                                    Obóz Tobiasza
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">ttobias_lol (Twitch)</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="stage-camp-share" style="color: var(--tobias-orange);" id="stage-tobias-share">--%</div>
+                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Udział</div>
+                            </div>
+                        </div>
+                        <div class="stage-camp-stats-list">
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">⌛ Widzogodziny</div>
+                                <div class="stage-stat-val" id="stage-tobias-watch">--</div>
+                                <div class="stage-stat-sub">godzin łącznie</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">🔥 Szczyt (Pik)</div>
+                                <div class="stage-stat-val" id="stage-tobias-peak">--</div>
+                                <div class="stage-stat-sub">najwyższy szczyt</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">⏱️ Średnia Live</div>
+                                <div class="stage-stat-val" id="stage-tobias-avg">--</div>
+                                <div class="stage-stat-sub">w oknie streamu</div>
+                            </div>
+                            <div class="stage-stat-item">
+                                <div class="stage-stat-label">📻 Czas na antenie</div>
+                                <div class="stage-stat-val" id="stage-tobias-duration">--</div>
+                                <div class="stage-stat-sub">łącznie w etapie</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STAGE COMPARISON CHARTS (BARS + DOUGHNUT) -->
+                <div class="stage-charts-grid">
+                    <!-- Main Multi-Bar Chart -->
+                    <div class="chart-box" style="margin-top: 0; margin-bottom: 0;">
+                        <div class="chart-header">
+                            <div>
+                                <div class="chart-title">📊 Porównanie Meczów w Etapie</div>
+                                <div id="stage-chart-sub" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">
+                                    Wybierz metrykę, aby porównać 3 obozy mecz po meczu
+                                </div>
+                            </div>
+                            <div class="time-range-group">
+                                <button class="time-btn active" id="btn-stage-metric-peaks" onclick="switchStageMetric('peaks')">🔥 Szczyty (Peak)</button>
+                                <button class="time-btn" id="btn-stage-metric-avg" onclick="switchStageMetric('live_avg')">⏱️ Średnia Live</button>
+                                <button class="time-btn" id="btn-stage-metric-watch" onclick="switchStageMetric('watch_hours')">⌛ Widzogodziny</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="stageComparisonChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Doughnut Market Share Chart -->
+                    <div class="chart-box" style="margin-top: 0; margin-bottom: 0;">
+                        <div class="chart-header">
+                            <div class="chart-title">🥧 Udział w Widzogodzinach (%)</div>
+                        </div>
+                        <div class="chart-wrapper" style="height: 320px; display: flex; align-items: center; justify-content: center;">
+                            <canvas id="stageShareChart"></canvas>
+                        </div>
+                        <div style="font-size: 11px; text-align: center; color: var(--text-dim); margin-top: 10px;">
+                            Na podstawie sumy <span id="stage-share-total-hrs" style="color: #ffffff; font-weight: 700;">--</span> wygenerowanych widzogodzin
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MATCH-BY-MATCH BREAKDOWN TABLE -->
+                <div class="stage-table-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                        <div class="chart-title">📋 Zestawienie Mecz po Meczu (Worlds 2026)</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">Oficjalne drabinki Riot Games • Kliknij "Przejdź", aby zobaczyć szczegóły danego dnia</div>
+                    </div>
+                    <table class="stage-table">
+                        <thead>
+                            <tr>
+                                <th>Data & Mecz</th>
+                                <th>Wynik</th>
+                                <th>Zwycięzca</th>
+                                <th>Szczyt Sceny</th>
+                                <th>Pik GoE</th>
+                                <th>Śr. Live GoE</th>
+                                <th>Widzogodziny GoE</th>
+                                <th>Udział GoE</th>
+                                <th>Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stage-matches-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- METHODOLOGY & DISCLAIMERS CARD -->
+                <div class="stage-methodology-card">
+                    <div class="stage-methodology-title">
+                        <span>💡</span>
+                        <span>Metodologia Pomiarowa i Rzetelność Danych</span>
+                    </div>
+                    <div class="stage-methodology-text">
+                        <p style="margin-bottom: 6px;">
+                            <strong>Prawdziwa Średnia Live (Live Broadcast Window):</strong> Tradycyjna średnia arytmetyczna z całego dnia drastycznie zaniża wyniki twórców, którzy rozpoczęli transmisję później lub zakończyli wcześniej (wliczanie zer). W naszym modelu średnia liczona jest wyłącznie w rzeczywistym przedziale nadawania danego streamera: <code>Średnia = Widzogodziny / Czas Transmisji</code>.
+                        </p>
+                        <p style="margin-bottom: 6px;">
+                            <strong>Widzogodziny:</strong> Sumowane co 15 sekund ze wzoru: <code>Widzowie × (15 / 3600)</code>.
+                        </p>
+                        <p id="stage-methodology-disclaimers">
+                            <strong>Korekty telemetryczne:</strong> W Dniu 1 dane GoE zostały oczyszczone z 2 fal viewbotów filtrem adaptywnym (organiczny pik 2 815 vs sztuczny 6 857). W Dniu 3 obcięto późną sesję solo po meczu (02:11 CET). W Dniach 2 i 4 wygładzono pojedyncze timeouty pobierania danych YouTube API.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /#stage-summary-view -->
 
         </main>
 
@@ -1834,6 +2606,13 @@
         let countdownTimerInterval = null;
         let refreshSecondsRemaining = 30;
         let refreshCountdownInterval = null;
+
+        /* --- STAGE STATE --- */
+        let tournamentAnalyticsData = null;
+        let currentStageId = null;
+        let currentStageMetric = 'peaks';
+        let stageComparisonChartInstance = null;
+        let stageShareChartInstance = null;
 
         function computeDefaultDayId() {
             const now = new Date().toISOString();
@@ -2470,6 +3249,59 @@
         function updateUI() {
             if (!rawData) return;
 
+            // 0. Match Info Banner
+            const matchBanner = document.getElementById('match-info-banner');
+            if (matchBanner) {
+                if (rawData.match) {
+                    matchBanner.style.display = 'flex';
+                    const stageTag = document.getElementById('match-stage-tag');
+                    const teamsTitle = document.getElementById('match-teams-title');
+                    const scoreBadge = document.getElementById('match-score-badge');
+                    const winnerNote = document.getElementById('match-winner-note');
+
+                    if (stageTag) stageTag.innerText = `${rawData.stage === 'semis' ? '🔥 Półfinał' : '🥊 Ćwierćfinał'} Worlds 2026`;
+                    if (teamsTitle) teamsTitle.innerText = rawData.match;
+                    if (scoreBadge) scoreBadge.innerText = rawData.score || '- : -';
+                    if (winnerNote) winnerNote.innerHTML = `🏆 Zwycięzca: <strong>${rawData.winner || 'TBD'}</strong>`;
+                } else {
+                    matchBanner.style.display = 'none';
+                }
+            }
+
+            // 0b. Universal Day Disclaimer Banner
+            const discBanner = document.getElementById('day-disclaimer-banner');
+            const discList = document.getElementById('day-disclaimer-list');
+            const discBotBtn = document.getElementById('day-bot-toggle-btn');
+            if (discBanner && discList) {
+                const disclaimers = rawData.disclaimers || [];
+                if (disclaimers.length > 0) {
+                    discBanner.style.display = 'block';
+                    discList.innerHTML = disclaimers.map(d => {
+                        let icon = '🔹';
+                        if (d.includes('viewbot') || d.includes('bot')) icon = '🛡️';
+                        else if (d.includes('Tobiasz') || d.includes('offline')) icon = '⚠️';
+                        else if (d.includes('Nervarien') || d.includes('pomiarowy') || d.includes('opóźnione')) icon = '⏱️';
+                        else if (d.includes('API') || d.includes('timeout')) icon = '🔄';
+                        else if (d.includes('Rekord') || d.includes('rekord')) icon = '🏆';
+                        else if (d.includes('Wygładzono') || d.includes('zacięcie') || d.includes('obcięto')) icon = '🧹';
+                        return `<li class="disclaimer-item"><span class="disclaimer-bullet">${icon}</span><span>${d}</span></li>`;
+                    }).join('');
+
+                    if (discBotBtn) {
+                        if (rawData.day_id === 'day-1') {
+                            discBotBtn.style.display = 'inline-block';
+                            discBotBtn.innerText = filterBots ? 'Pokaż surowe z botami' : 'Pokaż oczyszczone';
+                            discBotBtn.style.borderColor = filterBots ? '#4ade80' : '#ef4444';
+                            discBotBtn.style.color = filterBots ? '#4ade80' : '#ef4444';
+                        } else {
+                            discBotBtn.style.display = 'none';
+                        }
+                    }
+                } else {
+                    discBanner.style.display = 'none';
+                }
+            }
+
             const stGoe = (rawData.groups?.GOE?.streams || []).filter(s => s.id !== 'I2E60nEUXWo');
             const stNervaOff = (rawData.groups?.NERVA?.streams || []).filter(s => !s.is_costream && !s.is_curiosity && s.id !== 'SGAaZFSc3Zk');
 
@@ -2492,7 +3324,9 @@
             } else if (isFinished) {
                 stopCountdownTimer();
                 if (heroTotalEl) heroTotalEl.innerText = `${(summaryStats.goe_peak || 0).toLocaleString('pl-PL')} pik`;
-                if (heroPeakEl) heroPeakEl.innerText = `Średnia: ${(summaryStats.goe_avg || 0).toLocaleString('pl-PL')} widzów`;
+                const liveAvg = summaryStats.goe_live_avg || summaryStats.goe_avg || 0;
+                const watchHrs = summaryStats.goe_watch_hours ? ` • ${(summaryStats.goe_watch_hours).toLocaleString('pl-PL')} h` : '';
+                if (heroPeakEl) heroPeakEl.innerText = `Średnia Live: ${liveAvg.toLocaleString('pl-PL')} widzów${watchHrs}`;
             } else {
                 // Scheduled day (e.g. Day 2 before 21:30 CET)
                 const goeStart = rawData.goe_start_time || '2026-11-04T20:30:00Z';
@@ -2567,8 +3401,11 @@
                 const goePct = totPk > 0 ? ((pkGoe / totPk) * 100).toFixed(1) : 50.0;
                 const nervaPct = totPk > 0 ? ((pkNerva / totPk) * 100).toFixed(1) : 50.0;
 
+                const liveAvgGoe = (summaryStats.goe_live_avg || summaryStats.goe_avg || 0).toLocaleString('pl-PL');
+                const liveAvgNerva = (summaryStats.nerva_live_avg || summaryStats.nerva_avg || 0).toLocaleString('pl-PL');
+
                 if (ctxSummary) ctxSummary.innerText = `Wynik dnia: GoE ${pkGoe.toLocaleString('pl-PL')} pik vs Nervarien ${pkNerva.toLocaleString('pl-PL')} pik (${goePct}% udziału)`;
-                if (ctxScore) ctxScore.innerText = `Średnia dnia: GoE ${(summaryStats.goe_avg || 0).toLocaleString('pl-PL')} vs Nerva ${(summaryStats.nerva_avg || 0).toLocaleString('pl-PL')}`;
+                if (ctxScore) ctxScore.innerText = `Średnia Live: GoE ${liveAvgGoe} vs Nerva ${liveAvgNerva}`;
                 if (barLeft) barLeft.style.width = `${goePct}%`;
                 if (barRight) barRight.style.width = `${nervaPct}%`;
                 document.title = `🏁 ${rawData.day_name || 'Dzień'} Zakończony | Co-stream GoE #bunkier`;
@@ -2600,6 +3437,23 @@
 
         /* --- MULTI-DAY SWITCHING --- */
         async function switchDay(dayId) {
+            currentStageId = null;
+
+            // Show single day view, hide stage summary view
+            document.getElementById('stage-summary-view').style.display = 'none';
+            document.getElementById('single-day-view').style.display = 'block';
+
+            // Restore single day controls
+            const sPresets = document.getElementById('single-day-presets');
+            const sDiv = document.getElementById('single-day-divider');
+            const sActive = document.getElementById('single-day-active-series');
+            if (sPresets) sPresets.style.display = 'inline-flex';
+            if (sDiv) sDiv.style.display = 'block';
+            if (sActive) sActive.innerHTML = `<span>Aktywne serie na wykresie:</span> <span id="active-series-count-badge" class="filter-count-badge" style="background: var(--goe-red); color: #ffffff;">${activeSeriesSet.size} / 9</span>`;
+
+            // Remove active from all stage tabs
+            document.querySelectorAll('#stage-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
+
             currentDayId = dayId;
             updateDayTabsUI();
             await loadDayData(dayId);
@@ -2609,8 +3463,10 @@
 
         function updateDayTabsUI() {
             document.querySelectorAll('#day-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
-            const btn = document.getElementById(`day-tab-${currentDayId}`);
-            if (btn) btn.classList.add('active');
+            if (!currentStageId) {
+                const btn = document.getElementById(`day-tab-${currentDayId}`);
+                if (btn) btn.classList.add('active');
+            }
         }
 
         function renderDayTabs(days) {
@@ -2620,7 +3476,7 @@
             container.innerHTML = '';
 
             days.forEach(d => {
-                const isCurrent = d.id === currentDayId;
+                const isCurrent = !currentStageId && (d.id === currentDayId);
                 const btn = document.createElement('button');
                 btn.id = `day-tab-${d.id}`;
                 btn.className = `segmented-btn ${isCurrent ? 'active' : ''}`;
@@ -2673,11 +3529,6 @@
                     renderDayTabs(rawData.days);
                 }
 
-                const banner = document.getElementById('bot-alert-banner');
-                if (banner) {
-                    banner.style.display = (dayId === 'day-1') ? 'flex' : 'none';
-                }
-
                 updateStreamsMetadataFromData();
                 applyTimeRangeSlice();
                 updateUI();
@@ -2692,6 +3543,344 @@
                 console.error("Load day data error:", err);
                 document.getElementById('api-dot').style.background = '#f59e0b';
             }
+        }
+
+        /* --- STAGE SUMMARY CONTROLLER --- */
+        async function switchStage(stageId) {
+            currentStageId = stageId;
+
+            // UI Tab states
+            document.querySelectorAll('#day-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#stage-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
+            const stageBtn = document.getElementById(`stage-tab-${stageId}`);
+            if (stageBtn) stageBtn.classList.add('active');
+
+            // Toggle view containers
+            document.getElementById('single-day-view').style.display = 'none';
+            document.getElementById('stage-summary-view').style.display = 'flex';
+
+            // Toggle control deck elements
+            const sPresets = document.getElementById('single-day-presets');
+            const sDiv = document.getElementById('single-day-divider');
+            const sActive = document.getElementById('single-day-active-series');
+            if (sPresets) sPresets.style.display = 'none';
+            if (sDiv) sDiv.style.display = 'none';
+            if (sActive) sActive.innerHTML = `<span>Widok:</span> <strong style="color: #ffffff;">${stageId === 'tournament' ? 'Cały Turniej (Dni 1–6)' : (stageId === 'semis' ? 'Półfinały (Dni 5–6)' : 'Ćwierćfinały (Dni 1–4)')}</strong>`;
+
+            // Load analytics if needed
+            if (!tournamentAnalyticsData) {
+                try {
+                    const resp = await fetch('./tournament_analytics.json?t=' + Date.now());
+                    if (resp.ok) {
+                        tournamentAnalyticsData = await resp.json();
+                    }
+                } catch (e) {
+                    console.error("Error loading tournament analytics:", e);
+                }
+            }
+
+            renderStageView(stageId);
+            const stageTitle = stageId === 'tournament' ? 'Cały Turniej' : (stageId === 'semis' ? 'Półfinały' : 'Ćwierćfinały');
+            showToast(`Przełączono na podsumowanie: ${stageTitle}`);
+        }
+
+        function switchStageMetric(metric) {
+            currentStageMetric = metric;
+            document.querySelectorAll('#btn-stage-metric-peaks, #btn-stage-metric-avg, #btn-stage-metric-watch').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-stage-metric-${metric === 'live_avg' ? 'avg' : (metric === 'watch_hours' ? 'watch' : 'peaks')}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (currentStageId && tournamentAnalyticsData && tournamentAnalyticsData.stages[currentStageId]) {
+                renderStageComparisonChart(tournamentAnalyticsData.stages[currentStageId]);
+            }
+        }
+
+        function renderStageView(stageId) {
+            if (!tournamentAnalyticsData || !tournamentAnalyticsData.stages[stageId]) return;
+            const stage = tournamentAnalyticsData.stages[stageId];
+
+            // 1. Header
+            document.getElementById('stage-hero-title').innerText = `${stage.icon || '🏆'} ${stage.name.toUpperCase()}`;
+            document.getElementById('stage-hero-subtitle').innerText = `${stage.subtitle || ''} • Łącznie próbek: ${stage.total_points.toLocaleString('pl-PL')}`;
+
+            // Header match pills
+            const pillsContainer = document.getElementById('stage-matches-pills');
+            if (pillsContainer) {
+                pillsContainer.innerHTML = (stage.matches || []).map(m => `
+                    <div class="stage-match-pill" onclick="switchDay('${m.day_id}')" title="Kliknij, aby otworzyć szczegóły dnia ${m.name}">
+                        <span>${m.match_short}</span>
+                        <span class="pill-score">${m.score}</span>
+                        <span style="font-size: 11px; color: #a1a1aa;">(${m.winner})</span>
+                    </div>
+                `).join('');
+            }
+
+            // 2. Top 4 KPIs
+            document.getElementById('stage-kpi-watch').innerText = `${(stage.total_watch_hours || 0).toLocaleString('pl-PL')} h`;
+            document.getElementById('stage-kpi-watch-sub').innerText = `GoE: ${(stage.goe?.watch_hours || 0).toLocaleString('pl-PL')} h (${stage.goe?.share || 0}%)`;
+
+            document.getElementById('stage-kpi-peak').innerText = `${(stage.total_scene_peak || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-kpi-peak-sub').innerText = `Mecz: ${stage.total_scene_peak_match || '--'}`;
+
+            document.getElementById('stage-kpi-share').innerText = `${stage.goe?.share || 0}%`;
+            document.getElementById('stage-kpi-share-sub').innerText = `${((stage.goe?.watch_hours || 0) / 1000).toFixed(1)}k z ${((stage.total_watch_hours || 0) / 1000).toFixed(1)}k widzogodzin`;
+
+            document.getElementById('stage-kpi-avg').innerText = `${(stage.goe?.live_avg || 0).toLocaleString('pl-PL')}`;
+
+            // 3. 3 Camps Cards
+            // GoE
+            document.getElementById('stage-goe-share').innerText = `${stage.goe?.share || 0}%`;
+            document.getElementById('stage-goe-watch').innerText = `${(stage.goe?.watch_hours || 0).toLocaleString('pl-PL')} h`;
+            document.getElementById('stage-goe-peak').innerText = `${(stage.goe?.peak || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-goe-peak-match').innerText = `Mecz: ${stage.goe?.peak_match || '--'}`;
+            document.getElementById('stage-goe-avg').innerText = `${(stage.goe?.live_avg || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-goe-duration').innerText = `${stage.goe?.duration_hours || 0} h`;
+            let stageYtWatch = 0, stageTwWatch = 0;
+            (stage.matches || []).forEach(m => {
+                stageYtWatch += (m.goe_yt?.watch_hours || 0);
+                stageTwWatch += (m.goe_tw?.watch_hours || 0);
+            });
+            const totalGoeWatch = stageYtWatch + stageTwWatch;
+            const ytPct = totalGoeWatch > 0 ? ((stageYtWatch / totalGoeWatch) * 100).toFixed(1) : 80;
+            const twPct = totalGoeWatch > 0 ? ((stageTwWatch / totalGoeWatch) * 100).toFixed(1) : 20;
+            document.getElementById('stage-goe-split').innerText = `${ytPct}% YT • ${twPct}% Twitch`;
+
+            // Nervarien
+            document.getElementById('stage-nerva-share').innerText = `${stage.nerva?.share || 0}%`;
+            document.getElementById('stage-nerva-watch').innerText = `${(stage.nerva?.watch_hours || 0).toLocaleString('pl-PL')} h`;
+            document.getElementById('stage-nerva-peak').innerText = `${(stage.nerva?.peak || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-nerva-peak-match').innerText = `Mecz: ${stage.nerva?.peak_match || '--'}`;
+            document.getElementById('stage-nerva-avg').innerText = `${(stage.nerva?.live_avg || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-nerva-duration').innerText = `${stage.nerva?.duration_hours || 0} h`;
+
+            // Tobiasz
+            document.getElementById('stage-tobias-share').innerText = `${stage.tobias?.share || 0}%`;
+            document.getElementById('stage-tobias-watch').innerText = `${(stage.tobias?.watch_hours || 0).toLocaleString('pl-PL')} h`;
+            document.getElementById('stage-tobias-peak').innerText = `${(stage.tobias?.peak || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-tobias-avg').innerText = `${(stage.tobias?.live_avg || 0).toLocaleString('pl-PL')}`;
+            document.getElementById('stage-tobias-duration').innerText = `${stage.tobias?.duration_hours || 0} h`;
+
+            // 4. Charts
+            renderStageComparisonChart(stage);
+            renderStageShareChart(stage);
+
+            // 5. Match-by-match Table
+            const tbody = document.getElementById('stage-matches-table-body');
+            if (tbody) {
+                tbody.innerHTML = (stage.matches || []).map(m => {
+                    const mTotWatch = m.total_watch_hours || 1;
+                    const goeShare = (((m.goe?.watch_hours || 0) / mTotWatch) * 100).toFixed(1);
+                    return `
+                        <tr>
+                            <td>
+                                <strong style="color: #ffffff; font-size: 14px;">${m.match}</strong>
+                                <div style="font-size: 11px; color: var(--text-muted);">${m.name} • ${m.date}</div>
+                            </td>
+                            <td>
+                                <span class="match-score-badge" style="font-size: 16px; padding: 2px 8px;">${m.score}</span>
+                            </td>
+                            <td>
+                                <strong style="color: #4ade80;">${m.winner}</strong>
+                            </td>
+                            <td>
+                                <span style="font-weight: 800; color: #ffffff;">${(m.total_peak || 0).toLocaleString('pl-PL')}</span>
+                                <div style="font-size: 10px; color: var(--text-dim);">${m.total_peak_time || ''}</div>
+                            </td>
+                            <td>
+                                <span style="font-weight: 800; color: var(--goe-red);">${(m.goe?.peak || 0).toLocaleString('pl-PL')}</span>
+                                <div style="font-size: 10px; color: var(--text-dim);">${m.goe?.peak_time || ''}</div>
+                            </td>
+                            <td>
+                                <span style="color: #ffffff; font-weight: 700;">${(m.goe?.live_avg || 0).toLocaleString('pl-PL')}</span>
+                            </td>
+                            <td>
+                                <span style="color: #ffffff; font-weight: 700;">${(m.goe?.watch_hours || 0).toLocaleString('pl-PL')} h</span>
+                            </td>
+                            <td>
+                                <span style="color: var(--goe-red); font-weight: 900;">${goeShare}%</span>
+                            </td>
+                            <td>
+                                <button class="card-action-btn" onclick="switchDay('${m.day_id}')" style="color: #ffffff;">Przejdź ↗</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // 6. Stage Methodology disclaimers
+            const discEl = document.getElementById('stage-methodology-disclaimers');
+            if (discEl) {
+                const allDisclaimers = [];
+                (stage.matches || []).forEach(m => {
+                    (m.disclaimers || []).forEach(d => {
+                        allDisclaimers.push(`<strong>${m.name} (${m.match_short}):</strong> ${d}`);
+                    });
+                });
+                if (allDisclaimers.length > 0) {
+                    discEl.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Korekty i disclaimery dla tego etapu:</span><br>` + allDisclaimers.map(d => `• ${d}`).join('<br>');
+                }
+            }
+
+            // Header info
+            document.getElementById('last-updated').innerText = `W KIELECKIM STUDIU • ${stage.name} • Podsumowanie analityczne`;
+        }
+
+        function renderStageComparisonChart(stage) {
+            const ctx = document.getElementById('stageComparisonChart');
+            if (!ctx) return;
+
+            const matches = stage.matches || [];
+            const labels = matches.map(m => m.match_short);
+
+            let goeData = [], nervaData = [], tobiasData = [];
+            let metricLabel = 'Szczyt (Pik)';
+
+            if (currentStageMetric === 'peaks') {
+                metricLabel = 'Szczyt jednoczesnej widowni (Pik)';
+                goeData = matches.map(m => m.goe?.peak || 0);
+                nervaData = matches.map(m => m.nerva?.peak || 0);
+                tobiasData = matches.map(m => m.tobias?.peak || 0);
+            } else if (currentStageMetric === 'live_avg') {
+                metricLabel = 'Prawdziwa średnia live (w oknie nadawania)';
+                goeData = matches.map(m => m.goe?.live_avg || 0);
+                nervaData = matches.map(m => m.nerva?.live_avg || 0);
+                tobiasData = matches.map(m => m.tobias?.live_avg || 0);
+            } else {
+                metricLabel = 'Wygenerowane widzogodziny (Watch-hours)';
+                goeData = matches.map(m => m.goe?.watch_hours || 0);
+                nervaData = matches.map(m => m.nerva?.watch_hours || 0);
+                tobiasData = matches.map(m => m.tobias?.watch_hours || 0);
+            }
+
+            const subEl = document.getElementById('stage-chart-sub');
+            if (subEl) subEl.innerText = `Porównanie: ${metricLabel} we wszystkich meczach etapu`;
+
+            const chartData = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '🔴 Kielecki Bunkier (GoE)',
+                        data: goeData,
+                        backgroundColor: 'rgba(255, 0, 51, 0.85)',
+                        borderColor: '#ff0033',
+                        borderWidth: 1.5,
+                        borderRadius: 4
+                    },
+                    {
+                        label: '🟣 Obóz Nervariena',
+                        data: nervaData,
+                        backgroundColor: 'rgba(168, 85, 247, 0.85)',
+                        borderColor: '#a855f7',
+                        borderWidth: 1.5,
+                        borderRadius: 4
+                    },
+                    {
+                        label: '🟠 Obóz Tobiasza',
+                        data: tobiasData,
+                        backgroundColor: 'rgba(249, 115, 22, 0.85)',
+                        borderColor: '#f97316',
+                        borderWidth: 1.5,
+                        borderRadius: 4
+                    }
+                ]
+            };
+
+            if (stageComparisonChartInstance) {
+                stageComparisonChartInstance.data = chartData;
+                stageComparisonChartInstance.update();
+            } else {
+                stageComparisonChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#ffffff', font: { family: 'Outfit', weight: 'bold', size: 12 } }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('pl-PL')}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#d4d4d8', font: { family: 'Outfit', weight: 'bold', size: 12 } },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            },
+                            y: {
+                                ticks: { color: '#a1a1aa', font: { family: 'Rajdhani', weight: 'bold', size: 12 } },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function renderStageShareChart(stage) {
+            const ctx = document.getElementById('stageShareChart');
+            if (!ctx) return;
+
+            const ms = stage.market_share || { goe: 30, nerva: 50, tobias: 20 };
+            document.getElementById('stage-share-total-hrs').innerText = `${(stage.total_watch_hours || 0).toLocaleString('pl-PL')} h`;
+
+            const chartData = {
+                labels: ['🔴 Bunkier GoE', '🟣 Obóz Nervariena', '🟠 Obóz Tobiasza'],
+                datasets: [{
+                    data: [ms.goe, ms.nerva, ms.tobias],
+                    backgroundColor: [
+                        '#ff0033',
+                        '#a855f7',
+                        '#f97316'
+                    ],
+                    borderColor: '#0a0a0c',
+                    borderWidth: 2,
+                    hoverOffset: 6
+                }]
+            };
+
+            if (stageShareChartInstance) {
+                stageShareChartInstance.data = chartData;
+                stageShareChartInstance.update();
+            } else {
+                stageShareChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#ffffff', font: { family: 'Outfit', weight: 'bold', size: 11 } }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return ` ${ctx.label}: ${ctx.raw}% widzogodzin`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '62%'
+                    }
+                });
+            }
+        }
+
+        function downloadStageCard() {
+            const stageId = currentStageId || 'quarters';
+            const filename = `${stageId}_summary.png`;
+            window.open(filename, '_blank');
+        }
+
+        function downloadStageJson() {
+            window.open('tournament_analytics.json', '_blank');
         }
 
         /* --- AUTO REFRESH TICKER --- */

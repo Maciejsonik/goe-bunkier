@@ -15,8 +15,19 @@ DAYS_CONFIG = {
         "id": "day-1",
         "name": "Dzień 1 (03.11)",
         "label": "Dzień 1 • 03.11 (Zakończony)",
+        "match": "TOP Esports vs Invictus Gaming",
+        "match_short": "TES vs IG",
+        "score": "1 : 3",
+        "winner": "Invictus Gaming",
+        "stage": "quarters",
         "date": "2026-11-03",
         "is_finished": True,
+        "disclaimers": [
+            "Atak viewbotów na YouTube (GoE) – dane oczyszczone filtrem adaptywnym (prawdziwy organiczny szczyt: 2 815).",
+            "Brak transmisji Tobiasza (offline przez cały mecz).",
+            "Błąd pomiarowy w co-streamie Nervariena (opóźnione wykrycie transmisji Damiana).",
+            "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone).",
+        ],
         "start_utc": "2026-11-03 12:00:00",
         "end_utc": "2026-11-04 12:00:00",
         "schedule": {
@@ -46,8 +57,14 @@ DAYS_CONFIG = {
         "id": "day-2",
         "name": "Dzień 2 (04.11)",
         "label": "Dzień 2 • 04.11 (Zakończony)",
+        "match": "Movistar Lyon vs Gen.G Esports",
+        "match_short": "Lyon vs Gen.G",
+        "score": "0 : 3",
+        "winner": "Gen.G Esports",
+        "stage": "quarters",
         "date": "2026-11-04",
         "is_finished": True,
+        "disclaimers": [],
         "start_utc": "2026-11-04 12:00:00",
         "end_utc": "2026-11-05 12:00:00",
         "schedule": {
@@ -83,8 +100,17 @@ DAYS_CONFIG = {
         "id": "day-3",
         "name": "Dzień 3 (05.11)",
         "label": "Dzień 3 • 05.11 (Zakończony)",
+        "match": "Bilibili Gaming vs Dplus KIA",
+        "match_short": "BLG vs DK",
+        "score": "3 : 0",
+        "winner": "Bilibili Gaming",
+        "stage": "quarters",
         "date": "2026-11-05",
         "is_finished": True,
+        "disclaimers": [
+            "Dane przycięte do zakończenia rywalizacji turniejowej (02:11 CET, zakończenie streamów GoE i Tobiasza).",
+            "Wygładzono chwilowe błędy i timeouty pobierania YouTube.",
+        ],
         "start_utc": "2026-11-05 12:00:00",
         "end_utc": "2026-11-06 12:00:00",
         "schedule": {
@@ -120,8 +146,16 @@ DAYS_CONFIG = {
         "id": "day-4",
         "name": "Dzień 4 (06.11)",
         "label": "Dzień 4 • 06.11 (Zakończony)",
+        "match": "Karmine Corp vs T1",
+        "match_short": "KC vs T1",
+        "score": "1 : 3",
+        "winner": "T1",
+        "stage": "quarters",
         "date": "2026-11-06",
         "is_finished": True,
+        "disclaimers": [
+            "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone).",
+        ],
         "start_utc": "2026-11-06 12:00:00",
         "end_utc": "2026-11-07 12:00:00",
         "schedule": {
@@ -157,8 +191,16 @@ DAYS_CONFIG = {
         "id": "day-5",
         "name": "Dzień 5 (07.11)",
         "label": "Dzień 5 • 07.11 (Zakończony)",
+        "match": "Gen.G Esports vs Invictus Gaming",
+        "match_short": "Gen.G vs IG",
+        "score": "3 : 0",
+        "winner": "Gen.G Esports",
+        "stage": "semis",
         "date": "2026-11-07",
         "is_finished": True,
+        "disclaimers": [
+            "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00.",
+        ],
         "start_utc": "2026-11-07 12:00:00",
         "end_utc": "2026-11-08 12:00:00",
         "schedule": {
@@ -194,8 +236,16 @@ DAYS_CONFIG = {
         "id": "day-6",
         "name": "Dzień 6 (08.11)",
         "label": "Dzień 6 • 08.11 (Zakończony)",
+        "match": "Bilibili Gaming vs T1",
+        "match_short": "BLG vs T1",
+        "score": "3 : 1",
+        "winner": "Bilibili Gaming",
+        "stage": "semis",
         "date": "2026-11-08",
         "is_finished": True,
+        "disclaimers": [
+            "Rekordowy szczyt jednoczesnej widowni 3 obozów: 17 596 widzów.",
+        ],
         "start_utc": "2026-11-08 12:00:00",
         "end_utc": "2026-11-09 12:00:00",
         "schedule": {
@@ -229,6 +279,34 @@ DAYS_CONFIG = {
     },
 }
 
+# Tournament Stages Configuration (Quarters, Semis, Overall)
+STAGES_CONFIG = {
+    "quarters": {
+        "id": "quarters",
+        "name": "Ćwierćfinały (Dni 1–4)",
+        "short_name": "Ćwierćfinały",
+        "days": ["day-1", "day-2", "day-3", "day-4"],
+        "icon": "🥊",
+        "subtitle": "4 mecze BO5 • 8 czołowych drużyn świata",
+    },
+    "semis": {
+        "id": "semis",
+        "name": "Półfinały (Dni 5–6)",
+        "short_name": "Półfinały",
+        "days": ["day-5", "day-6"],
+        "icon": "🔥",
+        "subtitle": "2 mecze BO5 • Walka o Wielki Finał",
+    },
+    "tournament": {
+        "id": "tournament",
+        "name": "Cały Turniej (Dni 1–6)",
+        "short_name": "Cały Turniej",
+        "days": ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6"],
+        "icon": "🏆",
+        "subtitle": "Pełne podsumowanie fazy pucharowej Worlds 2026",
+    },
+}
+
 # Co-stream channels mapped across all days
 # Tracked on the dashboard but excluded from official duel sums
 COSTREAM_STREAMS = {
@@ -243,6 +321,7 @@ COSTREAM_STREAMS = {
         "platform": "Twitch",
     },
 }
+
 CURIOSITY_STREAMS = COSTREAM_STREAMS
 
 

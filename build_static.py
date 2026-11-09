@@ -330,6 +330,12 @@ def build_day(
     data["day_id"] = day_id
     data["day_name"] = day_cfg["name"]
     data["day_date"] = day_cfg["date"]
+    data["match"] = day_cfg.get("match", "")
+    data["match_short"] = day_cfg.get("match_short", "")
+    data["score"] = day_cfg.get("score", "")
+    data["winner"] = day_cfg.get("winner", "")
+    data["stage"] = day_cfg.get("stage", "quarters")
+    data["disclaimers"] = day_cfg.get("disclaimers", [])
     data["schedule"] = day_cfg.get("schedule", {})
     data["is_finished"] = day_cfg.get("is_finished", False)
     data["is_active"] = is_active
@@ -450,6 +456,12 @@ def build(force: bool = False):
             "name": cfg["name"],
             "label": cfg["label"],
             "date": cfg["date"],
+            "match": cfg.get("match", ""),
+            "match_short": cfg.get("match_short", ""),
+            "score": cfg.get("score", ""),
+            "winner": cfg.get("winner", ""),
+            "stage": cfg.get("stage", "quarters"),
+            "disclaimers": cfg.get("disclaimers", []),
             "schedule": cfg.get("schedule", {}),
             "is_finished": cfg.get("is_finished", False),
             "is_active": (d_id == active_day),
@@ -509,6 +521,23 @@ def build(force: bool = False):
         print(f"🖼️ [OpenGraph] Wygenerowano kartę podglądu: {og_path}")
     except Exception as e:
         print(f"⚠️ Błąd generowania og_preview.png: {e}")
+
+    # Generate multi-stage & tournament analytics and cards
+    try:
+        from analytics import generate_tournament_analytics
+        from generate_summary import create_stage_summary_card
+
+        generate_tournament_analytics()
+        q_path = os.path.join(BASE_DIR, "quarters_summary.png")
+        s_path = os.path.join(BASE_DIR, "semis_summary.png")
+        t_path = os.path.join(BASE_DIR, "tournament_summary.png")
+
+        create_stage_summary_card("quarters", q_path)
+        create_stage_summary_card("semis", s_path)
+        create_stage_summary_card("tournament", t_path)
+        print("📊 [Stage Cards] Wygenerowano karty etapów: quarters, semis, tournament")
+    except Exception as e:
+        print(f"⚠️ Błąd generowania analityki etapowej: {e}")
 
     print(
         "🎉 [Build] Zakończono! Wszystkie pliki dniowe oraz główne zostały przygotowane."

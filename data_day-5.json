@@ -163,7 +163,13 @@
     "yt_peak": 2562,
     "yt_peak_time": "23:43",
     "tw_peak": 380,
-    "tw_peak_time": "01:01"
+    "tw_peak_time": "01:01",
+    "goe_live_avg": 1828,
+    "nerva_live_avg": 4347,
+    "tobias_live_avg": 1470,
+    "goe_watch_hours": 14699,
+    "nerva_watch_hours": 22116,
+    "tobias_watch_hours": 13399
   },
   "summary_stats_raw": {
     "count": 2188,
@@ -196,7 +202,13 @@
     "yt_peak": 2562,
     "yt_peak_time": "23:43",
     "tw_peak": 380,
-    "tw_peak_time": "01:01"
+    "tw_peak_time": "01:01",
+    "goe_live_avg": 1828,
+    "nerva_live_avg": 4347,
+    "tobias_live_avg": 1470,
+    "goe_watch_hours": 14699,
+    "nerva_watch_hours": 22116,
+    "tobias_watch_hours": 13399
   },
   "active_day_id": "day-6",
   "days": [
@@ -205,6 +217,17 @@
       "name": "Dzień 1 (03.11)",
       "label": "Dzień 1 • 03.11 (Zakończony)",
       "date": "2026-11-03",
+      "match": "TOP Esports vs Invictus Gaming",
+      "match_short": "TES vs IG",
+      "score": "1 : 3",
+      "winner": "Invictus Gaming",
+      "stage": "quarters",
+      "disclaimers": [
+        "Atak viewbotów na YouTube (GoE) – dane oczyszczone filtrem adaptywnym (prawdziwy organiczny szczyt: 2 815).",
+        "Brak transmisji Tobiasza (offline przez cały mecz).",
+        "Błąd pomiarowy w co-streamie Nervariena (opóźnione wykrycie transmisji Damiana).",
+        "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
+      ],
       "schedule": {
         "goe_start": "21:30",
         "nerva_start": "22:30",
@@ -225,6 +248,12 @@
       "name": "Dzień 2 (04.11)",
       "label": "Dzień 2 • 04.11 (Zakończony)",
       "date": "2026-11-04",
+      "match": "Movistar Lyon vs Gen.G Esports",
+      "match_short": "Lyon vs Gen.G",
+      "score": "0 : 3",
+      "winner": "Gen.G Esports",
+      "stage": "quarters",
+      "disclaimers": [],
       "schedule": {
         "goe_start": "21:30",
         "nerva_start": "22:30",
@@ -245,6 +274,15 @@
       "name": "Dzień 3 (05.11)",
       "label": "Dzień 3 • 05.11 (Zakończony)",
       "date": "2026-11-05",
+      "match": "Bilibili Gaming vs Dplus KIA",
+      "match_short": "BLG vs DK",
+      "score": "3 : 0",
+      "winner": "Bilibili Gaming",
+      "stage": "quarters",
+      "disclaimers": [
+        "Dane przycięte do zakończenia rywalizacji turniejowej (02:11 CET, zakończenie streamów GoE i Tobiasza).",
+        "Wygładzono chwilowe błędy i timeouty pobierania YouTube."
+      ],
       "schedule": {
         "goe_start": "21:15",
         "nerva_start": "22:30",
@@ -265,6 +303,14 @@
       "name": "Dzień 4 (06.11)",
       "label": "Dzień 4 • 06.11 (Zakończony)",
       "date": "2026-11-06",
+      "match": "Karmine Corp vs T1",
+      "match_short": "KC vs T1",
+      "score": "1 : 3",
+      "winner": "T1",
+      "stage": "quarters",
+      "disclaimers": [
+        "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
+      ],
       "schedule": {
         "goe_start": "21:15",
         "nerva_start": "22:30",
@@ -285,6 +331,14 @@
       "name": "Dzień 5 (07.11)",
       "label": "Dzień 5 • 07.11 (Zakończony)",
       "date": "2026-11-07",
+      "match": "Gen.G Esports vs Invictus Gaming",
+      "match_short": "Gen.G vs IG",
+      "score": "3 : 0",
+      "winner": "Gen.G Esports",
+      "stage": "semis",
+      "disclaimers": [
+        "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00."
+      ],
       "schedule": {
         "goe_start": "20:30",
         "nerva_start": "22:30",
@@ -305,6 +359,14 @@
       "name": "Dzień 6 (08.11)",
       "label": "Dzień 6 • 08.11 (Zakończony)",
       "date": "2026-11-08",
+      "match": "Bilibili Gaming vs T1",
+      "match_short": "BLG vs T1",
+      "score": "3 : 1",
+      "winner": "Bilibili Gaming",
+      "stage": "semis",
+      "disclaimers": [
+        "Rekordowy szczyt jednoczesnej widowni 3 obozów: 17 596 widzów."
+      ],
       "schedule": {
         "goe_start": "21:30",
         "nerva_start": "22:30",
@@ -320,5 +382,13 @@
       "goe_card": "./goe_summary_day-6.png",
       "camps_card": "./camps_summary_day-6.png"
     }
+  ],
+  "match": "Gen.G Esports vs Invictus Gaming",
+  "match_short": "Gen.G vs IG",
+  "score": "3 : 0",
+  "winner": "Gen.G Esports",
+  "stage": "semis",
+  "disclaimers": [
+    "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00."
   ]
 }

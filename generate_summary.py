@@ -910,6 +910,417 @@ def create_summary_card(
     return output_path
 
 
+def create_stage_summary_card(
+    stage_id: str = "tournament",
+    output_path: str = "tournament_summary.png",
+) -> str:
+    """Renders a high-impact 1080x1350 summary infographic for a tournament stage
+    (Quarters, Semis, or All-Tournament) in GoE Bunkier aesthetics.
+    """
+    from analytics import generate_tournament_analytics
+
+    data_all = generate_tournament_analytics()
+    stage = data_all.get("stages", {}).get(stage_id)
+    if not stage:
+        stage = data_all.get("stages", {}).get("tournament", {})
+
+    width, height = 1080, 1350
+    img = Image.new("RGB", (width, height), color=(10, 10, 12))
+    draw = ImageDraw.Draw(img)
+
+    draw_goe_background(draw, width, height)
+
+    font_top_emblem = _get_font(26, bold=True, font_type="rajdhani")
+    font_main_title = _get_font(68, font_type="anton")
+    font_sub_title = _get_font(20, font_type="rajdhani")
+    font_stat_val = _get_font(38, font_type="anton")
+    font_stat_lbl = _get_font(15, bold=True, font_type="rajdhani")
+    font_stat_sub = _get_font(13, bold=True, font_type="rajdhani")
+    font_match_title = _get_font(18, bold=True, font_type="anton")
+    font_match_sub = _get_font(14, font_type="rajdhani")
+    font_bar_val = _get_font(14, bold=True, font_type="rajdhani")
+    font_footer_pipes = _get_font(17, bold=True, font_type="rajdhani")
+    font_bunkier_badge = _get_font(20, font_type="anton")
+    font_system_note = _get_font(13, font_type="rajdhani")
+
+    # 1. Top Emblem
+    draw_top_emblem(draw, width, 48, "WORLDS 2026", font_top_emblem)
+
+    # 2. Slanted Main Title
+    if stage_id == "quarters":
+        title_text = "ĆWIERĆFINAŁY (DNI 1-4)"
+        sub_text = "4 mecze BO5 • Bilans oglądalności polskiej sceny"
+    elif stage_id == "semis":
+        title_text = "PÓŁFINAŁY (DNI 5-6)"
+        sub_text = "2 mecze BO5 • Walka o Wielki Finał"
+    else:
+        title_text = "PODSUMOWANIE TURNIEJU"
+        sub_text = "6 meczów BO5 • Cała faza pucharowa Worlds 2026"
+
+    draw_slanted_text(
+        img,
+        title_text,
+        font_main_title,
+        (255, 0, 51),
+        (width // 2, 112),
+        slant_k=0.20,
+    )
+
+    draw.text(
+        (width // 2, 178),
+        sub_text,
+        fill=(220, 220, 230),
+        font=font_sub_title,
+        anchor="mm",
+    )
+
+    # 3. Top 4 KPI Boxes
+    box_w = 226
+    box_h = 115
+    y_boxes = 205
+    x_positions = [50, 301, 553, 804]
+
+    tot_vh = f"{stage.get('total_watch_hours', 0):,}".replace(",", " ") + " h"
+    tot_peak = f"{stage.get('total_scene_peak', 0):,}".replace(",", " ")
+    goe_share = f"{stage.get('goe', {}).get('share', 0.0)}%"
+    goe_avg = f"{stage.get('goe', {}).get('live_avg', 0):,}".replace(",", " ")
+
+    stat_items = [
+        (
+            "WATCH-TIME SCENY",
+            tot_vh,
+            (0, 229, 255),
+            "ŁĄCZNIE 3 OBOZY",
+        ),
+        (
+            "REKORD SCENY",
+            tot_peak,
+            (255, 24, 36),
+            f"PIK ({stage.get('total_scene_peak_match', '')})",
+        ),
+        (
+            "UDZIAŁ GOE",
+            goe_share,
+            (255, 24, 36),
+            "WIDZOGODZINY BUNKRA",
+        ),
+        (
+            "ŚREDNIA GOE LIVE",
+            goe_avg,
+            (255, 255, 255),
+            "NA ŻYWO W TRAKCIE MECZÓW",
+        ),
+    ]
+
+    for i, (lbl, val, col, sub) in enumerate(stat_items):
+        bx = x_positions[i]
+        draw.rounded_rectangle(
+            [bx, y_boxes, bx + box_w, y_boxes + box_h],
+            radius=12,
+            fill=(10, 10, 12),
+            outline=(255, 0, 51),
+            width=1,
+        )
+        draw.text(
+            (bx + 14, y_boxes + 12),
+            lbl,
+            fill=(180, 180, 190),
+            font=font_stat_lbl,
+        )
+        draw.text((bx + 14, y_boxes + 36), val, fill=col, font=font_stat_val)
+        draw.text(
+            (bx + 14, y_boxes + 86),
+            sub,
+            fill=(135, 135, 145),
+            font=font_stat_sub,
+        )
+
+    # 4. Three Camp Cards (GoE, Nervarien, Tobiasz)
+    c_y = 335
+    c_w = 310
+    c_h = 100
+    c_xs = [50, 385, 720]
+
+    camps_data = [
+        (
+            "🔵 BUNKIER GOE",
+            stage.get("goe", {}),
+            (59, 130, 246),
+            (20, 30, 50),
+        ),
+        (
+            "🔴 NERVARIEN & CO-STREAMY",
+            stage.get("nerva", {}),
+            (239, 68, 68),
+            (50, 20, 25),
+        ),
+        (
+            "🟠 TOBIASZ",
+            stage.get("tobias", {}),
+            (249, 115, 22),
+            (50, 30, 15),
+        ),
+    ]
+
+    for (cname, cstats, ccolor, cbg), cx in zip(camps_data, c_xs):
+        draw.rounded_rectangle(
+            [cx, c_y, cx + c_w, c_y + c_h],
+            radius=8,
+            fill=(18, 18, 22),
+            outline=ccolor,
+            width=2,
+        )
+        draw.text(
+            (cx + 12, c_y + 12),
+            cname,
+            fill=ccolor,
+            font=_get_font(16, bold=True, font_type="rajdhani"),
+        )
+        # Stats inside card
+        peak_str = f"Pik: {cstats.get('peak', 0):,}".replace(",", " ")
+        avg_str = f"Śr. live: {cstats.get('live_avg', 0):,}".replace(",", " ")
+        vh_str = f"Watch: {cstats.get('watch_hours', 0):,}".replace(",", " ") + "h"
+        share_str = f"Udział: {cstats.get('share', 0.0)}%"
+
+        draw.text(
+            (cx + 12, c_y + 40),
+            peak_str,
+            fill=(255, 255, 255),
+            font=_get_font(15, bold=True, font_type="rajdhani"),
+        )
+        draw.text(
+            (cx + 160, c_y + 40),
+            avg_str,
+            fill=(200, 200, 210),
+            font=_get_font(15, bold=False, font_type="rajdhani"),
+        )
+        draw.text(
+            (cx + 12, c_y + 68),
+            vh_str,
+            fill=(0, 229, 255),
+            font=_get_font(15, bold=True, font_type="rajdhani"),
+        )
+        draw.text(
+            (cx + 160, c_y + 68),
+            share_str,
+            fill=ccolor,
+            font=_get_font(15, bold=True, font_type="rajdhani"),
+        )
+
+    # 5. Match-by-Match Visual Rows
+    matches = stage.get("matches", [])
+    row_y_start = 455
+    available_h = 635
+    row_h = min(98, available_h // max(1, len(matches)))
+
+    draw.text(
+        (50, row_y_start - 18),
+        "ZESTAWIENIE MECZÓW (SZCZYTY I CZAS TRWANIA):",
+        fill=(180, 180, 190),
+        font=_get_font(14, bold=True, font_type="rajdhani"),
+    )
+
+    max_p = max(
+        (
+            max(
+                m["goe"]["peak"],
+                m["nerva"]["peak"],
+                m["tobias"]["peak"],
+                1,
+            )
+            for m in matches
+        ),
+        default=10000,
+    )
+
+    for i, m in enumerate(matches):
+        my = row_y_start + i * row_h
+        m_w = width - 100
+        draw.rounded_rectangle(
+            [50, my, 50 + m_w, my + row_h - 8],
+            radius=6,
+            fill=(16, 16, 20),
+            outline=(40, 40, 50),
+            width=1,
+        )
+
+        # Match label and winner
+        title_line = f"{m['name']} • {m['match']} ({m['score']})"
+        draw.text(
+            (65, my + 8),
+            title_line,
+            fill=(255, 255, 255),
+            font=font_match_title,
+        )
+
+        tot_p_str = f"Pik meczu: {m['total_peak']:,}".replace(",", " ")
+        draw.text(
+            (930, my + 8),
+            tot_p_str,
+            fill=(0, 229, 255),
+            font=_get_font(15, bold=True, font_type="rajdhani"),
+            anchor="ra",
+        )
+
+        # 3 Comparative Progress Bars inside the row
+        bar_x = 65
+        bar_max_w = 400
+        bar_y_base = my + 34
+        bar_h = 11
+        spacing = 15
+
+        # GoE bar
+        gp = m["goe"]["peak"]
+        gw = int((gp / max_p) * bar_max_w)
+        draw.rectangle(
+            [bar_x, bar_y_base, bar_x + gw, bar_y_base + bar_h],
+            fill=(59, 130, 246),
+        )
+        draw.text(
+            (bar_x + gw + 8, bar_y_base - 1),
+            f"GoE: {gp:,}".replace(",", " "),
+            fill=(59, 130, 246),
+            font=font_bar_val,
+        )
+
+        # Nerva bar
+        np_val = m["nerva"]["peak"]
+        nw = int((np_val / max_p) * bar_max_w)
+        draw.rectangle(
+            [bar_x, bar_y_base + spacing, bar_x + nw, bar_y_base + spacing + bar_h],
+            fill=(239, 68, 68),
+        )
+        draw.text(
+            (bar_x + nw + 8, bar_y_base + spacing - 1),
+            f"Nerva: {np_val:,}".replace(",", " "),
+            fill=(239, 68, 68),
+            font=font_bar_val,
+        )
+
+        # Tobias bar
+        tp = m["tobias"]["peak"]
+        tw = int((tp / max_p) * bar_max_w)
+        if tp > 0:
+            draw.rectangle(
+                [
+                    bar_x,
+                    bar_y_base + spacing * 2,
+                    bar_x + tw,
+                    bar_y_base + spacing * 2 + bar_h,
+                ],
+                fill=(249, 115, 22),
+            )
+            draw.text(
+                (bar_x + tw + 8, bar_y_base + spacing * 2 - 1),
+                f"Tobiasz: {tp:,}".replace(",", " "),
+                fill=(249, 115, 22),
+                font=font_bar_val,
+            )
+        else:
+            draw.text(
+                (bar_x, bar_y_base + spacing * 2 - 1),
+                "Tobiasz: Offline (Brak transmisji)",
+                fill=(120, 120, 130),
+                font=font_bar_val,
+            )
+
+        # Right side stats: hours & live average
+        right_x = 730
+        draw.text(
+            (right_x, bar_y_base),
+            f"GoE śr: {m['goe']['live_avg']:,} | {m['goe']['watch_hours']:,}h".replace(
+                ",", " "
+            ),
+            fill=(200, 200, 210),
+            font=_get_font(13, font_type="rajdhani"),
+        )
+        draw.text(
+            (right_x, bar_y_base + spacing),
+            f"Nerva śr: {m['nerva']['live_avg']:,} | {m['nerva']['watch_hours']:,}h".replace(
+                ",", " "
+            ),
+            fill=(200, 200, 210),
+            font=_get_font(13, font_type="rajdhani"),
+        )
+        if tp > 0:
+            draw.text(
+                (right_x, bar_y_base + spacing * 2),
+                f"Tobiasz śr: {m['tobias']['live_avg']:,} | {m['tobias']['watch_hours']:,}h".replace(
+                    ",", " "
+                ),
+                fill=(200, 200, 210),
+                font=_get_font(13, font_type="rajdhani"),
+            )
+
+    # 6. Disclaimers Box
+    disc_y = 1110
+    draw.rounded_rectangle(
+        [50, disc_y, width - 50, disc_y + 85],
+        radius=6,
+        fill=(14, 14, 18),
+        outline=(50, 50, 60),
+        width=1,
+    )
+    draw.text(
+        (65, disc_y + 10),
+        "ADNOTACJE METODOLOGICZNE & RAPORT DANYCH:",
+        fill=(255, 204, 0),
+        font=_get_font(13, bold=True, font_type="rajdhani"),
+    )
+    disc_lines = [
+        "• Dzień 1: Oczyszczono 2 fale viewbotów YT (GoE); brak streamu Tobiasza; opóźnione wykrycie co-streamu Damiana.",
+        "• Dni 2-4: Wygładzono chwilowe błędy i timeouty API pobierania YouTube; Dzień 3 przycięty o 02:11 (koniec meczu).",
+        "• Średnie liczone algorytmem 'True Live Window' ściśle dla godzin aktywności każdego twórcy z osobna.",
+    ]
+    for d_idx, dline in enumerate(disc_lines):
+        draw.text(
+            (65, disc_y + 28 + d_idx * 17),
+            dline,
+            fill=(160, 160, 175),
+            font=_get_font(12, font_type="rajdhani"),
+        )
+
+    # 7. Footer - Roster & Bunkier Badge
+    roster_pipes = (
+        "DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER"
+    )
+    draw.text(
+        (width // 2, 1222),
+        roster_pipes,
+        fill=(255, 255, 255),
+        font=font_footer_pipes,
+        anchor="mm",
+    )
+
+    bunkier_w = 140
+    bunkier_h = 32
+    bx = (width - bunkier_w) // 2
+    by = 1248
+    draw.rounded_rectangle(
+        [bx, by, bx + bunkier_w, by + bunkier_h],
+        radius=6,
+        fill=(255, 0, 51),
+    )
+    draw.text(
+        (width // 2, by + bunkier_h // 2),
+        "#BUNKIER",
+        fill=(255, 255, 255),
+        font=font_bunkier_badge,
+        anchor="mm",
+    )
+
+    draw.text(
+        (width // 2, 1300),
+        "Statystyki widowni Co-stream GoE • Faza Pucharowa Worlds 2026",
+        fill=(140, 140, 150),
+        font=font_system_note,
+        anchor="mm",
+    )
+
+    img.save(output_path, "PNG")
+    return output_path
+
+
 if __name__ == "__main__":
     out_goe = create_summary_card(
         "infographsbot/goe_summary.png", mode="GOE", filter_bots=True
