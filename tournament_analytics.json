@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11 14:29:59",
+  "generated_at": "2026-11-11 15:42:35",
   "title": "Worlds 2026 • Podsumowanie Oglądalności Polskiej Sceny",
   "stages": {
     "quarters": {
@@ -25,7 +25,7 @@
         "peak_match": "Lyon vs Gen.G",
         "live_avg": 2120,
         "watch_hours": 43132,
-        "duration_hours": 20.3,
+        "duration_hours": 20.4,
         "share": 31.7
       },
       "nerva": {
@@ -47,6 +47,14 @@
         "goe": 31.7,
         "nerva": 47.1,
         "tobias": 21.2
+      },
+      "goe_platforms": {
+        "yt_watch_hours": 38806,
+        "tw_watch_hours": 4325,
+        "yt_peak": 3486,
+        "tw_peak": 354,
+        "yt_share": 90.0,
+        "tw_share": 10.0
       },
       "matches": [
         {
@@ -473,6 +481,14 @@
         "nerva": 51.3,
         "tobias": 23.5
       },
+      "goe_platforms": {
+        "yt_watch_hours": 20193,
+        "tw_watch_hours": 3245,
+        "yt_peak": 3009,
+        "tw_peak": 448,
+        "yt_share": 86.2,
+        "tw_share": 13.8
+      },
       "matches": [
         {
           "day_id": "day-5",
@@ -707,6 +723,14 @@
         "nerva": 0.0,
         "tobias": 0.0
       },
+      "goe_platforms": {
+        "yt_watch_hours": 0,
+        "tw_watch_hours": 0,
+        "yt_peak": 0,
+        "tw_peak": 0,
+        "yt_share": 0.0,
+        "tw_share": 0.0
+      },
       "matches": [
         {
           "day_id": "day-7",
@@ -855,6 +879,14 @@
         "goe": 29.0,
         "nerva": 48.8,
         "tobias": 22.2
+      },
+      "goe_platforms": {
+        "yt_watch_hours": 58999,
+        "tw_watch_hours": 7570,
+        "yt_peak": 3486,
+        "tw_peak": 448,
+        "yt_share": 88.6,
+        "tw_share": 11.4
       },
       "matches": [
         {

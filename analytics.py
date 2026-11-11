@@ -145,6 +145,19 @@ def compute_stage_summary(stage_id: str, matches: list[dict]) -> dict:
     nerva_avg = round(nerva_vh / nerva_dur) if nerva_dur > 0 else 0
     tobias_avg = round(tobias_vh / tobias_dur) if tobias_dur > 0 else 0
 
+    # GoE platform breakdown (YouTube vs Twitch) across the stage
+    yt_vh = sum(m.get("goe_yt", {}).get("watch_hours", 0) for m in stage_matches)
+    tw_vh = sum(m.get("goe_tw", {}).get("watch_hours", 0) for m in stage_matches)
+    plat_vh_tot = yt_vh + tw_vh
+    yt_peak = max(
+        (m.get("goe_yt", {}).get("peak", 0) for m in stage_matches), default=0
+    )
+    tw_peak = max(
+        (m.get("goe_tw", {}).get("peak", 0) for m in stage_matches), default=0
+    )
+    yt_share = round((yt_vh / plat_vh_tot) * 100, 1) if plat_vh_tot > 0 else 0.0
+    tw_share = round(100.0 - yt_share, 1) if plat_vh_tot > 0 else 0.0
+
     # Peaks and peak sources
     goe_peak = max((m["goe"]["peak"] for m in stage_matches), default=0)
     nerva_peak = max((m["nerva"]["peak"] for m in stage_matches), default=0)
@@ -214,6 +227,14 @@ def compute_stage_summary(stage_id: str, matches: list[dict]) -> dict:
             "goe": goe_share,
             "nerva": nerva_share,
             "tobias": tobias_share,
+        },
+        "goe_platforms": {
+            "yt_watch_hours": yt_vh,
+            "tw_watch_hours": tw_vh,
+            "yt_peak": yt_peak,
+            "tw_peak": tw_peak,
+            "yt_share": yt_share,
+            "tw_share": tw_share,
         },
         "matches": stage_matches,
     }
