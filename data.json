@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-11 13:22:34",
+  "timestamp": "2026-11-11 12:24:49",
   "total_viewers": 0,
   "leader": "REMIS",
   "diff": 0,
@@ -32,9 +32,10 @@
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
-          "fetch_error": true,
-          "url": "https://www.youtube.com/@gadaja_/live",
-          "avatar_url": "https://yt3.googleusercontent.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s900-c-k-c0x00ffffff-no-rj",
+          "url": "https://www.youtube.com/watch?v=p7f_l6Volf8",
+          "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
+          "video_id": "p7f_l6Volf8",
+          "direct_watch_url": "https://www.youtube.com/watch?v=p7f_l6Volf8",
           "group": "GOE"
         }
       ]
@@ -65,9 +66,10 @@
           "category": "YouTube Live",
           "is_live": false,
           "viewers": 0,
-          "fetch_error": true,
-          "url": "https://www.youtube.com/@nervarien/live",
-          "avatar_url": "https://yt3.googleusercontent.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s900-c-k-c0x00ffffff-no-rj",
+          "url": "https://www.youtube.com/watch?v=JiL6EGqs-74",
+          "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
+          "video_id": "JiL6EGqs-74",
+          "direct_watch_url": "https://www.youtube.com/watch?v=JiL6EGqs-74",
           "group": "NERVA"
         }
       ]
