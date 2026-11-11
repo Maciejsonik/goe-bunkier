@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09 20:49:18",
+  "generated_at": "2026-11-11 13:23:41",
   "title": "Worlds 2026 • Podsumowanie Oglądalności Polskiej Sceny",
   "stages": {
     "quarters": {
@@ -15,37 +15,38 @@
         "day-4"
       ],
       "matches_count": 4,
+      "scheduled_matches_count": 4,
       "total_points": 6058,
-      "total_watch_hours": 163243,
+      "total_watch_hours": 136105,
       "total_scene_peak": 14514,
       "total_scene_peak_match": "KC vs T1",
       "goe": {
         "peak": 3802,
         "peak_match": "Lyon vs Gen.G",
-        "live_avg": 2215,
-        "watch_hours": 52878,
-        "duration_hours": 23.9,
-        "share": 32.4
+        "live_avg": 2120,
+        "watch_hours": 43132,
+        "duration_hours": 20.4,
+        "share": 31.7
       },
       "nerva": {
         "peak": 7870,
         "peak_match": "KC vs T1",
-        "live_avg": 3963,
-        "watch_hours": 78554,
-        "duration_hours": 19.8,
-        "share": 48.1
+        "live_avg": 4144,
+        "watch_hours": 64072,
+        "duration_hours": 15.5,
+        "share": 47.1
       },
       "tobias": {
         "peak": 3711,
-        "live_avg": 1774,
-        "watch_hours": 31811,
-        "duration_hours": 17.9,
-        "share": 19.5
+        "live_avg": 1742,
+        "watch_hours": 28901,
+        "duration_hours": 16.6,
+        "share": 21.2
       },
       "market_share": {
-        "goe": 32.4,
-        "nerva": 48.1,
-        "tobias": 19.5
+        "goe": 31.7,
+        "nerva": 47.1,
+        "tobias": 21.2
       },
       "matches": [
         {
@@ -57,6 +58,13 @@
           "score": "1 : 3",
           "winner": "Invictus Gaming",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-03T21:30:00+01:00"
+          },
           "disclaimers": [
             "Atak viewbotów na YouTube (GoE) – dane oczyszczone filtrem adaptywnym (prawdziwy organiczny szczyt: 2 815).",
             "Brak transmisji Tobiasza (offline przez cały mecz).",
@@ -66,61 +74,60 @@
           "points_count": 1657,
           "total_peak": 7637,
           "total_peak_time": "23:33",
-          "total_watch_hours": 37772,
+          "total_watch_hours": 22985,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 2815,
             "peak_time": "23:33",
-            "live_avg": 2151,
-            "watch_hours": 14850
+            "live_avg": 2042,
+            "watch_hours": 9017,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 2594,
             "peak_time": "23:33",
-            "live_avg": 1949,
-            "watch_hours": 13456
+            "live_avg": 1848,
+            "watch_hours": 8160,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 240,
             "peak_time": "23:52",
-            "live_avg": 202,
-            "watch_hours": 1394
+            "live_avg": 194,
+            "watch_hours": 856,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 4969,
             "peak_time": "23:22",
-            "live_avg": 3320,
-            "watch_hours": 22922
+            "live_avg": 3163,
+            "watch_hours": 13968,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": false,
             "start_time": "--",
             "end_time": "--",
@@ -130,11 +137,12 @@
             "peak": 0,
             "peak_time": "--",
             "live_avg": 0,
-            "watch_hours": 0
+            "watch_hours": 0,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 39.3,
-            "nerva": 60.7,
+            "goe": 39.2,
+            "nerva": 60.8,
             "tobias": 0.0
           }
         },
@@ -147,80 +155,87 @@
           "score": "0 : 3",
           "winner": "Gen.G Esports",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-04T21:30:00+01:00"
+          },
           "disclaimers": [],
           "points_count": 1560,
           "total_peak": 13990,
           "total_peak_time": "23:37",
-          "total_watch_hours": 46405,
+          "total_watch_hours": 34724,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:17",
             "points_count": 1552,
-            "duration_hours": 6.47,
-            "duration_str": "6h 28m",
+            "duration_hours": 5.0,
+            "duration_str": "5h 00m",
             "peak": 3802,
             "peak_time": "23:33",
-            "live_avg": 2421,
-            "watch_hours": 15657
+            "live_avg": 2356,
+            "watch_hours": 11790,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:17",
             "points_count": 1552,
-            "duration_hours": 6.47,
-            "duration_str": "6h 28m",
+            "duration_hours": 5.0,
+            "duration_str": "5h 00m",
             "peak": 3486,
             "peak_time": "23:33",
-            "live_avg": 2212,
-            "watch_hours": 14307
+            "live_avg": 2154,
+            "watch_hours": 10778,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:16",
             "points_count": 1548,
-            "duration_hours": 6.45,
-            "duration_str": "6h 27m",
+            "duration_hours": 4.99,
+            "duration_str": "5h 00m",
             "peak": 329,
             "peak_time": "23:48",
-            "live_avg": 209,
-            "watch_hours": 1350
+            "live_avg": 203,
+            "watch_hours": 1012,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:30",
             "end_time": "01:41",
             "points_count": 1023,
-            "duration_hours": 4.26,
-            "duration_str": "4h 16m",
+            "duration_hours": 3.19,
+            "duration_str": "3h 12m",
             "peak": 6590,
             "peak_time": "23:37",
-            "live_avg": 4082,
-            "watch_hours": 17402
+            "live_avg": 4057,
+            "watch_hours": 12955,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:02",
             "points_count": 1490,
-            "duration_hours": 6.21,
-            "duration_str": "6h 12m",
+            "duration_hours": 4.75,
+            "duration_str": "4h 45m",
             "peak": 3711,
             "peak_time": "23:39",
-            "live_avg": 2150,
-            "watch_hours": 13346
+            "live_avg": 2100,
+            "watch_hours": 9979,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 33.7,
-            "nerva": 37.5,
-            "tobias": 28.8
+            "goe": 34.0,
+            "nerva": 37.3,
+            "tobias": 28.7
           }
         },
         {
@@ -232,6 +247,13 @@
           "score": "3 : 0",
           "winner": "Bilibili Gaming",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:15",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-05T21:15:00+01:00"
+          },
           "disclaimers": [
             "Dane przycięte do zakończenia rywalizacji turniejowej (02:11 CET, zakończenie streamów GoE i Tobiasza).",
             "Wygładzono chwilowe błędy i timeouty pobierania YouTube."
@@ -239,76 +261,76 @@
           "points_count": 1618,
           "total_peak": 11402,
           "total_peak_time": "23:43",
-          "total_watch_hours": 40792,
+          "total_watch_hours": 29858,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "21:15",
             "end_time": "01:57",
             "points_count": 1399,
-            "duration_hours": 5.83,
-            "duration_str": "5h 50m",
+            "duration_hours": 4.71,
+            "duration_str": "4h 43m",
             "peak": 2788,
             "peak_time": "23:27",
-            "live_avg": 1971,
-            "watch_hours": 11490
+            "live_avg": 1905,
+            "watch_hours": 8973,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "21:15",
             "end_time": "01:57",
             "points_count": 1399,
-            "duration_hours": 5.83,
-            "duration_str": "5h 50m",
+            "duration_hours": 4.71,
+            "duration_str": "4h 43m",
             "peak": 2472,
             "peak_time": "23:47",
-            "live_avg": 1740,
-            "watch_hours": 10145
+            "live_avg": 1682,
+            "watch_hours": 7922,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "21:16",
             "end_time": "01:56",
             "points_count": 1389,
-            "duration_hours": 5.79,
-            "duration_str": "5h 47m",
+            "duration_hours": 4.68,
+            "duration_str": "4h 41m",
             "peak": 322,
             "peak_time": "23:35",
-            "live_avg": 232,
-            "watch_hours": 1344
+            "live_avg": 225,
+            "watch_hours": 1051,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:31",
             "end_time": "02:11",
             "points_count": 1245,
-            "duration_hours": 5.19,
-            "duration_str": "5h 11m",
+            "duration_hours": 3.69,
+            "duration_str": "3h 41m",
             "peak": 6448,
             "peak_time": "23:43",
-            "live_avg": 3962,
-            "watch_hours": 20555
+            "live_avg": 3889,
+            "watch_hours": 14331,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:51",
             "end_time": "02:08",
             "points_count": 1590,
-            "duration_hours": 6.62,
-            "duration_str": "6h 38m",
+            "duration_hours": 5.29,
+            "duration_str": "5h 18m",
             "peak": 2235,
             "peak_time": "23:48",
-            "live_avg": 1320,
-            "watch_hours": 8747
+            "live_avg": 1238,
+            "watch_hours": 6554,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 28.2,
-            "nerva": 50.4,
-            "tobias": 21.4
+            "goe": 30.1,
+            "nerva": 48.0,
+            "tobias": 22.0
           }
         },
         {
@@ -320,82 +342,89 @@
           "score": "1 : 3",
           "winner": "T1",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:15",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-06T21:15:00+01:00"
+          },
           "disclaimers": [
             "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
           ],
           "points_count": 1223,
           "total_peak": 14514,
           "total_peak_time": "23:37",
-          "total_watch_hours": 38274,
+          "total_watch_hours": 48538,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "21:01",
             "end_time": "03:14",
             "points_count": 1122,
-            "duration_hours": 4.67,
-            "duration_str": "4h 40m",
+            "duration_hours": 6.22,
+            "duration_str": "6h 13m",
             "peak": 3496,
             "peak_time": "23:37",
-            "live_avg": 2328,
-            "watch_hours": 10881
+            "live_avg": 2146,
+            "watch_hours": 13352,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "21:01",
             "end_time": "03:14",
             "points_count": 1122,
-            "duration_hours": 4.67,
-            "duration_str": "4h 40m",
+            "duration_hours": 6.22,
+            "duration_str": "6h 13m",
             "peak": 3152,
             "peak_time": "23:37",
-            "live_avg": 2080,
-            "watch_hours": 9726
+            "live_avg": 1920,
+            "watch_hours": 11946,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "21:02",
             "end_time": "03:14",
             "points_count": 1116,
-            "duration_hours": 4.65,
-            "duration_str": "4h 39m",
+            "duration_hours": 6.2,
+            "duration_str": "6h 12m",
             "peak": 354,
             "peak_time": "23:29",
-            "live_avg": 249,
-            "watch_hours": 1156
+            "live_avg": 227,
+            "watch_hours": 1406,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:31",
             "end_time": "02:40",
             "points_count": 832,
-            "duration_hours": 3.47,
-            "duration_str": "3h 28m",
+            "duration_hours": 4.16,
+            "duration_str": "4h 10m",
             "peak": 7870,
             "peak_time": "23:37",
-            "live_avg": 5099,
-            "watch_hours": 17675
+            "live_avg": 5481,
+            "watch_hours": 22818,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:41",
             "end_time": "03:14",
             "points_count": 1223,
-            "duration_hours": 5.1,
-            "duration_str": "5h 06m",
+            "duration_hours": 6.55,
+            "duration_str": "6h 33m",
             "peak": 3195,
             "peak_time": "23:41",
-            "live_avg": 1907,
-            "watch_hours": 9718
+            "live_avg": 1889,
+            "watch_hours": 12368,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 28.4,
-            "nerva": 46.2,
-            "tobias": 25.4
+            "goe": 27.5,
+            "nerva": 47.0,
+            "tobias": 25.5
           }
         }
       ]
@@ -411,37 +440,38 @@
         "day-6"
       ],
       "matches_count": 2,
+      "scheduled_matches_count": 2,
       "total_points": 5073,
-      "total_watch_hours": 144969,
+      "total_watch_hours": 93274,
       "total_scene_peak": 17596,
       "total_scene_peak_match": "BLG vs T1",
       "goe": {
         "peak": 3422,
         "peak_match": "BLG vs T1",
-        "live_avg": 1911,
-        "watch_hours": 36246,
-        "duration_hours": 19.0,
-        "share": 25.0
+        "live_avg": 1901,
+        "watch_hours": 23437,
+        "duration_hours": 12.3,
+        "share": 25.1
       },
       "nerva": {
         "peak": 10885,
         "peak_match": "BLG vs T1",
-        "live_avg": 6149,
-        "watch_hours": 74768,
-        "duration_hours": 12.2,
-        "share": 51.6
+        "live_avg": 6047,
+        "watch_hours": 47892,
+        "duration_hours": 7.9,
+        "share": 51.3
       },
       "tobias": {
         "peak": 3333,
-        "live_avg": 1622,
-        "watch_hours": 33955,
-        "duration_hours": 20.9,
-        "share": 23.4
+        "live_avg": 1620,
+        "watch_hours": 21945,
+        "duration_hours": 13.6,
+        "share": 23.5
       },
       "market_share": {
-        "goe": 25.0,
-        "nerva": 51.6,
-        "tobias": 23.4
+        "goe": 25.1,
+        "nerva": 51.3,
+        "tobias": 23.5
       },
       "matches": [
         {
@@ -453,82 +483,89 @@
           "score": "3 : 0",
           "winner": "Gen.G Esports",
           "stage": "semis",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "20:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-07T20:30:00+01:00"
+          },
           "disclaimers": [
             "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00."
           ],
           "points_count": 2188,
           "total_peak": 12226,
           "total_peak_time": "23:43",
-          "total_watch_hours": 50214,
+          "total_watch_hours": 34763,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "02:20",
             "points_count": 1930,
-            "duration_hours": 8.04,
-            "duration_str": "8h 02m",
+            "duration_hours": 5.37,
+            "duration_str": "5h 22m",
             "peak": 2919,
             "peak_time": "23:43",
-            "live_avg": 1828,
-            "watch_hours": 14699
+            "live_avg": 1874,
+            "watch_hours": 10053,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "02:20",
             "points_count": 1930,
-            "duration_hours": 8.04,
-            "duration_str": "8h 02m",
+            "duration_hours": 5.37,
+            "duration_str": "5h 22m",
             "peak": 2562,
             "peak_time": "23:43",
-            "live_avg": 1564,
-            "watch_hours": 12574
+            "live_avg": 1605,
+            "watch_hours": 8610,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "02:19",
             "points_count": 1926,
-            "duration_hours": 8.03,
-            "duration_str": "8h 02m",
+            "duration_hours": 5.35,
+            "duration_str": "5h 21m",
             "peak": 380,
             "peak_time": "01:01",
-            "live_avg": 265,
-            "watch_hours": 2125
+            "live_avg": 270,
+            "watch_hours": 1443,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:30",
             "end_time": "02:04",
             "points_count": 1221,
-            "duration_hours": 5.09,
-            "duration_str": "5h 05m",
+            "duration_hours": 3.57,
+            "duration_str": "3h 34m",
             "peak": 6813,
             "peak_time": "23:46",
-            "live_avg": 4347,
-            "watch_hours": 22116
+            "live_avg": 4353,
+            "watch_hours": 15558,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "03:00",
             "points_count": 2188,
-            "duration_hours": 9.12,
-            "duration_str": "9h 07m",
+            "duration_hours": 6.03,
+            "duration_str": "6h 02m",
             "peak": 2551,
             "peak_time": "23:42",
-            "live_avg": 1470,
-            "watch_hours": 13399
+            "live_avg": 1517,
+            "watch_hours": 9152,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 29.3,
-            "nerva": 44.0,
-            "tobias": 26.7
+            "goe": 28.9,
+            "nerva": 44.8,
+            "tobias": 26.3
           }
         },
         {
@@ -540,89 +577,239 @@
           "score": "3 : 1",
           "winner": "Bilibili Gaming",
           "stage": "semis",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-08T21:30:00+01:00"
+          },
           "disclaimers": [
             "Rekordowy szczyt jednoczesnej widowni 3 obozów: 17 596 widzów."
           ],
           "points_count": 2885,
           "total_peak": 17596,
           "total_peak_time": "23:42",
-          "total_watch_hours": 94755,
+          "total_watch_hours": 58511,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "20:45",
             "end_time": "03:43",
             "points_count": 2624,
-            "duration_hours": 10.93,
-            "duration_str": "10h 56m",
+            "duration_hours": 6.96,
+            "duration_str": "6h 58m",
             "peak": 3422,
             "peak_time": "23:42",
-            "live_avg": 1971,
-            "watch_hours": 21547
+            "live_avg": 1922,
+            "watch_hours": 13384,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "20:45",
             "end_time": "03:43",
             "points_count": 2624,
-            "duration_hours": 10.93,
-            "duration_str": "10h 56m",
+            "duration_hours": 6.96,
+            "duration_str": "6h 58m",
             "peak": 3009,
             "peak_time": "23:42",
-            "live_avg": 1705,
-            "watch_hours": 18642
+            "live_avg": 1663,
+            "watch_hours": 11583,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "20:46",
             "end_time": "03:42",
             "points_count": 2612,
-            "duration_hours": 10.88,
-            "duration_str": "10h 53m",
+            "duration_hours": 6.94,
+            "duration_str": "6h 56m",
             "peak": 448,
             "peak_time": "23:47",
-            "live_avg": 267,
-            "watch_hours": 2905
+            "live_avg": 260,
+            "watch_hours": 1802,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:30",
             "end_time": "02:51",
             "points_count": 1696,
-            "duration_hours": 7.07,
-            "duration_str": "7h 04m",
+            "duration_hours": 4.35,
+            "duration_str": "4h 21m",
             "peak": 10885,
             "peak_time": "23:42",
-            "live_avg": 7451,
-            "watch_hours": 52652
+            "live_avg": 7425,
+            "watch_hours": 32334,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:05",
             "end_time": "03:36",
             "points_count": 2835,
-            "duration_hours": 11.81,
-            "duration_str": "11h 49m",
+            "duration_hours": 7.52,
+            "duration_str": "7h 31m",
             "peak": 3333,
             "peak_time": "23:46",
-            "live_avg": 1740,
-            "watch_hours": 20556
+            "live_avg": 1701,
+            "watch_hours": 12793,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 22.7,
-            "nerva": 55.6,
-            "tobias": 21.7
+            "goe": 22.9,
+            "nerva": 55.3,
+            "tobias": 21.9
+          }
+        }
+      ]
+    },
+    "finals": {
+      "id": "finals",
+      "name": "Wielki Finał (Dzień 7)",
+      "short_name": "Wielki Finał",
+      "icon": "👑",
+      "subtitle": "Bilibili Gaming vs Gen.G Esports • Mecz o Puchar Przywoływacza",
+      "days": [
+        "day-7"
+      ],
+      "matches_count": 0,
+      "scheduled_matches_count": 1,
+      "total_points": 0,
+      "total_watch_hours": 0,
+      "total_scene_peak": 0,
+      "total_scene_peak_match": "",
+      "goe": {
+        "peak": 0,
+        "peak_match": "",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "duration_hours": 0.0,
+        "share": 0.0
+      },
+      "nerva": {
+        "peak": 0,
+        "peak_match": "",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "duration_hours": 0.0,
+        "share": 0.0
+      },
+      "tobias": {
+        "peak": 0,
+        "live_avg": 0,
+        "watch_hours": 0,
+        "duration_hours": 0.0,
+        "share": 0.0
+      },
+      "market_share": {
+        "goe": 0.0,
+        "nerva": 0.0,
+        "tobias": 0.0
+      },
+      "matches": [
+        {
+          "day_id": "day-7",
+          "name": "Finał (14.11)",
+          "date": "2026-11-14",
+          "match": "Bilibili Gaming vs Gen.G Esports",
+          "match_short": "BLG vs Gen.G",
+          "score": "",
+          "winner": "",
+          "stage": "finals",
+          "is_finished": false,
+          "schedule": {
+            "goe_start": "19:00",
+            "nerva_start": "19:30",
+            "match_start": "20:00",
+            "goe_start_iso": "2026-11-14T19:00:00+01:00",
+            "match_start_iso": "2026-11-14T20:00:00+01:00",
+            "venue": "Barclays Center, Nowy Jork"
+          },
+          "disclaimers": [
+            "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
+            "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+          ],
+          "points_count": 0,
+          "total_peak": 0,
+          "total_peak_time": "--",
+          "total_watch_hours": 0,
+          "goe": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "GOE"
+          },
+          "goe_yt": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "GOE_YT"
+          },
+          "goe_tw": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "GOE_TW"
+          },
+          "nerva": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "NERVA"
+          },
+          "tobias": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "TOBIASZ"
+          },
+          "market_share": {
+            "goe": 0.0,
+            "nerva": 0.0,
+            "tobias": 0.0
           }
         }
       ]
     },
     "tournament": {
       "id": "tournament",
-      "name": "Cały Turniej (Dni 1–6)",
+      "name": "Cały Turniej (Dni 1–7)",
       "short_name": "Cały Turniej",
       "icon": "🏆",
       "subtitle": "Pełne podsumowanie fazy pucharowej Worlds 2026",
@@ -632,40 +819,42 @@
         "day-3",
         "day-4",
         "day-5",
-        "day-6"
+        "day-6",
+        "day-7"
       ],
       "matches_count": 6,
+      "scheduled_matches_count": 7,
       "total_points": 11131,
-      "total_watch_hours": 308212,
+      "total_watch_hours": 229379,
       "total_scene_peak": 17596,
       "total_scene_peak_match": "BLG vs T1",
       "goe": {
         "peak": 3802,
         "peak_match": "Lyon vs Gen.G",
-        "live_avg": 2080,
-        "watch_hours": 89124,
-        "duration_hours": 42.8,
-        "share": 28.9
+        "live_avg": 2037,
+        "watch_hours": 66569,
+        "duration_hours": 32.7,
+        "share": 29.0
       },
       "nerva": {
         "peak": 10885,
         "peak_match": "BLG vs T1",
-        "live_avg": 4794,
-        "watch_hours": 153322,
-        "duration_hours": 32.0,
-        "share": 49.7
+        "live_avg": 4789,
+        "watch_hours": 111964,
+        "duration_hours": 23.4,
+        "share": 48.8
       },
       "tobias": {
         "peak": 3711,
-        "live_avg": 1692,
-        "watch_hours": 65766,
-        "duration_hours": 38.9,
-        "share": 21.3
+        "live_avg": 1687,
+        "watch_hours": 50846,
+        "duration_hours": 30.1,
+        "share": 22.2
       },
       "market_share": {
-        "goe": 28.9,
-        "nerva": 49.7,
-        "tobias": 21.3
+        "goe": 29.0,
+        "nerva": 48.8,
+        "tobias": 22.2
       },
       "matches": [
         {
@@ -677,6 +866,13 @@
           "score": "1 : 3",
           "winner": "Invictus Gaming",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-03T21:30:00+01:00"
+          },
           "disclaimers": [
             "Atak viewbotów na YouTube (GoE) – dane oczyszczone filtrem adaptywnym (prawdziwy organiczny szczyt: 2 815).",
             "Brak transmisji Tobiasza (offline przez cały mecz).",
@@ -686,61 +882,60 @@
           "points_count": 1657,
           "total_peak": 7637,
           "total_peak_time": "23:33",
-          "total_watch_hours": 37772,
+          "total_watch_hours": 22985,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 2815,
             "peak_time": "23:33",
-            "live_avg": 2151,
-            "watch_hours": 14850
+            "live_avg": 2042,
+            "watch_hours": 9017,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 2594,
             "peak_time": "23:33",
-            "live_avg": 1949,
-            "watch_hours": 13456
+            "live_avg": 1848,
+            "watch_hours": 8160,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 240,
             "peak_time": "23:52",
-            "live_avg": 202,
-            "watch_hours": 1394
+            "live_avg": 194,
+            "watch_hours": 856,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:35",
             "end_time": "03:00",
             "points_count": 1657,
-            "duration_hours": 6.9,
-            "duration_str": "6h 54m",
+            "duration_hours": 4.42,
+            "duration_str": "4h 25m",
             "peak": 4969,
             "peak_time": "23:22",
-            "live_avg": 3320,
-            "watch_hours": 22922
+            "live_avg": 3163,
+            "watch_hours": 13968,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": false,
             "start_time": "--",
             "end_time": "--",
@@ -750,11 +945,12 @@
             "peak": 0,
             "peak_time": "--",
             "live_avg": 0,
-            "watch_hours": 0
+            "watch_hours": 0,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 39.3,
-            "nerva": 60.7,
+            "goe": 39.2,
+            "nerva": 60.8,
             "tobias": 0.0
           }
         },
@@ -767,80 +963,87 @@
           "score": "0 : 3",
           "winner": "Gen.G Esports",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-04T21:30:00+01:00"
+          },
           "disclaimers": [],
           "points_count": 1560,
           "total_peak": 13990,
           "total_peak_time": "23:37",
-          "total_watch_hours": 46405,
+          "total_watch_hours": 34724,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:17",
             "points_count": 1552,
-            "duration_hours": 6.47,
-            "duration_str": "6h 28m",
+            "duration_hours": 5.0,
+            "duration_str": "5h 00m",
             "peak": 3802,
             "peak_time": "23:33",
-            "live_avg": 2421,
-            "watch_hours": 15657
+            "live_avg": 2356,
+            "watch_hours": 11790,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:17",
             "points_count": 1552,
-            "duration_hours": 6.47,
-            "duration_str": "6h 28m",
+            "duration_hours": 5.0,
+            "duration_str": "5h 00m",
             "peak": 3486,
             "peak_time": "23:33",
-            "live_avg": 2212,
-            "watch_hours": 14307
+            "live_avg": 2154,
+            "watch_hours": 10778,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:16",
             "points_count": 1548,
-            "duration_hours": 6.45,
-            "duration_str": "6h 27m",
+            "duration_hours": 4.99,
+            "duration_str": "5h 00m",
             "peak": 329,
             "peak_time": "23:48",
-            "live_avg": 209,
-            "watch_hours": 1350
+            "live_avg": 203,
+            "watch_hours": 1012,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:30",
             "end_time": "01:41",
             "points_count": 1023,
-            "duration_hours": 4.26,
-            "duration_str": "4h 16m",
+            "duration_hours": 3.19,
+            "duration_str": "3h 12m",
             "peak": 6590,
             "peak_time": "23:37",
-            "live_avg": 4082,
-            "watch_hours": 17402
+            "live_avg": 4057,
+            "watch_hours": 12955,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "21:18",
             "end_time": "02:02",
             "points_count": 1490,
-            "duration_hours": 6.21,
-            "duration_str": "6h 12m",
+            "duration_hours": 4.75,
+            "duration_str": "4h 45m",
             "peak": 3711,
             "peak_time": "23:39",
-            "live_avg": 2150,
-            "watch_hours": 13346
+            "live_avg": 2100,
+            "watch_hours": 9979,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 33.7,
-            "nerva": 37.5,
-            "tobias": 28.8
+            "goe": 34.0,
+            "nerva": 37.3,
+            "tobias": 28.7
           }
         },
         {
@@ -852,6 +1055,13 @@
           "score": "3 : 0",
           "winner": "Bilibili Gaming",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:15",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-05T21:15:00+01:00"
+          },
           "disclaimers": [
             "Dane przycięte do zakończenia rywalizacji turniejowej (02:11 CET, zakończenie streamów GoE i Tobiasza).",
             "Wygładzono chwilowe błędy i timeouty pobierania YouTube."
@@ -859,76 +1069,76 @@
           "points_count": 1618,
           "total_peak": 11402,
           "total_peak_time": "23:43",
-          "total_watch_hours": 40792,
+          "total_watch_hours": 29858,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "21:15",
             "end_time": "01:57",
             "points_count": 1399,
-            "duration_hours": 5.83,
-            "duration_str": "5h 50m",
+            "duration_hours": 4.71,
+            "duration_str": "4h 43m",
             "peak": 2788,
             "peak_time": "23:27",
-            "live_avg": 1971,
-            "watch_hours": 11490
+            "live_avg": 1905,
+            "watch_hours": 8973,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "21:15",
             "end_time": "01:57",
             "points_count": 1399,
-            "duration_hours": 5.83,
-            "duration_str": "5h 50m",
+            "duration_hours": 4.71,
+            "duration_str": "4h 43m",
             "peak": 2472,
             "peak_time": "23:47",
-            "live_avg": 1740,
-            "watch_hours": 10145
+            "live_avg": 1682,
+            "watch_hours": 7922,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "21:16",
             "end_time": "01:56",
             "points_count": 1389,
-            "duration_hours": 5.79,
-            "duration_str": "5h 47m",
+            "duration_hours": 4.68,
+            "duration_str": "4h 41m",
             "peak": 322,
             "peak_time": "23:35",
-            "live_avg": 232,
-            "watch_hours": 1344
+            "live_avg": 225,
+            "watch_hours": 1051,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:31",
             "end_time": "02:11",
             "points_count": 1245,
-            "duration_hours": 5.19,
-            "duration_str": "5h 11m",
+            "duration_hours": 3.69,
+            "duration_str": "3h 41m",
             "peak": 6448,
             "peak_time": "23:43",
-            "live_avg": 3962,
-            "watch_hours": 20555
+            "live_avg": 3889,
+            "watch_hours": 14331,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:51",
             "end_time": "02:08",
             "points_count": 1590,
-            "duration_hours": 6.62,
-            "duration_str": "6h 38m",
+            "duration_hours": 5.29,
+            "duration_str": "5h 18m",
             "peak": 2235,
             "peak_time": "23:48",
-            "live_avg": 1320,
-            "watch_hours": 8747
+            "live_avg": 1238,
+            "watch_hours": 6554,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 28.2,
-            "nerva": 50.4,
-            "tobias": 21.4
+            "goe": 30.1,
+            "nerva": 48.0,
+            "tobias": 22.0
           }
         },
         {
@@ -940,82 +1150,89 @@
           "score": "1 : 3",
           "winner": "T1",
           "stage": "quarters",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:15",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-06T21:15:00+01:00"
+          },
           "disclaimers": [
             "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
           ],
           "points_count": 1223,
           "total_peak": 14514,
           "total_peak_time": "23:37",
-          "total_watch_hours": 38274,
+          "total_watch_hours": 48538,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "21:01",
             "end_time": "03:14",
             "points_count": 1122,
-            "duration_hours": 4.67,
-            "duration_str": "4h 40m",
+            "duration_hours": 6.22,
+            "duration_str": "6h 13m",
             "peak": 3496,
             "peak_time": "23:37",
-            "live_avg": 2328,
-            "watch_hours": 10881
+            "live_avg": 2146,
+            "watch_hours": 13352,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "21:01",
             "end_time": "03:14",
             "points_count": 1122,
-            "duration_hours": 4.67,
-            "duration_str": "4h 40m",
+            "duration_hours": 6.22,
+            "duration_str": "6h 13m",
             "peak": 3152,
             "peak_time": "23:37",
-            "live_avg": 2080,
-            "watch_hours": 9726
+            "live_avg": 1920,
+            "watch_hours": 11946,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "21:02",
             "end_time": "03:14",
             "points_count": 1116,
-            "duration_hours": 4.65,
-            "duration_str": "4h 39m",
+            "duration_hours": 6.2,
+            "duration_str": "6h 12m",
             "peak": 354,
             "peak_time": "23:29",
-            "live_avg": 249,
-            "watch_hours": 1156
+            "live_avg": 227,
+            "watch_hours": 1406,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:31",
             "end_time": "02:40",
             "points_count": 832,
-            "duration_hours": 3.47,
-            "duration_str": "3h 28m",
+            "duration_hours": 4.16,
+            "duration_str": "4h 10m",
             "peak": 7870,
             "peak_time": "23:37",
-            "live_avg": 5099,
-            "watch_hours": 17675
+            "live_avg": 5481,
+            "watch_hours": 22818,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:41",
             "end_time": "03:14",
             "points_count": 1223,
-            "duration_hours": 5.1,
-            "duration_str": "5h 06m",
+            "duration_hours": 6.55,
+            "duration_str": "6h 33m",
             "peak": 3195,
             "peak_time": "23:41",
-            "live_avg": 1907,
-            "watch_hours": 9718
+            "live_avg": 1889,
+            "watch_hours": 12368,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 28.4,
-            "nerva": 46.2,
-            "tobias": 25.4
+            "goe": 27.5,
+            "nerva": 47.0,
+            "tobias": 25.5
           }
         },
         {
@@ -1027,82 +1244,89 @@
           "score": "3 : 0",
           "winner": "Gen.G Esports",
           "stage": "semis",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "20:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-07T20:30:00+01:00"
+          },
           "disclaimers": [
             "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00."
           ],
           "points_count": 2188,
           "total_peak": 12226,
           "total_peak_time": "23:43",
-          "total_watch_hours": 50214,
+          "total_watch_hours": 34763,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "02:20",
             "points_count": 1930,
-            "duration_hours": 8.04,
-            "duration_str": "8h 02m",
+            "duration_hours": 5.37,
+            "duration_str": "5h 22m",
             "peak": 2919,
             "peak_time": "23:43",
-            "live_avg": 1828,
-            "watch_hours": 14699
+            "live_avg": 1874,
+            "watch_hours": 10053,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "02:20",
             "points_count": 1930,
-            "duration_hours": 8.04,
-            "duration_str": "8h 02m",
+            "duration_hours": 5.37,
+            "duration_str": "5h 22m",
             "peak": 2562,
             "peak_time": "23:43",
-            "live_avg": 1564,
-            "watch_hours": 12574
+            "live_avg": 1605,
+            "watch_hours": 8610,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "02:19",
             "points_count": 1926,
-            "duration_hours": 8.03,
-            "duration_str": "8h 02m",
+            "duration_hours": 5.35,
+            "duration_str": "5h 21m",
             "peak": 380,
             "peak_time": "01:01",
-            "live_avg": 265,
-            "watch_hours": 2125
+            "live_avg": 270,
+            "watch_hours": 1443,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:30",
             "end_time": "02:04",
             "points_count": 1221,
-            "duration_hours": 5.09,
-            "duration_str": "5h 05m",
+            "duration_hours": 3.57,
+            "duration_str": "3h 34m",
             "peak": 6813,
             "peak_time": "23:46",
-            "live_avg": 4347,
-            "watch_hours": 22116
+            "live_avg": 4353,
+            "watch_hours": 15558,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:58",
             "end_time": "03:00",
             "points_count": 2188,
-            "duration_hours": 9.12,
-            "duration_str": "9h 07m",
+            "duration_hours": 6.03,
+            "duration_str": "6h 02m",
             "peak": 2551,
             "peak_time": "23:42",
-            "live_avg": 1470,
-            "watch_hours": 13399
+            "live_avg": 1517,
+            "watch_hours": 9152,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 29.3,
-            "nerva": 44.0,
-            "tobias": 26.7
+            "goe": 28.9,
+            "nerva": 44.8,
+            "tobias": 26.3
           }
         },
         {
@@ -1114,82 +1338,186 @@
           "score": "3 : 1",
           "winner": "Bilibili Gaming",
           "stage": "semis",
+          "is_finished": true,
+          "schedule": {
+            "goe_start": "21:30",
+            "nerva_start": "22:30",
+            "match_start": "23:00",
+            "goe_start_iso": "2026-11-08T21:30:00+01:00"
+          },
           "disclaimers": [
             "Rekordowy szczyt jednoczesnej widowni 3 obozów: 17 596 widzów."
           ],
           "points_count": 2885,
           "total_peak": 17596,
           "total_peak_time": "23:42",
-          "total_watch_hours": 94755,
+          "total_watch_hours": 58511,
           "goe": {
-            "camp": "GOE",
             "is_live_any": true,
             "start_time": "20:45",
             "end_time": "03:43",
             "points_count": 2624,
-            "duration_hours": 10.93,
-            "duration_str": "10h 56m",
+            "duration_hours": 6.96,
+            "duration_str": "6h 58m",
             "peak": 3422,
             "peak_time": "23:42",
-            "live_avg": 1971,
-            "watch_hours": 21547
+            "live_avg": 1922,
+            "watch_hours": 13384,
+            "camp": "GOE"
           },
           "goe_yt": {
-            "camp": "GOE_YT",
             "is_live_any": true,
             "start_time": "20:45",
             "end_time": "03:43",
             "points_count": 2624,
-            "duration_hours": 10.93,
-            "duration_str": "10h 56m",
+            "duration_hours": 6.96,
+            "duration_str": "6h 58m",
             "peak": 3009,
             "peak_time": "23:42",
-            "live_avg": 1705,
-            "watch_hours": 18642
+            "live_avg": 1663,
+            "watch_hours": 11583,
+            "camp": "GOE_YT"
           },
           "goe_tw": {
-            "camp": "GOE_TW",
             "is_live_any": true,
             "start_time": "20:46",
             "end_time": "03:42",
             "points_count": 2612,
-            "duration_hours": 10.88,
-            "duration_str": "10h 53m",
+            "duration_hours": 6.94,
+            "duration_str": "6h 56m",
             "peak": 448,
             "peak_time": "23:47",
-            "live_avg": 267,
-            "watch_hours": 2905
+            "live_avg": 260,
+            "watch_hours": 1802,
+            "camp": "GOE_TW"
           },
           "nerva": {
-            "camp": "NERVA",
             "is_live_any": true,
             "start_time": "22:30",
             "end_time": "02:51",
             "points_count": 1696,
-            "duration_hours": 7.07,
-            "duration_str": "7h 04m",
+            "duration_hours": 4.35,
+            "duration_str": "4h 21m",
             "peak": 10885,
             "peak_time": "23:42",
-            "live_avg": 7451,
-            "watch_hours": 52652
+            "live_avg": 7425,
+            "watch_hours": 32334,
+            "camp": "NERVA"
           },
           "tobias": {
-            "camp": "TOBIASZ",
             "is_live_any": true,
             "start_time": "20:05",
             "end_time": "03:36",
             "points_count": 2835,
-            "duration_hours": 11.81,
-            "duration_str": "11h 49m",
+            "duration_hours": 7.52,
+            "duration_str": "7h 31m",
             "peak": 3333,
             "peak_time": "23:46",
-            "live_avg": 1740,
-            "watch_hours": 20556
+            "live_avg": 1701,
+            "watch_hours": 12793,
+            "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 22.7,
-            "nerva": 55.6,
-            "tobias": 21.7
+            "goe": 22.9,
+            "nerva": 55.3,
+            "tobias": 21.9
+          }
+        },
+        {
+          "day_id": "day-7",
+          "name": "Finał (14.11)",
+          "date": "2026-11-14",
+          "match": "Bilibili Gaming vs Gen.G Esports",
+          "match_short": "BLG vs Gen.G",
+          "score": "",
+          "winner": "",
+          "stage": "finals",
+          "is_finished": false,
+          "schedule": {
+            "goe_start": "19:00",
+            "nerva_start": "19:30",
+            "match_start": "20:00",
+            "goe_start_iso": "2026-11-14T19:00:00+01:00",
+            "match_start_iso": "2026-11-14T20:00:00+01:00",
+            "venue": "Barclays Center, Nowy Jork"
+          },
+          "disclaimers": [
+            "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
+            "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+          ],
+          "points_count": 0,
+          "total_peak": 0,
+          "total_peak_time": "--",
+          "total_watch_hours": 0,
+          "goe": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "GOE"
+          },
+          "goe_yt": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "GOE_YT"
+          },
+          "goe_tw": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "GOE_TW"
+          },
+          "nerva": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "NERVA"
+          },
+          "tobias": {
+            "is_live_any": false,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+            "camp": "TOBIASZ"
+          },
+          "market_share": {
+            "goe": 0.0,
+            "nerva": 0.0,
+            "tobias": 0.0
           }
         }
       ]
@@ -1205,6 +1533,13 @@
       "score": "1 : 3",
       "winner": "Invictus Gaming",
       "stage": "quarters",
+      "is_finished": true,
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-03T21:30:00+01:00"
+      },
       "disclaimers": [
         "Atak viewbotów na YouTube (GoE) – dane oczyszczone filtrem adaptywnym (prawdziwy organiczny szczyt: 2 815).",
         "Brak transmisji Tobiasza (offline przez cały mecz).",
@@ -1214,61 +1549,60 @@
       "points_count": 1657,
       "total_peak": 7637,
       "total_peak_time": "23:33",
-      "total_watch_hours": 37772,
+      "total_watch_hours": 22985,
       "goe": {
-        "camp": "GOE",
         "is_live_any": true,
         "start_time": "22:35",
         "end_time": "03:00",
         "points_count": 1657,
-        "duration_hours": 6.9,
-        "duration_str": "6h 54m",
+        "duration_hours": 4.42,
+        "duration_str": "4h 25m",
         "peak": 2815,
         "peak_time": "23:33",
-        "live_avg": 2151,
-        "watch_hours": 14850
+        "live_avg": 2042,
+        "watch_hours": 9017,
+        "camp": "GOE"
       },
       "goe_yt": {
-        "camp": "GOE_YT",
         "is_live_any": true,
         "start_time": "22:35",
         "end_time": "03:00",
         "points_count": 1657,
-        "duration_hours": 6.9,
-        "duration_str": "6h 54m",
+        "duration_hours": 4.42,
+        "duration_str": "4h 25m",
         "peak": 2594,
         "peak_time": "23:33",
-        "live_avg": 1949,
-        "watch_hours": 13456
+        "live_avg": 1848,
+        "watch_hours": 8160,
+        "camp": "GOE_YT"
       },
       "goe_tw": {
-        "camp": "GOE_TW",
         "is_live_any": true,
         "start_time": "22:35",
         "end_time": "03:00",
         "points_count": 1657,
-        "duration_hours": 6.9,
-        "duration_str": "6h 54m",
+        "duration_hours": 4.42,
+        "duration_str": "4h 25m",
         "peak": 240,
         "peak_time": "23:52",
-        "live_avg": 202,
-        "watch_hours": 1394
+        "live_avg": 194,
+        "watch_hours": 856,
+        "camp": "GOE_TW"
       },
       "nerva": {
-        "camp": "NERVA",
         "is_live_any": true,
         "start_time": "22:35",
         "end_time": "03:00",
         "points_count": 1657,
-        "duration_hours": 6.9,
-        "duration_str": "6h 54m",
+        "duration_hours": 4.42,
+        "duration_str": "4h 25m",
         "peak": 4969,
         "peak_time": "23:22",
-        "live_avg": 3320,
-        "watch_hours": 22922
+        "live_avg": 3163,
+        "watch_hours": 13968,
+        "camp": "NERVA"
       },
       "tobias": {
-        "camp": "TOBIASZ",
         "is_live_any": false,
         "start_time": "--",
         "end_time": "--",
@@ -1278,11 +1612,12 @@
         "peak": 0,
         "peak_time": "--",
         "live_avg": 0,
-        "watch_hours": 0
+        "watch_hours": 0,
+        "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 39.3,
-        "nerva": 60.7,
+        "goe": 39.2,
+        "nerva": 60.8,
         "tobias": 0.0
       }
     },
@@ -1295,80 +1630,87 @@
       "score": "0 : 3",
       "winner": "Gen.G Esports",
       "stage": "quarters",
+      "is_finished": true,
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-04T21:30:00+01:00"
+      },
       "disclaimers": [],
       "points_count": 1560,
       "total_peak": 13990,
       "total_peak_time": "23:37",
-      "total_watch_hours": 46405,
+      "total_watch_hours": 34724,
       "goe": {
-        "camp": "GOE",
         "is_live_any": true,
         "start_time": "21:18",
         "end_time": "02:17",
         "points_count": 1552,
-        "duration_hours": 6.47,
-        "duration_str": "6h 28m",
+        "duration_hours": 5.0,
+        "duration_str": "5h 00m",
         "peak": 3802,
         "peak_time": "23:33",
-        "live_avg": 2421,
-        "watch_hours": 15657
+        "live_avg": 2356,
+        "watch_hours": 11790,
+        "camp": "GOE"
       },
       "goe_yt": {
-        "camp": "GOE_YT",
         "is_live_any": true,
         "start_time": "21:18",
         "end_time": "02:17",
         "points_count": 1552,
-        "duration_hours": 6.47,
-        "duration_str": "6h 28m",
+        "duration_hours": 5.0,
+        "duration_str": "5h 00m",
         "peak": 3486,
         "peak_time": "23:33",
-        "live_avg": 2212,
-        "watch_hours": 14307
+        "live_avg": 2154,
+        "watch_hours": 10778,
+        "camp": "GOE_YT"
       },
       "goe_tw": {
-        "camp": "GOE_TW",
         "is_live_any": true,
         "start_time": "21:18",
         "end_time": "02:16",
         "points_count": 1548,
-        "duration_hours": 6.45,
-        "duration_str": "6h 27m",
+        "duration_hours": 4.99,
+        "duration_str": "5h 00m",
         "peak": 329,
         "peak_time": "23:48",
-        "live_avg": 209,
-        "watch_hours": 1350
+        "live_avg": 203,
+        "watch_hours": 1012,
+        "camp": "GOE_TW"
       },
       "nerva": {
-        "camp": "NERVA",
         "is_live_any": true,
         "start_time": "22:30",
         "end_time": "01:41",
         "points_count": 1023,
-        "duration_hours": 4.26,
-        "duration_str": "4h 16m",
+        "duration_hours": 3.19,
+        "duration_str": "3h 12m",
         "peak": 6590,
         "peak_time": "23:37",
-        "live_avg": 4082,
-        "watch_hours": 17402
+        "live_avg": 4057,
+        "watch_hours": 12955,
+        "camp": "NERVA"
       },
       "tobias": {
-        "camp": "TOBIASZ",
         "is_live_any": true,
         "start_time": "21:18",
         "end_time": "02:02",
         "points_count": 1490,
-        "duration_hours": 6.21,
-        "duration_str": "6h 12m",
+        "duration_hours": 4.75,
+        "duration_str": "4h 45m",
         "peak": 3711,
         "peak_time": "23:39",
-        "live_avg": 2150,
-        "watch_hours": 13346
+        "live_avg": 2100,
+        "watch_hours": 9979,
+        "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 33.7,
-        "nerva": 37.5,
-        "tobias": 28.8
+        "goe": 34.0,
+        "nerva": 37.3,
+        "tobias": 28.7
       }
     },
     {
@@ -1380,6 +1722,13 @@
       "score": "3 : 0",
       "winner": "Bilibili Gaming",
       "stage": "quarters",
+      "is_finished": true,
+      "schedule": {
+        "goe_start": "21:15",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-05T21:15:00+01:00"
+      },
       "disclaimers": [
         "Dane przycięte do zakończenia rywalizacji turniejowej (02:11 CET, zakończenie streamów GoE i Tobiasza).",
         "Wygładzono chwilowe błędy i timeouty pobierania YouTube."
@@ -1387,76 +1736,76 @@
       "points_count": 1618,
       "total_peak": 11402,
       "total_peak_time": "23:43",
-      "total_watch_hours": 40792,
+      "total_watch_hours": 29858,
       "goe": {
-        "camp": "GOE",
         "is_live_any": true,
         "start_time": "21:15",
         "end_time": "01:57",
         "points_count": 1399,
-        "duration_hours": 5.83,
-        "duration_str": "5h 50m",
+        "duration_hours": 4.71,
+        "duration_str": "4h 43m",
         "peak": 2788,
         "peak_time": "23:27",
-        "live_avg": 1971,
-        "watch_hours": 11490
+        "live_avg": 1905,
+        "watch_hours": 8973,
+        "camp": "GOE"
       },
       "goe_yt": {
-        "camp": "GOE_YT",
         "is_live_any": true,
         "start_time": "21:15",
         "end_time": "01:57",
         "points_count": 1399,
-        "duration_hours": 5.83,
-        "duration_str": "5h 50m",
+        "duration_hours": 4.71,
+        "duration_str": "4h 43m",
         "peak": 2472,
         "peak_time": "23:47",
-        "live_avg": 1740,
-        "watch_hours": 10145
+        "live_avg": 1682,
+        "watch_hours": 7922,
+        "camp": "GOE_YT"
       },
       "goe_tw": {
-        "camp": "GOE_TW",
         "is_live_any": true,
         "start_time": "21:16",
         "end_time": "01:56",
         "points_count": 1389,
-        "duration_hours": 5.79,
-        "duration_str": "5h 47m",
+        "duration_hours": 4.68,
+        "duration_str": "4h 41m",
         "peak": 322,
         "peak_time": "23:35",
-        "live_avg": 232,
-        "watch_hours": 1344
+        "live_avg": 225,
+        "watch_hours": 1051,
+        "camp": "GOE_TW"
       },
       "nerva": {
-        "camp": "NERVA",
         "is_live_any": true,
         "start_time": "22:31",
         "end_time": "02:11",
         "points_count": 1245,
-        "duration_hours": 5.19,
-        "duration_str": "5h 11m",
+        "duration_hours": 3.69,
+        "duration_str": "3h 41m",
         "peak": 6448,
         "peak_time": "23:43",
-        "live_avg": 3962,
-        "watch_hours": 20555
+        "live_avg": 3889,
+        "watch_hours": 14331,
+        "camp": "NERVA"
       },
       "tobias": {
-        "camp": "TOBIASZ",
         "is_live_any": true,
         "start_time": "20:51",
         "end_time": "02:08",
         "points_count": 1590,
-        "duration_hours": 6.62,
-        "duration_str": "6h 38m",
+        "duration_hours": 5.29,
+        "duration_str": "5h 18m",
         "peak": 2235,
         "peak_time": "23:48",
-        "live_avg": 1320,
-        "watch_hours": 8747
+        "live_avg": 1238,
+        "watch_hours": 6554,
+        "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 28.2,
-        "nerva": 50.4,
-        "tobias": 21.4
+        "goe": 30.1,
+        "nerva": 48.0,
+        "tobias": 22.0
       }
     },
     {
@@ -1468,82 +1817,89 @@
       "score": "1 : 3",
       "winner": "T1",
       "stage": "quarters",
+      "is_finished": true,
+      "schedule": {
+        "goe_start": "21:15",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-06T21:15:00+01:00"
+      },
       "disclaimers": [
         "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
       ],
       "points_count": 1223,
       "total_peak": 14514,
       "total_peak_time": "23:37",
-      "total_watch_hours": 38274,
+      "total_watch_hours": 48538,
       "goe": {
-        "camp": "GOE",
         "is_live_any": true,
         "start_time": "21:01",
         "end_time": "03:14",
         "points_count": 1122,
-        "duration_hours": 4.67,
-        "duration_str": "4h 40m",
+        "duration_hours": 6.22,
+        "duration_str": "6h 13m",
         "peak": 3496,
         "peak_time": "23:37",
-        "live_avg": 2328,
-        "watch_hours": 10881
+        "live_avg": 2146,
+        "watch_hours": 13352,
+        "camp": "GOE"
       },
       "goe_yt": {
-        "camp": "GOE_YT",
         "is_live_any": true,
         "start_time": "21:01",
         "end_time": "03:14",
         "points_count": 1122,
-        "duration_hours": 4.67,
-        "duration_str": "4h 40m",
+        "duration_hours": 6.22,
+        "duration_str": "6h 13m",
         "peak": 3152,
         "peak_time": "23:37",
-        "live_avg": 2080,
-        "watch_hours": 9726
+        "live_avg": 1920,
+        "watch_hours": 11946,
+        "camp": "GOE_YT"
       },
       "goe_tw": {
-        "camp": "GOE_TW",
         "is_live_any": true,
         "start_time": "21:02",
         "end_time": "03:14",
         "points_count": 1116,
-        "duration_hours": 4.65,
-        "duration_str": "4h 39m",
+        "duration_hours": 6.2,
+        "duration_str": "6h 12m",
         "peak": 354,
         "peak_time": "23:29",
-        "live_avg": 249,
-        "watch_hours": 1156
+        "live_avg": 227,
+        "watch_hours": 1406,
+        "camp": "GOE_TW"
       },
       "nerva": {
-        "camp": "NERVA",
         "is_live_any": true,
         "start_time": "22:31",
         "end_time": "02:40",
         "points_count": 832,
-        "duration_hours": 3.47,
-        "duration_str": "3h 28m",
+        "duration_hours": 4.16,
+        "duration_str": "4h 10m",
         "peak": 7870,
         "peak_time": "23:37",
-        "live_avg": 5099,
-        "watch_hours": 17675
+        "live_avg": 5481,
+        "watch_hours": 22818,
+        "camp": "NERVA"
       },
       "tobias": {
-        "camp": "TOBIASZ",
         "is_live_any": true,
         "start_time": "20:41",
         "end_time": "03:14",
         "points_count": 1223,
-        "duration_hours": 5.1,
-        "duration_str": "5h 06m",
+        "duration_hours": 6.55,
+        "duration_str": "6h 33m",
         "peak": 3195,
         "peak_time": "23:41",
-        "live_avg": 1907,
-        "watch_hours": 9718
+        "live_avg": 1889,
+        "watch_hours": 12368,
+        "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 28.4,
-        "nerva": 46.2,
-        "tobias": 25.4
+        "goe": 27.5,
+        "nerva": 47.0,
+        "tobias": 25.5
       }
     },
     {
@@ -1555,82 +1911,89 @@
       "score": "3 : 0",
       "winner": "Gen.G Esports",
       "stage": "semis",
+      "is_finished": true,
+      "schedule": {
+        "goe_start": "20:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-07T20:30:00+01:00"
+      },
       "disclaimers": [
         "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00."
       ],
       "points_count": 2188,
       "total_peak": 12226,
       "total_peak_time": "23:43",
-      "total_watch_hours": 50214,
+      "total_watch_hours": 34763,
       "goe": {
-        "camp": "GOE",
         "is_live_any": true,
         "start_time": "20:58",
         "end_time": "02:20",
         "points_count": 1930,
-        "duration_hours": 8.04,
-        "duration_str": "8h 02m",
+        "duration_hours": 5.37,
+        "duration_str": "5h 22m",
         "peak": 2919,
         "peak_time": "23:43",
-        "live_avg": 1828,
-        "watch_hours": 14699
+        "live_avg": 1874,
+        "watch_hours": 10053,
+        "camp": "GOE"
       },
       "goe_yt": {
-        "camp": "GOE_YT",
         "is_live_any": true,
         "start_time": "20:58",
         "end_time": "02:20",
         "points_count": 1930,
-        "duration_hours": 8.04,
-        "duration_str": "8h 02m",
+        "duration_hours": 5.37,
+        "duration_str": "5h 22m",
         "peak": 2562,
         "peak_time": "23:43",
-        "live_avg": 1564,
-        "watch_hours": 12574
+        "live_avg": 1605,
+        "watch_hours": 8610,
+        "camp": "GOE_YT"
       },
       "goe_tw": {
-        "camp": "GOE_TW",
         "is_live_any": true,
         "start_time": "20:58",
         "end_time": "02:19",
         "points_count": 1926,
-        "duration_hours": 8.03,
-        "duration_str": "8h 02m",
+        "duration_hours": 5.35,
+        "duration_str": "5h 21m",
         "peak": 380,
         "peak_time": "01:01",
-        "live_avg": 265,
-        "watch_hours": 2125
+        "live_avg": 270,
+        "watch_hours": 1443,
+        "camp": "GOE_TW"
       },
       "nerva": {
-        "camp": "NERVA",
         "is_live_any": true,
         "start_time": "22:30",
         "end_time": "02:04",
         "points_count": 1221,
-        "duration_hours": 5.09,
-        "duration_str": "5h 05m",
+        "duration_hours": 3.57,
+        "duration_str": "3h 34m",
         "peak": 6813,
         "peak_time": "23:46",
-        "live_avg": 4347,
-        "watch_hours": 22116
+        "live_avg": 4353,
+        "watch_hours": 15558,
+        "camp": "NERVA"
       },
       "tobias": {
-        "camp": "TOBIASZ",
         "is_live_any": true,
         "start_time": "20:58",
         "end_time": "03:00",
         "points_count": 2188,
-        "duration_hours": 9.12,
-        "duration_str": "9h 07m",
+        "duration_hours": 6.03,
+        "duration_str": "6h 02m",
         "peak": 2551,
         "peak_time": "23:42",
-        "live_avg": 1470,
-        "watch_hours": 13399
+        "live_avg": 1517,
+        "watch_hours": 9152,
+        "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 29.3,
-        "nerva": 44.0,
-        "tobias": 26.7
+        "goe": 28.9,
+        "nerva": 44.8,
+        "tobias": 26.3
       }
     },
     {
@@ -1642,82 +2005,186 @@
       "score": "3 : 1",
       "winner": "Bilibili Gaming",
       "stage": "semis",
+      "is_finished": true,
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-08T21:30:00+01:00"
+      },
       "disclaimers": [
         "Rekordowy szczyt jednoczesnej widowni 3 obozów: 17 596 widzów."
       ],
       "points_count": 2885,
       "total_peak": 17596,
       "total_peak_time": "23:42",
-      "total_watch_hours": 94755,
+      "total_watch_hours": 58511,
       "goe": {
-        "camp": "GOE",
         "is_live_any": true,
         "start_time": "20:45",
         "end_time": "03:43",
         "points_count": 2624,
-        "duration_hours": 10.93,
-        "duration_str": "10h 56m",
+        "duration_hours": 6.96,
+        "duration_str": "6h 58m",
         "peak": 3422,
         "peak_time": "23:42",
-        "live_avg": 1971,
-        "watch_hours": 21547
+        "live_avg": 1922,
+        "watch_hours": 13384,
+        "camp": "GOE"
       },
       "goe_yt": {
-        "camp": "GOE_YT",
         "is_live_any": true,
         "start_time": "20:45",
         "end_time": "03:43",
         "points_count": 2624,
-        "duration_hours": 10.93,
-        "duration_str": "10h 56m",
+        "duration_hours": 6.96,
+        "duration_str": "6h 58m",
         "peak": 3009,
         "peak_time": "23:42",
-        "live_avg": 1705,
-        "watch_hours": 18642
+        "live_avg": 1663,
+        "watch_hours": 11583,
+        "camp": "GOE_YT"
       },
       "goe_tw": {
-        "camp": "GOE_TW",
         "is_live_any": true,
         "start_time": "20:46",
         "end_time": "03:42",
         "points_count": 2612,
-        "duration_hours": 10.88,
-        "duration_str": "10h 53m",
+        "duration_hours": 6.94,
+        "duration_str": "6h 56m",
         "peak": 448,
         "peak_time": "23:47",
-        "live_avg": 267,
-        "watch_hours": 2905
+        "live_avg": 260,
+        "watch_hours": 1802,
+        "camp": "GOE_TW"
       },
       "nerva": {
-        "camp": "NERVA",
         "is_live_any": true,
         "start_time": "22:30",
         "end_time": "02:51",
         "points_count": 1696,
-        "duration_hours": 7.07,
-        "duration_str": "7h 04m",
+        "duration_hours": 4.35,
+        "duration_str": "4h 21m",
         "peak": 10885,
         "peak_time": "23:42",
-        "live_avg": 7451,
-        "watch_hours": 52652
+        "live_avg": 7425,
+        "watch_hours": 32334,
+        "camp": "NERVA"
       },
       "tobias": {
-        "camp": "TOBIASZ",
         "is_live_any": true,
         "start_time": "20:05",
         "end_time": "03:36",
         "points_count": 2835,
-        "duration_hours": 11.81,
-        "duration_str": "11h 49m",
+        "duration_hours": 7.52,
+        "duration_str": "7h 31m",
         "peak": 3333,
         "peak_time": "23:46",
-        "live_avg": 1740,
-        "watch_hours": 20556
+        "live_avg": 1701,
+        "watch_hours": 12793,
+        "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 22.7,
-        "nerva": 55.6,
-        "tobias": 21.7
+        "goe": 22.9,
+        "nerva": 55.3,
+        "tobias": 21.9
+      }
+    },
+    {
+      "day_id": "day-7",
+      "name": "Finał (14.11)",
+      "date": "2026-11-14",
+      "match": "Bilibili Gaming vs Gen.G Esports",
+      "match_short": "BLG vs Gen.G",
+      "score": "",
+      "winner": "",
+      "stage": "finals",
+      "is_finished": false,
+      "schedule": {
+        "goe_start": "19:00",
+        "nerva_start": "19:30",
+        "match_start": "20:00",
+        "goe_start_iso": "2026-11-14T19:00:00+01:00",
+        "match_start_iso": "2026-11-14T20:00:00+01:00",
+        "venue": "Barclays Center, Nowy Jork"
+      },
+      "disclaimers": [
+        "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
+        "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+      ],
+      "points_count": 0,
+      "total_peak": 0,
+      "total_peak_time": "--",
+      "total_watch_hours": 0,
+      "goe": {
+        "is_live_any": false,
+        "start_time": "--",
+        "end_time": "--",
+        "points_count": 0,
+        "duration_hours": 0.0,
+        "duration_str": "0h 00m",
+        "peak": 0,
+        "peak_time": "--",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "camp": "GOE"
+      },
+      "goe_yt": {
+        "is_live_any": false,
+        "start_time": "--",
+        "end_time": "--",
+        "points_count": 0,
+        "duration_hours": 0.0,
+        "duration_str": "0h 00m",
+        "peak": 0,
+        "peak_time": "--",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "camp": "GOE_YT"
+      },
+      "goe_tw": {
+        "is_live_any": false,
+        "start_time": "--",
+        "end_time": "--",
+        "points_count": 0,
+        "duration_hours": 0.0,
+        "duration_str": "0h 00m",
+        "peak": 0,
+        "peak_time": "--",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "camp": "GOE_TW"
+      },
+      "nerva": {
+        "is_live_any": false,
+        "start_time": "--",
+        "end_time": "--",
+        "points_count": 0,
+        "duration_hours": 0.0,
+        "duration_str": "0h 00m",
+        "peak": 0,
+        "peak_time": "--",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "camp": "NERVA"
+      },
+      "tobias": {
+        "is_live_any": false,
+        "start_time": "--",
+        "end_time": "--",
+        "points_count": 0,
+        "duration_hours": 0.0,
+        "duration_str": "0h 00m",
+        "peak": 0,
+        "peak_time": "--",
+        "live_avg": 0,
+        "watch_hours": 0,
+        "camp": "TOBIASZ"
+      },
+      "market_share": {
+        "goe": 0.0,
+        "nerva": 0.0,
+        "tobias": 0.0
       }
     }
   ]

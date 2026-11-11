@@ -3,8 +3,9 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-from config import get_active_day_id
+from config import get_active_day_id, get_known_stream_ids
 from db import (
+    extract_goe_yt_viewers,
     filter_bot_attacks,
     get_detailed_history,
     get_history,
@@ -130,28 +131,18 @@ def create_summary_card(
 
     # Stats setup
     if mode == "GOE":
-        # Calculate GoE peak YT and peak Twitch
-        def _get_goe_yt_v(p):
-            for sid, s in p.get("streams", {}).items():
-                if sid != "goe_stream" and (
-                    s.get("platform") == "YouTube"
-                    or s.get("group") == "GOE"
-                    or sid
-                    in (
-                        "I2E60nEUXWo",
-                        "dKZGkF2mIDU",
-                        "jcO4IHpR7XE",
-                        "Zv_21UIAKAc",
-                        "_PfE0hBYM-o",
-                        "@gadaja_",
-                    )
-                ):
-                    return s.get(
-                        "viewers" if filter_bots else "viewers_raw", s.get("viewers", 0)
-                    )
-            return 0
+        known_ids = get_known_stream_ids()
 
-        peak_yt = max((_get_goe_yt_v(p) for p in history_points), default=0)
+        # Calculate GoE peak YT and peak Twitch dynamically
+        peak_yt = max(
+            (
+                extract_goe_yt_viewers(
+                    p.get("streams", {}), filter_bots=filter_bots, known_ids=known_ids
+                )[0]
+                for p in history_points
+            ),
+            default=0,
+        )
         peak_tw = max(
             (
                 p.get("streams", {}).get("goe_stream", {}).get("viewers", 0)
@@ -541,6 +532,7 @@ def create_summary_card(
         tw_coords = []
         curr_max = -1
         max_idx = 0
+        known_ids = get_known_stream_ids()
 
         for idx, pt in enumerate(history_points):
             x = (
@@ -549,28 +541,9 @@ def create_summary_card(
                 else plot_x1 + int((idx / (num_pts - 1)) * plot_w)
             )
             streams_map = pt.get("streams", {})
-            yt_s = {}
-            for sid, s in streams_map.items():
-                if sid != "goe_stream" and (
-                    s.get("platform") == "YouTube"
-                    or s.get("group") == "GOE"
-                    or sid
-                    in (
-                        "I2E60nEUXWo",
-                        "dKZGkF2mIDU",
-                        "jcO4IHpR7XE",
-                        "Zv_21UIAKAc",
-                        "_PfE0hBYM-o",
-                        "@gadaja_",
-                    )
-                ):
-                    yt_s = s
-                    break
             tw_s = streams_map.get("goe_stream", {})
-            yt_v = (
-                yt_s.get("viewers", 0)
-                if filter_bots
-                else yt_s.get("viewers_raw", yt_s.get("viewers", 0))
+            yt_v, _ = extract_goe_yt_viewers(
+                streams_map, filter_bots=filter_bots, known_ids=known_ids
             )
             tw_v = tw_s.get("viewers", 0)
             tot_v = (
@@ -947,15 +920,25 @@ def create_stage_summary_card(
     draw_top_emblem(draw, width, 48, "WORLDS 2026", font_top_emblem)
 
     # 2. Slanted Main Title
+    played_cnt = stage.get("matches_count", len(stage.get("matches", [])))
+    sched_cnt = stage.get("scheduled_matches_count", len(stage.get("matches", [])))
     if stage_id == "quarters":
         title_text = "ĆWIERĆFINAŁY (DNI 1-4)"
         sub_text = "4 mecze BO5 • Bilans oglądalności polskiej sceny"
     elif stage_id == "semis":
         title_text = "PÓŁFINAŁY (DNI 5-6)"
         sub_text = "2 mecze BO5 • Walka o Wielki Finał"
+    elif stage_id == "finals":
+        title_text = "WIELKI FINAŁ (14.11)"
+        sub_text = "Bilibili Gaming vs Gen.G Esports • Mecz o Puchar"
     else:
         title_text = "PODSUMOWANIE TURNIEJU"
-        sub_text = "6 meczów BO5 • Cała faza pucharowa Worlds 2026"
+        if played_cnt < sched_cnt:
+            sub_text = (
+                f"{played_cnt}/{sched_cnt} meczów BO5 • Faza pucharowa + Finał (14.11)"
+            )
+        else:
+            sub_text = f"{played_cnt} meczów BO5 • Cała faza pucharowa Worlds 2026"
 
     draw_slanted_text(
         img,
@@ -1043,19 +1026,19 @@ def create_stage_summary_card(
 
     camps_data = [
         (
-            "🔵 BUNKIER GOE",
+            "BUNKIER GOE",
             stage.get("goe", {}),
             (59, 130, 246),
             (20, 30, 50),
         ),
         (
-            "🔴 NERVARIEN & CO-STREAMY",
+            "NERVARIEN & CO-STREAMY",
             stage.get("nerva", {}),
             (239, 68, 68),
             (50, 20, 25),
         ),
         (
-            "🟠 TOBIASZ",
+            "TOBIASZ",
             stage.get("tobias", {}),
             (249, 115, 22),
             (50, 30, 15),
@@ -1070,8 +1053,9 @@ def create_stage_summary_card(
             outline=ccolor,
             width=2,
         )
+        draw.ellipse([cx + 12, c_y + 15, cx + 22, c_y + 25], fill=ccolor)
         draw.text(
-            (cx + 12, c_y + 12),
+            (cx + 28, c_y + 12),
             cname,
             fill=ccolor,
             font=_get_font(16, bold=True, font_type="rajdhani"),
@@ -1136,26 +1120,51 @@ def create_stage_summary_card(
     for i, m in enumerate(matches):
         my = row_y_start + i * row_h
         m_w = width - 100
+        is_upcoming_row = m.get("points_count", 0) == 0
+        row_outline = (180, 140, 20) if is_upcoming_row else (40, 40, 50)
         draw.rounded_rectangle(
             [50, my, 50 + m_w, my + row_h - 8],
             radius=6,
             fill=(16, 16, 20),
-            outline=(40, 40, 50),
+            outline=row_outline,
             width=1,
         )
 
-        # Match label and winner
-        title_line = f"{m['name']} • {m['match']} ({m['score']})"
+        # Match label and score (omit empty parens for unplayed matches)
+        score_str = m.get("score", "")
+        title_line = (
+            f"{m['name']} • {m['match']} ({score_str})"
+            if score_str
+            else f"{m['name']} • {m['match']}"
+        )
         draw.text(
             (65, my + 8),
             title_line,
-            fill=(255, 255, 255),
+            fill=(255, 204, 0) if is_upcoming_row else (255, 255, 255),
             font=font_match_title,
         )
 
+        if is_upcoming_row:
+            sched_match = m.get("schedule", {}).get("match_start", "20:00")
+            sched_goe = m.get("schedule", {}).get("goe_start", "19:00")
+            draw.text(
+                (width - 65, my + 8),
+                f"NADCHODZĄCY ({sched_match} CET)",
+                fill=(255, 204, 0),
+                font=_get_font(15, bold=True, font_type="rajdhani"),
+                anchor="ra",
+            )
+            draw.text(
+                (65, my + 40),
+                f"Start studia GoE: ~{sched_goe} CET  •  Ceremonia Otwarcia i Mecz: {sched_match} CET  •  Barclays Center",
+                fill=(180, 180, 195),
+                font=_get_font(15, font_type="rajdhani"),
+            )
+            continue
+
         tot_p_str = f"Pik meczu: {m['total_peak']:,}".replace(",", " ")
         draw.text(
-            (930, my + 8),
+            (width - 65, my + 8),
             tot_p_str,
             fill=(0, 229, 255),
             font=_get_font(15, bold=True, font_type="rajdhani"),
@@ -1165,9 +1174,10 @@ def create_stage_summary_card(
         # 3 Comparative Progress Bars inside the row
         bar_x = 65
         bar_max_w = 400
-        bar_y_base = my + 34
-        bar_h = 11
-        spacing = 15
+        compact = row_h < 95
+        bar_y_base = my + (31 if compact else 34)
+        bar_h = 10 if compact else 11
+        spacing = 14 if compact else 15
 
         # GoE bar
         gp = m["goe"]["peak"]
@@ -1269,8 +1279,8 @@ def create_stage_summary_card(
     )
     disc_lines = [
         "• Dzień 1: Oczyszczono 2 fale viewbotów YT (GoE); brak streamu Tobiasza; opóźnione wykrycie co-streamu Damiana.",
-        "• Dni 2-4: Wygładzono chwilowe błędy i timeouty API pobierania YouTube; Dzień 3 przycięty o 02:11 (koniec meczu).",
-        "• Średnie liczone algorytmem 'True Live Window' ściśle dla godzin aktywności każdego twórcy z osobna.",
+        "• Dni 2-6: Wygładzono chwilowe błędy API YouTube; Dzień 3 przycięty o 02:11 (koniec meczu).",
+        "• 'True Live Window' + całkowanie czasem (metoda trapezów): dokładne widzogodziny bez dublowania próbek.",
     ]
     for d_idx, dline in enumerate(disc_lines):
         draw.text(

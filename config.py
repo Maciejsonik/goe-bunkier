@@ -277,9 +277,61 @@ DAYS_CONFIG = {
         "costream_streams": [],
         "curiosity_streams": [],
     },
+    "day-7": {
+        "id": "day-7",
+        "name": "Finał (14.11)",
+        "label": "Finał • 14.11 (Nadchodzący)",
+        "match": "Bilibili Gaming vs Gen.G Esports",
+        "match_short": "BLG vs Gen.G",
+        "score": "",
+        "winner": "",
+        "stage": "finals",
+        "date": "2026-11-14",
+        "is_finished": False,
+        "disclaimers": [
+            "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
+            "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek).",
+        ],
+        "start_utc": "2026-11-14 12:00:00",
+        "end_utc": "2026-11-15 12:00:00",
+        "schedule": {
+            "goe_start": "19:00",
+            "nerva_start": "19:30",
+            "match_start": "20:00",
+            "goe_start_iso": "2026-11-14T19:00:00+01:00",
+            "match_start_iso": "2026-11-14T20:00:00+01:00",
+            "venue": "Barclays Center, Nowy Jork",
+        },
+        "groups": {
+            "GOE": {
+                "name": "Gadają o Esporcie (GOE)",
+                "color": "#3b82f6",  # Neon Blue
+                "twitch": ["goe_stream"],
+                "youtube": ["@gadaja_"],
+            },
+            "NERVA": {
+                "name": "Nervarien",
+                "color": "#ef4444",  # Crimson Red
+                "twitch": ["nervarien"],
+                "youtube": ["@nervarien"],
+            },
+            "TOBIASZ": {
+                "name": "Tobiasz",
+                "color": "#f97316",  # Vibrant Orange
+                "twitch": ["ttobias_lol"],
+                "youtube": [],
+            },
+        },
+        "costream_streams": [],
+        "curiosity_streams": [],
+        "events": [
+            {"time": "19:00", "label": "Start Bunkra"},
+            {"time": "20:00", "label": "Ceremonia Otwarcia"},
+        ],
+    },
 }
 
-# Tournament Stages Configuration (Quarters, Semis, Overall)
+# Tournament Stages Configuration (Quarters, Semis, Finals, Overall)
 STAGES_CONFIG = {
     "quarters": {
         "id": "quarters",
@@ -297,11 +349,19 @@ STAGES_CONFIG = {
         "icon": "🔥",
         "subtitle": "2 mecze BO5 • Walka o Wielki Finał",
     },
+    "finals": {
+        "id": "finals",
+        "name": "Wielki Finał (Dzień 7)",
+        "short_name": "Wielki Finał",
+        "days": ["day-7"],
+        "icon": "👑",
+        "subtitle": "Bilibili Gaming vs Gen.G Esports • Mecz o Puchar Przywoływacza",
+    },
     "tournament": {
         "id": "tournament",
-        "name": "Cały Turniej (Dni 1–6)",
+        "name": "Cały Turniej (Dni 1–7)",
         "short_name": "Cały Turniej",
-        "days": ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6"],
+        "days": ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6", "day-7"],
         "icon": "🏆",
         "subtitle": "Pełne podsumowanie fazy pucharowej Worlds 2026",
     },
@@ -332,7 +392,8 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
     - 2026-11-05 12:00 to 2026-11-06 12:00 UTC -> 'day-3'
     - 2026-11-06 12:00 to 2026-11-07 12:00 UTC -> 'day-4'
     - 2026-11-07 12:00 to 2026-11-08 12:00 UTC -> 'day-5'
-    - From 2026-11-08 12:00 UTC onwards -> 'day-6'
+    - 2026-11-08 12:00 to 2026-11-09 12:00 UTC -> 'day-6'
+    - From 2026-11-09 12:00 UTC onwards -> 'day-7' (Grand Final)
     Can be manually overridden with STREAM_DAY environment variable.
     """
     override = os.environ.get("STREAM_DAY")
@@ -347,6 +408,7 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
     d4 = datetime(2026, 11, 6, 12, 0, 0, tzinfo=UTC)
     d5 = datetime(2026, 11, 7, 12, 0, 0, tzinfo=UTC)
     d6 = datetime(2026, 11, 8, 12, 0, 0, tzinfo=UTC)
+    d7 = datetime(2026, 11, 9, 12, 0, 0, tzinfo=UTC)
 
     if now_utc < d2:
         return "day-1"
@@ -358,8 +420,44 @@ def get_active_day_id(now_utc: datetime | None = None) -> str:
         return "day-4"
     elif now_utc < d6:
         return "day-5"
-    else:
+    elif now_utc < d7:
         return "day-6"
+    else:
+        return "day-7"
+
+
+def get_known_stream_ids() -> dict[str, set[str]]:
+    """Collects known stream IDs grouped by camp and platform across all days."""
+    ids: dict[str, set[str]] = {
+        "goe_yt": {"@gadaja_"},
+        "goe_tw": {"goe_stream"},
+        "nerva_yt": {"@nervarien"},
+        "nerva_tw": {"nervarien"},
+        "nerva_costream": {
+            cid
+            for cid, info in COSTREAM_STREAMS.items()
+            if info.get("group") == "NERVA"
+        },
+        "tobias_tw": {"ttobias_lol"},
+    }
+    for dcfg in DAYS_CONFIG.values():
+        costreams = set(dcfg.get("costream_streams", [])) | set(
+            dcfg.get("curiosity_streams", [])
+        )
+        ids["nerva_costream"].update(costreams)
+        groups = dcfg.get("groups", {})
+        for yt_id in groups.get("GOE", {}).get("youtube", []):
+            ids["goe_yt"].add(yt_id)
+        for tw_id in groups.get("GOE", {}).get("twitch", []):
+            ids["goe_tw"].add(tw_id)
+        for yt_id in groups.get("NERVA", {}).get("youtube", []):
+            if yt_id not in ids["nerva_costream"]:
+                ids["nerva_yt"].add(yt_id)
+        for tw_id in groups.get("NERVA", {}).get("twitch", []):
+            ids["nerva_tw"].add(tw_id)
+        for tw_id in groups.get("TOBIASZ", {}).get("twitch", []):
+            ids["tobias_tw"].add(tw_id)
+    return ids
 
 
 def get_groups_config(day_id: str | None = None) -> dict:

@@ -1,8 +1,10 @@
 name: Update Stream Stats & Dashboard
 
 on:
-  # schedule:
-  #   - cron: '*/5 * * * *' # Paused while tournament is offline
+  schedule:
+    # Finals backup polling every 5 mins: Nov 14 17:00-23:59 UTC & Nov 15 00:00-05:59 UTC
+    - cron: '*/5 17-23 14 11 *'
+    - cron: '*/5 0-5 15 11 *'
   workflow_dispatch:
   push:
     branches:
@@ -46,7 +48,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data*.json history*.json stream_data*.csv *.png
+          git add data*.json history*.json stream_data*.csv tournament_analytics.json *.png
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update stream stats [skip ci]" && git push)
 
       - name: Setup Pages

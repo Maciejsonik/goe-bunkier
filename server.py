@@ -243,7 +243,12 @@ def background_collector_loop():
 
     while True:
         try:
-            data = fetch_all_data()
+            active_day = get_active_day_id()
+            day_cfg = DAYS_CONFIG.get(active_day, {})
+            day_finished = day_cfg.get("is_finished", False)
+            data = fetch_all_data(
+                groups_config=day_cfg.get("groups"), day_id=active_day
+            )
             all_streams = [
                 s
                 for grp in data.get("groups", {}).values()
@@ -255,14 +260,12 @@ def background_collector_loop():
                 if not s.get("is_costream") and not s.get("is_curiosity")
             ]
             any_live = any(s.get("is_live", False) for s in main_streams)
-            active_day = get_active_day_id()
-            day_finished = DAYS_CONFIG.get(active_day, {}).get("is_finished", False)
 
             if any_live and not day_finished:
                 had_live_stream = True
                 consecutive_offline_seconds = 0
-                save_snapshot(data)
-                build()
+                save_snapshot(data, day_id=active_day)
+                build(preloaded_data=data, preloaded_day_id=active_day)
                 ts = datetime.now().strftime("%H:%M:%S")
                 goe_v = data["groups"]["GOE"]["total_viewers"]
                 nerva_v = data["groups"]["NERVA"]["total_viewers"]

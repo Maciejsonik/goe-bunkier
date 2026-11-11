@@ -388,7 +388,10 @@ def create_battle_card(
     font_system_note = _get_font(14, font_type="rajdhani")
 
     # Top Emblem (Crisp vector microphone icon + WORLDS 2026 text)
-    draw_top_emblem(draw, width, 48, "WORLDS 2026", font_top_emblem)
+    top_label = (
+        "WORLDS 2026 • WIELKI FINAŁ" if data.get("stage") == "finals" else "WORLDS 2026"
+    )
+    draw_top_emblem(draw, width, 48, top_label, font_top_emblem)
 
     # Slanted Main Title (matching poster: CO-STREAM GOE)
     draw_slanted_text(
@@ -402,9 +405,13 @@ def create_battle_card(
 
     platform_tag = f"[{platform.upper()}] " if platform.upper() != "ALL" else ""
     ts = data.get("timestamp", "").split(" ")[-1]
+    match_short = data.get("match_short")
+    sub_prefix = (
+        f"{match_short}  •  " if data.get("stage") == "finals" and match_short else ""
+    )
     draw.text(
         (width // 2, 182),
-        f"w Kieleckim bunkrze vs Nervarien  •  {platform_tag}{ts}",
+        f"{sub_prefix}w Kieleckim bunkrze vs Nervarien  •  {platform_tag}{ts}",
         fill=(255, 255, 255),
         font=font_sub_title,
         anchor="mm",
@@ -700,11 +707,17 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     font_system_note = _get_font(12, font_type="rajdhani")
 
     # 1. Top Emblem (Mathematically centered)
+    is_finals = data.get("stage") == "finals"
+    emblem_text = (
+        "WORLDS 2026 • WIELKI FINAŁ (14.11)"
+        if is_finals
+        else "WORLDS 2026 • STUDIO BUNKROWE LIVE"
+    )
     draw_top_emblem(
         draw,
         width,
         32,
-        "WORLDS 2026 • STUDIO BUNKROWE LIVE",
+        emblem_text,
         font_top_emblem,
     )
 
@@ -719,9 +732,15 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     )
 
     # 3. Subtitle
+    match_short = data.get("match_short", "")
+    sub_label = (
+        f"{match_short} • w Kieleckim Bunkrze"
+        if is_finals and match_short
+        else "w Kieleckim Bunkrze • Widownia i Wyniki na Żywo"
+    )
     draw.text(
         (width // 2, 124),
-        "w Kieleckim Bunkrze • Widownia i Wyniki na Żywo",
+        sub_label,
         fill=(255, 255, 255),
         font=font_sub_title,
         anchor="mm",
@@ -759,8 +778,14 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
     yt_pct = round((yt_v / sum_yt_tw * 100), 1) if sum_yt_tw > 0 else 50.0
 
     # Duel context stats
-    tot_duel = goe_total + nerva_total
-    goe_pct = round((goe_total / tot_duel * 100), 1) if tot_duel > 0 else 50.0
+    if is_finished:
+        pk_g = st.get("goe_peak", 0)
+        pk_n = st.get("nerva_peak", 0)
+        tot_duel = pk_g + pk_n
+        goe_pct = round((pk_g / tot_duel * 100), 1) if tot_duel > 0 else 50.0
+    else:
+        tot_duel = goe_total + nerva_total
+        goe_pct = round((goe_total / tot_duel * 100), 1) if tot_duel > 0 else 50.0
 
     # 5. Big GoE Hero Card
     card_x1, card_y1, card_x2, card_y2 = 60, 142, 1140, 434
@@ -937,8 +962,11 @@ def create_og_card(data: dict, output_path: str = "og_preview.png") -> str:
             ",", " "
         )
     else:
-        goe_start = data.get("schedule", {}).get("goe_start", "21:15")
-        context_str = f"KONTEKST RYNKOWY: GoE (start {goe_start}) vs Nervarien (przewidywany start ~22:30 • mecz 23:00)"
+        sched = data.get("schedule", {})
+        goe_start = sched.get("goe_start", "19:00")
+        nerva_start = sched.get("nerva_start", "19:30")
+        match_start = sched.get("match_start", "20:00")
+        context_str = f"KONTEKST RYNKOWY: GoE (start {goe_start}) vs Nervarien (~{nerva_start} • mecz {match_start})"
 
     draw.text(
         (width // 2, 456),

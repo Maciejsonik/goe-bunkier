@@ -1,0 +1,425 @@
+{
+  "timestamp": "2026-11-11 13:22:34",
+  "total_viewers": 0,
+  "leader": "REMIS",
+  "diff": 0,
+  "ratio_goe": 50.0,
+  "ratio_nerva": 50.0,
+  "groups": {
+    "GOE": {
+      "id": "GOE",
+      "name": "Gadają o Esporcie (GOE)",
+      "color": "#3b82f6",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "goe_stream",
+          "platform": "Twitch",
+          "channel": "GoE_stream",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/goe_stream",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/3db834ba-435a-4781-90d3-960342448012-profile_image-150x150.png",
+          "group": "GOE"
+        },
+        {
+          "id": "@gadaja_",
+          "platform": "YouTube",
+          "channel": "Gadają o Esporcie",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "fetch_error": true,
+          "url": "https://www.youtube.com/@gadaja_/live",
+          "avatar_url": "https://yt3.googleusercontent.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s900-c-k-c0x00ffffff-no-rj",
+          "group": "GOE"
+        }
+      ]
+    },
+    "NERVA": {
+      "id": "NERVA",
+      "name": "Nervarien",
+      "color": "#ef4444",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "nervarien",
+          "platform": "Twitch",
+          "channel": "Nervarien",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/nervarien",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
+          "group": "NERVA"
+        },
+        {
+          "id": "@nervarien",
+          "platform": "YouTube",
+          "channel": "Nervarien",
+          "title": "Stream offline (oczekiwanie na start transmisji...)",
+          "category": "YouTube Live",
+          "is_live": false,
+          "viewers": 0,
+          "fetch_error": true,
+          "url": "https://www.youtube.com/@nervarien/live",
+          "avatar_url": "https://yt3.googleusercontent.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s900-c-k-c0x00ffffff-no-rj",
+          "group": "NERVA"
+        }
+      ]
+    },
+    "TOBIASZ": {
+      "id": "TOBIASZ",
+      "name": "Tobiasz",
+      "color": "#f97316",
+      "total_viewers": 0,
+      "streams": [
+        {
+          "id": "ttobias_lol",
+          "platform": "Twitch",
+          "channel": "Tobiasz",
+          "title": "Stream offline",
+          "category": "",
+          "is_live": false,
+          "viewers": 0,
+          "url": "https://www.twitch.tv/ttobias_lol",
+          "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
+          "group": "TOBIASZ"
+        }
+      ]
+    }
+  },
+  "day_id": "day-7",
+  "day_name": "Finał (14.11)",
+  "day_date": "2026-11-14",
+  "match": "Bilibili Gaming vs Gen.G Esports",
+  "match_short": "BLG vs Gen.G",
+  "score": "",
+  "winner": "",
+  "stage": "finals",
+  "disclaimers": [
+    "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
+    "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+  ],
+  "schedule": {
+    "goe_start": "19:00",
+    "nerva_start": "19:30",
+    "match_start": "20:00",
+    "goe_start_iso": "2026-11-14T19:00:00+01:00",
+    "match_start_iso": "2026-11-14T20:00:00+01:00",
+    "venue": "Barclays Center, Nowy Jork"
+  },
+  "goe_start_time": "2026-11-14T19:00:00+01:00",
+  "events": [
+    {
+      "time": "19:00",
+      "label": "Start Bunkra"
+    },
+    {
+      "time": "20:00",
+      "label": "Ceremonia Otwarcia"
+    }
+  ],
+  "is_finished": false,
+  "is_active": true,
+  "momentum": {
+    "goe_delta": 0,
+    "nerva_delta": 0,
+    "minutes": 5
+  },
+  "is_live": false,
+  "summary_stats": {
+    "count": 0,
+    "goe_peak": 0,
+    "nerva_peak": 0,
+    "goe_peak_time": "",
+    "nerva_peak_time": "",
+    "goe_avg": 0,
+    "nerva_avg": 0,
+    "start_time": "",
+    "end_time": "",
+    "goe_raw_peak": 0,
+    "goe_raw_peak_time": "",
+    "is_bot_filtered": true,
+    "nerva_costream_peak": 0,
+    "nerva_costream_peak_time": "",
+    "nerva_costream_avg": 0,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "tobias_peak": 0,
+    "tobias_peak_time": "",
+    "tobias_avg": 0,
+    "nerva_camp_peak": 0,
+    "nerva_camp_peak_time": "",
+    "nerva_camp_avg": 0,
+    "camp_peak": 0,
+    "camp_peak_time": "",
+    "camp_avg": 0,
+    "yt_peak": 0,
+    "yt_peak_time": "",
+    "tw_peak": 0,
+    "tw_peak_time": "",
+    "yt_avg": 0,
+    "tw_avg": 0,
+    "yt_watch_hours": 0,
+    "tw_watch_hours": 0,
+    "goe_live_avg": 0,
+    "nerva_live_avg": 0,
+    "tobias_live_avg": 0,
+    "goe_watch_hours": 0,
+    "nerva_watch_hours": 0,
+    "tobias_watch_hours": 0
+  },
+  "summary_stats_raw": {
+    "count": 0,
+    "goe_peak": 0,
+    "nerva_peak": 0,
+    "goe_peak_time": "",
+    "nerva_peak_time": "",
+    "goe_avg": 0,
+    "nerva_avg": 0,
+    "start_time": "",
+    "end_time": "",
+    "goe_raw_peak": 0,
+    "goe_raw_peak_time": "",
+    "is_bot_filtered": false,
+    "nerva_costream_peak": 0,
+    "nerva_costream_peak_time": "",
+    "nerva_costream_avg": 0,
+    "tobias_costream_peak": 0,
+    "tobias_costream_peak_time": "",
+    "tobias_costream_avg": 0,
+    "tobias_peak": 0,
+    "tobias_peak_time": "",
+    "tobias_avg": 0,
+    "nerva_camp_peak": 0,
+    "nerva_camp_peak_time": "",
+    "nerva_camp_avg": 0,
+    "camp_peak": 0,
+    "camp_peak_time": "",
+    "camp_avg": 0,
+    "yt_peak": 0,
+    "yt_peak_time": "",
+    "tw_peak": 0,
+    "tw_peak_time": "",
+    "yt_avg": 0,
+    "tw_avg": 0,
+    "yt_watch_hours": 0,
+    "tw_watch_hours": 0,
+    "goe_live_avg": 0,
+    "nerva_live_avg": 0,
+    "tobias_live_avg": 0,
+    "goe_watch_hours": 0,
+    "nerva_watch_hours": 0,
+    "tobias_watch_hours": 0
+  },
+  "active_day_id": "day-7",
+  "days": [
+    {
+      "id": "day-1",
+      "name": "Dzień 1 (03.11)",
+      "label": "Dzień 1 • 03.11 (Zakończony)",
+      "date": "2026-11-03",
+      "match": "TOP Esports vs Invictus Gaming",
+      "match_short": "TES vs IG",
+      "score": "1 : 3",
+      "winner": "Invictus Gaming",
+      "stage": "quarters",
+      "disclaimers": [
+        "Atak viewbotów na YouTube (GoE) – dane oczyszczone filtrem adaptywnym (prawdziwy organiczny szczyt: 2 815).",
+        "Brak transmisji Tobiasza (offline przez cały mecz).",
+        "Błąd pomiarowy w co-streamie Nervariena (opóźnione wykrycie transmisji Damiana).",
+        "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
+      ],
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-03T21:30:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-1.json",
+      "history_url": "./history_day-1.json",
+      "csv_url": "./stream_data_day-1.csv",
+      "summary_card": "./stream_summary_day-1.png",
+      "goe_card": "./goe_summary_day-1.png",
+      "camps_card": "./camps_summary_day-1.png"
+    },
+    {
+      "id": "day-2",
+      "name": "Dzień 2 (04.11)",
+      "label": "Dzień 2 • 04.11 (Zakończony)",
+      "date": "2026-11-04",
+      "match": "Movistar Lyon vs Gen.G Esports",
+      "match_short": "Lyon vs Gen.G",
+      "score": "0 : 3",
+      "winner": "Gen.G Esports",
+      "stage": "quarters",
+      "disclaimers": [],
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-04T21:30:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-2.json",
+      "history_url": "./history_day-2.json",
+      "csv_url": "./stream_data_day-2.csv",
+      "summary_card": "./stream_summary_day-2.png",
+      "goe_card": "./goe_summary_day-2.png",
+      "camps_card": "./camps_summary_day-2.png"
+    },
+    {
+      "id": "day-3",
+      "name": "Dzień 3 (05.11)",
+      "label": "Dzień 3 • 05.11 (Zakończony)",
+      "date": "2026-11-05",
+      "match": "Bilibili Gaming vs Dplus KIA",
+      "match_short": "BLG vs DK",
+      "score": "3 : 0",
+      "winner": "Bilibili Gaming",
+      "stage": "quarters",
+      "disclaimers": [
+        "Dane przycięte do zakończenia rywalizacji turniejowej (02:11 CET, zakończenie streamów GoE i Tobiasza).",
+        "Wygładzono chwilowe błędy i timeouty pobierania YouTube."
+      ],
+      "schedule": {
+        "goe_start": "21:15",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-05T21:15:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-3.json",
+      "history_url": "./history_day-3.json",
+      "csv_url": "./stream_data_day-3.csv",
+      "summary_card": "./stream_summary_day-3.png",
+      "goe_card": "./goe_summary_day-3.png",
+      "camps_card": "./camps_summary_day-3.png"
+    },
+    {
+      "id": "day-4",
+      "name": "Dzień 4 (06.11)",
+      "label": "Dzień 4 • 06.11 (Zakończony)",
+      "date": "2026-11-06",
+      "match": "Karmine Corp vs T1",
+      "match_short": "KC vs T1",
+      "score": "1 : 3",
+      "winner": "T1",
+      "stage": "quarters",
+      "disclaimers": [
+        "Błędy w pobieraniu danych / timeouty YouTube API (dane wygładzone)."
+      ],
+      "schedule": {
+        "goe_start": "21:15",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-06T21:15:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-4.json",
+      "history_url": "./history_day-4.json",
+      "csv_url": "./stream_data_day-4.csv",
+      "summary_card": "./stream_summary_day-4.png",
+      "goe_card": "./goe_summary_day-4.png",
+      "camps_card": "./camps_summary_day-4.png"
+    },
+    {
+      "id": "day-5",
+      "name": "Dzień 5 (07.11)",
+      "label": "Dzień 5 • 07.11 (Zakończony)",
+      "date": "2026-11-07",
+      "match": "Gen.G Esports vs Invictus Gaming",
+      "match_short": "Gen.G vs IG",
+      "score": "3 : 0",
+      "winner": "Gen.G Esports",
+      "stage": "semis",
+      "disclaimers": [
+        "Wygładzono dip z 23:40 (restart co-streamu Nervariena) oraz zacięcie o 01:00."
+      ],
+      "schedule": {
+        "goe_start": "20:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-07T20:30:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-5.json",
+      "history_url": "./history_day-5.json",
+      "csv_url": "./stream_data_day-5.csv",
+      "summary_card": "./stream_summary_day-5.png",
+      "goe_card": "./goe_summary_day-5.png",
+      "camps_card": "./camps_summary_day-5.png"
+    },
+    {
+      "id": "day-6",
+      "name": "Dzień 6 (08.11)",
+      "label": "Dzień 6 • 08.11 (Zakończony)",
+      "date": "2026-11-08",
+      "match": "Bilibili Gaming vs T1",
+      "match_short": "BLG vs T1",
+      "score": "3 : 1",
+      "winner": "Bilibili Gaming",
+      "stage": "semis",
+      "disclaimers": [
+        "Rekordowy szczyt jednoczesnej widowni 3 obozów: 17 596 widzów."
+      ],
+      "schedule": {
+        "goe_start": "21:30",
+        "nerva_start": "22:30",
+        "match_start": "23:00",
+        "goe_start_iso": "2026-11-08T21:30:00+01:00"
+      },
+      "is_finished": true,
+      "is_active": false,
+      "data_url": "./data_day-6.json",
+      "history_url": "./history_day-6.json",
+      "csv_url": "./stream_data_day-6.csv",
+      "summary_card": "./stream_summary_day-6.png",
+      "goe_card": "./goe_summary_day-6.png",
+      "camps_card": "./camps_summary_day-6.png"
+    },
+    {
+      "id": "day-7",
+      "name": "Finał (14.11)",
+      "label": "Finał • 14.11 (Nadchodzący)",
+      "date": "2026-11-14",
+      "match": "Bilibili Gaming vs Gen.G Esports",
+      "match_short": "BLG vs Gen.G",
+      "score": "",
+      "winner": "",
+      "stage": "finals",
+      "disclaimers": [
+        "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
+        "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+      ],
+      "schedule": {
+        "goe_start": "19:00",
+        "nerva_start": "19:30",
+        "match_start": "20:00",
+        "goe_start_iso": "2026-11-14T19:00:00+01:00",
+        "match_start_iso": "2026-11-14T20:00:00+01:00",
+        "venue": "Barclays Center, Nowy Jork"
+      },
+      "is_finished": false,
+      "is_active": true,
+      "data_url": "./data_day-7.json",
+      "history_url": "./history_day-7.json",
+      "csv_url": "./stream_data_day-7.csv",
+      "summary_card": "./stream_summary_day-7.png",
+      "goe_card": "./goe_summary_day-7.png",
+      "camps_card": "./camps_summary_day-7.png"
+    }
+  ]
+}

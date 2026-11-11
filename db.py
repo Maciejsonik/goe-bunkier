@@ -7,7 +7,7 @@ import sqlite3
 import time
 from datetime import datetime
 
-from config import COSTREAM_STREAMS, get_active_day_id
+from config import COSTREAM_STREAMS, get_active_day_id, get_known_stream_ids
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "history.db")
 
@@ -28,6 +28,171 @@ BOT_ATTACK_WINDOWS = [
         "yt_end": 1785,
     },
 ]
+
+
+def _is_goe_yt_stream(sid: str, s: dict, known_ids: dict[str, set[str]]) -> bool:
+    """Checks whether a stream entry belongs to GoE YouTube."""
+    if sid == "goe_stream":
+        return False
+    if s.get("group") == "GOE" and s.get("platform") == "YouTube":
+        return True
+    return sid in known_ids["goe_yt"]
+
+
+def _is_nerva_yt_official(sid: str, s: dict, known_ids: dict[str, set[str]]) -> bool:
+    """Checks whether a stream entry belongs to Nervarien's official YouTube broadcast."""
+    if sid in COSTREAM_STREAMS or sid in known_ids["nerva_costream"]:
+        return False
+    if s.get("is_costream") or s.get("is_curiosity"):
+        return False
+    if s.get("group") == "NERVA" and s.get("platform") == "YouTube":
+        return True
+    return sid in known_ids["nerva_yt"]
+
+
+def extract_goe_yt_viewers(
+    streams: dict,
+    filter_bots: bool = True,
+    known_ids: dict[str, set[str]] | None = None,
+) -> tuple[int, int]:
+    """Returns (effective_viewers, raw_viewers) summed across all GoE YouTube streams."""
+    if known_ids is None:
+        known_ids = get_known_stream_ids()
+    eff = 0
+    raw = 0
+    for sid, s in streams.items():
+        if _is_goe_yt_stream(sid, s, known_ids):
+            v_raw = s.get("viewers_raw", s.get("viewers", 0))
+            v_eff = s.get("viewers", 0) if filter_bots else v_raw
+            eff += v_eff
+            raw += v_raw
+    return eff, raw
+
+
+def extract_nerva_yt_viewers(
+    streams: dict, known_ids: dict[str, set[str]] | None = None
+) -> int:
+    """Returns viewers summed across Nervarien's official YouTube streams."""
+    if known_ids is None:
+        known_ids = get_known_stream_ids()
+    return sum(
+        s.get("viewers", 0)
+        for sid, s in streams.items()
+        if _is_nerva_yt_official(sid, s, known_ids)
+    )
+
+
+def extract_nerva_costream_viewers(
+    streams: dict, known_ids: dict[str, set[str]] | None = None
+) -> int:
+    """Returns max viewers across Nervarien's secondary co-stream channels."""
+    if known_ids is None:
+        known_ids = get_known_stream_ids()
+    candidates = [
+        s.get("viewers", 0)
+        for sid, s in streams.items()
+        if sid != "ttobias_lol"
+        and (
+            s.get("is_costream")
+            or s.get("is_curiosity")
+            or sid in known_ids["nerva_costream"]
+        )
+    ]
+    return max(candidates, default=0)
+
+
+def compute_trapezoidal_window_stats(
+    history: list[dict], value_fn, max_live_gap: float = 3600.0
+) -> dict:
+    """Computes physically accurate live duration, live average, peak, and watch-hours
+    by integrating over true timestamp intervals (Δt) with the trapezoidal rule.
+
+    Eliminates inflation caused by duplicate/irregular sampling cadences (e.g., 15s vs 5min).
+    """
+    parsed = []
+    for p in history:
+        ts_str = p.get("timestamp", "")
+        if not ts_str:
+            continue
+        try:
+            dt = datetime.strptime(ts_str.split(".")[0], "%Y-%m-%d %H:%M:%S")
+        except Exception:
+            continue
+        val = max(0, int(value_fn(p) or 0))
+        parsed.append((dt, ts_str, val))
+
+    active_pts = [(dt, ts_str, val) for (dt, ts_str, val) in parsed if val > 0]
+    if not active_pts:
+        return {
+            "is_live_any": False,
+            "start_time": "--",
+            "end_time": "--",
+            "points_count": 0,
+            "duration_hours": 0.0,
+            "duration_str": "0h 00m",
+            "peak": 0,
+            "peak_time": "--",
+            "live_avg": 0,
+            "watch_hours": 0,
+        }
+
+    first_ts = active_pts[0][1]
+    last_ts = active_pts[-1][1]
+    peak_val = 0
+    peak_time = "--"
+    for _, ts_str, v in active_pts:
+        if v > peak_val:
+            peak_val = v
+            peak_time = ts_str[11:16] if len(ts_str) >= 16 else ts_str
+
+    total_sec = 0.0
+    total_view_sec = 0.0
+
+    for i in range(len(parsed) - 1):
+        t1, _, v1 = parsed[i]
+        t2, _, v2 = parsed[i + 1]
+        dt = (t2 - t1).total_seconds()
+        if dt <= 0:
+            continue
+        if v1 > 0 and v2 > 0:
+            eff_dt = min(dt, max_live_gap)
+            total_sec += eff_dt
+            total_view_sec += ((v1 + v2) / 2.0) * eff_dt
+        elif v1 > 0 and v2 == 0:
+            eff_dt = min(dt, 30.0)
+            total_sec += eff_dt
+            total_view_sec += v1 * eff_dt
+        elif v1 == 0 and v2 > 0:
+            eff_dt = min(dt, 30.0)
+            total_sec += eff_dt
+            total_view_sec += v2 * eff_dt
+
+    # Edge case: only 1 isolated live point with zero adjacent duration
+    if total_sec <= 0 and active_pts:
+        total_sec = 15.0
+        total_view_sec = active_pts[0][2] * total_sec
+
+    duration_hours = total_sec / 3600.0
+    watch_hours = total_view_sec / 3600.0
+    live_avg = round(total_view_sec / total_sec) if total_sec > 0 else 0
+
+    dur_mins = round(duration_hours * 60)
+    dur_h = dur_mins // 60
+    dur_m = dur_mins % 60
+    dur_str = f"{dur_h}h {dur_m:02d}m"
+
+    return {
+        "is_live_any": True,
+        "start_time": first_ts[11:16] if len(first_ts) >= 16 else first_ts,
+        "end_time": last_ts[11:16] if len(last_ts) >= 16 else last_ts,
+        "points_count": len(active_pts),
+        "duration_hours": round(duration_hours, 2),
+        "duration_str": dur_str,
+        "peak": peak_val,
+        "peak_time": peak_time,
+        "live_avg": live_avg,
+        "watch_hours": round(watch_hours),
+    }
 
 
 def apply_adaptive_anomaly_detection(
@@ -84,15 +249,23 @@ def apply_adaptive_anomaly_detection(
                 in_spike = False
 
     if in_spike and (len(points) - 1 - spike_start <= 40):
-        spike_windows.append(
-            (
-                spike_start,
-                len(points) - 1,
-                base_start,
-                base_start,
-                len(points) - spike_start + 1,
-            )
+        # Only flatten an unfinished trailing surge if it jumped as an extreme vertical bot wall
+        step_jump = (
+            yt_raw_series[spike_start] - yt_raw_series[spike_start - 1]
+            if spike_start > 0
+            else 0
         )
+        end_val = yt_raw_series[-1]
+        if step_jump > 2000 and end_val >= base_start * 2.0:
+            spike_windows.append(
+                (
+                    spike_start,
+                    len(points) - 1,
+                    base_start,
+                    base_start,
+                    len(points) - spike_start + 1,
+                )
+            )
 
     for s_idx, e_idx, b_start, b_end, dur_steps in spike_windows:
         for idx in range(s_idx, min(e_idx + 1, len(points))):
@@ -154,11 +327,12 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
             }
         )
 
+    known_ids = get_known_stream_ids()
     cleaned = []
     for pt in points:
         ts_str = pt.get("timestamp", "")
-        # Drop any corrupted post-stream records (>15000 viewers after 03:00)
-        if ts_str >= "2026-11-04 03:05:00" and (
+        # Drop corrupted Day 1 post-stream VOD records strictly between 03:05 and 12:00 UTC on Nov 4
+        if "2026-11-04 03:05:00" <= ts_str < "2026-11-04 12:00:00" and (
             pt.get("goe_total", 0) > 10000 or pt.get("nerva_total", 0) > 15000
         ):
             continue
@@ -181,25 +355,7 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
                 streams[cid]["is_curiosity"] = True
 
         nerva_tw = streams.get("nervarien", {}).get("viewers", 0)
-        nerva_yt = 0
-        for sid, s in streams.items():
-            is_nerva_yt = (
-                s.get("group") == "NERVA" and s.get("platform") == "YouTube"
-            ) or sid in (
-                "SGAaZFSc3Zk",
-                "00uONX5EBiA",
-                "x3HI_AwFKEU",
-                "vxdgguSxRyE",
-                "MqZfKdM3ZXI",
-            )
-            if (
-                is_nerva_yt
-                and sid not in COSTREAM_STREAMS
-                and not s.get("is_costream")
-                and not s.get("is_curiosity")
-            ):
-                nerva_yt += s.get("viewers", 0)
-
+        nerva_yt = extract_nerva_yt_viewers(streams, known_ids=known_ids)
         nerva_tot = nerva_tw + nerva_yt
         p["nerva_total"] = nerva_tot
 
@@ -207,20 +363,10 @@ def filter_bot_attacks(points: list[dict], enabled: bool = True) -> list[dict]:
         yt_stream = None
         yt_stream_id = None
         for sid, s in streams.items():
-            if s.get("group") == "GOE" and s.get("platform") == "YouTube":
+            if _is_goe_yt_stream(sid, s, known_ids):
                 yt_stream = s
                 yt_stream_id = sid
                 break
-        if not yt_stream:
-            if "I2E60nEUXWo" in streams:
-                yt_stream = streams["I2E60nEUXWo"]
-                yt_stream_id = "I2E60nEUXWo"
-            elif "dKZGkF2mIDU" in streams:
-                yt_stream = streams["dKZGkF2mIDU"]
-                yt_stream_id = "dKZGkF2mIDU"
-            elif "@gadaja_" in streams:
-                yt_stream = streams["@gadaja_"]
-                yt_stream_id = "@gadaja_"
 
         tw_stream = streams.get("goe_stream")
 
@@ -570,187 +716,120 @@ def get_summary_stats(
             "tobias_costream_peak": 0,
             "tobias_costream_peak_time": "",
             "tobias_costream_avg": 0,
+            "tobias_peak": 0,
+            "tobias_peak_time": "",
+            "tobias_avg": 0,
+            "nerva_camp_peak": 0,
+            "nerva_camp_peak_time": "",
+            "nerva_camp_avg": 0,
             "camp_peak": 0,
             "camp_peak_time": "",
             "camp_avg": 0,
+            "yt_peak": 0,
+            "yt_peak_time": "",
+            "tw_peak": 0,
+            "tw_peak_time": "",
+            "yt_avg": 0,
+            "tw_avg": 0,
+            "yt_watch_hours": 0,
+            "tw_watch_hours": 0,
+            "goe_live_avg": 0,
+            "nerva_live_avg": 0,
+            "tobias_live_avg": 0,
+            "goe_watch_hours": 0,
+            "nerva_watch_hours": 0,
+            "tobias_watch_hours": 0,
         }
 
-    goe_peak = 0
-    goe_raw_peak = 0
-    nerva_peak = 0
-    goe_peak_time = ""
-    goe_raw_peak_time = ""
-    nerva_peak_time = ""
-    goe_sum = 0
-    nerva_sum = 0
-    goe_active_pts = 0
-    nerva_active_pts = 0
-    tobias_active_pts = 0
+    known_ids = get_known_stream_ids()
 
-    nerva_costream_peak = 0
-    nerva_costream_peak_time = ""
-    nerva_costream_sum = 0
+    def _goe_val(pt: dict) -> int:
+        clean = pt.get("goe_total", 0)
+        return clean if filter_bots else pt.get("goe_total_raw", clean)
 
-    tobias_costream_peak = 0
-    tobias_costream_peak_time = ""
-    tobias_costream_sum = 0
+    def _goe_raw_val(pt: dict) -> int:
+        return pt.get("goe_total_raw", pt.get("goe_total", 0))
 
-    camp_peak = 0
-    camp_peak_time = ""
-    camp_sum = 0
+    def _nerva_val(pt: dict) -> int:
+        return pt.get("nerva_total", 0)
 
-    yt_peak = 0
-    yt_peak_time = ""
-    tw_peak = 0
-    tw_peak_time = ""
+    def _yt_val(pt: dict) -> int:
+        eff, raw = extract_goe_yt_viewers(
+            pt.get("streams", {}), filter_bots=filter_bots, known_ids=known_ids
+        )
+        return eff
 
-    for pt in history:
-        gv_clean = pt.get("goe_total", 0)
-        gv_raw = pt.get("goe_total_raw", gv_clean)
-        gv = gv_clean if filter_bots else gv_raw
-        nv = pt.get("nerva_total", 0)
-        ts_short = pt.get("timestamp", "").split(" ")[-1]
-        if ":" in ts_short and len(ts_short) > 5:
-            ts_short = ts_short[:5]  # HH:MM
+    def _tw_val(pt: dict) -> int:
+        return pt.get("streams", {}).get("goe_stream", {}).get("viewers", 0)
 
-        if gv > goe_peak:
-            goe_peak = gv
-            goe_peak_time = ts_short
-        if gv_raw > goe_raw_peak:
-            goe_raw_peak = gv_raw
-            goe_raw_peak_time = ts_short
-        if nv > nerva_peak:
-            nerva_peak = nv
-            nerva_peak_time = ts_short
+    def _nc_val(pt: dict) -> int:
+        return extract_nerva_costream_viewers(
+            pt.get("streams", {}), known_ids=known_ids
+        )
 
-        goe_sum += gv
-        nerva_sum += nv
-        if gv > 0:
-            goe_active_pts += 1
-        if nv > 0:
-            nerva_active_pts += 1
+    def _tb_val(pt: dict) -> int:
+        return pt.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
 
-        # Co-stream metrics
-        streams = pt.get("streams", {})
+    def _camp_val(pt: dict) -> int:
+        return _nerva_val(pt) + _nc_val(pt)
 
-        # GoE YouTube vs Twitch peaks
-        tw_s = streams.get("goe_stream", {})
-        tw_v_pt = tw_s.get("viewers", 0)
-        yt_v_pt = 0
-        for sid, s in streams.items():
-            if sid != "goe_stream" and (
-                s.get("platform") == "YouTube"
-                or s.get("group") == "GOE"
-                or sid
-                in (
-                    "I2E60nEUXWo",
-                    "dKZGkF2mIDU",
-                    "jcO4IHpR7XE",
-                    "Zv_21UIAKAc",
-                    "_PfE0hBYM-o",
-                    "@gadaja_",
-                )
-            ):
-                yt_v_pt = s.get(
-                    "viewers" if filter_bots else "viewers_raw", s.get("viewers", 0)
-                )
-                break
-        if yt_v_pt > yt_peak:
-            yt_peak = yt_v_pt
-            yt_peak_time = ts_short
-        if tw_v_pt > tw_peak:
-            tw_peak = tw_v_pt
-            tw_peak_time = ts_short
-
-        nc_candidates = [
-            s.get("viewers", 0)
-            for sid, s in streams.items()
-            if sid != "ttobias_lol"
-            and (
-                s.get("is_costream")
-                or s.get("is_curiosity")
-                or sid
-                in (
-                    "woX6jXefVdw",
-                    "N3i_DQlKL_U",
-                    "d97hINx-EHU",
-                    "f4jsbC6bgNc",
-                    "aD1nB7lMtoY",
-                )
-            )
-        ]
-        nc_v = max(nc_candidates, default=0)
-
-        tb_v = streams.get("ttobias_lol", {}).get("viewers", 0)
-        if tb_v > 0:
-            tobias_active_pts += 1
-        # Obóz Nervariena jest liczony bez Tobiasza (Tobiasz to osobny obóz)
-        camp_v = nv + nc_v
-
-        if nc_v > nerva_costream_peak:
-            nerva_costream_peak = nc_v
-            nerva_costream_peak_time = ts_short
-        if tb_v > tobias_costream_peak:
-            tobias_costream_peak = tb_v
-            tobias_costream_peak_time = ts_short
-        if camp_v > camp_peak:
-            camp_peak = camp_v
-            camp_peak_time = ts_short
-
-        nerva_costream_sum += nc_v
-        tobias_costream_sum += tb_v
-        camp_sum += camp_v
+    goe_win = compute_trapezoidal_window_stats(history, _goe_val)
+    goe_raw_win = compute_trapezoidal_window_stats(history, _goe_raw_val)
+    nerva_win = compute_trapezoidal_window_stats(history, _nerva_val)
+    yt_win = compute_trapezoidal_window_stats(history, _yt_val)
+    tw_win = compute_trapezoidal_window_stats(history, _tw_val)
+    nc_win = compute_trapezoidal_window_stats(history, _nc_val)
+    tb_win = compute_trapezoidal_window_stats(history, _tb_val)
+    camp_win = compute_trapezoidal_window_stats(history, _camp_val)
 
     count = len(history)
-    start_ts = history[0].get("timestamp", "").split(" ")[-1]
-    end_ts = history[-1].get("timestamp", "").split(" ")[-1]
-    if ":" in start_ts and len(start_ts) > 5:
-        start_ts = start_ts[:5]
-    if ":" in end_ts and len(end_ts) > 5:
-        end_ts = end_ts[:5]
+    hist_start = history[0].get("timestamp", "").split(" ")[-1][:5]
+    hist_end = history[-1].get("timestamp", "").split(" ")[-1][:5]
+    start_ts = goe_win["start_time"] if goe_win["is_live_any"] else hist_start
+    end_ts = goe_win["end_time"] if goe_win["is_live_any"] else hist_end
 
     return {
         "count": count,
-        "goe_peak": goe_peak,
-        "nerva_peak": nerva_peak,
-        "goe_peak_time": goe_peak_time,
-        "nerva_peak_time": nerva_peak_time,
-        "goe_avg": round(goe_sum / count) if count > 0 else 0,
-        "nerva_avg": round(nerva_sum / count) if count > 0 else 0,
+        "goe_peak": goe_win["peak"],
+        "nerva_peak": nerva_win["peak"],
+        "goe_peak_time": goe_win["peak_time"],
+        "nerva_peak_time": nerva_win["peak_time"],
+        "goe_avg": goe_win["live_avg"],
+        "nerva_avg": nerva_win["live_avg"],
         "start_time": start_ts,
         "end_time": end_ts,
-        "goe_raw_peak": goe_raw_peak,
-        "goe_raw_peak_time": goe_raw_peak_time,
+        "goe_raw_peak": goe_raw_win["peak"],
+        "goe_raw_peak_time": goe_raw_win["peak_time"],
         "is_bot_filtered": filter_bots,
-        "nerva_costream_peak": nerva_costream_peak,
-        "nerva_costream_peak_time": nerva_costream_peak_time,
-        "nerva_costream_avg": round(nerva_costream_sum / count) if count > 0 else 0,
-        "tobias_costream_peak": tobias_costream_peak,
-        "tobias_costream_peak_time": tobias_costream_peak_time,
-        "tobias_costream_avg": round(tobias_costream_sum / count) if count > 0 else 0,
-        "tobias_peak": tobias_costream_peak,
-        "tobias_peak_time": tobias_costream_peak_time,
-        "tobias_avg": round(tobias_costream_sum / count) if count > 0 else 0,
-        "nerva_camp_peak": camp_peak,
-        "nerva_camp_peak_time": camp_peak_time,
-        "nerva_camp_avg": round(camp_sum / count) if count > 0 else 0,
-        "camp_peak": camp_peak,
-        "camp_peak_time": camp_peak_time,
-        "camp_avg": round(camp_sum / count) if count > 0 else 0,
-        "yt_peak": yt_peak,
-        "yt_peak_time": yt_peak_time,
-        "tw_peak": tw_peak,
-        "tw_peak_time": tw_peak_time,
-        "goe_live_avg": round(goe_sum / goe_active_pts) if goe_active_pts > 0 else 0,
-        "nerva_live_avg": round(nerva_sum / nerva_active_pts)
-        if nerva_active_pts > 0
-        else 0,
-        "tobias_live_avg": round(tobias_costream_sum / tobias_active_pts)
-        if tobias_active_pts > 0
-        else 0,
-        "goe_watch_hours": round(goe_sum * 15 / 3600),
-        "nerva_watch_hours": round(nerva_sum * 15 / 3600),
-        "tobias_watch_hours": round(tobias_costream_sum * 15 / 3600),
+        "nerva_costream_peak": nc_win["peak"],
+        "nerva_costream_peak_time": nc_win["peak_time"],
+        "nerva_costream_avg": nc_win["live_avg"],
+        "tobias_costream_peak": tb_win["peak"],
+        "tobias_costream_peak_time": tb_win["peak_time"],
+        "tobias_costream_avg": tb_win["live_avg"],
+        "tobias_peak": tb_win["peak"],
+        "tobias_peak_time": tb_win["peak_time"],
+        "tobias_avg": tb_win["live_avg"],
+        "nerva_camp_peak": camp_win["peak"],
+        "nerva_camp_peak_time": camp_win["peak_time"],
+        "nerva_camp_avg": camp_win["live_avg"],
+        "camp_peak": camp_win["peak"],
+        "camp_peak_time": camp_win["peak_time"],
+        "camp_avg": camp_win["live_avg"],
+        "yt_peak": yt_win["peak"],
+        "yt_peak_time": yt_win["peak_time"],
+        "tw_peak": tw_win["peak"],
+        "tw_peak_time": tw_win["peak_time"],
+        "yt_avg": yt_win["live_avg"],
+        "tw_avg": tw_win["live_avg"],
+        "yt_watch_hours": yt_win["watch_hours"],
+        "tw_watch_hours": tw_win["watch_hours"],
+        "goe_live_avg": goe_win["live_avg"],
+        "nerva_live_avg": nerva_win["live_avg"],
+        "tobias_live_avg": tb_win["live_avg"],
+        "goe_watch_hours": goe_win["watch_hours"],
+        "nerva_watch_hours": nerva_win["watch_hours"],
+        "tobias_watch_hours": tb_win["watch_hours"],
     }
 
 

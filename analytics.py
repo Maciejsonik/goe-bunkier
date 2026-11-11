@@ -8,7 +8,8 @@ import json
 import os
 from datetime import datetime
 
-from config import DAYS_CONFIG, STAGES_CONFIG
+from config import DAYS_CONFIG, STAGES_CONFIG, get_known_stream_ids
+from db import compute_trapezoidal_window_stats, extract_goe_yt_viewers
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -16,8 +17,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 def detect_streamer_window(history: list[dict], camp_key: str) -> dict:
     """Detects the exact active broadcasting window for a camp, eliminating offline penalties.
 
-    Returns true live average, watch-hours, peak, peak time, start, end, and duration.
+    Returns true live average, time-integrated watch-hours (Δt), peak, peak time,
+    start, end, and duration.
     """
+    known_ids = get_known_stream_ids()
+
     if camp_key == "GOE":
         get_v = lambda p: p.get("goe_total", 0)
     elif camp_key == "NERVA":
@@ -25,82 +29,17 @@ def detect_streamer_window(history: list[dict], camp_key: str) -> dict:
     elif camp_key == "TOBIASZ":
         get_v = lambda p: p.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
     elif camp_key == "GOE_YT":
-        get_v = lambda p: sum(
-            v.get("viewers", 0)
-            for sid, v in p.get("streams", {}).items()
-            if v.get("platform") == "YouTube"
-            and (
-                v.get("group") == "GOE"
-                or sid
-                in [
-                    "I2E60nEUXWo",
-                    "dKZGkF2mIDU",
-                    "jcO4IHpR7XE",
-                    "Zv_21UIAKAc",
-                    "_PfE0hBYM-o",
-                    "p7f_l6Volf8",
-                    "@gadaja_",
-                ]
-            )
-        )
+        get_v = lambda p: extract_goe_yt_viewers(
+            p.get("streams", {}), filter_bots=True, known_ids=known_ids
+        )[0]
     elif camp_key == "GOE_TW":
         get_v = lambda p: p.get("streams", {}).get("goe_stream", {}).get("viewers", 0)
     else:
         get_v = lambda p: 0
 
-    active_pts = [p for p in history if get_v(p) > 0]
-    if not active_pts:
-        return {
-            "camp": camp_key,
-            "is_live_any": False,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
-        }
-
-    first_ts = active_pts[0]["timestamp"]
-    last_ts = active_pts[-1]["timestamp"]
-    count_pts = len(active_pts)
-    duration_hours = count_pts * 15 / 3600
-
-    peak_val = 0
-    peak_time = "--"
-    total_viewers_sum = 0
-
-    for p in active_pts:
-        v = get_v(p)
-        total_viewers_sum += v
-        if v > peak_val:
-            peak_val = v
-            peak_time = p["timestamp"][11:16]
-
-    watch_hours = total_viewers_sum * 15 / 3600
-    live_avg = round(total_viewers_sum / count_pts) if count_pts > 0 else 0
-
-    dur_mins = round(duration_hours * 60)
-    dur_h = dur_mins // 60
-    dur_m = dur_mins % 60
-    dur_str = f"{dur_h}h {dur_m:02d}m"
-
-    return {
-        "camp": camp_key,
-        "is_live_any": True,
-        "start_time": first_ts[11:16],
-        "end_time": last_ts[11:16],
-        "points_count": count_pts,
-        "duration_hours": round(duration_hours, 2),
-        "duration_str": dur_str,
-        "peak": peak_val,
-        "peak_time": peak_time,
-        "live_avg": live_avg,
-        "watch_hours": round(watch_hours),
-    }
+    stats = compute_trapezoidal_window_stats(history, get_v)
+    stats["camp"] = camp_key
+    return stats
 
 
 def compute_match_analytics(day_id: str) -> dict:
@@ -161,6 +100,8 @@ def compute_match_analytics(day_id: str) -> dict:
         "score": cfg.get("score", ""),
         "winner": cfg.get("winner", ""),
         "stage": cfg.get("stage", "quarters"),
+        "is_finished": cfg.get("is_finished", False),
+        "schedule": cfg.get("schedule", {}),
         "disclaimers": cfg.get("disclaimers", []),
         "points_count": len(history),
         "total_peak": total_peak,
@@ -180,10 +121,11 @@ def compute_match_analytics(day_id: str) -> dict:
 
 
 def compute_stage_summary(stage_id: str, matches: list[dict]) -> dict:
-    """Aggregates a stage (Quarters, Semis, or All) across its constituent matches."""
+    """Aggregates a stage (Quarters, Semis, Finals, or All) across its constituent matches."""
     cfg = STAGES_CONFIG.get(stage_id, {})
     target_day_ids = cfg.get("days", [])
     stage_matches = [m for m in matches if m["day_id"] in target_day_ids]
+    played_matches = [m for m in stage_matches if m.get("points_count", 0) > 0]
 
     total_pts = sum(m["points_count"] for m in stage_matches)
 
@@ -210,14 +152,20 @@ def compute_stage_summary(stage_id: str, matches: list[dict]) -> dict:
     total_camp_peak = max((m["total_peak"] for m in stage_matches), default=0)
 
     # Identify which match produced the record peaks
-    best_match_goe = next(
-        (m for m in stage_matches if m["goe"]["peak"] == goe_peak), None
+    best_match_goe = (
+        next((m for m in stage_matches if m["goe"]["peak"] == goe_peak), None)
+        if goe_peak > 0
+        else None
     )
-    best_match_nerva = next(
-        (m for m in stage_matches if m["nerva"]["peak"] == nerva_peak), None
+    best_match_nerva = (
+        next((m for m in stage_matches if m["nerva"]["peak"] == nerva_peak), None)
+        if nerva_peak > 0
+        else None
     )
-    best_match_scene = next(
-        (m for m in stage_matches if m["total_peak"] == total_camp_peak), None
+    best_match_scene = (
+        next((m for m in stage_matches if m["total_peak"] == total_camp_peak), None)
+        if total_camp_peak > 0
+        else None
     )
 
     goe_share = round((goe_vh / total_vh) * 100, 1) if total_vh > 0 else 0.0
@@ -231,7 +179,8 @@ def compute_stage_summary(stage_id: str, matches: list[dict]) -> dict:
         "icon": cfg.get("icon", "📊"),
         "subtitle": cfg.get("subtitle", ""),
         "days": target_day_ids,
-        "matches_count": len(stage_matches),
+        "matches_count": len(played_matches),
+        "scheduled_matches_count": len(stage_matches),
         "total_points": total_pts,
         "total_watch_hours": total_vh,
         "total_scene_peak": total_camp_peak,

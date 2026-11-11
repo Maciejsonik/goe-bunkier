@@ -1604,6 +1604,15 @@
             margin-bottom: 2px;
         }
 
+        .match-stage-tag.finals {
+            color: #facc15;
+        }
+
+        .match-info-banner.finals {
+            border-left-color: #facc15;
+            background: linear-gradient(90deg, rgba(250, 204, 21, 0.08) 0%, rgba(16, 16, 22, 0.95) 60%);
+        }
+
         .match-teams {
             font-family: var(--font-heading);
             font-size: 18px;
@@ -2066,17 +2075,17 @@
                 </div>
             </div>
             <div class="header-controls">
-                <div class="api-status-pill" id="sync-pill" title="Czas do kolejnej automatycznej synchronizacji">
+                <div class="api-status-pill" id="sync-pill" title="Status synchronizacji danych">
                     <span class="api-dot" id="api-dot"></span>
-                    <span id="api-label">LIVE SYNC</span>
-                    <span id="sync-countdown" style="font-size: 11px; opacity: 0.8; margin-left: 2px;">• 30s</span>
+                    <span id="api-label">SYNC</span>
+                    <span id="sync-countdown" style="font-size: 11px; opacity: 0.8; margin-left: 2px;">• --</span>
                 </div>
                 <button id="header-twitch-btn" class="btn-primary btn-twitch-live"
                     onclick="toggleTwitchPlayer('goe_stream')">▶️ OGLĄDAJ BUNKIER (TWITCH)</button>
                 <button id="bot-filter-btn" class="btn-primary" onclick="toggleBotFilter()"
                     style="border-color: #4ade80; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">🛡️
                     Filtr botów: WŁ.</button>
-                <select id="auto-refresh-select" onchange="setupAutoRefresh()">
+                <select id="auto-refresh-select" onchange="userChangedAutoRefresh = true; setupAutoRefresh()">
                     <option value="0" selected>Auto: wyłączone</option>
                     <option value="30">Auto: 30s</option>
                     <option value="60">Auto: 60s</option>
@@ -2165,7 +2174,7 @@
                             </button>
                             <button class="segmented-btn stage-tab-btn" id="stage-tab-tournament"
                                 onclick="switchStage('tournament')">
-                                🏆 Cały Turniej (1–6)
+                                🏆 Cały Turniej (1–7)
                             </button>
                         </div>
                     </div>
@@ -2654,6 +2663,7 @@
         let countdownTimerInterval = null;
         let refreshSecondsRemaining = 30;
         let refreshCountdownInterval = null;
+        let userChangedAutoRefresh = false;
 
         /* --- STAGE STATE --- */
         let tournamentAnalyticsData = null;
@@ -2669,7 +2679,8 @@
             if (now < '2026-11-06T12:00:00Z') return 'day-3';
             if (now < '2026-11-07T12:00:00Z') return 'day-4';
             if (now < '2026-11-08T12:00:00Z') return 'day-5';
-            return 'day-6';
+            if (now < '2026-11-09T12:00:00Z') return 'day-6';
+            return 'day-7';
         }
         let currentDayId = computeDefaultDayId();
 
@@ -2759,14 +2770,17 @@
                 fill: false,
                 isTwitch: false,
                 getValue: (pt, fb) => {
+                    let sum = 0;
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (sid === 'I2E60nEUXWo' || sid === 'dKZGkF2mIDU' || sid === 'jcO4IHpR7XE' || sid === 'Zv_21UIAKAc' || sid === '_PfE0hBYM-o' || sid === 'p7f_l6Volf8' || sid === '@gadaja_' || STREAM_METADATA[sid]?.platform === 'YouTube' && STREAM_METADATA[sid]?.group === 'GOE') {
-                            return fb ? (s.viewers || 0) : (s.viewers_raw || s.viewers || 0);
+                        const grp = s.group || STREAM_METADATA[sid]?.group;
+                        const plat = s.platform || STREAM_METADATA[sid]?.platform;
+                        if (sid !== 'goe_stream' && grp === 'GOE' && plat === 'YouTube') {
+                            sum += fb ? (s.viewers || 0) : (s.viewers_raw ?? s.viewers ?? 0);
                         }
                     }
-                    return 0;
+                    return sum;
                 },
-                getStreamObj: (d) => (d?.groups?.GOE?.streams || []).find(s => s.platform === 'YouTube')
+                getStreamObj: (d) => (d?.groups?.GOE?.streams || []).find(s => s.platform === 'YouTube' && s.is_live) || (d?.groups?.GOE?.streams || []).find(s => s.platform === 'YouTube')
             },
             'goe_tw': {
                 id: 'goe_tw',
@@ -2828,14 +2842,18 @@
                 fill: false,
                 isTwitch: false,
                 getValue: (pt) => {
+                    let sum = 0;
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (STREAM_METADATA[sid]?.group === 'NERVA' && STREAM_METADATA[sid]?.platform === 'YouTube' && !STREAM_METADATA[sid]?.is_costream && !STREAM_METADATA[sid]?.is_curiosity) {
-                            return s.viewers || 0;
+                        const grp = s.group || STREAM_METADATA[sid]?.group;
+                        const plat = s.platform || STREAM_METADATA[sid]?.platform;
+                        const isCs = !!(s.is_costream || s.is_curiosity || STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity);
+                        if (grp === 'NERVA' && plat === 'YouTube' && !isCs) {
+                            sum += s.viewers || 0;
                         }
                     }
-                    return 0;
+                    return sum;
                 },
-                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => s.platform === 'YouTube' && !s.is_costream && !s.is_curiosity)
+                getStreamObj: (d) => (d?.groups?.NERVA?.streams || []).find(s => s.platform === 'YouTube' && !s.is_costream && !s.is_curiosity && s.is_live) || (d?.groups?.NERVA?.streams || []).find(s => s.platform === 'YouTube' && !s.is_costream && !s.is_curiosity)
             },
             'nerva_yt_costream': {
                 id: 'nerva_yt_costream',
@@ -2851,7 +2869,8 @@
                 getValue: (pt) => {
                     let maxV = 0;
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (sid !== 'ttobias_lol' && (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U' || sid === 'd97hINx-EHU' || sid === 'f4jsbC6bgNc' || sid === 'aD1nB7lMtoY')) {
+                        const isCs = !!(s.is_costream || s.is_curiosity || STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity);
+                        if (sid !== 'ttobias_lol' && isCs) {
                             const v = s.viewers || 0;
                             if (v > maxV) maxV = v;
                         }
@@ -2875,7 +2894,8 @@
                     let sum = pt.nerva_total || 0;
                     let maxCs = 0;
                     for (const [sid, s] of Object.entries(pt.streams || {})) {
-                        if (sid !== 'ttobias_lol' && (STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity || sid === 'woX6jXefVdw' || sid === 'N3i_DQlKL_U' || sid === 'd97hINx-EHU' || sid === 'f4jsbC6bgNc' || sid === 'aD1nB7lMtoY')) {
+                        const isCs = !!(s.is_costream || s.is_curiosity || STREAM_METADATA[sid]?.is_costream || STREAM_METADATA[sid]?.is_curiosity);
+                        if (sid !== 'ttobias_lol' && isCs) {
                             const v = s.viewers || 0;
                             if (v > maxCs) maxCs = v;
                         }
@@ -3085,6 +3105,49 @@
         }
 
         /* --- MASTER CHART INITIALIZATION & UPDATE --- */
+        const eventMarkersPlugin = {
+            id: 'eventMarkers',
+            afterDatasetsDraw(chart) {
+                const events = rawData?.events || [];
+                const labels = chart.data?.labels || [];
+                if (!events.length || !labels.length || !chart.chartArea) return;
+
+                const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
+                ctx.save();
+                events.forEach(ev => {
+                    if (!ev.time) return;
+                    const idx = labels.findIndex(lbl => lbl.startsWith(ev.time));
+                    if (idx < 0) return;
+                    const xPos = x.getPixelForValue(idx);
+                    if (isNaN(xPos)) return;
+
+                    ctx.beginPath();
+                    ctx.setLineDash([4, 4]);
+                    ctx.strokeStyle = 'rgba(250, 204, 21, 0.55)';
+                    ctx.lineWidth = 1.5;
+                    ctx.moveTo(xPos, top + 18);
+                    ctx.lineTo(xPos, bottom);
+                    ctx.stroke();
+
+                    ctx.setLineDash([]);
+                    const tag = ev.label || ev.time;
+                    ctx.font = '700 10px Rajdhani, sans-serif';
+                    const tw = ctx.measureText(tag).width + 10;
+                    const bx = Math.min(Math.max(xPos - tw / 2, chart.chartArea.left), chart.chartArea.right - tw);
+                    ctx.fillStyle = 'rgba(20, 20, 26, 0.9)';
+                    ctx.fillRect(bx, top + 2, tw, 15);
+                    ctx.strokeStyle = 'rgba(250, 204, 21, 0.7)';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(bx, top + 2, tw, 15);
+                    ctx.fillStyle = '#facc15';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(tag, bx + tw / 2, top + 9.5);
+                });
+                ctx.restore();
+            }
+        };
+
         function initMasterChart() {
             const ctx = document.getElementById('mainChart');
             if (!ctx) return;
@@ -3092,6 +3155,7 @@
             masterChartInstance = new Chart(ctx.getContext('2d'), {
                 type: 'line',
                 data: { labels: [], datasets: [] },
+                plugins: [eventMarkersPlugin],
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -3260,23 +3324,25 @@
             }
         }
 
-        function startCountdownTimer(targetIso) {
+        function startCountdownTimer(targetIso, startTimeLabel = '19:00') {
             stopCountdownTimer();
             function render() {
                 const totalEl = document.getElementById('goe-hero-total');
                 if (!totalEl) return;
                 const diff = new Date(targetIso).getTime() - Date.now();
-                if (diff <= 0) {
+                if (isNaN(diff) || diff <= 0) {
                     totalEl.innerHTML = `<span style="font-size: 26px; color: #ff0033; letter-spacing: 1px;">OCZEKIWANIE NA START TRANSMISJI</span>`;
                     return;
                 }
-                const h = Math.floor(diff / 3600000);
+                const days = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
                 const m = Math.floor((diff % 3600000) / 60000);
                 const s = Math.floor((diff % 60000) / 1000);
                 const hStr = String(h).padStart(2, '0');
                 const mStr = String(m).padStart(2, '0');
                 const sStr = String(s).padStart(2, '0');
-                totalEl.innerHTML = `<span style="font-size: 13px; color: #a1a1aa; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px;">DO STARTU BUNKRA (21:30):</span><span style="font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: 2px;">${hStr}:${mStr}:${sStr}</span>`;
+                const dayPrefix = days > 0 ? `<span style="color: #facc15; margin-right: 10px;">${days} ${days === 1 ? 'dzień' : 'dni'}</span>` : '';
+                totalEl.innerHTML = `<span style="font-size: 13px; color: #a1a1aa; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px;">DO STARTU BUNKRA (${startTimeLabel} CET):</span><span style="font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: 2px;">${dayPrefix}${hStr}:${mStr}:${sStr}</span>`;
             }
             render();
             countdownTimerInterval = setInterval(render, 1000);
@@ -3307,20 +3373,41 @@
         function updateUI() {
             if (!rawData) return;
 
+            const isFinished = !!rawData.is_finished;
+            const isLive = !isFinished && !!rawData.is_live;
+            const isFinals = rawData.stage === 'finals';
+            const sched = rawData.schedule || {};
+
             // 0. Match Info Banner
             const matchBanner = document.getElementById('match-info-banner');
             if (matchBanner) {
                 if (rawData.match) {
                     matchBanner.style.display = 'flex';
+                    matchBanner.classList.toggle('finals', isFinals);
                     const stageTag = document.getElementById('match-stage-tag');
                     const teamsTitle = document.getElementById('match-teams-title');
                     const scoreBadge = document.getElementById('match-score-badge');
                     const winnerNote = document.getElementById('match-winner-note');
 
-                    if (stageTag) stageTag.innerText = `${rawData.stage === 'semis' ? '🔥 Półfinał' : '🥊 Ćwierćfinał'} Worlds 2026`;
+                    if (stageTag) {
+                        stageTag.classList.toggle('finals', isFinals);
+                        stageTag.innerText = isFinals
+                            ? '👑 Wielki Finał Worlds 2026'
+                            : `${rawData.stage === 'semis' ? '🔥 Półfinał' : '🥊 Ćwierćfinał'} Worlds 2026`;
+                    }
                     if (teamsTitle) teamsTitle.innerText = rawData.match;
                     if (scoreBadge) scoreBadge.innerText = rawData.score || '- : -';
-                    if (winnerNote) winnerNote.innerHTML = `🏆 Zwycięzca: <strong>${rawData.winner || 'TBD'}</strong>`;
+                    if (winnerNote) {
+                        if (rawData.winner && rawData.winner !== 'TBD') {
+                            winnerNote.style.color = '#4ade80';
+                            winnerNote.innerHTML = `🏆 Zwycięzca: <strong>${rawData.winner}</strong>`;
+                        } else {
+                            winnerNote.style.color = '#facc15';
+                            const venue = sched.venue || 'Barclays Center, Nowy Jork';
+                            const mStart = sched.match_start || '20:00';
+                            winnerNote.innerHTML = `📍 ${venue} • <strong>14.11, ${mStart} CET</strong>`;
+                        }
+                    }
                 } else {
                     matchBanner.style.display = 'none';
                 }
@@ -3342,6 +3429,7 @@
                         else if (d.includes('API') || d.includes('timeout')) icon = '🔄';
                         else if (d.includes('Rekord') || d.includes('rekord')) icon = '🏆';
                         else if (d.includes('Wygładzono') || d.includes('zacięcie') || d.includes('obcięto')) icon = '🧹';
+                        else if (d.includes('Ceremonia') || d.includes('Barclays')) icon = '👑';
                         return `<li class="disclaimer-item"><span class="disclaimer-bullet">${icon}</span><span>${d}</span></li>`;
                     }).join('');
 
@@ -3360,8 +3448,6 @@
                 }
             }
 
-            const isFinished = !!rawData.is_finished;
-            const isLive = !isFinished && !!rawData.is_live;
             const summaryStats = (filterBots ? rawData.summary_stats : rawData.summary_stats_raw) || rawData.summary_stats || {};
 
             const stGoe = rawData.groups?.GOE?.streams || [];
@@ -3369,6 +3455,10 @@
 
             const goeTotalLive = stGoe.reduce((acc, s) => acc + (s.viewers || 0), 0);
             const nervaTotalLive = stNervaOff.reduce((acc, s) => acc + (s.viewers || 0), 0);
+
+            const goeStartStr = sched.goe_start || '19:00';
+            const nervaStartStr = sched.nerva_start || '19:30';
+            const matchStartStr = sched.match_start || '20:00';
 
             // 1. GoE Hero Box
             const heroTotalEl = document.getElementById('goe-hero-total');
@@ -3397,13 +3487,13 @@
                 if (heroPeakEl) heroPeakEl.innerText = `Pik: ${(summaryStats.goe_peak || goeTotalLive).toLocaleString('pl-PL')}`;
                 renderDelta('goe-hero-momentum', rawData.momentum?.goe, 5);
             } else {
-                // Scheduled day (e.g. Day 2 before 21:30 CET)
-                const goeStart = rawData.goe_start_time || '2026-11-04T20:30:00Z';
-                startCountdownTimer(goeStart);
-                if (heroPeakEl) heroPeakEl.innerText = `Start: 21:30 CET`;
+                // Scheduled day (e.g. Finals countdown before goe_start_iso)
+                const goeStartIso = sched.goe_start_iso || rawData.goe_start_time || '2026-11-14T19:00:00+01:00';
+                startCountdownTimer(goeStartIso, goeStartStr);
+                if (heroPeakEl) heroPeakEl.innerText = `Start Bunkra: ~${goeStartStr} CET • Mecz: ${matchStartStr} CET`;
                 if (heroMomentumEl) {
                     heroMomentumEl.className = 'momentum-badge';
-                    heroMomentumEl.innerText = '⏳ Oczekiwanie na start';
+                    heroMomentumEl.innerText = isFinals ? '👑 Oczekiwanie na Wielki Finał' : '⏳ Oczekiwanie na start';
                 }
             }
 
@@ -3419,9 +3509,11 @@
             if (isFinished) {
                 const ytP = summaryStats.yt_peak || 0;
                 const twP = summaryStats.tw_peak || 0;
-                const totGoeP = ytP + twP;
-                const ytPct = totGoeP > 0 ? ((ytP / totGoeP) * 100).toFixed(1) : 50;
-                const twPct = totGoeP > 0 ? ((twP / totGoeP) * 100).toFixed(1) : 50;
+                const ytWh = summaryStats.yt_watch_hours ?? ytP;
+                const twWh = summaryStats.tw_watch_hours ?? twP;
+                const totWh = ytWh + twWh;
+                const ytPct = totWh > 0 ? ((ytWh / totWh) * 100).toFixed(1) : '50.0';
+                const twPct = totWh > 0 ? (100 - parseFloat(ytPct)).toFixed(1) : '50.0';
 
                 if (ytEl) ytEl.innerText = `${ytP.toLocaleString('pl-PL')} pik`;
                 if (twEl) twEl.innerText = `${twP.toLocaleString('pl-PL')} pik`;
@@ -3488,11 +3580,12 @@
                 // Update document tab title
                 document.title = `🔴 GoE ${goeTotalLive.toLocaleString('pl-PL')} vs ${nervaTotalLive.toLocaleString('pl-PL')} | #bunkier`;
             } else {
-                if (ctxSummary) ctxSummary.innerText = `Pojedynek wieczoru: GoE (start 21:30) vs Nervarien (przewidywany start ~22:30)`;
-                if (ctxScore) ctxScore.innerText = `Mecz ćwierćfinałowy: 23:00 CET`;
+                const matchLabel = isFinals ? `Wielki Finał (${rawData.match_short || 'BLG vs Gen.G'})` : (rawData.stage === 'semis' ? 'Półfinał' : 'Mecz');
+                if (ctxSummary) ctxSummary.innerText = `Pojedynek wieczoru: GoE (start ~${goeStartStr}) vs Nervarien (przewidywany start ~${nervaStartStr})`;
+                if (ctxScore) ctxScore.innerText = `${matchLabel}: ${rawData.day_date === '2026-11-14' ? '14.11 • ' : ''}${matchStartStr} CET`;
                 if (barLeft) barLeft.style.width = `50%`;
                 if (barRight) barRight.style.width = `50%`;
-                document.title = `⏳ Odliczanie do 21:30 | Co-stream GoE #bunkier`;
+                document.title = `⏳ ${rawData.match_short || 'Finał'} (${matchStartStr} CET) | Co-stream GoE #bunkier`;
             }
 
             renderChannelsGrid();
@@ -3552,6 +3645,7 @@
             const container = document.getElementById('day-tabs-container');
             if (!container) return;
             container.innerHTML = '';
+            const todayStr = new Date().toISOString().slice(0, 10);
 
             days.forEach(d => {
                 const isCurrent = !currentStageId && (d.id === currentDayId);
@@ -3560,8 +3654,21 @@
                 btn.className = `segmented-btn ${isCurrent ? 'active' : ''}`;
                 btn.onclick = () => switchDay(d.id);
 
-                const statusClass = d.is_finished ? 'day-dot-finished' : (d.is_active ? 'day-dot-live' : 'day-dot-upcoming');
-                const tagText = d.is_finished ? 'Zakończony' : (d.is_active ? (rawData && rawData.is_live ? 'Na żywo' : 'Dzisiejszy') : 'Nadchodzący');
+                const isThisDayLive = !d.is_finished && (rawData && rawData.day_id === d.id && rawData.is_live);
+                const statusClass = d.is_finished
+                    ? 'day-dot-finished'
+                    : (isThisDayLive ? 'day-dot-live' : 'day-dot-upcoming');
+
+                let tagText = 'Nadchodzący';
+                if (d.is_finished) {
+                    tagText = 'Zakończony';
+                } else if (isThisDayLive) {
+                    tagText = 'Na żywo';
+                } else if (d.date === todayStr) {
+                    tagText = 'Dzisiejszy';
+                } else if (d.stage === 'finals') {
+                    tagText = `14.11 • ${d.schedule?.match_start || '20:00'}`;
+                }
 
                 btn.innerHTML = `
                     <span class="day-dot ${statusClass}"></span>
@@ -3616,12 +3723,14 @@
                 const timeStr = rawData ? rawData.timestamp : '';
                 document.getElementById('last-updated').innerText = `W KIELECKIM STUDIU • ${(rawData && rawData.day_name) || ''} • Ostatni pomiar: ${timeStr} • Próbek: ${fullHistory.length}`;
 
-                // Update live / archive status pill
-                const isDayLive = rawData && !rawData.is_finished && !!rawData.is_live;
+                // Update live / pre-match / archive status pill & smart auto-refresh
+                const isDayFinished = !!(rawData && rawData.is_finished);
+                const isDayLive = !!(rawData && !isDayFinished && rawData.is_live);
                 const dotEl = document.getElementById('api-dot');
                 const labelEl = document.getElementById('api-label');
                 const pillEl = document.getElementById('sync-pill');
                 const twitchBtn = document.getElementById('header-twitch-btn');
+                const selectEl = document.getElementById('auto-refresh-select');
 
                 if (isDayLive) {
                     if (dotEl) {
@@ -3634,6 +3743,22 @@
                         twitchBtn.innerText = '▶️ OGLĄDAJ BUNKIER (TWITCH)';
                         twitchBtn.classList.add('btn-twitch-live');
                     }
+                    if (selectEl && !userChangedAutoRefresh && selectEl.value === '0') {
+                        selectEl.value = '30';
+                        setupAutoRefresh();
+                    }
+                } else if (!isDayFinished) {
+                    if (dotEl) {
+                        dotEl.style.background = '#facc15';
+                        dotEl.style.boxShadow = '0 0 6px rgba(250, 204, 21, 0.5)';
+                    }
+                    if (labelEl) labelEl.innerText = rawData?.stage === 'finals' ? 'FINAŁ 14.11' : 'OCZEKIWANIE';
+                    if (pillEl) pillEl.title = 'Oczekiwanie na start transmisji';
+                    if (twitchBtn) {
+                        twitchBtn.innerText = '📺 KANAŁ TWITCH';
+                        twitchBtn.classList.remove('btn-twitch-live');
+                    }
+                    updateRefreshProgressUI();
                 } else {
                     if (dotEl) {
                         dotEl.style.background = '#64748b';
@@ -3645,6 +3770,7 @@
                         twitchBtn.innerText = '📺 KANAŁ TWITCH';
                         twitchBtn.classList.remove('btn-twitch-live');
                     }
+                    updateRefreshProgressUI();
                 }
             } catch (err) {
                 console.error("Load day data error:", err);
@@ -3676,7 +3802,7 @@
             const sActive = document.getElementById('single-day-active-series');
             if (sPresets) sPresets.style.display = 'none';
             if (sDiv) sDiv.style.display = 'none';
-            if (sActive) sActive.innerHTML = `<span>Widok:</span> <strong style="color: #ffffff;">${stageId === 'tournament' ? 'Cały Turniej (Dni 1–6)' : (stageId === 'semis' ? 'Półfinały (Dni 5–6)' : 'Ćwierćfinały (Dni 1–4)')}</strong>`;
+            if (sActive) sActive.innerHTML = `<span>Widok:</span> <strong style="color: #ffffff;">${stageId === 'tournament' ? 'Cały Turniej (Dni 1–7)' : (stageId === 'semis' ? 'Półfinały (Dni 5–6)' : 'Ćwierćfinały (Dni 1–4)')}</strong>`;
 
             // Load analytics if needed
             if (!tournamentAnalyticsData) {
@@ -3737,13 +3863,25 @@
             // Header match pills
             const pillsContainer = document.getElementById('stage-matches-pills');
             if (pillsContainer) {
-                pillsContainer.innerHTML = (stage.matches || []).map(m => `
-                    <div class="stage-match-pill" onclick="switchDay('${m.day_id}')" title="Kliknij, aby otworzyć szczegóły dnia ${m.name}">
-                        <span>${m.match_short}</span>
-                        <span class="pill-score">${m.score}</span>
-                        <span style="font-size: 11px; color: #a1a1aa;">(${m.winner})</span>
-                    </div>
-                `).join('');
+                pillsContainer.innerHTML = (stage.matches || []).map(m => {
+                    const isUnplayed = (m.points_count || 0) === 0;
+                    if (isUnplayed) {
+                        return `
+                            <div class="stage-match-pill" onclick="switchDay('${m.day_id}')" title="Kliknij, aby otworzyć zapowiedź dnia ${m.name}" style="border-color: rgba(250, 204, 21, 0.5);">
+                                <span>${m.match_short}</span>
+                                <span class="pill-score" style="color: #facc15;">14.11</span>
+                                <span style="font-size: 11px; color: #facc15;">(${m.schedule?.match_start || '20:00'})</span>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="stage-match-pill" onclick="switchDay('${m.day_id}')" title="Kliknij, aby otworzyć szczegóły dnia ${m.name}">
+                            <span>${m.match_short}</span>
+                            <span class="pill-score">${m.score || '-:-'}</span>
+                            <span style="font-size: 11px; color: #a1a1aa;">(${m.winner || 'Live'})</span>
+                        </div>
+                    `;
+                }).join('');
             }
 
             // 2. Top 4 KPIs
@@ -3799,6 +3937,31 @@
             const tbody = document.getElementById('stage-matches-table-body');
             if (tbody) {
                 tbody.innerHTML = (stage.matches || []).map(m => {
+                    const isUnplayed = (m.points_count || 0) === 0;
+                    if (isUnplayed) {
+                        return `
+                            <tr style="background: rgba(250, 204, 21, 0.04);">
+                                <td>
+                                    <strong style="color: #facc15; font-size: 14px;">👑 ${m.match}</strong>
+                                    <div style="font-size: 11px; color: var(--text-muted);">${m.name} • ${m.date}</div>
+                                </td>
+                                <td>
+                                    <span class="match-score-badge" style="font-size: 14px; padding: 2px 8px; border-color: #facc15; color: #facc15;">20:00 CET</span>
+                                </td>
+                                <td>
+                                    <strong style="color: #facc15;">Oczekuje</strong>
+                                </td>
+                                <td><span style="color: var(--text-dim);">--</span></td>
+                                <td><span style="color: var(--text-dim);">--</span></td>
+                                <td><span style="color: var(--text-dim);">--</span></td>
+                                <td><span style="color: var(--text-dim);">--</span></td>
+                                <td><span style="color: var(--text-dim);">--</span></td>
+                                <td>
+                                    <button class="card-action-btn" onclick="switchDay('${m.day_id}')" style="color: #facc15;">Odliczanie ↗</button>
+                                </td>
+                            </tr>
+                        `;
+                    }
                     const mTotWatch = m.total_watch_hours || 1;
                     const goeShare = (((m.goe?.watch_hours || 0) / mTotWatch) * 100).toFixed(1);
                     return `
@@ -3808,10 +3971,10 @@
                                 <div style="font-size: 11px; color: var(--text-muted);">${m.name} • ${m.date}</div>
                             </td>
                             <td>
-                                <span class="match-score-badge" style="font-size: 16px; padding: 2px 8px;">${m.score}</span>
+                                <span class="match-score-badge" style="font-size: 16px; padding: 2px 8px;">${m.score || '-:-'}</span>
                             </td>
                             <td>
-                                <strong style="color: #4ade80;">${m.winner}</strong>
+                                <strong style="color: #4ade80;">${m.winner || 'W trakcie'}</strong>
                             </td>
                             <td>
                                 <span style="font-weight: 800; color: #ffffff;">${(m.total_peak || 0).toLocaleString('pl-PL')}</span>
@@ -3848,7 +4011,9 @@
                     });
                 });
                 if (allDisclaimers.length > 0) {
-                    discEl.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Korekty i disclaimery dla tego etapu:</span><br>` + allDisclaimers.map(d => `• ${d}`).join('<br>');
+                    discEl.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Korekty i adnotacje dla tego etapu:</span><br>` + allDisclaimers.map(d => `• ${d}`).join('<br>');
+                } else {
+                    discEl.innerHTML = `<span style="color: var(--text-dim);">Brak korekt lub zastrzeżeń dla tego etapu.</span>`;
                 }
             }
 
@@ -3860,7 +4025,9 @@
             const ctx = document.getElementById('stageComparisonChart');
             if (!ctx) return;
 
-            const matches = stage.matches || [];
+            const allMatches = stage.matches || [];
+            const played = allMatches.filter(m => (m.points_count || 0) > 0);
+            const matches = played.length > 0 ? played : allMatches;
             const labels = matches.map(m => m.match_short);
 
             let goeData = [], nervaData = [], tobiasData = [];
@@ -4027,10 +4194,13 @@
             const total = selectEl ? parseInt(selectEl.value, 10) : 0;
             const barEl = document.getElementById('refresh-progress-bar');
             const countdownEl = document.getElementById('sync-countdown');
-            const isDayLive = rawData && !rawData.is_finished && !!rawData.is_live;
+            const isDayFinished = !!(rawData && rawData.is_finished);
+            const isDayLive = !!(rawData && !isDayFinished && rawData.is_live);
 
             if (total === 0) {
-                if (countdownEl) countdownEl.innerText = isDayLive ? '• Wył.' : '• Statyczne';
+                if (countdownEl) {
+                    countdownEl.innerText = isDayLive ? '• Wył.' : (isDayFinished ? '• Statyczne' : '• Oczekuje');
+                }
                 if (barEl) barEl.style.width = '0%';
                 return;
             }
@@ -4091,7 +4261,7 @@
 
         async function copyLiveCardToClipboard() {
             try {
-                const activeDay = rawData?.active_day_id || 'day-5';
+                const activeDay = rawData?.active_day_id || 'day-7';
                 const cardUrl = (currentDayId === activeDay) ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
                 const resp = await fetch(cardUrl);
                 if (!resp.ok) throw new Error('Błąd ładowania pliku karty');
@@ -4107,13 +4277,13 @@
         }
 
         function downloadLiveCard() {
-            const activeDay = rawData?.active_day_id || 'day-6';
+            const activeDay = rawData?.active_day_id || 'day-7';
             const file = (currentDayId === activeDay) ? 'battle_card.png' : `battle_card_${currentDayId}.png`;
             window.open(file, '_blank');
         }
 
         function downloadSummaryCard(type = 'goe') {
-            const activeDay = rawData?.active_day_id || 'day-6';
+            const activeDay = rawData?.active_day_id || 'day-7';
             let file = '';
             if (type === 'goe') {
                 file = (currentDayId === activeDay) ? 'goe_summary.png' : `goe_summary_${currentDayId}.png`;
@@ -4126,7 +4296,7 @@
         }
 
         function downloadCSV() {
-            const activeDay = rawData?.active_day_id || 'day-6';
+            const activeDay = rawData?.active_day_id || 'day-7';
             const file = (currentDayId === activeDay) ? 'stream_data.csv' : `stream_data_${currentDayId}.csv`;
             window.open(file, '_blank');
         }

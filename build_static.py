@@ -79,6 +79,15 @@ def export_csv_from_history(history: list[dict], filepath: str):
         "nerva_costream_ciekawostka",
     ]
 
+    from config import get_known_stream_ids
+    from db import (
+        extract_goe_yt_viewers,
+        extract_nerva_costream_viewers,
+        extract_nerva_yt_viewers,
+    )
+
+    known_ids = get_known_stream_ids()
+
     with open(filepath, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -88,77 +97,21 @@ def export_csv_from_history(history: list[dict], filepath: str):
             # 1. GoE Twitch
             goe_tw_v = streams.get("goe_stream", {}).get("viewers", 0)
 
-            # 2. GoE YouTube
-            goe_yt_v = 0
-            goe_yt_raw_v = 0
-            for sid, s in streams.items():
-                if sid != "goe_stream" and (
-                    (s.get("group") == "GOE" and s.get("platform") == "YouTube")
-                    or sid
-                    in (
-                        "I2E60nEUXWo",
-                        "dKZGkF2mIDU",
-                        "jcO4IHpR7XE",
-                        "Zv_21UIAKAc",
-                        "_PfE0hBYM-o",
-                        "@gadaja_",
-                    )
-                ):
-                    goe_yt_v = s.get("viewers", 0)
-                    goe_yt_raw_v = s.get("viewers_raw", goe_yt_v)
-                    break
+            # 2. GoE YouTube (sum across any restarted/active YT streams)
+            goe_yt_v, goe_yt_raw_v = extract_goe_yt_viewers(
+                streams, filter_bots=True, known_ids=known_ids
+            )
 
             # 3. Nervarien Twitch
             nerva_tw_v = streams.get("nervarien", {}).get("viewers", 0)
 
             # 4. Nervarien Official YouTube
-            nerva_yt_v = 0
-            for vid in (
-                "SGAaZFSc3Zk",
-                "00uONX5EBiA",
-                "x3HI_AwFKEU",
-                "vxdgguSxRyE",
-                "MqZfKdM3ZXI",
-            ):
-                if vid in streams:
-                    nerva_yt_v = streams[vid].get("viewers", 0)
-                    break
-            if nerva_yt_v == 0:
-                for sid, s in streams.items():
-                    if (
-                        s.get("group") == "NERVA"
-                        and s.get("platform") == "YouTube"
-                        and not s.get("is_costream")
-                        and not s.get("is_curiosity")
-                    ):
-                        nerva_yt_v = s.get("viewers", 0)
-                        break
+            nerva_yt_v = extract_nerva_yt_viewers(streams, known_ids=known_ids)
 
             # 5. Co-streams (Nerva & Tobiasz)
-            cs_candidates = [
-                streams[vid].get("viewers", 0)
-                for vid in (
-                    "woX6jXefVdw",
-                    "N3i_DQlKL_U",
-                    "d97hINx-EHU",
-                    "f4jsbC6bgNc",
-                    "aD1nB7lMtoY",
-                )
-                if vid in streams
-            ]
-            if cs_candidates:
-                nerva_costream_v = max(cs_candidates)
-            else:
-                nerva_costream_v = max(
-                    [
-                        s.get("viewers", 0)
-                        for sid, s in streams.items()
-                        if sid != "ttobias_lol"
-                        and (s.get("is_costream") or s.get("is_curiosity"))
-                    ],
-                    default=0,
-                )
-
+            nerva_costream_v = extract_nerva_costream_viewers(
+                streams, known_ids=known_ids
+            )
             tobias_costream_v = streams.get("ttobias_lol", {}).get("viewers", 0)
 
             writer.writerow(
@@ -180,8 +133,62 @@ def export_csv_from_history(history: list[dict], filepath: str):
             )
 
 
+def _heal_transient_fetch_errors(data: dict, history: list[dict]) -> None:
+    """Prevents zero-viewer dips if a stream encountered a transient HTTP error
+    while the latest history snapshot (< 360s old) still had that stream live."""
+    if not history:
+        return
+    last_pt = history[-1]
+    try:
+        t_last = datetime.strptime(
+            last_pt["timestamp"].split(".")[0], "%Y-%m-%d %H:%M:%S"
+        )
+        t_curr = datetime.strptime(data["timestamp"].split(".")[0], "%Y-%m-%d %H:%M:%S")
+        if (t_curr - t_last).total_seconds() > 360:
+            return
+    except Exception:
+        return
+
+    prev_streams = last_pt.get("streams", {})
+    changed = False
+    for grp in data.get("groups", {}).values():
+        grp_sum = 0
+        for s in grp.get("streams", []):
+            sid = s.get("id")
+            if s.get("fetch_error") and sid in prev_streams:
+                prev_s = prev_streams[sid]
+                if prev_s.get("is_live") and prev_s.get("viewers", 0) > 0:
+                    s["is_live"] = True
+                    s["viewers"] = prev_s["viewers"]
+                    s["title"] = prev_s.get("title", s.get("title", ""))
+                    s["fetch_error"] = False
+                    changed = True
+            if s.get("is_live") and (
+                grp["id"] == "TOBIASZ"
+                or (not s.get("is_costream") and not s.get("is_curiosity"))
+            ):
+                grp_sum += s.get("viewers", 0)
+        grp["total_viewers"] = grp_sum
+
+    if changed:
+        goe_v = data.get("groups", {}).get("GOE", {}).get("total_viewers", 0)
+        nerva_v = data.get("groups", {}).get("NERVA", {}).get("total_viewers", 0)
+        tot = sum(g.get("total_viewers", 0) for g in data.get("groups", {}).values())
+        data["total_viewers"] = tot
+        data["diff"] = abs(goe_v - nerva_v)
+        data["leader"] = (
+            "GOE" if goe_v > nerva_v else ("NERVA" if nerva_v > goe_v else "REMIS")
+        )
+        data["ratio_goe"] = round((goe_v / tot * 100), 1) if tot > 0 else 50.0
+        data["ratio_nerva"] = round((nerva_v / tot * 100), 1) if tot > 0 else 50.0
+
+
 def build_day(
-    day_id: str, active_day: str, days_manifest: list[dict], force: bool = False
+    day_id: str,
+    active_day: str,
+    days_manifest: list[dict],
+    force: bool = False,
+    preloaded_data: dict | None = None,
 ) -> dict:
     """Builds static artifacts for a specific day."""
     print(f"\n==================== [Build: {day_id.upper()}] ====================")
@@ -207,7 +214,9 @@ def build_day(
     day_camps_raw_path = os.path.join(BASE_DIR, f"camps_summary_raw_{day_id}.png")
 
     # 1. Fetch current status of streams for this day (only scrape live for active day)
-    if is_active and not day_cfg.get("is_finished"):
+    if preloaded_data is not None and is_active and not day_cfg.get("is_finished"):
+        data = preloaded_data
+    elif is_active and not day_cfg.get("is_finished"):
         data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     elif day_cfg.get("is_finished") and os.path.exists(day_data_path):
         try:
@@ -271,6 +280,30 @@ def build_day(
                 "streams": streams_list,
             }
 
+    # 2. Load History for this day (before live append so we can heal transient fetch errors)
+    history = []
+    if os.path.exists(day_hist_path):
+        try:
+            with open(day_hist_path, "r", encoding="utf-8") as f:
+                history = json.load(f)
+        except Exception:
+            history = []
+
+    if os.path.exists(DB_PATH):
+        db_hist = get_detailed_history(limit=5000, day_id=day_id)
+        if not day_cfg.get("is_finished") and db_hist:
+            # Merge JSON + DB histories chronologically by timestamp so cloud backup & local points fuse
+            merged_by_ts = {}
+            for pt in history:
+                if pt.get("timestamp"):
+                    merged_by_ts[pt["timestamp"]] = pt
+            for pt in db_hist:
+                if pt.get("timestamp"):
+                    merged_by_ts[pt["timestamp"]] = pt
+            history = [merged_by_ts[k] for k in sorted(merged_by_ts.keys())]
+        elif len(db_hist) > len(history):
+            history = db_hist
+
     if day_cfg.get("is_finished"):
         any_live = False
         data["total_viewers"] = 0
@@ -282,6 +315,8 @@ def build_day(
                 s["is_live"] = False
                 s["viewers"] = 0
     else:
+        if is_active:
+            _heal_transient_fetch_errors(data, history)
         any_live = any(
             s.get("is_live", False)
             for grp in data["groups"].values()
@@ -289,21 +324,10 @@ def build_day(
             if not s.get("is_costream") and not s.get("is_curiosity")
         )
 
-    # 2. Load History for this day
-    history = []
-    if os.path.exists(day_hist_path):
-        try:
-            with open(day_hist_path, "r", encoding="utf-8") as f:
-                history = json.load(f)
-        except Exception:
-            history = []
-    if os.path.exists(DB_PATH):
-        db_hist = get_detailed_history(limit=5000, day_id=day_id)
-        if len(db_hist) > len(history):
-            history = db_hist
-
         if is_active and any_live:
-            save_snapshot(data, day_id=day_id)
+            if preloaded_data is None:
+                save_snapshot(data, day_id=day_id)
+
             all_s_map = {}
             for grp in data["groups"].values():
                 for s in grp.get("streams", []):
@@ -329,7 +353,7 @@ def build_day(
                     for sid, s in all_s_map.items()
                 },
             }
-            if not history or history[-1].get("timestamp") != new_point["timestamp"]:
+            if not history or history[-1].get("timestamp") < new_point["timestamp"]:
                 history.append(new_point)
 
     # 3. Clean history
@@ -349,6 +373,8 @@ def build_day(
     data["stage"] = day_cfg.get("stage", "quarters")
     data["disclaimers"] = day_cfg.get("disclaimers", [])
     data["schedule"] = day_cfg.get("schedule", {})
+    data["goe_start_time"] = day_cfg.get("schedule", {}).get("goe_start_iso", "")
+    data["events"] = day_cfg.get("events", [])
     data["is_finished"] = day_cfg.get("is_finished", False)
     data["is_active"] = is_active and not data["is_finished"]
     data["momentum"] = momentum
@@ -455,7 +481,11 @@ def build_day(
     }
 
 
-def build(force: bool = False):
+def build(
+    force: bool = False,
+    preloaded_data: dict | None = None,
+    preloaded_day_id: str | None = None,
+):
     import sys
 
     force = force or ("--force" in sys.argv)
@@ -491,8 +521,20 @@ def build(force: bool = False):
     for day_id in DAYS_CONFIG:
         # Force re-rendering only for active day unless global force
         day_force = force or (day_id == active_day)
+        day_preloaded = (
+            preloaded_data
+            if (
+                preloaded_data is not None
+                and day_id == (preloaded_day_id or active_day)
+            )
+            else None
+        )
         day_outputs[day_id] = build_day(
-            day_id, active_day, days_manifest, force=day_force
+            day_id,
+            active_day,
+            days_manifest,
+            force=day_force,
+            preloaded_data=day_preloaded,
         )
 
     # Mirror active day artifacts to standard root names for backward compatibility & GitHub Pages root
