@@ -41,6 +41,8 @@
             --card-border-hover: #ff0033;
             --nerva-purple: #a855f7;
             --nerva-light-purple: #c084fc;
+            --nerva-blue: #3b82f6;
+            --nerva-light-blue: #60a5fa;
             --tobias-orange: #f97316;
             --costream-amber: #f59e0b;
             --text-main: #ffffff;
@@ -1889,8 +1891,8 @@
         }
 
         .stage-camp-card.nerva {
-            border-color: var(--nerva-purple);
-            box-shadow: 0 0 24px rgba(168, 85, 247, 0.15);
+            border-color: var(--nerva-blue);
+            box-shadow: 0 0 24px rgba(59, 130, 246, 0.16);
         }
 
         .stage-camp-card.tobias {
@@ -2451,16 +2453,16 @@
                     <div class="stage-camp-card nerva">
                         <div class="stage-camp-header">
                             <div>
-                                <div class="stage-camp-name" style="color: var(--nerva-light-purple);">
+                                <div class="stage-camp-name" style="color: var(--nerva-light-blue);">
                                     <span class="live-dot"
-                                        style="background: var(--nerva-purple); box-shadow: 0 0 8px var(--nerva-purple);"></span>
+                                        style="background: var(--nerva-blue); box-shadow: 0 0 8px var(--nerva-blue);"></span>
                                     Obóz Nervariena
                                 </div>
                                 <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Nervarien +
                                     Co-streamerzy</div>
                             </div>
                             <div style="text-align: right;">
-                                <div class="stage-camp-share" style="color: var(--nerva-light-purple);"
+                                <div class="stage-camp-share" style="color: var(--nerva-light-blue);"
                                     id="stage-nerva-share">--%</div>
                                 <div
                                     style="font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
@@ -4065,10 +4067,10 @@
                         borderRadius: 4
                     },
                     {
-                        label: '🟣 Obóz Nervariena',
+                        label: '🔵 Obóz Nervariena',
                         data: nervaData,
-                        backgroundColor: 'rgba(168, 85, 247, 0.85)',
-                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(59, 130, 246, 0.85)',
+                        borderColor: '#3b82f6',
                         borderWidth: 1.5,
                         borderRadius: 4
                     },
@@ -4128,12 +4130,12 @@
             document.getElementById('stage-share-total-hrs').innerText = `${(stage.total_watch_hours || 0).toLocaleString('pl-PL')} h`;
 
             const chartData = {
-                labels: ['🔴 Bunkier GoE', '🟣 Obóz Nervariena', '🟠 Obóz Tobiasza'],
+                labels: ['🔴 Bunkier GoE', '🔵 Obóz Nervariena', '🟠 Obóz Tobiasza'],
                 datasets: [{
                     data: [ms.goe, ms.nerva, ms.tobias],
                     backgroundColor: [
                         '#ff0033',
-                        '#a855f7',
+                        '#3b82f6',
                         '#f97316'
                     ],
                     borderColor: '#0a0a0c',

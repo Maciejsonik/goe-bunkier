@@ -39,13 +39,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",  # Neon Blue
+                "color": "#ff0033",  # Neon Blue
                 "twitch": ["goe_stream"],
                 "youtube": ["I2E60nEUXWo"],
             },
             "NERVA": {
                 "name": "Nervarien & Co-streams",
-                "color": "#ef4444",  # Crimson Red
+                "color": "#3b82f6",  # Crimson Red
                 "twitch": ["nervarien"],
                 "youtube": ["SGAaZFSc3Zk", "woX6jXefVdw"],
             },
@@ -76,13 +76,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",  # Neon Blue
+                "color": "#ff0033",  # Neon Blue
                 "twitch": ["goe_stream"],
                 "youtube": ["dKZGkF2mIDU"],  # Ćwierćfinał Lyon vs Gen.G (04.11)
             },
             "NERVA": {
                 "name": "Nervarien",
-                "color": "#ef4444",  # Crimson Red
+                "color": "#3b82f6",  # Crimson Red
                 "twitch": ["nervarien"],
                 "youtube": ["00uONX5EBiA", "N3i_DQlKL_U"],
             },
@@ -122,13 +122,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",
+                "color": "#ff0033",
                 "twitch": ["goe_stream"],
                 "youtube": ["jcO4IHpR7XE"],
             },
             "NERVA": {
                 "name": "Nervarien",
-                "color": "#ef4444",
+                "color": "#3b82f6",
                 "twitch": ["nervarien"],
                 "youtube": ["x3HI_AwFKEU"],
             },
@@ -167,13 +167,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",
+                "color": "#ff0033",
                 "twitch": ["goe_stream"],
                 "youtube": ["Zv_21UIAKAc"],
             },
             "NERVA": {
                 "name": "Nervarien",
-                "color": "#ef4444",
+                "color": "#3b82f6",
                 "twitch": ["nervarien"],
                 "youtube": ["vxdgguSxRyE", "d97hINx-EHU"],
             },
@@ -212,13 +212,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",
+                "color": "#ff0033",
                 "twitch": ["goe_stream"],
                 "youtube": ["_PfE0hBYM-o"],
             },
             "NERVA": {
                 "name": "Nervarien",
-                "color": "#ef4444",
+                "color": "#3b82f6",
                 "twitch": ["nervarien"],
                 "youtube": ["MqZfKdM3ZXI", "f4jsbC6bgNc", "aD1nB7lMtoY"],
             },
@@ -257,13 +257,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",
+                "color": "#ff0033",
                 "twitch": ["goe_stream"],
                 "youtube": ["p7f_l6Volf8"],
             },
             "NERVA": {
                 "name": "Nervarien",
-                "color": "#ef4444",
+                "color": "#3b82f6",
                 "twitch": ["nervarien"],
                 "youtube": ["JiL6EGqs-74"],
             },
@@ -305,13 +305,13 @@ DAYS_CONFIG = {
         "groups": {
             "GOE": {
                 "name": "Gadają o Esporcie (GOE)",
-                "color": "#3b82f6",  # Neon Blue
+                "color": "#ff0033",  # Neon Blue
                 "twitch": ["goe_stream"],
                 "youtube": ["@gadaja_"],
             },
             "NERVA": {
                 "name": "Nervarien",
-                "color": "#ef4444",  # Crimson Red
+                "color": "#3b82f6",  # Crimson Red
                 "twitch": ["nervarien"],
                 "youtube": ["@nervarien"],
             },

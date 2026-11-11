@@ -104,18 +104,18 @@ def create_summary_card(
     )
 
     time_range = (
-        f"{stats.get('start_time', '')} — {stats.get('end_time', '')}"
+        f" • {stats.get('start_time', '')} — {stats.get('end_time', '')}"
         if stats.get("start_time")
-        else ""
+        else " • Oczekiwanie na start transmisji"
     )
     if mode == "GOE":
-        sub_title_text = f"w Kieleckim bunkrze • Widownia Co-stream GoE • {time_range}"
+        sub_title_text = f"w Kieleckim bunkrze • Widownia Co-stream GoE{time_range}"
     elif mode == "CAMPS":
         sub_title_text = (
-            f"w Kieleckim bunkrze • GoE vs Nervarien vs Tobiasz • {time_range}"
+            f"w Kieleckim bunkrze • GoE vs Nervarien vs Tobiasz{time_range}"
         )
     else:
-        sub_title_text = f"w Kieleckim bunkrze vs Nervarien • Porównanie • {time_range}"
+        sub_title_text = f"w Kieleckim bunkrze vs Nervarien • Porównanie{time_range}"
     draw.text(
         (width // 2, 182),
         sub_title_text,
@@ -151,12 +151,17 @@ def create_summary_card(
             default=0,
         )
 
+        goe_peak_sub = (
+            f"ŁĄCZNIE O {stats['goe_peak_time']}"
+            if stats.get("goe_peak_time")
+            else "NAJWYŻSZA WIDOWNIA"
+        )
         stat_items = [
             (
                 "PIK GOE",
                 f"{stats['goe_peak']:,}".replace(",", " "),
                 (255, 24, 36),
-                f"ŁĄCZNIE O {stats.get('goe_peak_time', '')}",
+                goe_peak_sub,
             ),
             (
                 "ŚREDNIA GOE",
@@ -207,19 +212,29 @@ def create_summary_card(
             return max(cs_vals, default=0)
 
         peak_costream = max((_get_costream_v(p) for p in history_points), default=0)
+        goe_peak_sub = (
+            f"ŁĄCZNIE O {stats['goe_peak_time']}"
+            if stats.get("goe_peak_time")
+            else "NAJWYŻSZA WIDOWNIA"
+        )
+        nerva_peak_sub = (
+            f"TWITCH + YT O {stats['nerva_peak_time']}"
+            if stats.get("nerva_peak_time")
+            else "TWITCH + YOUTUBE"
+        )
 
         stat_items = [
             (
                 "PIK GOE",
                 f"{stats['goe_peak']:,}".replace(",", " "),
                 (255, 24, 36),
-                f"ŁĄCZNIE O {stats.get('goe_peak_time', '')}",
+                goe_peak_sub,
             ),
             (
                 "PIK NERVA",
                 f"{stats['nerva_peak']:,}".replace(",", " "),
-                (255, 255, 255),
-                f"TWITCH + YT O {stats.get('nerva_peak_time', '')}",
+                (59, 130, 246),
+                nerva_peak_sub,
             ),
             (
                 "PIK TOBIASZ",
@@ -256,7 +271,7 @@ def create_summary_card(
             (
                 "PIK NERVA",
                 f"{stats['nerva_peak']:,}".replace(",", " "),
-                (255, 255, 255),
+                (59, 130, 246),
                 nerva_peak_sub,
             ),
             (
@@ -268,7 +283,7 @@ def create_summary_card(
             (
                 "ŚREDNIA NERVA",
                 f"{stats['nerva_avg']:,}".replace(",", " "),
-                (255, 255, 255),
+                (59, 130, 246),
                 "W TRAKCIE STREAMU",
             ),
         ]
@@ -314,109 +329,46 @@ def create_summary_card(
         width=1,
     )
 
-    # Legend depending on mode
+    # Legend depending on mode (right-aligned, vertically centered on swatches)
     if mode == "GOE":
-        # 3 legend items: GoE Łącznie, YouTube, Twitch
-        draw.rectangle(
-            [chart_x2 - 420, chart_y1 + 14, chart_x2 - 404, chart_y1 + 30],
-            fill=(255, 24, 36),
-        )
-        draw.text(
-            (chart_x2 - 395, chart_y1 + 14),
-            "GoE Łącznie",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
-
-        draw.rectangle(
-            [chart_x2 - 270, chart_y1 + 14, chart_x2 - 254, chart_y1 + 30],
-            fill=(239, 68, 68),
-        )
-        draw.text(
-            (chart_x2 - 245, chart_y1 + 14),
-            "YouTube",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
-
-        draw.rectangle(
-            [chart_x2 - 140, chart_y1 + 14, chart_x2 - 124, chart_y1 + 30],
-            fill=(145, 70, 255),
-        )
-        draw.text(
-            (chart_x2 - 115, chart_y1 + 14),
-            "Twitch",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
+        legend_items = [
+            ("GoE Łącznie", (255, 24, 36)),
+            ("YouTube", (239, 68, 68)),
+            ("Twitch", (145, 70, 255)),
+        ]
     elif mode == "CAMPS":
-        # 4 legend items: GOE, NERVA, TOBIASZ, CO-STREAM
-        draw.rectangle(
-            [chart_x2 - 460, chart_y1 + 14, chart_x2 - 444, chart_y1 + 30],
-            fill=(255, 24, 36),
-        )
-        draw.text(
-            (chart_x2 - 435, chart_y1 + 14),
-            "GOE",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
-
-        draw.rectangle(
-            [chart_x2 - 370, chart_y1 + 14, chart_x2 - 354, chart_y1 + 30],
-            fill=(255, 255, 255),
-        )
-        draw.text(
-            (chart_x2 - 345, chart_y1 + 14),
-            "NERVARIEN",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
-
-        draw.rectangle(
-            [chart_x2 - 230, chart_y1 + 14, chart_x2 - 214, chart_y1 + 30],
-            fill=(249, 115, 22),
-        )
-        draw.text(
-            (chart_x2 - 205, chart_y1 + 14),
-            "TOBIASZ",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
-
-        draw.rectangle(
-            [chart_x2 - 110, chart_y1 + 14, chart_x2 - 94, chart_y1 + 30],
-            fill=(245, 158, 11),
-        )
-        draw.text(
-            (chart_x2 - 85, chart_y1 + 14),
-            "CO-STREAM",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
+        legend_items = [
+            ("GOE", (255, 24, 36)),
+            ("NERVARIEN", (59, 130, 246)),
+            ("TOBIASZ", (249, 115, 22)),
+            ("CO-STREAM", (245, 158, 11)),
+        ]
     else:
-        # Comparison: GOE vs NERVARIEN
-        draw.rectangle(
-            [chart_x2 - 320, chart_y1 + 14, chart_x2 - 304, chart_y1 + 30],
-            fill=(255, 24, 36),
-        )
-        draw.text(
-            (chart_x2 - 295, chart_y1 + 14),
-            "GOE",
-            fill=(255, 255, 255),
-            font=font_legend,
-        )
+        legend_items = [
+            ("GOE", (255, 24, 36)),
+            ("NERVARIEN", (59, 130, 246)),
+        ]
 
-        draw.rectangle(
-            [chart_x2 - 180, chart_y1 + 14, chart_x2 - 164, chart_y1 + 30],
-            fill=(255, 255, 255),
-        )
+    legend_cy = chart_y1 + 25
+    cur_lx = chart_x2 - 30
+    for lbl, col in reversed(legend_items):
+        bbox = font_legend.getbbox(lbl)
+        lbl_w = bbox[2] - bbox[0]
+        cur_lx -= lbl_w
         draw.text(
-            (chart_x2 - 155, chart_y1 + 14),
-            "NERVARIEN",
+            (cur_lx, legend_cy),
+            lbl,
             fill=(255, 255, 255),
             font=font_legend,
+            anchor="lm",
         )
+        swatch_x2 = cur_lx - 8
+        swatch_x1 = swatch_x2 - 16
+        draw.rectangle(
+            [swatch_x1, legend_cy - 8, swatch_x2, legend_cy + 8],
+            fill=col,
+        )
+        cur_lx = swatch_x1 - 24
 
     # Plot area
     plot_x1 = chart_x1 + 75
@@ -433,15 +385,57 @@ def create_summary_card(
         width=1,
     )
 
-    if not history_points:
-        history_points = [
-            {"timestamp": "22:30:00", "goe_total": 2000, "nerva_total": 1000},
-            {"timestamp": "23:00:00", "goe_total": 2500, "nerva_total": 3000},
-        ]
-
+    has_history = bool(history_points)
     num_pts = len(history_points)
 
-    if mode == "GOE":
+    def _get_costream_v_pt(p):
+        cs_vals = [
+            s.get("viewers", 0)
+            for sid, s in p.get("streams", {}).items()
+            if sid != "ttobias_lol"
+            and (
+                s.get("is_costream")
+                or s.get("is_curiosity")
+                or sid
+                in (
+                    "woX6jXefVdw",
+                    "N3i_DQlKL_U",
+                    "d97hINx-EHU",
+                    "f4jsbC6bgNc",
+                    "aD1nB7lMtoY",
+                )
+            )
+        ]
+        return max(cs_vals, default=0)
+
+    def _draw_peak_callout(pk_x: int, pk_y: int, peak_val: int):
+        callout_text = f"PIK GOE: {peak_val:,}".replace(",", " ")
+        cb_bbox = font_callout.getbbox(callout_text)
+        cb_w = (cb_bbox[2] - cb_bbox[0]) + 24
+        cb_h = 26
+        cb_x1 = max(plot_x1 + 10, min(plot_x2 - cb_w - 10, pk_x - cb_w // 2))
+        cb_y1 = max(plot_y1 + 5, pk_y - 38)
+        draw.rounded_rectangle(
+            [cb_x1, cb_y1, cb_x1 + cb_w, cb_y1 + cb_h],
+            radius=4,
+            fill=(255, 24, 36),
+        )
+        draw.text(
+            (cb_x1 + cb_w // 2, cb_y1 + cb_h // 2),
+            callout_text,
+            fill=(255, 255, 255),
+            font=font_callout,
+            anchor="mm",
+        )
+        draw.line(
+            [(pk_x, pk_y), (pk_x, cb_y1 + cb_h)],
+            fill=(255, 24, 36),
+            width=2,
+        )
+
+    if not has_history:
+        max_v = 5000
+    elif mode == "GOE":
         max_v = max(
             (
                 (
@@ -454,27 +448,6 @@ def create_summary_card(
             default=100,
         )
     elif mode == "CAMPS":
-
-        def _get_costream_v_pt(p):
-            cs_vals = [
-                s.get("viewers", 0)
-                for sid, s in p.get("streams", {}).items()
-                if sid != "ttobias_lol"
-                and (
-                    s.get("is_costream")
-                    or s.get("is_curiosity")
-                    or sid
-                    in (
-                        "woX6jXefVdw",
-                        "N3i_DQlKL_U",
-                        "d97hINx-EHU",
-                        "f4jsbC6bgNc",
-                        "aD1nB7lMtoY",
-                    )
-                )
-            ]
-            return max(cs_vals, default=0)
-
         max_v = max(
             max(
                 (
@@ -525,8 +498,24 @@ def create_summary_card(
             anchor="rm",
         )
 
-    # Coordinates calculation
-    if mode == "GOE":
+    if not has_history:
+        cx = (plot_x1 + plot_x2) // 2
+        cy = (plot_y1 + plot_y2) // 2
+        draw.text(
+            (cx, cy - 16),
+            "OCZEKIWANIE NA START TRANSMISJI",
+            fill=(255, 204, 0),
+            font=_get_font(26, bold=True, font_type="rajdhani"),
+            anchor="mm",
+        )
+        draw.text(
+            (cx, cy + 18),
+            "Wykres pojawi się po zebraniu pierwszych próbek live",
+            fill=(170, 170, 185),
+            font=_get_font(17, font_type="rajdhani"),
+            anchor="mm",
+        )
+    elif mode == "GOE":
         goe_coords = []
         yt_coords = []
         tw_coords = []
@@ -593,28 +582,7 @@ def create_summary_card(
         # Peak Callout
         if goe_coords and curr_max > 0:
             pk_x, pk_y = goe_coords[max_idx]
-            callout_text = f"⚡ PIK GOE: {curr_max:,}".replace(",", " ")
-            cb_w = 135
-            cb_h = 24
-            cb_x1 = max(plot_x1 + 10, min(plot_x2 - cb_w - 10, pk_x - cb_w // 2))
-            cb_y1 = max(plot_y1 + 5, pk_y - 36)
-            draw.rounded_rectangle(
-                [cb_x1, cb_y1, cb_x1 + cb_w, cb_y1 + cb_h],
-                radius=4,
-                fill=(255, 24, 36),
-            )
-            draw.text(
-                (cb_x1 + cb_w // 2, cb_y1 + cb_h // 2),
-                callout_text,
-                fill=(255, 255, 255),
-                font=font_callout,
-                anchor="mm",
-            )
-            draw.line(
-                [(pk_x, pk_y), (pk_x, cb_y1 + cb_h)],
-                fill=(255, 24, 36),
-                width=2,
-            )
+            _draw_peak_callout(pk_x, pk_y, curr_max)
 
     elif mode == "CAMPS":
         # 3 Camps mode: GoE vs Nervarien vs Tobiasz + Nerva Co-stream
@@ -624,26 +592,6 @@ def create_summary_card(
         costream_coords = []
         max_goe_idx = 0
         curr_max_goe = -1
-
-        def _get_cs_v(p):
-            cs_vals = [
-                s.get("viewers", 0)
-                for sid, s in p.get("streams", {}).items()
-                if sid != "ttobias_lol"
-                and (
-                    s.get("is_costream")
-                    or s.get("is_curiosity")
-                    or sid
-                    in (
-                        "woX6jXefVdw",
-                        "N3i_DQlKL_U",
-                        "d97hINx-EHU",
-                        "f4jsbC6bgNc",
-                        "aD1nB7lMtoY",
-                    )
-                )
-            ]
-            return max(cs_vals, default=0)
 
         for idx, pt in enumerate(history_points):
             x = (
@@ -658,7 +606,7 @@ def create_summary_card(
             )
             nv = pt.get("nerva_total", 0)
             tv = pt.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
-            cv = _get_cs_v(pt)
+            cv = _get_costream_v_pt(pt)
 
             if gv > curr_max_goe:
                 curr_max_goe = gv
@@ -683,7 +631,7 @@ def create_summary_card(
             img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
             draw = ImageDraw.Draw(img)
 
-        # 1. Co-stream (yellow line)
+        # 1. Co-stream (amber line)
         for i in range(len(costream_coords) - 1):
             draw.line(
                 [costream_coords[i], costream_coords[i + 1]],
@@ -699,13 +647,13 @@ def create_summary_card(
         for x, y in tobias_coords[:: max(1, num_pts // 30)]:
             draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(249, 115, 22))
 
-        # 3. Nervarien (white line)
+        # 3. Nervarien (blue line)
         for i in range(len(nerva_coords) - 1):
             draw.line(
-                [nerva_coords[i], nerva_coords[i + 1]], fill=(255, 255, 255), width=3
+                [nerva_coords[i], nerva_coords[i + 1]], fill=(59, 130, 246), width=3
             )
         for x, y in nerva_coords[:: max(1, num_pts // 30)]:
-            draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(255, 255, 255))
+            draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(59, 130, 246))
 
         # 4. GoE (red line)
         for i in range(len(goe_coords) - 1):
@@ -721,22 +669,7 @@ def create_summary_card(
         # Peak GoE Callout
         if goe_coords and curr_max_goe > 0:
             pk_x, pk_y = goe_coords[max_goe_idx]
-            callout_text = f"⚡ PIK GOE: {curr_max_goe:,}".replace(",", " ")
-            cb_w = 125
-            cb_h = 24
-            cb_x1 = max(plot_x1 + 10, min(plot_x2 - cb_w - 10, pk_x - cb_w // 2))
-            cb_y1 = max(plot_y1 + 5, pk_y - 36)
-            draw.rounded_rectangle(
-                [cb_x1, cb_y1, cb_x1 + cb_w, cb_y1 + cb_h], radius=4, fill=(255, 24, 36)
-            )
-            draw.text(
-                (cb_x1 + cb_w // 2, cb_y1 + cb_h // 2),
-                callout_text,
-                fill=(255, 255, 255),
-                font=font_callout,
-                anchor="mm",
-            )
-            draw.line([(pk_x, pk_y), (pk_x, cb_y1 + cb_h)], fill=(255, 24, 36), width=2)
+            _draw_peak_callout(pk_x, pk_y, curr_max_goe)
 
     else:
         # Comparison mode: GoE vs Nervarien
@@ -778,11 +711,11 @@ def create_summary_card(
         for i in range(len(nerva_coords) - 1):
             draw.line(
                 [nerva_coords[i], nerva_coords[i + 1]],
-                fill=(255, 255, 255),
+                fill=(59, 130, 246),
                 width=3,
             )
         for x, y in nerva_coords[:: max(1, num_pts // 30)]:
-            draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(255, 255, 255))
+            draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(59, 130, 246))
 
         for i in range(len(goe_coords) - 1):
             draw.line([goe_coords[i], goe_coords[i + 1]], fill=(255, 24, 36), width=4)
@@ -796,51 +729,33 @@ def create_summary_card(
 
         if goe_coords and curr_max_goe > 0:
             pk_x, pk_y = goe_coords[max_goe_idx]
-            callout_text = f"⚡ PIK GOE: {curr_max_goe:,}".replace(",", " ")
-            cb_w = 125
-            cb_h = 24
-            cb_x1 = max(plot_x1 + 10, min(plot_x2 - cb_w - 10, pk_x - cb_w // 2))
-            cb_y1 = max(plot_y1 + 5, pk_y - 36)
-            draw.rounded_rectangle(
-                [cb_x1, cb_y1, cb_x1 + cb_w, cb_y1 + cb_h],
-                radius=4,
-                fill=(255, 24, 36),
-            )
-            draw.text(
-                (cb_x1 + cb_w // 2, cb_y1 + cb_h // 2),
-                callout_text,
-                fill=(255, 255, 255),
-                font=font_callout,
-                anchor="mm",
-            )
-            draw.line(
-                [(pk_x, pk_y), (pk_x, cb_y1 + cb_h)],
-                fill=(255, 24, 36),
-                width=2,
-            )
+            _draw_peak_callout(pk_x, pk_y, curr_max_goe)
 
     # Time labels
-    step = max(1, num_pts // 5)
-    time_indices = list(range(0, num_pts, step))
-    if num_pts - 1 not in time_indices:
-        if len(time_indices) > 1 and (num_pts - 1) - time_indices[-1] < step // 2:
-            time_indices[-1] = num_pts - 1
-        else:
-            time_indices.append(num_pts - 1)
+    if has_history:
+        step = max(1, num_pts // 5)
+        time_indices = list(range(0, num_pts, step))
+        if num_pts - 1 not in time_indices:
+            if len(time_indices) > 1 and (num_pts - 1) - time_indices[-1] < step // 2:
+                time_indices[-1] = num_pts - 1
+            else:
+                time_indices.append(num_pts - 1)
 
-    for t_idx in time_indices:
-        pt = history_points[t_idx]
-        ts = pt.get("timestamp", "").split()[-1]
-        tx = (
-            plot_x1 if num_pts == 1 else plot_x1 + int((t_idx / (num_pts - 1)) * plot_w)
-        )
-        draw.text(
-            (tx, plot_y2 + 18),
-            ts,
-            fill=(160, 160, 170),
-            font=font_axis,
-            anchor="mm",
-        )
+        for t_idx in time_indices:
+            pt = history_points[t_idx]
+            ts = pt.get("timestamp", "").split()[-1]
+            tx = (
+                plot_x1
+                if num_pts == 1
+                else plot_x1 + int((t_idx / (num_pts - 1)) * plot_w)
+            )
+            draw.text(
+                (tx, plot_y2 + 18),
+                ts,
+                fill=(160, 160, 170),
+                font=font_axis,
+                anchor="mm",
+            )
 
     # Footer - GoE Roster Pipes & #bunkier (Strictly NO sponsors, NO 'oficjalny system')
     roster_pipes = (
@@ -909,9 +824,6 @@ def create_stage_summary_card(
     font_stat_val = _get_font(38, font_type="anton")
     font_stat_lbl = _get_font(15, bold=True, font_type="rajdhani")
     font_stat_sub = _get_font(13, bold=True, font_type="rajdhani")
-    font_match_title = _get_font(18, bold=True, font_type="anton")
-    font_match_sub = _get_font(14, font_type="rajdhani")
-    font_bar_val = _get_font(14, bold=True, font_type="rajdhani")
     font_footer_pipes = _get_font(17, bold=True, font_type="rajdhani")
     font_bunkier_badge = _get_font(20, font_type="anton")
     font_system_note = _get_font(13, font_type="rajdhani")
@@ -959,7 +871,7 @@ def create_stage_summary_card(
 
     # 3. Top 4 KPI Boxes
     box_w = 226
-    box_h = 115
+    box_h = 108
     y_boxes = 205
     x_positions = [50, 301, 553, 804]
 
@@ -1010,42 +922,46 @@ def create_stage_summary_card(
             fill=(180, 180, 190),
             font=font_stat_lbl,
         )
-        draw.text((bx + 14, y_boxes + 36), val, fill=col, font=font_stat_val)
+        draw.text((bx + 14, y_boxes + 34), val, fill=col, font=font_stat_val)
         draw.text(
-            (bx + 14, y_boxes + 86),
+            (bx + 14, y_boxes + 84),
             sub,
             fill=(135, 135, 145),
             font=font_stat_sub,
         )
 
-    # 4. Three Camp Cards (GoE, Nervarien, Tobiasz)
-    c_y = 335
+    # 4. Three Camp Cards (GoE Red, Nervarien Blue, Tobiasz Orange)
+    c_y = 325
     c_w = 310
-    c_h = 100
+    c_h = 96
     c_xs = [50, 385, 720]
 
     camps_data = [
         (
             "BUNKIER GOE",
             stage.get("goe", {}),
-            (59, 130, 246),
-            (20, 30, 50),
+            (255, 24, 36),
+            (255, 75, 90),
         ),
         (
             "NERVARIEN & CO-STREAMY",
             stage.get("nerva", {}),
-            (239, 68, 68),
-            (50, 20, 25),
+            (59, 130, 246),
+            (96, 165, 250),
         ),
         (
             "TOBIASZ",
             stage.get("tobias", {}),
             (249, 115, 22),
-            (50, 30, 15),
+            (251, 146, 60),
         ),
     ]
 
-    for (cname, cstats, ccolor, cbg), cx in zip(camps_data, c_xs):
+    font_camp_hdr = _get_font(16, bold=True, font_type="rajdhani")
+    font_camp_val = _get_font(15, bold=True, font_type="rajdhani")
+    font_camp_sub = _get_font(15, bold=False, font_type="rajdhani")
+
+    for (cname, cstats, ccolor, txt_col), cx in zip(camps_data, c_xs):
         draw.rounded_rectangle(
             [cx, c_y, cx + c_w, c_y + c_h],
             radius=8,
@@ -1055,53 +971,60 @@ def create_stage_summary_card(
         )
         draw.ellipse([cx + 12, c_y + 15, cx + 22, c_y + 25], fill=ccolor)
         draw.text(
-            (cx + 28, c_y + 12),
+            (cx + 28, c_y + 20),
             cname,
-            fill=ccolor,
-            font=_get_font(16, bold=True, font_type="rajdhani"),
+            fill=txt_col,
+            font=font_camp_hdr,
+            anchor="lm",
         )
-        # Stats inside card
         peak_str = f"Pik: {cstats.get('peak', 0):,}".replace(",", " ")
         avg_str = f"Śr. live: {cstats.get('live_avg', 0):,}".replace(",", " ")
-        vh_str = f"Watch: {cstats.get('watch_hours', 0):,}".replace(",", " ") + "h"
+        vh_str = f"Watch: {cstats.get('watch_hours', 0):,}".replace(",", " ") + " h"
         share_str = f"Udział: {cstats.get('share', 0.0)}%"
 
         draw.text(
-            (cx + 12, c_y + 40),
+            (cx + 14, c_y + 49),
             peak_str,
             fill=(255, 255, 255),
-            font=_get_font(15, bold=True, font_type="rajdhani"),
+            font=font_camp_val,
+            anchor="lm",
         )
         draw.text(
-            (cx + 160, c_y + 40),
+            (cx + 158, c_y + 49),
             avg_str,
             fill=(200, 200, 210),
-            font=_get_font(15, bold=False, font_type="rajdhani"),
+            font=font_camp_sub,
+            anchor="lm",
         )
         draw.text(
-            (cx + 12, c_y + 68),
+            (cx + 14, c_y + 74),
             vh_str,
             fill=(0, 229, 255),
-            font=_get_font(15, bold=True, font_type="rajdhani"),
+            font=font_camp_val,
+            anchor="lm",
         )
         draw.text(
-            (cx + 160, c_y + 68),
+            (cx + 158, c_y + 74),
             share_str,
-            fill=ccolor,
-            font=_get_font(15, bold=True, font_type="rajdhani"),
+            fill=txt_col,
+            font=font_camp_val,
+            anchor="lm",
         )
 
     # 5. Match-by-Match Visual Rows
     matches = stage.get("matches", [])
-    row_y_start = 455
-    available_h = 635
-    row_h = min(98, available_h // max(1, len(matches)))
+    row_y_start = 454
+    available_h = 640
+    row_h = min(108, available_h // max(1, len(matches)))
+    compact = row_h < 96
+    card_inner_h = row_h - 8
 
     draw.text(
-        (50, row_y_start - 18),
+        (50, 438),
         "ZESTAWIENIE MECZÓW (SZCZYTY I CZAS TRWANIA):",
         fill=(180, 180, 190),
         font=_get_font(14, bold=True, font_type="rajdhani"),
+        anchor="lm",
     )
 
     max_p = max(
@@ -1117,13 +1040,18 @@ def create_stage_summary_card(
         default=10000,
     )
 
+    font_row_title = _get_font(16 if compact else 18, bold=True, font_type="anton")
+    font_row_peak = _get_font(15, bold=True, font_type="rajdhani")
+    font_bar_lbl = _get_font(13 if compact else 14, bold=True, font_type="rajdhani")
+    font_bar_right = _get_font(13 if compact else 14, bold=False, font_type="rajdhani")
+
     for i, m in enumerate(matches):
         my = row_y_start + i * row_h
         m_w = width - 100
         is_upcoming_row = m.get("points_count", 0) == 0
         row_outline = (180, 140, 20) if is_upcoming_row else (40, 40, 50)
         draw.rounded_rectangle(
-            [50, my, 50 + m_w, my + row_h - 8],
+            [50, my, 50 + m_w, my + card_inner_h],
             radius=6,
             fill=(16, 16, 20),
             outline=row_outline,
@@ -1137,145 +1065,114 @@ def create_stage_summary_card(
             if score_str
             else f"{m['name']} • {m['match']}"
         )
+        title_cy = my + (20 if is_upcoming_row else 16)
         draw.text(
-            (65, my + 8),
+            (65, title_cy),
             title_line,
             fill=(255, 204, 0) if is_upcoming_row else (255, 255, 255),
-            font=font_match_title,
+            font=font_row_title,
+            anchor="lm",
         )
 
         if is_upcoming_row:
             sched_match = m.get("schedule", {}).get("match_start", "20:00")
             sched_goe = m.get("schedule", {}).get("goe_start", "19:00")
             draw.text(
-                (width - 65, my + 8),
+                (width - 65, title_cy),
                 f"NADCHODZĄCY ({sched_match} CET)",
                 fill=(255, 204, 0),
-                font=_get_font(15, bold=True, font_type="rajdhani"),
-                anchor="ra",
+                font=font_row_peak,
+                anchor="rm",
             )
             draw.text(
-                (65, my + 40),
+                (65, my + card_inner_h - 22),
                 f"Start studia GoE: ~{sched_goe} CET  •  Ceremonia Otwarcia i Mecz: {sched_match} CET  •  Barclays Center",
                 fill=(180, 180, 195),
                 font=_get_font(15, font_type="rajdhani"),
+                anchor="lm",
             )
             continue
 
         tot_p_str = f"Pik meczu: {m['total_peak']:,}".replace(",", " ")
         draw.text(
-            (width - 65, my + 8),
+            (width - 65, title_cy),
             tot_p_str,
             fill=(0, 229, 255),
-            font=_get_font(15, bold=True, font_type="rajdhani"),
-            anchor="ra",
+            font=font_row_peak,
+            anchor="rm",
         )
 
-        # 3 Comparative Progress Bars inside the row
+        # 3 Comparative Progress Bars inside the row (GoE Red, Nerva Blue, Tobiasz Orange)
         bar_x = 65
         bar_max_w = 400
-        compact = row_h < 95
-        bar_y_base = my + (31 if compact else 34)
-        bar_h = 10 if compact else 11
-        spacing = 14 if compact else 15
+        bar_half_h = 5 if compact else 6
+        bar_cy_start = my + (38 if compact else 42)
+        spacing = 15 if compact else 18
 
-        # GoE bar
-        gp = m["goe"]["peak"]
-        gw = int((gp / max_p) * bar_max_w)
-        draw.rectangle(
-            [bar_x, bar_y_base, bar_x + gw, bar_y_base + bar_h],
-            fill=(59, 130, 246),
-        )
-        draw.text(
-            (bar_x + gw + 8, bar_y_base - 1),
-            f"GoE: {gp:,}".replace(",", " "),
-            fill=(59, 130, 246),
-            font=font_bar_val,
-        )
-
-        # Nerva bar
-        np_val = m["nerva"]["peak"]
-        nw = int((np_val / max_p) * bar_max_w)
-        draw.rectangle(
-            [bar_x, bar_y_base + spacing, bar_x + nw, bar_y_base + spacing + bar_h],
-            fill=(239, 68, 68),
-        )
-        draw.text(
-            (bar_x + nw + 8, bar_y_base + spacing - 1),
-            f"Nerva: {np_val:,}".replace(",", " "),
-            fill=(239, 68, 68),
-            font=font_bar_val,
-        )
-
-        # Tobias bar
-        tp = m["tobias"]["peak"]
-        tw = int((tp / max_p) * bar_max_w)
-        if tp > 0:
-            draw.rectangle(
-                [
-                    bar_x,
-                    bar_y_base + spacing * 2,
-                    bar_x + tw,
-                    bar_y_base + spacing * 2 + bar_h,
-                ],
-                fill=(249, 115, 22),
-            )
-            draw.text(
-                (bar_x + tw + 8, bar_y_base + spacing * 2 - 1),
-                f"Tobiasz: {tp:,}".replace(",", " "),
-                fill=(249, 115, 22),
-                font=font_bar_val,
-            )
-        else:
-            draw.text(
-                (bar_x, bar_y_base + spacing * 2 - 1),
+        bar_specs = [
+            ("GoE", m["goe"], (255, 24, 36), (255, 75, 90), None),
+            ("Nerva", m["nerva"], (59, 130, 246), (96, 165, 250), None),
+            (
+                "Tobiasz",
+                m["tobias"],
+                (249, 115, 22),
+                (251, 146, 60),
                 "Tobiasz: Offline (Brak transmisji)",
-                fill=(120, 120, 130),
-                font=font_bar_val,
-            )
+            ),
+        ]
 
-        # Right side stats: hours & live average
-        right_x = 730
-        draw.text(
-            (right_x, bar_y_base),
-            f"GoE śr: {m['goe']['live_avg']:,} | {m['goe']['watch_hours']:,}h".replace(
-                ",", " "
-            ),
-            fill=(200, 200, 210),
-            font=_get_font(13, font_type="rajdhani"),
-        )
-        draw.text(
-            (right_x, bar_y_base + spacing),
-            f"Nerva śr: {m['nerva']['live_avg']:,} | {m['nerva']['watch_hours']:,}h".replace(
-                ",", " "
-            ),
-            fill=(200, 200, 210),
-            font=_get_font(13, font_type="rajdhani"),
-        )
-        if tp > 0:
+        for b_idx, (b_lbl, b_stats, b_col, txt_col, empty_lbl) in enumerate(bar_specs):
+            cy = bar_cy_start + b_idx * spacing
+            pk_val = b_stats["peak"]
+            if pk_val <= 0 and empty_lbl:
+                draw.text(
+                    (bar_x, cy),
+                    empty_lbl,
+                    fill=(125, 125, 138),
+                    font=font_bar_lbl,
+                    anchor="lm",
+                )
+                continue
+
+            bw = max(2, int((pk_val / max_p) * bar_max_w)) if pk_val > 0 else 0
+            if bw > 0:
+                draw.rectangle(
+                    [bar_x, cy - bar_half_h, bar_x + bw, cy + bar_half_h],
+                    fill=b_col,
+                )
             draw.text(
-                (right_x, bar_y_base + spacing * 2),
-                f"Tobiasz śr: {m['tobias']['live_avg']:,} | {m['tobias']['watch_hours']:,}h".replace(
-                    ",", " "
-                ),
+                (bar_x + bw + (8 if bw > 0 else 0), cy),
+                f"{b_lbl}: {pk_val:,}".replace(",", " "),
+                fill=txt_col,
+                font=font_bar_lbl,
+                anchor="lm",
+            )
+            right_txt = (
+                f"{b_lbl} śr: {b_stats['live_avg']:,} | {b_stats['watch_hours']:,}h"
+            ).replace(",", " ")
+            draw.text(
+                (width - 65, cy),
+                right_txt,
                 fill=(200, 200, 210),
-                font=_get_font(13, font_type="rajdhani"),
+                font=font_bar_right,
+                anchor="rm",
             )
 
     # 6. Disclaimers Box
-    disc_y = 1110
+    disc_y = 1105
     draw.rounded_rectangle(
-        [50, disc_y, width - 50, disc_y + 85],
+        [50, disc_y, width - 50, disc_y + 86],
         radius=6,
         fill=(14, 14, 18),
         outline=(50, 50, 60),
         width=1,
     )
     draw.text(
-        (65, disc_y + 10),
+        (65, disc_y + 17),
         "ADNOTACJE METODOLOGICZNE & RAPORT DANYCH:",
         fill=(255, 204, 0),
         font=_get_font(13, bold=True, font_type="rajdhani"),
+        anchor="lm",
     )
     disc_lines = [
         "• Dzień 1: Oczyszczono 2 fale viewbotów YT (GoE); brak streamu Tobiasza; opóźnione wykrycie co-streamu Damiana.",
@@ -1284,10 +1181,11 @@ def create_stage_summary_card(
     ]
     for d_idx, dline in enumerate(disc_lines):
         draw.text(
-            (65, disc_y + 28 + d_idx * 17),
+            (65, disc_y + 37 + d_idx * 18),
             dline,
             fill=(160, 160, 175),
             font=_get_font(12, font_type="rajdhani"),
+            anchor="lm",
         )
 
     # 7. Footer - Roster & Bunkier Badge

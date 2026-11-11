@@ -8,14 +8,15 @@ from avatars import get_cached_avatar
 
 
 def clean_text_for_font(text: str) -> str:
-    """Strips emoji and special unicode characters that trigger missing glyph boxes in PIL."""
+    """Strips emoji and unsupported unicode characters that trigger missing glyph boxes in PIL."""
     if not text:
         return ""
-    return re.sub(
-        r"[\U00010000-\U0010ffff]|[\u25a0-\u25ff]|[\u2600-\u26ff]|[\u2700-\u27bf]",
+    cleaned = re.sub(
+        r"[^\x20-\x7eąęćłńóśźżĄĘĆŁŃÓŚŹŻ•–—„”’‘…]",
         " ",
         text,
-    ).strip()
+    )
+    return re.sub(r"\s{2,}", " ", cleaned).strip()
 
 
 def draw_vector_microphone(draw: ImageDraw.Draw, cx: int, cy: int):
@@ -137,7 +138,7 @@ def draw_duel_bar(
     goe_pct: float,
     radius: int = 8,
 ):
-    """Draws a crisp dual-color proportional bar (GoE Red vs Nervarien White) in a pill container."""
+    """Draws a crisp dual-color proportional bar (GoE Red vs Nervarien Blue) in a pill container."""
     bar_w = x2 - x1
     bar_h = y2 - y1
     if bar_w <= 0 or bar_h <= 0:
@@ -167,9 +168,9 @@ def draw_duel_bar(
     if split_w > 0:
         d_bar.rectangle([0, 0, split_w, bar_h], fill=(255, 0, 51))
 
-    # Right segment: Nervarien White (#f0f2f5)
+    # Right segment: Nervarien Blue (#3b82f6)
     if split_w < bar_w:
-        d_bar.rectangle([split_w, 0, bar_w, bar_h], fill=(240, 242, 245))
+        d_bar.rectangle([split_w, 0, bar_w, bar_h], fill=(59, 130, 246))
 
     # Crisp divider notch between the two teams (2px wide)
     if 0 < split_w < bar_w:
@@ -409,13 +410,6 @@ def create_battle_card(
     sub_prefix = (
         f"{match_short}  •  " if data.get("stage") == "finals" and match_short else ""
     )
-    draw.text(
-        (width // 2, 182),
-        f"{sub_prefix}w Kieleckim bunkrze vs Nervarien  •  {platform_tag}{ts}",
-        fill=(255, 255, 255),
-        font=font_sub_title,
-        anchor="mm",
-    )
 
     # Filter streams if platform is specified
     goe_raw = data.get("groups", {}).get("GOE", {}).get("streams", [])
@@ -435,11 +429,124 @@ def create_battle_card(
         nerva_streams = nerva_raw
         tobiasz_streams = tobiasz_raw
 
-    goe_total = sum(s.get("viewers", 0) for s in goe_streams)
-    nerva_total = sum(s.get("viewers", 0) for s in nerva_streams)
+    is_live = any(
+        s.get("is_live", False) for s in goe_streams + nerva_streams + tobiasz_streams
+    )
+    is_finished = data.get("is_finished", False) and not is_live
+    is_upcoming = not is_live and not is_finished
+
+    sched = data.get("schedule", {})
+    if is_finished:
+        day_label = data.get("day_name", "")
+        match_lbl = data.get("match_short") or data.get("match", "")
+        score_lbl = f" ({data['score']})" if data.get("score") else ""
+        subtitle_str = (
+            f"PODSUMOWANIE • {day_label} • {platform_tag}{match_lbl}{score_lbl}"
+        )
+    elif is_upcoming:
+        goe_start = sched.get("goe_start", "19:00")
+        match_start = sched.get("match_start", "20:00")
+        subtitle_str = f"{sub_prefix}w Kieleckim bunkrze vs Nervarien  •  {platform_tag}Start ~{goe_start} CET (Mecz {match_start})"
+    else:
+        subtitle_str = (
+            f"{sub_prefix}w Kieleckim bunkrze vs Nervarien  •  {platform_tag}{ts}"
+        )
+
+    draw.text(
+        (width // 2, 182),
+        subtitle_str,
+        fill=(255, 255, 255),
+        font=font_sub_title,
+        anchor="mm",
+    )
+
+    stream_peaks_id: dict[str, int] = {}
+    stream_peaks_ch: dict[tuple[str, str], int] = {}
+    summary_stats = data.get("summary_stats", {})
+
+    if is_finished:
+        day_id = data.get("day_id", "")
+        hist_pts = []
+        if day_id:
+            for cand_dir in (
+                os.path.dirname(os.path.abspath(output_path)),
+                os.path.dirname(__file__),
+            ):
+                cand_path = os.path.join(cand_dir, f"history_{day_id}.json")
+                if os.path.exists(cand_path):
+                    try:
+                        import json
+
+                        with open(cand_path, "r", encoding="utf-8") as hf:
+                            hist_pts = json.load(hf)
+                        break
+                    except Exception:
+                        pass
+
+        plat_u = platform.upper()
+        plat_goe_peak = 0
+        plat_nerva_peak = 0
+        for pt in hist_pts:
+            g_sum = 0
+            n_sum = 0
+            for sid, st_pt in pt.get("streams", {}).items():
+                v = st_pt.get("viewers", 0)
+                if v > stream_peaks_id.get(sid, 0):
+                    stream_peaks_id[sid] = v
+                ch_key = (
+                    st_pt.get("channel", "").lower(),
+                    st_pt.get("platform", "").lower(),
+                )
+                if v > stream_peaks_ch.get(ch_key, 0):
+                    stream_peaks_ch[ch_key] = v
+                if plat_u != "ALL" and st_pt.get("platform", "").upper() == plat_u:
+                    grp = st_pt.get("group")
+                    if grp == "GOE" or sid == "goe_stream":
+                        g_sum += v
+                    elif grp == "NERVA" or sid == "nervarien":
+                        n_sum += v
+            if g_sum > plat_goe_peak:
+                plat_goe_peak = g_sum
+            if n_sum > plat_nerva_peak:
+                plat_nerva_peak = n_sum
+
+        if plat_u == "ALL":
+            goe_total = summary_stats.get("goe_peak", 0)
+            nerva_total = summary_stats.get("nerva_peak", 0)
+        else:
+            goe_total = plat_goe_peak
+            nerva_total = plat_nerva_peak
+    else:
+        goe_total = sum(s.get("viewers", 0) for s in goe_streams)
+        nerva_total = sum(s.get("viewers", 0) for s in nerva_streams)
+
     tot = goe_total + nerva_total
     goe_pct = round((goe_total / tot * 100), 1) if tot > 0 else 50.0
     nerva_pct = round((nerva_total / tot * 100), 1) if tot > 0 else 50.0
+
+    if is_live:
+        goe_main_str = f"{goe_total:,}".replace(",", " ")
+        nerva_main_str = f"{nerva_total:,}".replace(",", " ")
+        goe_sub_str = f"{goe_pct}% WIDZÓW"
+        nerva_sub_str = f"{nerva_pct}% WIDZÓW"
+    elif is_finished:
+        goe_main_str = f"{goe_total:,}".replace(",", " ")
+        nerva_main_str = f"{nerva_total:,}".replace(",", " ")
+        if platform.upper() == "ALL":
+            goe_sub_str = f"PIK ({goe_pct}% STARCIA)  •  ŚR. {summary_stats.get('goe_avg', 0):,}".replace(
+                ",", " "
+            )
+            nerva_sub_str = f"PIK ({nerva_pct}% STARCIA)  •  ŚR. {summary_stats.get('nerva_avg', 0):,}".replace(
+                ",", " "
+            )
+        else:
+            goe_sub_str = f"PIK ({goe_pct}% STARCIA)"
+            nerva_sub_str = f"PIK ({nerva_pct}% STARCIA)"
+    else:
+        goe_main_str = sched.get("goe_start", "19:00")
+        nerva_main_str = sched.get("nerva_start", "19:30")
+        goe_sub_str = "PLANOWANY START STUDIA (CET)"
+        nerva_sub_str = "PLANOWANY START STUDIA (CET)"
 
     # GOE Box (Aesthetic of Bingo / Prediction Cards: deep black #0a0a0c, sharp 1px red #ff0033 border, radius 12)
     draw.rounded_rectangle(
@@ -452,14 +559,16 @@ def create_battle_card(
     draw.text((75, 235), "GOE", fill=(255, 0, 51), font=font_team_name)
     draw.text(
         (75, 266),
-        f"{goe_total:,}".replace(",", " "),
+        goe_main_str,
         fill=(255, 255, 255),
         font=font_score,
     )
     draw.text(
         (75, 394),
-        f"{goe_pct}% WIDZÓW",
-        fill=(255, 255, 255) if goe_total >= nerva_total else (160, 160, 170),
+        goe_sub_str,
+        fill=(255, 255, 255)
+        if (not is_upcoming and goe_total >= nerva_total)
+        else (160, 160, 170),
         font=font_score_sub,
     )
 
@@ -472,29 +581,31 @@ def create_battle_card(
     )
     draw.text((width // 2, 335), "VS", fill=(255, 255, 255), font=font_vs, anchor="mm")
 
-    # NERVA Box
+    # NERVA Box (Blue #3b82f6)
     draw.rounded_rectangle(
         [595, 215, 1030, 435],
         radius=12,
         fill=(10, 10, 12),
-        outline=(255, 0, 51),
+        outline=(59, 130, 246),
         width=1,
     )
-    draw.text((620, 235), "NERVARIEN", fill=(255, 255, 255), font=font_team_name)
+    draw.text((620, 235), "NERVARIEN", fill=(59, 130, 246), font=font_team_name)
     draw.text(
         (620, 266),
-        f"{nerva_total:,}".replace(",", " "),
+        nerva_main_str,
         fill=(255, 255, 255),
         font=font_score,
     )
     draw.text(
         (620, 394),
-        f"{nerva_pct}% WIDZÓW",
-        fill=(255, 255, 255) if nerva_total > goe_total else (160, 160, 170),
+        nerva_sub_str,
+        fill=(255, 255, 255)
+        if (not is_upcoming and nerva_total > goe_total)
+        else (160, 160, 170),
         font=font_score_sub,
     )
 
-    # Proportional Bar (Crisp GoE Red vs Nervarien White Pill)
+    # Proportional Bar (Crisp GoE Red vs Nervarien Blue Pill)
     bar_x1, bar_y1, bar_x2, bar_y2 = 50, 455, 1030, 477
     draw_duel_bar(img, draw, bar_x1, bar_y1, bar_x2, bar_y2, goe_pct, radius=8)
 
@@ -515,12 +626,27 @@ def create_battle_card(
             or st.get("costream") is True
             or "co-stream" in st.get("title", "").lower()
             or "costream" in st.get("id", "").lower()
-            or grp_tag == "TOBIASZ"
         )
-        is_live = st.get("is_live", False)
+        st_live = st.get("is_live", False)
+        st_peak = 0
+        if is_finished:
+            st_peak = stream_peaks_id.get(st.get("id", ""), 0) or stream_peaks_ch.get(
+                (st.get("channel", "").lower(), st.get("platform", "").lower()), 0
+            )
+        st_active = st_live or (is_finished and st_peak > 0)
 
-        # Card container (sharp 1px red border, deep black surface #0a0a0c, radius 12)
-        border_col = (255, 0, 51) if is_live else (80, 20, 26)
+        if grp_tag == "GOE":
+            grp_col = (255, 0, 51)
+            dim_col = (80, 20, 26)
+        elif grp_tag == "TOBIASZ":
+            grp_col = (249, 115, 22)
+            dim_col = (90, 45, 15)
+        else:
+            grp_col = (59, 130, 246)
+            dim_col = (25, 50, 90)
+
+        # Card container (sharp 1px border, deep black surface #0a0a0c, radius 12)
+        border_col = grp_col if st_active else dim_col
         bg_col = (10, 10, 12)
         draw.rounded_rectangle(
             [50, y_pos, 1030, y_pos + card_h],
@@ -530,7 +656,7 @@ def create_battle_card(
             width=1,
         )
 
-        # Avatar Box with red border
+        # Avatar Box with group border
         av_dim = card_h - 20
         av_size = (av_dim, av_dim)
         av_img = get_cached_avatar(st["id"], st.get("avatar_url", ""), size=av_size)
@@ -539,11 +665,10 @@ def create_battle_card(
 
         # Paste avatar
         img.paste(av_img, (av_x, av_y), av_img)
-        # Red frame around avatar
         draw.rounded_rectangle(
             [av_x - 1, av_y - 1, av_x + av_dim + 1, av_y + av_dim + 1],
             radius=6,
-            outline=(255, 0, 51),
+            outline=grp_col,
             width=1,
         )
 
@@ -566,13 +691,7 @@ def create_battle_card(
         )
 
         # Camp Tag
-        if grp_tag == "GOE":
-            camp_bg = (255, 0, 51)
-        elif grp_tag == "TOBIASZ":
-            camp_bg = (249, 115, 22)
-        else:
-            camp_bg = (50, 50, 60)
-
+        camp_bg = grp_col
         camp_w = 90 if grp_tag == "TOBIASZ" else 85
         draw.rounded_rectangle(
             [content_x + 95, y_pos + 14, content_x + 95 + camp_w, y_pos + 38],
@@ -608,13 +727,17 @@ def create_battle_card(
         draw.text(
             (next_tag_x + 10, y_pos + 26),
             st.get("channel", ""),
-            fill=(255, 255, 255) if is_live else (180, 180, 190),
+            fill=(255, 255, 255) if st_active else (180, 180, 190),
             font=font_card_ch,
             anchor="lm",
         )
 
         # Title snippet (cleaned of unsupported emoji characters that cause tofu boxes)
         raw_title = st.get("title") or st.get("category") or "Transmisja na żywo"
+        if is_upcoming and raw_title == "Stream offline":
+            raw_title = "Oczekiwanie na start transmisji"
+        elif is_finished and raw_title == "Stream offline":
+            raw_title = st.get("category") or "Transmisja zakończona"
         cleaned_title = clean_text_for_font(raw_title)
         title_snippet = cleaned_title[:65] + ("..." if len(cleaned_title) > 65 else "")
         draw.text(
@@ -625,9 +748,19 @@ def create_battle_card(
         )
 
         # Viewers on right
-        if is_live:
+        if st_live:
             viewers_str = f"{st.get('viewers', 0):,} WIDZÓW".replace(",", " ")
             viewers_col = (255, 255, 255)
+        elif is_finished:
+            if st_peak > 0:
+                viewers_str = f"PIK {st_peak:,}".replace(",", " ")
+                viewers_col = (255, 255, 255)
+            else:
+                viewers_str = "BRAK TRANSMISJI"
+                viewers_col = (130, 130, 140)
+        elif is_upcoming:
+            viewers_str = "OCZEKIWANIE"
+            viewers_col = (255, 204, 0)
         else:
             viewers_str = "OFFLINE"
             viewers_col = (130, 130, 140)

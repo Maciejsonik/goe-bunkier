@@ -5,6 +5,7 @@ import os
 import shutil
 import sys
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # Ensure this directory is in path
 sys.path.insert(0, os.path.dirname(__file__))
@@ -194,6 +195,8 @@ def build_day(
     print(f"\n==================== [Build: {day_id.upper()}] ====================")
     day_cfg = DAYS_CONFIG[day_id]
     is_active = day_id == active_day
+    today_pl = datetime.now(ZoneInfo("Europe/Warsaw")).strftime("%Y-%m-%d")
+    is_pre_event = (today_pl < day_cfg.get("date", "")) and (preloaded_data is None)
 
     from db import (
         filter_bot_attacks,
@@ -213,10 +216,10 @@ def build_day(
     day_camps_clean_path = os.path.join(BASE_DIR, f"camps_summary_{day_id}.png")
     day_camps_raw_path = os.path.join(BASE_DIR, f"camps_summary_raw_{day_id}.png")
 
-    # 1. Fetch current status of streams for this day (only scrape live for active day)
+    # 1. Fetch current status of streams for this day (only scrape live on or after event date)
     if preloaded_data is not None and is_active and not day_cfg.get("is_finished"):
         data = preloaded_data
-    elif is_active and not day_cfg.get("is_finished"):
+    elif is_active and not day_cfg.get("is_finished") and not is_pre_event:
         data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     elif day_cfg.get("is_finished") and os.path.exists(day_data_path):
         try:
@@ -314,6 +317,8 @@ def build_day(
             for s in grp.get("streams", []):
                 s["is_live"] = False
                 s["viewers"] = 0
+    elif is_pre_event:
+        any_live = False
     else:
         if is_active:
             _heal_transient_fetch_errors(data, history)
