@@ -89,6 +89,11 @@ RELATED_OFFTOPIC_RE = re.compile(
     re.IGNORECASE,
 )
 
+TOP_POSTS_EXCLUDED_IDS = {
+    # Kept in overall Worlds/Bunkier pool, omitted from TOP 10 highlight cards (pre-launch G2 tweet, 31.10 01:29)
+    "2116326672870072567",
+}
+
 NOISE_TERMS = (
     "#urbanex",
     "urbex",
@@ -222,10 +227,18 @@ REPLY_PREFIX_RE = re.compile(
     r"^(?:\d+\s*(?:g\.?|godz\.?|min|m|h|s|d)\s+)?(?:Odpowiedź do(?:\s+użytkownika|\s+użytkowników)?|W odpowiedzi do|Odpowiadanie(?:\s+użytkownikowi)?|Replying to)(?:\s+(?:@[A-Za-z0-9_]+|i|and|oraz|\d+\s+innych))*\s*",
     re.IGNORECASE,
 )
+MEDIA_TAIL_LINE_RE = re.compile(
+    r"^(?:"
+    r"\d{1,2}:\d{2}(?::\d{2})?(?:\s*/\s*\d{1,2}:\d{2}(?::\d{2})?)?"
+    r"|.{1,70}\s+(?:i|and)\s+\d+\s+(?:innych|others?)"
+    r"|GIF|ALT|Pokaż więcej|Show more"
+    r")$",
+    re.IGNORECASE,
+)
 
 
-def clean_display_text(text: str) -> str:
-    """Strips X UI boilerplate like 'Konto parodystyczne' or 'Odpowiedź do @...' for snippets."""
+def clean_display_text(text: str, strip_media_tails: bool = True) -> str:
+    """Strips X UI boilerplate like 'Odpowiedź do @...' and trailing media overlays."""
     cleaned = text.strip()
     cleaned = re.sub(
         r"^(?:Konto parodystyczne|Parody account)\s+",
@@ -234,6 +247,15 @@ def clean_display_text(text: str) -> str:
         flags=re.IGNORECASE,
     )
     cleaned = REPLY_PREFIX_RE.sub("", cleaned).strip()
+    if strip_media_tails:
+        lines = cleaned.splitlines()
+        while lines:
+            tail = lines[-1].strip()
+            if not tail or MEDIA_TAIL_LINE_RE.match(tail):
+                lines.pop()
+            else:
+                break
+        cleaned = "\n".join(lines).strip()
     return cleaned
 
 
@@ -251,7 +273,7 @@ def classify_tweet(
     tags_l = {h.lower() for h in tweet.get("hashtags", [])}
 
     # Check context on reply-stripped, mention-stripped body so "@lewuslol" doesn't match "lol"
-    body_no_reply = clean_display_text(tweet["text"])
+    body_no_reply = clean_display_text(tweet["text"], strip_media_tails=False)
     body_no_mentions = re.sub(r"@[A-Za-z0-9_]+", " ", body_no_reply).lower()
 
     if handle_l in crew_handles:
@@ -493,7 +515,11 @@ def build_x_analytics(
     )[:10]
 
     top_posts = sorted(
-        kept_tweets,
+        (
+            p
+            for p in kept_tweets
+            if str(p.get("tweet_id", "")) not in TOP_POSTS_EXCLUDED_IDS
+        ),
         key=lambda x: (x["views"], x["interactions"], x["likes"]),
         reverse=True,
     )[:10]
@@ -656,6 +682,14 @@ def run_self_test():
     assert summary["daily"][-1]["date"] == "2026-11-11"
     assert summary["groups"]["bunkier"]["posts"] == 1
     assert summary["groups"]["community"]["posts"] == 2
+    assert (
+        clean_display_text("Clip z akcji #bunkier\n00:26\nFredrick Koziol i 3 innych")
+        == "Clip z akcji #bunkier"
+    )
+    assert (
+        clean_display_text("Opis meczu #bunkier\ndejf i 6 innych")
+        == "Opis meczu #bunkier"
+    )
     print("✅ [x_analytics] Self-test PASSED (parsing, filtering, timezone, grouping).")
 
 

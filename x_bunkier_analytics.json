@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11 20:58:26 CET",
+  "generated_at": "2026-11-11 21:33:10 CET",
   "date_range": {
     "start": "2026-10-31",
     "end": "2026-11-11",
@@ -353,7 +353,7 @@
       "time_pl": "12:00",
       "has_bunkier_hashtag": true,
       "text": "W tym roku @Bialito_, @Majutek_lol, @Pedro_Paprzycki, @MagvayerLOL, @JaskierBB skomentują jednak Mistrzostwa Świata na kanale Gadają 😎\n\nChłopaki zejdą do @witchhub podziemia, skąd będą nadawać dla Was Worldsy!\n\n#Worlds2026 #bunkier\ndejf i 6 innych",
-      "display_text": "W tym roku @Bialito_, @Majutek_lol, @Pedro_Paprzycki, @MagvayerLOL, @JaskierBB skomentują jednak Mistrzostwa Świata na kanale Gadają 😎\n\nChłopaki zejdą do @witchhub podziemia, skąd będą nadawać dla Was Worldsy!\n\n#Worlds2026 #bunkier\ndejf i 6 innych",
+      "display_text": "W tym roku @Bialito_, @Majutek_lol, @Pedro_Paprzycki, @MagvayerLOL, @JaskierBB skomentują jednak Mistrzostwa Świata na kanale Gadają 😎\n\nChłopaki zejdą do @witchhub podziemia, skąd będą nadawać dla Was Worldsy!\n\n#Worlds2026 #bunkier",
       "views": 55000,
       "likes": 558,
       "reposts": 29,
@@ -433,24 +433,6 @@
       "interactions": 95
     },
     {
-      "tweet_id": "2116326672870072567",
-      "url": "https://x.com/CzarnyPiotrus10/status/2116326672870072567",
-      "author_handle": "CzarnyPiotrus10",
-      "author_name": "Piotr \"Philly Pete\" Barański",
-      "role": "bunkier",
-      "date_pl": "2026-10-31",
-      "date_label": "31.10",
-      "time_pl": "01:29",
-      "has_bunkier_hashtag": false,
-      "text": "najgorsze Worldsy w wykonaniu G2 od czterech lat, ale Dylan Falco był zły bo coś tam coś tam 🥴",
-      "display_text": "najgorsze Worldsy w wykonaniu G2 od czterech lat, ale Dylan Falco był zły bo coś tam coś tam 🥴",
-      "views": 27000,
-      "likes": 916,
-      "reposts": 5,
-      "replies": 38,
-      "interactions": 959
-    },
-    {
       "tweet_id": "2119180897736126762",
       "url": "https://x.com/gadaja_/status/2119180897736126762",
       "author_handle": "gadaja_",
@@ -497,12 +479,30 @@
       "time_pl": "01:25",
       "has_bunkier_hashtag": true,
       "text": "Polish casters went crazy over this DK BLG fight!\n#bunkier #lolesports #Worlds2026\n00:26\nFredrick Koziol i 3 innych",
-      "display_text": "Polish casters went crazy over this DK BLG fight!\n#bunkier #lolesports #Worlds2026\n00:26\nFredrick Koziol i 3 innych",
+      "display_text": "Polish casters went crazy over this DK BLG fight!\n#bunkier #lolesports #Worlds2026",
       "views": 22000,
       "likes": 518,
       "reposts": 19,
       "replies": 11,
       "interactions": 548
+    },
+    {
+      "tweet_id": "2117760777025392982",
+      "url": "https://x.com/Maciejsonik_/status/2117760777025392982",
+      "author_handle": "Maciejsonik_",
+      "author_name": "Maciejson",
+      "role": "community",
+      "date_pl": "2026-11-04",
+      "date_label": "04.11",
+      "time_pl": "00:28",
+      "has_bunkier_hashtag": true,
+      "text": "incydent botowy\n#bunkier",
+      "display_text": "incydent botowy\n#bunkier",
+      "views": 20000,
+      "likes": 26,
+      "reposts": 3,
+      "replies": 0,
+      "interactions": 29
     }
   ]
 }
