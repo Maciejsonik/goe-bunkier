@@ -2,7 +2,6 @@
 
 import argparse
 import os
-import sys
 import time
 
 from db import export_to_csv, get_summary_stats, save_snapshot

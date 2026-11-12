@@ -2,9 +2,9 @@
 
 import os
 import re
-from PIL import Image, ImageDraw, ImageFont
 
 from avatars import get_cached_avatar
+from PIL import Image, ImageDraw, ImageFont
 
 
 def clean_text_for_font(text: str) -> str:
@@ -505,10 +505,8 @@ def create_battle_card(
                         g_sum += v
                     elif grp == "NERVA" or sid == "nervarien":
                         n_sum += v
-            if g_sum > plat_goe_peak:
-                plat_goe_peak = g_sum
-            if n_sum > plat_nerva_peak:
-                plat_nerva_peak = n_sum
+            plat_goe_peak = max(plat_goe_peak, g_sum)
+            plat_nerva_peak = max(plat_nerva_peak, n_sum)
 
         if plat_u == "ALL":
             goe_total = summary_stats.get("goe_peak", 0)

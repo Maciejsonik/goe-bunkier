@@ -4,8 +4,6 @@ import argparse
 import json
 import os
 
-from PIL import Image, ImageDraw
-
 from generate_card import (
     _get_font,
     clean_text_for_font,
@@ -14,6 +12,7 @@ from generate_card import (
     draw_top_emblem,
 )
 from generate_summary import _draw_segmented_bar
+from PIL import Image, ImageDraw
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 

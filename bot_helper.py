@@ -25,7 +25,7 @@ def send_to_discord(webhook_url: str, image_path: str, message: str = "") -> boo
 
     # Message payload
     payload = {"content": message}
-    body.extend(f"--{boundary}\r\n".encode("utf-8"))
+    body.extend(f"--{boundary}\r\n".encode())
     body.extend(b'Content-Disposition: form-data; name="payload_json"\r\n\r\n')
     body.extend(json.dumps(payload).encode("utf-8"))
     body.extend(b"\r\n")
@@ -37,16 +37,14 @@ def send_to_discord(webhook_url: str, image_path: str, message: str = "") -> boo
     filename = os.path.basename(image_path)
     mime_type = mimetypes.guess_type(image_path)[0] or "image/png"
 
-    body.extend(f"--{boundary}\r\n".encode("utf-8"))
+    body.extend(f"--{boundary}\r\n".encode())
     body.extend(
-        f'Content-Disposition: form-data; name="files[0]"; filename="{filename}"\r\n'.encode(
-            "utf-8"
-        )
+        f'Content-Disposition: form-data; name="files[0]"; filename="{filename}"\r\n'.encode()
     )
-    body.extend(f"Content-Type: {mime_type}\r\n\r\n".encode("utf-8"))
+    body.extend(f"Content-Type: {mime_type}\r\n\r\n".encode())
     body.extend(image_bytes)
     body.extend(b"\r\n")
-    body.extend(f"--{boundary}--\r\n".encode("utf-8"))
+    body.extend(f"--{boundary}--\r\n".encode())
 
     req = urllib.request.Request(
         webhook_url,
@@ -83,14 +81,14 @@ def send_to_telegram(
     body = bytearray()
 
     # chat_id
-    body.extend(f"--{boundary}\r\n".encode("utf-8"))
+    body.extend(f"--{boundary}\r\n".encode())
     body.extend(b'Content-Disposition: form-data; name="chat_id"\r\n\r\n')
     body.extend(str(chat_id).encode("utf-8"))
     body.extend(b"\r\n")
 
     # caption
     if caption:
-        body.extend(f"--{boundary}\r\n".encode("utf-8"))
+        body.extend(f"--{boundary}\r\n".encode())
         body.extend(b'Content-Disposition: form-data; name="caption"\r\n\r\n')
         body.extend(caption.encode("utf-8"))
         body.extend(b"\r\n")
@@ -100,16 +98,14 @@ def send_to_telegram(
         image_bytes = f.read()
 
     filename = os.path.basename(image_path)
-    body.extend(f"--{boundary}\r\n".encode("utf-8"))
+    body.extend(f"--{boundary}\r\n".encode())
     body.extend(
-        f'Content-Disposition: form-data; name="photo"; filename="{filename}"\r\n'.encode(
-            "utf-8"
-        )
+        f'Content-Disposition: form-data; name="photo"; filename="{filename}"\r\n'.encode()
     )
     body.extend(b"Content-Type: image/png\r\n\r\n")
     body.extend(image_bytes)
     body.extend(b"\r\n")
-    body.extend(f"--{boundary}--\r\n".encode("utf-8"))
+    body.extend(f"--{boundary}--\r\n".encode())
 
     req = urllib.request.Request(
         url,

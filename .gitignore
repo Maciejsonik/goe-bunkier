@@ -3,5 +3,10 @@ history.db-journal
 __pycache__/
 cache/
 *.pyc
+*.log
+.env
+.env.*
+.venv/
+venv/
 .DS_Store
 

@@ -1,14 +1,12 @@
 """Generates post-stream line chart infographics in GoE aesthetic: GoE-only or Comparison (1080x1350)."""
 
 import os
-from PIL import Image, ImageDraw, ImageFont
 
 from config import get_active_day_id, get_known_stream_ids
 from db import (
     extract_goe_yt_viewers,
     filter_bot_attacks,
     get_detailed_history,
-    get_history,
     get_summary_stats,
 )
 from generate_card import (
@@ -16,8 +14,8 @@ from generate_card import (
     draw_goe_background,
     draw_slanted_text,
     draw_top_emblem,
-    draw_vector_microphone,
 )
+from PIL import Image, ImageDraw
 
 
 def create_summary_card(

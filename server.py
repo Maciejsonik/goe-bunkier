@@ -1,13 +1,13 @@
 """Interactive Web Dashboard & Background Data Collector in GoE Aesthetic with Two Distinct Charts (GoE & Comparison)."""
 
-from datetime import datetime, timedelta
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
 import sys
 import threading
 import time
 import urllib.parse
+from datetime import datetime
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from config import DAYS_CONFIG, get_active_day_id
 from db import (
@@ -15,7 +15,6 @@ from db import (
     get_detailed_history,
     get_history,
     get_momentum,
-    get_summary_stats,
     save_snapshot,
 )
 from generate_card import create_battle_card

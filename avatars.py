@@ -4,6 +4,7 @@ import hashlib
 import io
 import os
 import urllib.request
+
 from PIL import Image
 
 CACHE_DIR = os.path.join(os.path.dirname(__file__), "cache", "avatars")
