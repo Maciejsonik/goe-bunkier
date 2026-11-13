@@ -15,6 +15,7 @@ WARSAW_TZ = ZoneInfo("Europe/Warsaw")
 
 DEFAULT_START_DATE = "2026-10-31"
 DEFAULT_END_DATE = "2026-11-11"
+BUNKIER_LAUNCH_AT = datetime(2026, 10, 31, 12, 0, tzinfo=WARSAW_TZ)
 
 GOE_CREW_HANDLES = {
     "gadaja_",
@@ -64,6 +65,7 @@ CONTEXT_KEYWORDS = (
     "białej willi",
     "biała willa",
     "wiejskim stole",
+    "piwnic",
     "caster",
     "predykcj",
     "dylan falco",
@@ -80,12 +82,12 @@ CONTEXT_KEYWORDS = (
 )
 
 TOKEN_KEYWORDS_RE = re.compile(
-    r"(?<![A-Za-z0-9_])(?:goe|lol|bo5|t1|blg|geng|hle|kt|tes|ig|kc|dk|lyon|fly|g2|al|lck|lpl|lec|mkoi|swiss|stream|strem|stumyk|finał|final|widzów|widzow)(?![A-Za-z0-9_])",
+    r"(?<!\w)(?:goe|lol|bo5|t1|blg|geng|hle|kt|tes|ig|kc|dk|lyon|fly|g2|al|lck|lpl|lec|mkoi|swiss|stream|strem|stumyk|finał|final|widzów|widzow)(?!\w)",
     re.IGNORECASE,
 )
 
 RELATED_OFFTOPIC_RE = re.compile(
-    r"(?:riftbound|rcstuttgart|cyberpunk_tcg|timeoutpl|\bmouz\b)",
+    r"(?:riftbound|rcstuttgar|stuttgart|stuttgarcie|cyberpunk_tcg|timeoutpl|\btimeout\b|\bmouz\b|pgl\s+vs\s+blast|super\s+nexus\s+night|nation\s+clash|teampolandop|kubik_cs)",
     re.IGNORECASE,
 )
 
@@ -263,6 +265,7 @@ def classify_tweet(
     tweet: dict,
     crew_handles: set[str],
     related_handles: set[str],
+    dt_pl: datetime | None = None,
 ) -> tuple[bool, str, str, bool]:
     """Determines whether a post belongs in #bunkier Worlds 2026 analytics.
 
@@ -276,13 +279,9 @@ def classify_tweet(
     body_no_reply = clean_display_text(tweet["text"], strip_media_tails=False)
     body_no_mentions = re.sub(r"@[A-Za-z0-9_]+", " ", body_no_reply).lower()
 
-    if handle_l in crew_handles:
-        role = "bunkier"
-    else:
-        role = "community"
-    is_tracked_scene_handle = (handle_l in crew_handles) or (
-        handle_l in related_handles
-    )
+    is_crew = handle_l in crew_handles
+    is_related = handle_l in related_handles
+    role = "bunkier" if is_crew else "community"
 
     has_bunkier_tag = ("#bunkier" in tags_l) or bool(
         re.search(r"(?:^|\W)#bunkier(?:\W|$)", text_l)
@@ -298,18 +297,46 @@ def classify_tweet(
     )
     has_noise_term = any(nt in text_l for nt in NOISE_TERMS)
 
-    if is_tracked_scene_handle:
+    if is_crew:
         if has_bunkier_tag:
             return True, role, "ok", has_bunkier_tag
-        if RELATED_OFFTOPIC_RE.search(text_l):
+        if RELATED_OFFTOPIC_RE.search(text_l) or has_noise_term:
             return False, role, "offtopic_event", has_bunkier_tag
-        if has_bunkier_variant or has_esports_ctx:
+        if (
+            dt_pl is not None
+            and dt_pl < BUNKIER_LAUNCH_AT
+            and not (has_bunkier_variant or has_esports_ctx)
+        ):
+            return False, role, "pre_launch_non_worlds", has_bunkier_tag
+        return True, role, "ok", has_bunkier_tag
+
+    if is_related:
+        if has_bunkier_tag:
+            return True, role, "ok", has_bunkier_tag
+        if RELATED_OFFTOPIC_RE.search(text_l) or has_noise_term:
+            return False, role, "offtopic_event", has_bunkier_tag
+        if (
+            has_bunkier_variant
+            or has_esports_ctx
+            or ("@gadaja_" in text_l)
+            or ("@k3m0nz" in text_l)
+        ):
             return True, role, "ok", has_bunkier_tag
         return False, role, "non_worlds_post", has_bunkier_tag
 
-    if NON_LATIN_SPAM_RE.search(tweet["text"]) and not any(
+    if len(NON_LATIN_SPAM_RE.findall(tweet["text"])) >= 5 and not any(
         strong in text_l
-        for strong in ("worlds", "gadają", "gadaja", "goe", "t1", "blg", "gen.g", "lol")
+        for strong in (
+            "worlds",
+            "gadają",
+            "gadaja",
+            "goe",
+            "t1",
+            "blg",
+            "gen.g",
+            "lol",
+            "hotbunkier",
+        )
     ):
         return False, role, "offtopic_non_latin_spam", has_bunkier_tag
 
@@ -362,7 +389,9 @@ def build_x_analytics(
             )
             continue
 
-        keep, role, reason, has_tag = classify_tweet(tw, crew_handles, related_handles)
+        keep, role, reason, has_tag = classify_tweet(
+            tw, crew_handles, related_handles, dt_pl=dt_pl
+        )
         is_reply_detected = tw["is_reply"] or bool(REPLY_PREFIX_RE.match(tw["text"]))
         enriched = {
             **tw,
@@ -690,6 +719,63 @@ def run_self_test():
         clean_display_text("Opis meczu #bunkier\ndejf i 6 innych")
         == "Opis meczu #bunkier"
     )
+    # Crew post-launch banter is kept, timeout & Silv4nn Riftbound/Polish-"kt" false-positives are rejected
+    crew_ok, _, _, _ = classify_tweet(
+        normalize_raw_tweet(
+            {
+                "tweet_id": "10",
+                "author_handle": "MagvayerLOL",
+                "text": "Warszawska ekipa wylądowała bezpiecznie w domu.",
+                "views": 9000,
+            }
+        ),
+        GOE_CREW_HANDLES,
+        RELATED_CREATOR_HANDLES,
+        dt_pl=datetime(2026, 11, 9, 13, 2, tzinfo=WARSAW_TZ),
+    )
+    assert crew_ok is True
+    crew_timeout, _, r_to, _ = classify_tweet(
+        normalize_raw_tweet(
+            {
+                "tweet_id": "11",
+                "author_handle": "gadaja_",
+                "text": "32 odcinek @timeoutpl już na kanale! MOUZ zaskoczyło CS",
+                "views": 700,
+            }
+        ),
+        GOE_CREW_HANDLES,
+        RELATED_CREATOR_HANDLES,
+        dt_pl=datetime(2026, 11, 11, 17, 1, tzinfo=WARSAW_TZ),
+    )
+    assert crew_timeout is False and r_to == "offtopic_event"
+    silv_rift, _, r_rb, _ = classify_tweet(
+        normalize_raw_tweet(
+            {
+                "tweet_id": "12",
+                "author_handle": "Silv4nn",
+                "text": "Stuttgart zaczyna się solidnie, brak kart którego używam",
+                "views": 10000,
+            }
+        ),
+        GOE_CREW_HANDLES,
+        RELATED_CREATOR_HANDLES,
+        dt_pl=datetime(2026, 11, 5, 13, 50, tzinfo=WARSAW_TZ),
+    )
+    assert silv_rift is False and r_rb == "offtopic_event"
+    kaomoji_ok, _, _, _ = classify_tweet(
+        normalize_raw_tweet(
+            {
+                "tweet_id": "13",
+                "author_handle": "GragasUltras",
+                "text": "Dziękuję za hotbunkierchallange (👉ﾟヮﾟ)👉 #bunkier",
+                "hashtags": ["#bunkier"],
+                "views": 158,
+            }
+        ),
+        GOE_CREW_HANDLES,
+        RELATED_CREATOR_HANDLES,
+    )
+    assert kaomoji_ok is True
     print("✅ [x_analytics] Self-test PASSED (parsing, filtering, timezone, grouping).")
 
 
