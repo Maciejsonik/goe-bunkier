@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-14 17:56:36",
-  "total_viewers": 798,
+  "timestamp": "2026-11-14 16:57:15",
+  "total_viewers": 789,
   "leader": "GOE",
-  "diff": 798,
+  "diff": 789,
   "ratio_goe": 100.0,
   "ratio_nerva": 0.0,
   "groups": {
@@ -10,7 +10,7 @@
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#ff0033",
-      "total_viewers": 798,
+      "total_viewers": 789,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "GENG vs BLG | FINAŁ WORLDS 2026 | LIVE EVENT W BASESTACK ŁÓDŹ | Zamknięcie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 649,
+          "viewers": 640,
           "url": "https://www.youtube.com/watch?v=F5w5FGyn04o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "F5w5FGyn04o",
