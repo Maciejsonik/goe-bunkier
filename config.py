@@ -283,7 +283,7 @@ DAYS_CONFIG = {
         "label": "Finał • 14.11 (Na Żywo)",
         "match": "Bilibili Gaming vs Gen.G Esports",
         "match_short": "BLG vs Gen.G",
-        "score": "",
+        "score": "0 : 1",
         "winner": "",
         "stage": "finals",
         "date": "2026-11-14",
