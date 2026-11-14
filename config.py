@@ -290,7 +290,7 @@ DAYS_CONFIG = {
         "is_finished": False,
         "disclaimers": [
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-            "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET.",
+            "Start studia GoE: 17:30 CET, Nervarien: ~19:30 CET.",
         ],
         "start_utc": "2026-11-14 12:00:00",
         "end_utc": "2026-11-15 12:00:00",
@@ -325,7 +325,7 @@ DAYS_CONFIG = {
         "costream_streams": [],
         "curiosity_streams": [],
         "events": [
-            {"time": "17:50", "label": "Start Bunkra"},
+            {"time": "17:30", "label": "Start Bunkra"},
             {"time": "20:00", "label": "Ceremonia Otwarcia"},
         ],
     },

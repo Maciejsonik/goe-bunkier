@@ -2,9 +2,7 @@ name: Update Stream Stats & Dashboard
 
 on:
   schedule:
-    # Finals backup polling every 5 mins: Nov 14 17:00-23:59 UTC & Nov 15 00:00-05:59 UTC
-    - cron: '*/5 17-23 14 11 *'
-    - cron: '*/5 0-5 15 11 *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
   push:
     branches:
