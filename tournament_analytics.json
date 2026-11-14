@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14 16:11:01",
+  "generated_at": "2026-11-14 17:56:39",
   "title": "Worlds 2026 • Podsumowanie Oglądalności Polskiej Sceny",
   "stages": {
     "quarters": {
@@ -25,7 +25,7 @@
         "peak_match": "Lyon vs Gen.G",
         "live_avg": 2120,
         "watch_hours": 43132,
-        "duration_hours": 20.3,
+        "duration_hours": 20.4,
         "share": 31.7
       },
       "nerva": {
@@ -689,19 +689,19 @@
       "days": [
         "day-7"
       ],
-      "matches_count": 0,
+      "matches_count": 1,
       "scheduled_matches_count": 1,
-      "total_points": 0,
-      "total_watch_hours": 0,
-      "total_scene_peak": 0,
-      "total_scene_peak_match": "",
+      "total_points": 50,
+      "total_watch_hours": 208,
+      "total_scene_peak": 833,
+      "total_scene_peak_match": "BLG vs Gen.G",
       "goe": {
-        "peak": 0,
-        "peak_match": "",
-        "live_avg": 0,
-        "watch_hours": 0,
-        "duration_hours": 0.0,
-        "share": 0.0
+        "peak": 833,
+        "peak_match": "BLG vs Gen.G",
+        "live_avg": 507,
+        "watch_hours": 208,
+        "duration_hours": 0.4,
+        "share": 100.0
       },
       "nerva": {
         "peak": 0,
@@ -719,17 +719,17 @@
         "share": 0.0
       },
       "market_share": {
-        "goe": 0.0,
+        "goe": 100.0,
         "nerva": 0.0,
         "tobias": 0.0
       },
       "goe_platforms": {
-        "yt_watch_hours": 0,
-        "tw_watch_hours": 0,
-        "yt_peak": 0,
-        "tw_peak": 0,
-        "yt_share": 0.0,
-        "tw_share": 0.0
+        "yt_watch_hours": 177,
+        "tw_watch_hours": 32,
+        "yt_peak": 697,
+        "tw_peak": 149,
+        "yt_share": 84.7,
+        "tw_share": 15.3
       },
       "matches": [
         {
@@ -743,58 +743,58 @@
           "stage": "finals",
           "is_finished": false,
           "schedule": {
-            "goe_start": "19:00",
+            "goe_start": "17:30",
             "nerva_start": "19:30",
             "match_start": "20:00",
-            "goe_start_iso": "2026-11-14T19:00:00+01:00",
+            "goe_start_iso": "2026-11-14T17:30:00+01:00",
             "match_start_iso": "2026-11-14T20:00:00+01:00",
             "venue": "Barclays Center, Nowy Jork"
           },
           "disclaimers": [
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-            "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+            "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
           ],
-          "points_count": 0,
-          "total_peak": 0,
-          "total_peak_time": "--",
-          "total_watch_hours": 0,
+          "points_count": 50,
+          "total_peak": 833,
+          "total_peak_time": "17:54",
+          "total_watch_hours": 208,
           "goe": {
-            "is_live_any": false,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
+            "is_live_any": true,
+            "start_time": "17:32",
+            "end_time": "17:56",
+            "points_count": 46,
+            "duration_hours": 0.41,
+            "duration_str": "0h 25m",
+            "peak": 833,
+            "peak_time": "17:54",
+            "live_avg": 506,
+            "watch_hours": 208,
             "camp": "GOE"
           },
           "goe_yt": {
-            "is_live_any": false,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
+            "is_live_any": true,
+            "start_time": "17:32",
+            "end_time": "17:56",
+            "points_count": 44,
+            "duration_hours": 0.4,
+            "duration_str": "0h 24m",
+            "peak": 697,
+            "peak_time": "17:54",
+            "live_avg": 441,
+            "watch_hours": 177,
             "camp": "GOE_YT"
           },
           "goe_tw": {
-            "is_live_any": false,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
+            "is_live_any": true,
+            "start_time": "17:32",
+            "end_time": "17:56",
+            "points_count": 46,
+            "duration_hours": 0.41,
+            "duration_str": "0h 25m",
+            "peak": 149,
+            "peak_time": "17:55",
+            "live_avg": 78,
+            "watch_hours": 32,
             "camp": "GOE_TW"
           },
           "nerva": {
@@ -824,7 +824,7 @@
             "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 0.0,
+            "goe": 100.0,
             "nerva": 0.0,
             "tobias": 0.0
           }
@@ -846,19 +846,19 @@
         "day-6",
         "day-7"
       ],
-      "matches_count": 6,
+      "matches_count": 7,
       "scheduled_matches_count": 7,
-      "total_points": 11131,
-      "total_watch_hours": 229379,
+      "total_points": 11181,
+      "total_watch_hours": 229587,
       "total_scene_peak": 17596,
       "total_scene_peak_match": "BLG vs T1",
       "goe": {
         "peak": 3802,
         "peak_match": "Lyon vs Gen.G",
-        "live_avg": 2037,
-        "watch_hours": 66569,
-        "duration_hours": 32.7,
-        "share": 29.0
+        "live_avg": 2018,
+        "watch_hours": 66777,
+        "duration_hours": 33.1,
+        "share": 29.1
       },
       "nerva": {
         "peak": 10885,
@@ -873,16 +873,16 @@
         "live_avg": 1687,
         "watch_hours": 50846,
         "duration_hours": 30.1,
-        "share": 22.2
+        "share": 22.1
       },
       "market_share": {
-        "goe": 29.0,
+        "goe": 29.1,
         "nerva": 48.8,
-        "tobias": 22.2
+        "tobias": 22.1
       },
       "goe_platforms": {
-        "yt_watch_hours": 58999,
-        "tw_watch_hours": 7570,
+        "yt_watch_hours": 59176,
+        "tw_watch_hours": 7602,
         "yt_peak": 3486,
         "tw_peak": 448,
         "yt_share": 88.6,
@@ -1466,58 +1466,58 @@
           "stage": "finals",
           "is_finished": false,
           "schedule": {
-            "goe_start": "19:00",
+            "goe_start": "17:30",
             "nerva_start": "19:30",
             "match_start": "20:00",
-            "goe_start_iso": "2026-11-14T19:00:00+01:00",
+            "goe_start_iso": "2026-11-14T17:30:00+01:00",
             "match_start_iso": "2026-11-14T20:00:00+01:00",
             "venue": "Barclays Center, Nowy Jork"
           },
           "disclaimers": [
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-            "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+            "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
           ],
-          "points_count": 0,
-          "total_peak": 0,
-          "total_peak_time": "--",
-          "total_watch_hours": 0,
+          "points_count": 50,
+          "total_peak": 833,
+          "total_peak_time": "17:54",
+          "total_watch_hours": 208,
           "goe": {
-            "is_live_any": false,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
+            "is_live_any": true,
+            "start_time": "17:32",
+            "end_time": "17:56",
+            "points_count": 46,
+            "duration_hours": 0.41,
+            "duration_str": "0h 25m",
+            "peak": 833,
+            "peak_time": "17:54",
+            "live_avg": 506,
+            "watch_hours": 208,
             "camp": "GOE"
           },
           "goe_yt": {
-            "is_live_any": false,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
+            "is_live_any": true,
+            "start_time": "17:32",
+            "end_time": "17:56",
+            "points_count": 44,
+            "duration_hours": 0.4,
+            "duration_str": "0h 24m",
+            "peak": 697,
+            "peak_time": "17:54",
+            "live_avg": 441,
+            "watch_hours": 177,
             "camp": "GOE_YT"
           },
           "goe_tw": {
-            "is_live_any": false,
-            "start_time": "--",
-            "end_time": "--",
-            "points_count": 0,
-            "duration_hours": 0.0,
-            "duration_str": "0h 00m",
-            "peak": 0,
-            "peak_time": "--",
-            "live_avg": 0,
-            "watch_hours": 0,
+            "is_live_any": true,
+            "start_time": "17:32",
+            "end_time": "17:56",
+            "points_count": 46,
+            "duration_hours": 0.41,
+            "duration_str": "0h 25m",
+            "peak": 149,
+            "peak_time": "17:55",
+            "live_avg": 78,
+            "watch_hours": 32,
             "camp": "GOE_TW"
           },
           "nerva": {
@@ -1547,7 +1547,7 @@
             "camp": "TOBIASZ"
           },
           "market_share": {
-            "goe": 0.0,
+            "goe": 100.0,
             "nerva": 0.0,
             "tobias": 0.0
           }
@@ -2133,58 +2133,58 @@
       "stage": "finals",
       "is_finished": false,
       "schedule": {
-        "goe_start": "19:00",
+        "goe_start": "17:30",
         "nerva_start": "19:30",
         "match_start": "20:00",
-        "goe_start_iso": "2026-11-14T19:00:00+01:00",
+        "goe_start_iso": "2026-11-14T17:30:00+01:00",
         "match_start_iso": "2026-11-14T20:00:00+01:00",
         "venue": "Barclays Center, Nowy Jork"
       },
       "disclaimers": [
         "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-        "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek)."
+        "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
       ],
-      "points_count": 0,
-      "total_peak": 0,
-      "total_peak_time": "--",
-      "total_watch_hours": 0,
+      "points_count": 50,
+      "total_peak": 833,
+      "total_peak_time": "17:54",
+      "total_watch_hours": 208,
       "goe": {
-        "is_live_any": false,
-        "start_time": "--",
-        "end_time": "--",
-        "points_count": 0,
-        "duration_hours": 0.0,
-        "duration_str": "0h 00m",
-        "peak": 0,
-        "peak_time": "--",
-        "live_avg": 0,
-        "watch_hours": 0,
+        "is_live_any": true,
+        "start_time": "17:32",
+        "end_time": "17:56",
+        "points_count": 46,
+        "duration_hours": 0.41,
+        "duration_str": "0h 25m",
+        "peak": 833,
+        "peak_time": "17:54",
+        "live_avg": 506,
+        "watch_hours": 208,
         "camp": "GOE"
       },
       "goe_yt": {
-        "is_live_any": false,
-        "start_time": "--",
-        "end_time": "--",
-        "points_count": 0,
-        "duration_hours": 0.0,
-        "duration_str": "0h 00m",
-        "peak": 0,
-        "peak_time": "--",
-        "live_avg": 0,
-        "watch_hours": 0,
+        "is_live_any": true,
+        "start_time": "17:32",
+        "end_time": "17:56",
+        "points_count": 44,
+        "duration_hours": 0.4,
+        "duration_str": "0h 24m",
+        "peak": 697,
+        "peak_time": "17:54",
+        "live_avg": 441,
+        "watch_hours": 177,
         "camp": "GOE_YT"
       },
       "goe_tw": {
-        "is_live_any": false,
-        "start_time": "--",
-        "end_time": "--",
-        "points_count": 0,
-        "duration_hours": 0.0,
-        "duration_str": "0h 00m",
-        "peak": 0,
-        "peak_time": "--",
-        "live_avg": 0,
-        "watch_hours": 0,
+        "is_live_any": true,
+        "start_time": "17:32",
+        "end_time": "17:56",
+        "points_count": 46,
+        "duration_hours": 0.41,
+        "duration_str": "0h 25m",
+        "peak": 149,
+        "peak_time": "17:55",
+        "live_avg": 78,
+        "watch_hours": 32,
         "camp": "GOE_TW"
       },
       "nerva": {
@@ -2214,7 +2214,7 @@
         "camp": "TOBIASZ"
       },
       "market_share": {
-        "goe": 0.0,
+        "goe": 100.0,
         "nerva": 0.0,
         "tobias": 0.0
       }

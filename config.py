@@ -280,7 +280,7 @@ DAYS_CONFIG = {
     "day-7": {
         "id": "day-7",
         "name": "Finał (14.11)",
-        "label": "Finał • 14.11 (Nadchodzący)",
+        "label": "Finał • 14.11 (Na Żywo)",
         "match": "Bilibili Gaming vs Gen.G Esports",
         "match_short": "BLG vs Gen.G",
         "score": "",
@@ -290,15 +290,15 @@ DAYS_CONFIG = {
         "is_finished": False,
         "disclaimers": [
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-            "Wstępny start studia GoE: ~19:00 CET, Nervarien: ~19:30 CET (godziny mogą zostać doprecyzowane w piątek).",
+            "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET.",
         ],
         "start_utc": "2026-11-14 12:00:00",
         "end_utc": "2026-11-15 12:00:00",
         "schedule": {
-            "goe_start": "19:00",
+            "goe_start": "17:30",
             "nerva_start": "19:30",
             "match_start": "20:00",
-            "goe_start_iso": "2026-11-14T19:00:00+01:00",
+            "goe_start_iso": "2026-11-14T17:30:00+01:00",
             "match_start_iso": "2026-11-14T20:00:00+01:00",
             "venue": "Barclays Center, Nowy Jork",
         },
@@ -325,7 +325,7 @@ DAYS_CONFIG = {
         "costream_streams": [],
         "curiosity_streams": [],
         "events": [
-            {"time": "19:00", "label": "Start Bunkra"},
+            {"time": "17:50", "label": "Start Bunkra"},
             {"time": "20:00", "label": "Ceremonia Otwarcia"},
         ],
     },
