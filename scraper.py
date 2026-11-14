@@ -9,6 +9,7 @@ import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from config import (
     COSTREAM_STREAMS,
@@ -651,7 +652,7 @@ def fetch_all_data(
         leader = "REMIS"
         diff = 0
 
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now_str = datetime.now(ZoneInfo("Europe/Warsaw")).strftime("%Y-%m-%d %H:%M:%S")
 
     return {
         "timestamp": now_str,

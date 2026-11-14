@@ -20,6 +20,8 @@ concurrency:
 jobs:
   scrape-and-update:
     runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Warsaw
 
     steps:
       - name: Checkout repository

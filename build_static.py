@@ -229,7 +229,7 @@ def build_day(
             data = fetch_all_data(groups_config=day_cfg["groups"], day_id=day_id)
     else:
         # Upcoming or clean day - initialize clean offline placeholder
-        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        now_str = datetime.now(ZoneInfo("Europe/Warsaw")).strftime("%Y-%m-%d %H:%M:%S")
         data = {
             "timestamp": now_str,
             "total_viewers": 0,
