@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-14 20:12:43",
-  "total_viewers": 12674,
+  "timestamp": "2026-11-14 19:13:12",
+  "total_viewers": 12741,
   "leader": "NERVA",
-  "diff": 5301,
-  "ratio_goe": 18.5,
-  "ratio_nerva": 60.3,
+  "diff": 5406,
+  "ratio_goe": 18.3,
+  "ratio_nerva": 60.7,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#ff0033",
-      "total_viewers": 2346,
+      "total_viewers": 2327,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "GENG vs BLG | FINAŁ WORLDS 2026 | LIVE EVENT W BASESTACK ŁÓDŹ | Zamknięcie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 1910,
+          "viewers": 1891,
           "url": "https://www.youtube.com/watch?v=F5w5FGyn04o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "F5w5FGyn04o",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#3b82f6",
-      "total_viewers": 7647,
+      "total_viewers": 7733,
       "streams": [
         {
           "id": "nervarien",
@@ -65,7 +65,7 @@
           "title": "🔴BILIBILI GAMING vs GENG🔴WIELKI FINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 4585,
+          "viewers": 4671,
           "url": "https://www.youtube.com/watch?v=l9Yr0wp0QmU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "l9Yr0wp0QmU",
@@ -105,7 +105,7 @@
   "stage": "finals",
   "disclaimers": [
     "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-    "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
+    "Start studia GoE: 17:30 CET, Nervarien: ~19:30 CET."
   ],
   "schedule": {
     "goe_start": "17:30",
@@ -118,7 +118,7 @@
   "goe_start_time": "2026-11-14T17:30:00+01:00",
   "events": [
     {
-      "time": "17:50",
+      "time": "17:30",
       "label": "Start Bunkra"
     },
     {
@@ -404,7 +404,7 @@
       "stage": "finals",
       "disclaimers": [
         "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-        "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
+        "Start studia GoE: 17:30 CET, Nervarien: ~19:30 CET."
       ],
       "schedule": {
         "goe_start": "17:30",
