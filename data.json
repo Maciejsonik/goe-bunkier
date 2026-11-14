@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-14 22:53:02",
-  "total_viewers": 23396,
+  "timestamp": "2026-11-14 21:54:01",
+  "total_viewers": 23681,
   "leader": "NERVA",
-  "diff": 13151,
+  "diff": 13340,
   "ratio_goe": 13.1,
-  "ratio_nerva": 69.3,
+  "ratio_nerva": 69.5,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#ff0033",
-      "total_viewers": 3061,
+      "total_viewers": 3109,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "GENG vs BLG | FINAŁ WORLDS 2026 | LIVE EVENT W BASESTACK ŁÓDŹ | Zamknięcie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2644,
+          "viewers": 2692,
           "url": "https://www.youtube.com/watch?v=F5w5FGyn04o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "F5w5FGyn04o",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#3b82f6",
-      "total_viewers": 16212,
+      "total_viewers": 16449,
       "streams": [
         {
           "id": "nervarien",
@@ -53,7 +53,7 @@
           "title": "🔴Gen.G vs Bilibili Gaming🔴BO5🔴WORLDS'26 - FINALS !WORLDS🔴",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 5537,
+          "viewers": 5599,
           "url": "https://www.twitch.tv/nervarien",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/9541e9e6-9982-4233-8796-2191ff148db0-profile_image-150x150.png",
           "group": "NERVA"
@@ -65,7 +65,7 @@
           "title": "🔴BILIBILI GAMING vs GENG🔴WIELKI FINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 10675,
+          "viewers": 10850,
           "url": "https://www.youtube.com/watch?v=l9Yr0wp0QmU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "l9Yr0wp0QmU",
