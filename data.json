@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-14 22:54:58",
-  "total_viewers": 21860,
+  "timestamp": "2026-11-14 21:55:41",
+  "total_viewers": 20945,
   "leader": "NERVA",
-  "diff": 11987,
-  "ratio_goe": 13.2,
-  "ratio_nerva": 68.0,
+  "diff": 10982,
+  "ratio_goe": 13.5,
+  "ratio_nerva": 65.9,
   "groups": {
     "GOE": {
       "id": "GOE",
       "name": "Gadają o Esporcie (GOE)",
       "color": "#ff0033",
-      "total_viewers": 2875,
+      "total_viewers": 2826,
       "streams": [
         {
           "id": "goe_stream",
@@ -31,7 +31,7 @@
           "title": "GENG vs BLG | FINAŁ WORLDS 2026 | LIVE EVENT W BASESTACK ŁÓDŹ | Zamknięcie BUNKRA",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 2447,
+          "viewers": 2398,
           "url": "https://www.youtube.com/watch?v=F5w5FGyn04o",
           "avatar_url": "https://yt3.ggpht.com/sqtxooaGNUgRKzuOdpCvXL-sm9E-ahsMtdLwml6bgxBRMm7HwlEnDf8oYv90RX1IYiQLrFRz=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "F5w5FGyn04o",
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#3b82f6",
-      "total_viewers": 14862,
+      "total_viewers": 13808,
       "streams": [
         {
           "id": "nervarien",
@@ -65,7 +65,7 @@
           "title": "🔴BILIBILI GAMING vs GENG🔴WIELKI FINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 9263,
+          "viewers": 8209,
           "url": "https://www.youtube.com/watch?v=l9Yr0wp0QmU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "l9Yr0wp0QmU",
@@ -78,7 +78,7 @@
       "id": "TOBIASZ",
       "name": "Tobiasz",
       "color": "#f97316",
-      "total_viewers": 4123,
+      "total_viewers": 4311,
       "streams": [
         {
           "id": "ttobias_lol",
@@ -87,7 +87,7 @@
           "title": "🔥20:00 FINAŁ WORLDS BLG VS GENG🔥 ⭐️ZWYCIĘZCA MOŻE BYĆ TYLKO JEDEN EMOCJE ŁZY POT⭐️ !turniej !holy !casehug !malina !eneba !swap #ad",
           "category": "League of Legends",
           "is_live": true,
-          "viewers": 4123,
+          "viewers": 4311,
           "url": "https://www.twitch.tv/ttobias_lol",
           "avatar_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a9269d8d-e872-4d69-a027-eefbddee6ee9-profile_image-150x150.png",
           "group": "TOBIASZ"

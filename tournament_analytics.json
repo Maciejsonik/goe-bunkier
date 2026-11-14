@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14 22:55:09",
+  "generated_at": "2026-11-14 21:55:44",
   "title": "Worlds 2026 • Podsumowanie Oglądalności Polskiej Sceny",
   "stages": {
     "quarters": {
@@ -25,7 +25,7 @@
         "peak_match": "Lyon vs Gen.G",
         "live_avg": 2108,
         "watch_hours": 42898,
-        "duration_hours": 20.4,
+        "duration_hours": 20.3,
         "share": 31.6
       },
       "nerva": {
@@ -738,7 +738,7 @@
           "date": "2026-11-14",
           "match": "Bilibili Gaming vs Gen.G Esports",
           "match_short": "BLG vs Gen.G",
-          "score": "",
+          "score": "1 : 1",
           "winner": "",
           "stage": "finals",
           "is_finished": false,
@@ -752,7 +752,7 @@
           },
           "disclaimers": [
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-            "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
+            "Start studia GoE: 17:30 CET (transmisja live od 17:45), Nervarien: ~19:30 CET."
           ],
           "points_count": 870,
           "total_peak": 23678,
@@ -1461,7 +1461,7 @@
           "date": "2026-11-14",
           "match": "Bilibili Gaming vs Gen.G Esports",
           "match_short": "BLG vs Gen.G",
-          "score": "",
+          "score": "1 : 1",
           "winner": "",
           "stage": "finals",
           "is_finished": false,
@@ -1475,7 +1475,7 @@
           },
           "disclaimers": [
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-            "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
+            "Start studia GoE: 17:30 CET (transmisja live od 17:45), Nervarien: ~19:30 CET."
           ],
           "points_count": 870,
           "total_peak": 23678,
@@ -2128,7 +2128,7 @@
       "date": "2026-11-14",
       "match": "Bilibili Gaming vs Gen.G Esports",
       "match_short": "BLG vs Gen.G",
-      "score": "",
+      "score": "1 : 1",
       "winner": "",
       "stage": "finals",
       "is_finished": false,
@@ -2142,7 +2142,7 @@
       },
       "disclaimers": [
         "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
-        "Start studia GoE: 17:30 CET (transmisja live od 17:50), Nervarien: ~19:30 CET."
+        "Start studia GoE: 17:30 CET (transmisja live od 17:45), Nervarien: ~19:30 CET."
       ],
       "points_count": 870,
       "total_peak": 23678,
