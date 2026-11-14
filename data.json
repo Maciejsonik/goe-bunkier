@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-14 21:17:23",
-  "total_viewers": 19269,
+  "timestamp": "2026-11-14 20:17:57",
+  "total_viewers": 19247,
   "leader": "NERVA",
-  "diff": 10297,
+  "diff": 10275,
   "ratio_goe": 13.6,
   "ratio_nerva": 67.0,
   "groups": {
@@ -44,7 +44,7 @@
       "id": "NERVA",
       "name": "Nervarien",
       "color": "#3b82f6",
-      "total_viewers": 12916,
+      "total_viewers": 12894,
       "streams": [
         {
           "id": "nervarien",
@@ -65,7 +65,7 @@
           "title": "🔴BILIBILI GAMING vs GENG🔴WIELKI FINAŁ BO5🔴WORLDS 2026🔴",
           "category": "YouTube Live",
           "is_live": true,
-          "viewers": 8101,
+          "viewers": 8079,
           "url": "https://www.youtube.com/watch?v=l9Yr0wp0QmU",
           "avatar_url": "https://yt3.ggpht.com/yghYDm95xTZSeHbl5aEVN25kVpDawMbaiuD0wqRZpI-gL8rKRmYy9c0oRtbieS-eIjX4plRZPA=s88-c-k-c0x00ffffff-no-rj",
           "video_id": "l9Yr0wp0QmU",
