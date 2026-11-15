@@ -125,7 +125,26 @@ a { color: inherit; }
 }
 
 .view-section { display: none; flex-direction: column; gap: 20px; }
-.view-section.active { display: flex; }
+.view-section.active {
+  display: flex;
+  animation: viewEnter 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes viewEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideSwap {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.news-animating .news-hero-title,
+.news-animating .news-hero-desc,
+.news-animating .news-badge {
+  animation: slideSwap 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 
 /* Sub-navigation Pills */
 .pill-bar {
@@ -316,7 +335,19 @@ a { color: inherit; }
   height: auto;
   display: block;
   cursor: zoom-in;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.32s ease, transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.news-slide-frame img.is-swapping {
+  opacity: 0.18;
+  transform: scale(0.985);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .news-progress-track {
@@ -356,9 +387,17 @@ a { color: inherit; }
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px 20px;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .kpi-card.accent { border-color: var(--border-red); }
+.kpi-card.accent:hover { border-color: var(--red); }
 
 .kpi-label {
   font-family: var(--font-heading);
@@ -393,6 +432,12 @@ a { color: inherit; }
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px 20px;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
+}
+
+.camp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .camp-card.goe { border-top: 3px solid var(--goe); }

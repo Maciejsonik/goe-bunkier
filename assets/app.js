@@ -561,17 +561,23 @@ let newsTimer = null;
 function setNewsSlide(idx) {
   newsIdx = (idx + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length;
   const s = CAROUSEL_SLIDES[newsIdx];
+  const hero = document.getElementById('news-hero');
+  if (hero) {
+    hero.classList.remove('news-animating');
+    void hero.offsetWidth;
+    hero.classList.add('news-animating');
+  }
   document.getElementById('news-kicker').innerText = s.kicker;
   document.getElementById('news-title').innerText = s.headline;
   document.getElementById('news-desc').innerText = s.desc;
 
   const img = document.getElementById('news-hero-img');
-  img.style.opacity = '0.25';
+  img.classList.add('is-swapping');
   setTimeout(() => {
     img.src = s.src;
     img.alt = s.title;
-    img.style.opacity = '1';
-  }, 120);
+    img.classList.remove('is-swapping');
+  }, 150);
   img.onclick = () => openLightbox(s.src, s.title);
 
   document.getElementById('news-zoom-btn').onclick = () => openLightbox(s.src, s.title);
