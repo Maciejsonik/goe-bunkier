@@ -2174,9 +2174,17 @@
                                 onclick="switchStage('semis')">
                                 🔥 Półfinały (5–6)
                             </button>
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-finals"
+                                onclick="switchStage('finals')">
+                                🥇 Finał (14.11)
+                            </button>
                             <button class="segmented-btn stage-tab-btn" id="stage-tab-tournament"
                                 onclick="switchStage('tournament')">
                                 🏆 Cały Turniej (1–7)
+                            </button>
+                            <button class="segmented-btn stage-tab-btn" id="stage-tab-x-bunkier"
+                                onclick="switchXBunkier()">
+                                𝕏 #bunkier na X
                             </button>
                         </div>
                     </div>
@@ -2637,6 +2645,137 @@
 
             </div>
             <!-- /#stage-summary-view -->
+
+            <!-- X (#BUNKIER) ANALYTICS VIEW CONTAINER -->
+            <div id="x-bunkier-view" class="stage-summary-view" style="display: none;">
+
+                <div class="stage-hero-banner">
+                    <div class="stage-hero-header">
+                        <div class="stage-hero-title-group">
+                            <h2 id="x-hero-title">𝕏 AKCJA #BUNKIER NA X (31.10 – 15.11)</h2>
+                            <div class="stage-hero-subtitle" id="x-hero-subtitle">Zasięgi, posty i zaangażowanie społeczności podczas Worlds 2026</div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="quick-action-btn" onclick="window.open('x_bunkier_summary.png', '_blank')">📸 Infografika X (PNG)</button>
+                            <button class="quick-action-btn" onclick="window.open('x_bunkier_top10.png', '_blank')">🏆 Infografika TOP 10 (PNG)</button>
+                            <button class="quick-action-btn" onclick="window.open('x_bunkier_analytics.json', '_blank')">📥 Pobierz JSON</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOP 4 KPI CARDS -->
+                <div class="stage-kpi-grid">
+                    <div class="stage-kpi-card hero-kpi">
+                        <div class="stage-kpi-label">📝 Posty łącznie</div>
+                        <div class="stage-kpi-val" id="x-kpi-posts">--</div>
+                        <div class="stage-kpi-sub" id="x-kpi-posts-sub">--</div>
+                    </div>
+                    <div class="stage-kpi-card">
+                        <div class="stage-kpi-label">👁️ Wyświetlenia</div>
+                        <div class="stage-kpi-val" id="x-kpi-views" style="color: #22d3ee;">--</div>
+                        <div class="stage-kpi-sub">Łączny zasięg postów na X</div>
+                    </div>
+                    <div class="stage-kpi-card hero-kpi">
+                        <div class="stage-kpi-label">👥 Unikalni Autorzy</div>
+                        <div class="stage-kpi-val" id="x-kpi-authors">--</div>
+                        <div class="stage-kpi-sub" id="x-kpi-authors-sub">--</div>
+                    </div>
+                    <div class="stage-kpi-card">
+                        <div class="stage-kpi-label">⚡ Interakcje</div>
+                        <div class="stage-kpi-val" id="x-kpi-interactions" style="color: #3b82f6;">--</div>
+                        <div class="stage-kpi-sub" id="x-kpi-interactions-sub">--</div>
+                    </div>
+                </div>
+
+                <!-- CHART + SPLIT -->
+                <div class="stage-charts-row">
+                    <div class="stage-chart-card">
+                        <div class="stage-chart-header">
+                            <div class="chart-title">📊 Aktywność Dziennie (Posty na X)</div>
+                            <span style="font-size: 11px; color: var(--goe-red); font-weight: 700;">Czerwony = dni meczowe BO5</span>
+                        </div>
+                        <div class="stage-canvas-wrapper">
+                            <canvas id="xDailyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="stage-chart-card">
+                        <div class="stage-chart-header">
+                            <div class="chart-title">⚔️ Ekipa Bunkra vs Społeczność</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 18px; justify-content: center; flex: 1; padding: 8px 0;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 6px;">
+                                    <span style="color: var(--text-dim);">UDZIAŁ W POSTACH</span>
+                                    <span id="x-split-posts-label">--</span>
+                                </div>
+                                <div style="height: 18px; border-radius: 9px; overflow: hidden; display: flex; background: rgba(255,255,255,0.06);">
+                                    <div id="x-split-posts-bunkier" style="background: #ff1824; height: 100%;"></div>
+                                    <div id="x-split-posts-comm" style="background: #3b82f6; height: 100%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 6px;">
+                                    <span style="color: var(--text-dim);">UDZIAŁ W ZASIĘGU (WYŚWIETLENIA)</span>
+                                    <span id="x-split-views-label">--</span>
+                                </div>
+                                <div style="height: 18px; border-radius: 9px; overflow: hidden; display: flex; background: rgba(255,255,255,0.06);">
+                                    <div id="x-split-views-bunkier" style="background: #ff1824; height: 100%;"></div>
+                                    <div id="x-split-views-comm" style="background: #3b82f6; height: 100%;"></div>
+                                </div>
+                            </div>
+                            <div id="x-split-summary-note" style="font-size: 12px; color: var(--text-dim); line-height: 1.5; background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+                                --
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOP 10 AUTHORS TABLE -->
+                <div class="stage-table-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                        <div class="chart-title">🏆 TOP 10 Autorów wg Zasięgu</div>
+                        <div style="font-size: 12px; color: var(--text-dim);" id="x-top-authors-sub">Udział w zasięgu całej akcji</div>
+                    </div>
+                    <table class="stage-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Autor</th>
+                                <th>Grupa</th>
+                                <th>Posty (z #)</th>
+                                <th>Wyświetlenia</th>
+                                <th>Interakcje</th>
+                                <th>Udział w zasięgu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="x-top-authors-body"></tbody>
+                    </table>
+                </div>
+
+                <!-- TOP 10 POSTS TABLE -->
+                <div class="stage-table-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                        <div class="chart-title">🔥 TOP 10 Najpopularniejszych Postów</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">Ranking wg liczby wyświetleń (Views) na X</div>
+                    </div>
+                    <table class="stage-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Autor & Data</th>
+                                <th>Treść posta</th>
+                                <th>Wyświetlenia</th>
+                                <th>Polubienia / RT / Odp.</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="x-top-posts-body"></tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- /#x-bunkier-view -->
 
         </main>
 
@@ -3612,8 +3751,10 @@
         async function switchDay(dayId) {
             currentStageId = null;
 
-            // Show single day view, hide stage summary view
+            // Show single day view, hide stage summary & X views
             document.getElementById('stage-summary-view').style.display = 'none';
+            const xViewEl = document.getElementById('x-bunkier-view');
+            if (xViewEl) xViewEl.style.display = 'none';
             document.getElementById('single-day-view').style.display = 'block';
 
             // Restore single day controls
@@ -3796,6 +3937,8 @@
 
             // Toggle view containers
             document.getElementById('single-day-view').style.display = 'none';
+            const xViewEl = document.getElementById('x-bunkier-view');
+            if (xViewEl) xViewEl.style.display = 'none';
             document.getElementById('stage-summary-view').style.display = 'flex';
 
             // Toggle control deck elements
@@ -3804,7 +3947,13 @@
             const sActive = document.getElementById('single-day-active-series');
             if (sPresets) sPresets.style.display = 'none';
             if (sDiv) sDiv.style.display = 'none';
-            if (sActive) sActive.innerHTML = `<span>Widok:</span> <strong style="color: #ffffff;">${stageId === 'tournament' ? 'Cały Turniej (Dni 1–7)' : (stageId === 'semis' ? 'Półfinały (Dni 5–6)' : 'Ćwierćfinały (Dni 1–4)')}</strong>`;
+            const stageNamesLong = {
+                tournament: 'Cały Turniej (Dni 1–7)',
+                finals: 'Wielki Finał (14.11)',
+                semis: 'Półfinały (Dni 5–6)',
+                quarters: 'Ćwierćfinały (Dni 1–4)',
+            };
+            if (sActive) sActive.innerHTML = `<span>Widok:</span> <strong style="color: #ffffff;">${stageNamesLong[stageId] || stageId}</strong>`;
 
             // Load analytics if needed
             if (!tournamentAnalyticsData) {
@@ -3819,7 +3968,13 @@
             }
 
             renderStageView(stageId);
-            const stageTitle = stageId === 'tournament' ? 'Cały Turniej' : (stageId === 'semis' ? 'Półfinały' : 'Ćwierćfinały');
+            const stageNamesShort = {
+                tournament: 'Cały Turniej',
+                finals: 'Wielki Finał',
+                semis: 'Półfinały',
+                quarters: 'Ćwierćfinały',
+            };
+            const stageTitle = stageNamesShort[stageId] || stageId;
             
             // Update status pill for stage summary
             const dotEl = document.getElementById('api-dot');
@@ -4181,6 +4336,179 @@
 
         function downloadStageJson() {
             window.open('tournament_analytics.json', '_blank');
+        }
+
+        /* --- X (#BUNKIER) ANALYTICS CONTROLLER --- */
+        let xBunkierAnalyticsData = null;
+        let xDailyChartInstance = null;
+
+        function _escHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        async function switchXBunkier() {
+            currentStageId = 'x-bunkier';
+
+            document.querySelectorAll('#day-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#stage-tabs-container .segmented-btn').forEach(b => b.classList.remove('active'));
+            const xBtn = document.getElementById('stage-tab-x-bunkier');
+            if (xBtn) xBtn.classList.add('active');
+
+            document.getElementById('single-day-view').style.display = 'none';
+            document.getElementById('stage-summary-view').style.display = 'none';
+            const xViewEl = document.getElementById('x-bunkier-view');
+            if (xViewEl) xViewEl.style.display = 'flex';
+
+            const sPresets = document.getElementById('single-day-presets');
+            const sDiv = document.getElementById('single-day-divider');
+            const sActive = document.getElementById('single-day-active-series');
+            if (sPresets) sPresets.style.display = 'none';
+            if (sDiv) sDiv.style.display = 'none';
+            if (sActive) sActive.innerHTML = `<span>Widok:</span> <strong style="color: #ffffff;">𝕏 #bunkier na X (31.10–15.11)</strong>`;
+
+            if (!xBunkierAnalyticsData) {
+                try {
+                    const resp = await fetch('./x_bunkier_analytics.json?t=' + Date.now());
+                    if (resp.ok) {
+                        xBunkierAnalyticsData = await resp.json();
+                    }
+                } catch (e) {
+                    console.error("Error loading X analytics:", e);
+                }
+            }
+
+            renderXBunkierView();
+
+            const dotEl = document.getElementById('api-dot');
+            const labelEl = document.getElementById('api-label');
+            if (dotEl) {
+                dotEl.style.background = '#22d3ee';
+                dotEl.style.boxShadow = 'none';
+            }
+            if (labelEl) labelEl.innerText = 'AKCJA NA X';
+            const lastUpdatedEl = document.getElementById('last-updated');
+            if (lastUpdatedEl) {
+                lastUpdatedEl.innerText = 'W KIELECKIM STUDIU • Podsumowanie akcji #bunkier na X • Dane archiwalne';
+            }
+            showToast('Przełączono na podsumowanie: #bunkier na X');
+        }
+
+        function renderXBunkierView() {
+            if (!xBunkierAnalyticsData) return;
+            const xa = xBunkierAnalyticsData;
+            const tot = xa.totals || {};
+            const grp = xa.groups || {};
+            const dr = xa.date_range || {};
+
+            const titleEl = document.getElementById('x-hero-title');
+            if (titleEl) titleEl.innerText = `𝕏 AKCJA #BUNKIER NA X (${dr.start_label || '31.10'} – ${dr.end_label || '15.11'})`;
+
+            document.getElementById('x-kpi-posts').innerText = (tot.posts || 0).toLocaleString('pl-PL');
+            document.getElementById('x-kpi-posts-sub').innerText = `${(tot.hashtag_posts || 0).toLocaleString('pl-PL')} z #bunkier • +${tot.non_hashtag_posts || 0} Worlds`;
+            document.getElementById('x-kpi-views').innerText = (tot.views || 0).toLocaleString('pl-PL');
+            document.getElementById('x-kpi-authors').innerText = (tot.unique_authors || 0).toLocaleString('pl-PL');
+            document.getElementById('x-kpi-authors-sub').innerText = `${grp.bunkier?.unique_authors || 0} Bunkier • ${grp.community?.unique_authors || 0} Społeczność`;
+            document.getElementById('x-kpi-interactions').innerText = (tot.interactions || 0).toLocaleString('pl-PL');
+            document.getElementById('x-kpi-interactions-sub').innerText = `ER ${tot.engagement_rate_pct || 0}% • ${(tot.likes || 0).toLocaleString('pl-PL')} polubień`;
+
+            const pB = grp.bunkier?.posts_pct || 0;
+            const pC = grp.community?.posts_pct || 0;
+            const vB = grp.bunkier?.views_pct || 0;
+            const vC = grp.community?.views_pct || 0;
+            document.getElementById('x-split-posts-label').innerText = `Bunkier ${pB}% • Społeczność ${pC}%`;
+            document.getElementById('x-split-posts-bunkier').style.width = `${pB}%`;
+            document.getElementById('x-split-posts-comm').style.width = `${pC}%`;
+            document.getElementById('x-split-views-label').innerText = `Bunkier ${vB}% • Społeczność ${vC}%`;
+            document.getElementById('x-split-views-bunkier').style.width = `${vB}%`;
+            document.getElementById('x-split-views-comm').style.width = `${vC}%`;
+            document.getElementById('x-split-summary-note').innerHTML =
+                `Ekipa Bunkra odpowiadała za <strong>${pB}%</strong> postów (${grp.bunkier?.posts || 0}), generując <strong>${vB}%</strong> całego zasięgu (${(grp.bunkier?.views || 0).toLocaleString('pl-PL')} wyśw.). Społeczność dowiozła <strong>${pC}%</strong> wpisów (${grp.community?.posts || 0}) i <strong>${vC}%</strong> wyświetleń.`;
+
+            // Daily Chart
+            const daily = xa.daily || [];
+            const ctx = document.getElementById('xDailyChart')?.getContext('2d');
+            if (ctx) {
+                if (xDailyChartInstance) xDailyChartInstance.destroy();
+                xDailyChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: daily.map(d => d.label),
+                        datasets: [{
+                            label: 'Posty',
+                            data: daily.map(d => d.posts),
+                            backgroundColor: daily.map(d => d.is_match_day ? '#ff1824' : '#3b82f6'),
+                            borderRadius: 6,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    afterLabel: (c) => {
+                                        const d = daily[c.dataIndex];
+                                        return [
+                                            `Wyświetlenia: ${(d.views || 0).toLocaleString('pl-PL')}`,
+                                            `Interakcje: ${(d.interactions || 0).toLocaleString('pl-PL')}`,
+                                            `Autorzy: ${d.unique_authors || 0}`
+                                        ];
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8', font: { family: 'Outfit', size: 11 } }, grid: { display: false } },
+                            y: { ticks: { color: '#94a3b8', font: { family: 'Outfit', size: 11 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+                        }
+                    }
+                });
+            }
+
+            // TOP 10 Authors
+            const totViews = Math.max(1, tot.views || 1);
+            const authors = (xa.top_authors || []).slice(0, 10);
+            const top10Sum = authors.reduce((acc, a) => acc + (a.views || 0), 0);
+            document.getElementById('x-top-authors-sub').innerText =
+                `TOP 10 odpowiada za ${((top10Sum / totViews) * 100).toFixed(1)}% całego zasięgu (${top10Sum.toLocaleString('pl-PL')} wyśw.)`;
+
+            document.getElementById('x-top-authors-body').innerHTML = authors.map((a, idx) => {
+                const isB = a.role === 'bunkier';
+                const badge = isB
+                    ? `<span style="color:#ff1824;font-weight:700;">Bunkier</span>`
+                    : `<span style="color:#3b82f6;font-weight:700;">Społeczność</span>`;
+                const share = ((a.views / totViews) * 100).toFixed(1);
+                return `<tr>
+                    <td><strong>#${idx + 1}</strong></td>
+                    <td><a href="https://x.com/${_escHtml(a.handle)}" target="_blank" rel="noopener" style="color:${isB ? '#ff4d5a' : '#60a5fa'};font-weight:700;text-decoration:none;">@${_escHtml(a.handle)}</a></td>
+                    <td>${badge}</td>
+                    <td>${a.posts} (${a.hashtag_posts} #)</td>
+                    <td><strong style="color:#22d3ee;">${(a.views || 0).toLocaleString('pl-PL')}</strong></td>
+                    <td>${(a.interactions || 0).toLocaleString('pl-PL')}</td>
+                    <td>${share}%</td>
+                </tr>`;
+            }).join('');
+
+            // TOP 10 Posts
+            const posts = (xa.top_posts || []).slice(0, 10);
+            document.getElementById('x-top-posts-body').innerHTML = posts.map((p, idx) => {
+                const isB = p.role === 'bunkier';
+                const txt = (p.display_text || p.text || '').replace(/\s+/g, ' ').trim();
+                const shortTxt = txt.length > 110 ? txt.slice(0, 107) + '...' : txt;
+                return `<tr>
+                    <td><strong>#${idx + 1}</strong></td>
+                    <td><strong style="color:${isB ? '#ff4d5a' : '#60a5fa'};">@${_escHtml(p.author_handle)}</strong><br><span style="font-size:11px;color:var(--text-dim);">${_escHtml(p.date_label)} • ${_escHtml(p.time_pl || '')}</span></td>
+                    <td style="max-width:420px;white-space:normal;line-height:1.35;">${_escHtml(shortTxt)}</td>
+                    <td><strong style="color:#22d3ee;">${(p.views || 0).toLocaleString('pl-PL')}</strong></td>
+                    <td>${(p.likes || 0).toLocaleString('pl-PL')} 👍 • ${p.reposts || 0} 🔁 • ${p.replies || 0} 💬</td>
+                    <td><a href="${_escHtml(p.url)}" target="_blank" rel="noopener" class="quick-action-btn" style="padding:4px 10px;font-size:11px;text-decoration:none;">Otwórz</a></td>
+                </tr>`;
+            }).join('');
         }
 
         /* --- AUTO REFRESH TICKER --- */
