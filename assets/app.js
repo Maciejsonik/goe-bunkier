@@ -98,6 +98,37 @@ const esc = (s) =>
     .replace(/"/g, '&quot;');
 const ic = (name, cls = 'ic') => `<svg class="${cls}" aria-hidden="true"><use href="#ic-${name}"/></svg>`;
 
+const TEAM_LOGOS = {
+  'top esports': 'assets/teams/tes.png',
+  'tes': 'assets/teams/tes.png',
+  'invictus gaming': 'assets/teams/ig.png',
+  'ig': 'assets/teams/ig.png',
+  'movistar lyon': 'assets/teams/lyon.png',
+  'lyon': 'assets/teams/lyon.png',
+  'gen.g esports': 'assets/teams/geng.png',
+  'gen.g': 'assets/teams/geng.png',
+  'geng': 'assets/teams/geng.png',
+  'bilibili gaming': 'assets/teams/blg.png',
+  'blg': 'assets/teams/blg.png',
+  'dplus kia': 'assets/teams/dk.png',
+  'dk': 'assets/teams/dk.png',
+  'karmine corp': 'assets/teams/kc.png',
+  'kc': 'assets/teams/kc.png',
+  't1': 'assets/teams/t1.png',
+};
+
+function teamLogoHtml(name, cls = '') {
+  const src = TEAM_LOGOS[String(name || '').trim().toLowerCase()];
+  return src ? `<img class="team-logo ${cls}" src="${src}" alt="${esc(name)}" loading="lazy" />` : '';
+}
+
+function renderMatchupHtml(matchStr, cls = '') {
+  const parts = String(matchStr || '').split(/\s+vs\s+/i);
+  if (parts.length !== 2) return esc(matchStr);
+  const [a, b] = parts;
+  return `<span class="match-inline"><span class="team-chip">${teamLogoHtml(a, cls)}<span>${esc(a)}</span></span><span class="match-vs">vs</span><span class="team-chip">${teamLogoHtml(b, cls)}<span>${esc(b)}</span></span></span>`;
+}
+
 async function fetchJson(path) {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
@@ -216,9 +247,9 @@ function renderStage(stageId) {
     .map(
       (m) => `
       <tr>
-        <td><strong>${esc(m.name)}</strong><br><span style="color:var(--muted);font-size:12px;">${esc(m.match)}</span></td>
+        <td><strong>${esc(m.name)}</strong><div style="color:var(--muted);font-size:12px;margin-top:4px;">${renderMatchupHtml(m.match)}</div></td>
         <td><strong>${esc(m.score)}</strong></td>
-        <td>${esc(m.winner)}</td>
+        <td><span class="team-chip">${teamLogoHtml(m.winner)}<span>${esc(m.winner)}</span></span></td>
         <td><strong style="color:var(--cyan)">${fmt(m.total_peak)}</strong> <span style="color:var(--muted);font-size:12px;">(${esc(m.total_peak_time)})</span></td>
         <td>${fmt(m.goe?.peak)}</td>
         <td>${fmt(m.goe?.live_avg)}</td>
@@ -304,7 +335,7 @@ async function loadAndRenderDay(dayId) {
   const { data, history } = state.dayCache[dayId];
   const st = data.summary_stats || {};
 
-  document.getElementById('day-title').innerText = `${data.day_name || dayId} • ${data.match || ''} (${data.score || ''})`;
+  document.getElementById('day-title').innerHTML = `${esc(data.day_name || dayId)} <span class="match-vs">•</span> ${renderMatchupHtml(data.match || '', 'team-logo-lg')} <span class="match-vs">(${esc(data.score || '')})</span>`;
   document.getElementById('day-sub').innerText =
     `Zwycięzca: ${data.winner || '--'} • Okno live: ${st.start_time || '--'} – ${st.end_time || '--'} CET • Próbek: ${fmt(history.length)}`;
 

@@ -245,6 +245,7 @@ a { color: inherit; }
 .hero-title {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   font-family: var(--font-display);
   font-size: clamp(30px, 4vw, 44px);
@@ -257,6 +258,42 @@ a { color: inherit; }
   width: 0.78em;
   height: 0.78em;
   stroke-width: 2.1;
+}
+
+.team-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px;
+}
+
+.team-logo-lg {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.match-inline {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.team-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.match-vs {
+  color: var(--muted);
+  font-size: 0.82em;
+  font-weight: 600;
 }
 
 .hero-sub {
