@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WARSAW_TZ = ZoneInfo("Europe/Warsaw")
 
 DEFAULT_START_DATE = "2026-10-31"
-DEFAULT_END_DATE = "2026-11-11"
+DEFAULT_END_DATE = "2026-11-15"
 BUNKIER_LAUNCH_AT = datetime(2026, 10, 31, 12, 0, tzinfo=WARSAW_TZ)
 
 GOE_CREW_HANDLES = {
