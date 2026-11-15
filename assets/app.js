@@ -209,16 +209,16 @@ function renderStage(stageId) {
 
   // 3-camp cards
   const camps = [
-    { key: 'goe', cls: 'goe', title: 'Kielecki Bunkier (GoE)', color: '#ff1824', data: stage.goe, share: ms.goe },
-    { key: 'nerva', cls: 'nerva', title: 'Nervarien & Co-streamy', color: '#3b82f6', data: stage.nerva, share: ms.nerva },
-    { key: 'tobias', cls: 'tobias', title: 'Tobiasz', color: '#f97316', data: stage.tobias, share: ms.tobias },
+    { key: 'goe', cls: 'goe', title: 'Kielecki Bunkier (GoE)', color: '#ff1824', avatar: 'assets/camps/goe.png', data: stage.goe, share: ms.goe },
+    { key: 'nerva', cls: 'nerva', title: 'Nervarien & Co-streamy', color: '#3b82f6', avatar: 'assets/camps/nerva.png', data: stage.nerva, share: ms.nerva },
+    { key: 'tobias', cls: 'tobias', title: 'Tobiasz', color: '#f97316', avatar: 'assets/camps/tobiasz.png', data: stage.tobias, share: ms.tobias },
   ];
   document.getElementById('stage-camps-grid').innerHTML = camps
     .map(
       (c) => `
       <div class="camp-card ${c.cls}">
         <div class="camp-head">
-          <div class="camp-name" style="color:${c.color}">${esc(c.title)}</div>
+          <div class="camp-name" style="color:${c.color}"><img class="camp-avatar" src="${c.avatar}" alt="${esc(c.title)}" loading="lazy" /><span>${esc(c.title)}</span></div>
           <div class="camp-share" style="color:${c.color}">${(c.share ?? 0).toFixed(1)}%</div>
         </div>
         <div class="camp-stats">

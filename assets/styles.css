@@ -92,6 +92,9 @@ a { color: inherit; }
 }
 
 .brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--red);
   color: #fff;
   font-family: var(--font-display);
@@ -99,6 +102,14 @@ a { color: inherit; }
   letter-spacing: 0.8px;
   padding: 5px 11px;
   border-radius: 7px;
+}
+
+.brand-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .brand-text h1 {
@@ -532,9 +543,29 @@ a { color: inherit; }
 }
 
 .camp-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 700;
+}
+
+.camp-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+}
+
+.camp-avatar-sm {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .camp-share {
