@@ -661,6 +661,7 @@ def build_brand_assets(ta: dict, xa: dict) -> tuple[str, str]:
 
     og_path = os.path.join(BASE_DIR, "og_preview.png")
     og.save(og_path)
+    og.save(os.path.join(BASE_DIR, "og_archive.png"))
     return fav_path, og_path
 
 
