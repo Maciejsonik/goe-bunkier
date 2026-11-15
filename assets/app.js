@@ -96,6 +96,7 @@ const esc = (s) =>
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+const ic = (name, cls = 'ic') => `<svg class="${cls}" aria-hidden="true"><use href="#ic-${name}"/></svg>`;
 
 async function fetchJson(path) {
   const res = await fetch(path);
@@ -150,7 +151,8 @@ function renderStage(stageId) {
   const stage = state.tournamentData?.stages?.[stageId];
   if (!stage) return;
 
-  document.getElementById('stage-title').innerText = `${stage.icon || '🏆'} ${stage.name}`;
+  const stageIconMap = { tournament: 'trophy', quarters: 'swords', semis: 'flame', finals: 'award' };
+  document.getElementById('stage-title').innerHTML = `${ic(stageIconMap[stageId] || 'trophy')} ${esc(stage.name)}`;
   document.getElementById('stage-sub').innerText =
     `${stage.subtitle || ''} • Próbki telemetryczne: ${fmt(stage.total_points)}`;
 
@@ -403,7 +405,7 @@ async function loadAndRenderX() {
   const grp = xa.groups || {};
   const dr = xa.date_range || {};
 
-  document.getElementById('x-title').innerText = `𝕏 AKCJA #BUNKIER NA X (${dr.start_label || '31.10'} – ${dr.end_label || '15.11'})`;
+  document.getElementById('x-title').innerHTML = `${ic('x')} AKCJA #BUNKIER NA X (${esc(dr.start_label || '31.10')} – ${esc(dr.end_label || '15.11')})`;
   document.getElementById('x-kpi-posts').innerText = fmt(tot.posts);
   document.getElementById('x-kpi-posts-sub').innerText = `${fmt(tot.hashtag_posts)} z #bunkier • +${tot.non_hashtag_posts || 0} Worlds`;
   document.getElementById('x-kpi-views').innerText = fmt(tot.views);
@@ -483,7 +485,7 @@ async function loadAndRenderX() {
       <td><strong style="color:${isB ? '#ff4d5a' : '#60a5fa'};">@${esc(p.author_handle)}</strong><br><span style="color:var(--muted);font-size:12px;">${esc(p.date_label)} • ${esc(p.time_pl)}</span></td>
       <td style="max-width:420px;line-height:1.35;">${esc(shortTxt)}</td>
       <td><strong style="color:var(--cyan)">${fmt(p.views)}</strong></td>
-      <td>${fmt(p.likes)} 👍 • ${p.reposts} 🔁 • ${p.replies} 💬</td>
+      <td>${fmt(p.likes)} ${ic('heart', 'ic ic-sm')} • ${p.reposts} ${ic('repeat', 'ic ic-sm')} • ${p.replies} ${ic('message', 'ic ic-sm')}</td>
       <td><a class="pill-btn" href="${esc(p.url)}" target="_blank" rel="noopener">Otwórz</a></td>
     </tr>`;
   }).join('');
@@ -525,7 +527,7 @@ function renderGallery() {
         <img src="${esc(b.src)}" alt="${esc(b.title)}" loading="lazy" onclick="openLightbox('${esc(b.src)}', '${esc(b.title)}')" />
         <div class="gallery-card-foot">
           <div class="gallery-card-title">${esc(b.title)}</div>
-          <a class="pill-btn" href="${esc(b.src)}" download>📥 PNG</a>
+          <a class="pill-btn" href="${esc(b.src)}" download>${ic('download')} PNG</a>
         </div>
       </div>`
     ).join('');
@@ -626,7 +628,7 @@ function toggleNewsAutoplay() {
   newsPaused = !newsPaused;
   const btn = document.getElementById('news-pause-btn');
   const ctr = document.getElementById('news-counter');
-  btn.innerText = newsPaused ? '▶ Wznów' : '⏸ Pauza';
+  btn.innerHTML = newsPaused ? `${ic('play')} Wznów` : `${ic('pause')} Pauza`;
   ctr.innerText = newsPaused ? 'Pokaz zatrzymany' : 'Automatyczny pokaz slajdów';
   restartNewsProgress();
 }

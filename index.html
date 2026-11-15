@@ -23,11 +23,41 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/styles.css?v=20261115-3" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261115-4" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
-  <script src="assets/app.js?v=20261115-3" defer></script>
+  <script src="assets/app.js?v=20261115-4" defer></script>
 </head>
 <body>
+  <!-- Inline SVG Icon Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+    <symbol id="ic-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></symbol>
+    <symbol id="ic-x" viewBox="0 0 24 24"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></symbol>
+    <symbol id="ic-swords" viewBox="0 0 24 24"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></symbol>
+    <symbol id="ic-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+    <symbol id="ic-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+    <symbol id="ic-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+    <symbol id="ic-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+    <symbol id="ic-zoom" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="11" x2="11" y1="8" y2="14"/><line x1="8" x2="14" y1="11" y2="11"/></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="ic-bar-chart" viewBox="0 0 24 24"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></symbol>
+    <symbol id="ic-line-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+    <symbol id="ic-list" viewBox="0 0 24 24"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></symbol>
+    <symbol id="ic-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></symbol>
+    <symbol id="ic-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+    <symbol id="ic-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+    <symbol id="ic-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+    <symbol id="ic-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="ic-close" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></symbol>
+  </svg>
+
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
@@ -39,9 +69,9 @@
       </div>
 
       <nav class="nav-tabs" aria-label="Główna nawigacja">
-        <button class="nav-btn active" data-view="turniej" onclick="switchView('turniej')">🏆 Turniej</button>
-        <button class="nav-btn" data-view="dni" onclick="switchView('dni')">📅 Mecze (1–7)</button>
-        <button class="nav-btn" data-view="x" onclick="switchView('x')">𝕏 #bunkier na X</button>
+        <button class="nav-btn active" data-view="turniej" onclick="switchView('turniej')"><svg class="ic"><use href="#ic-trophy"/></svg> Turniej</button>
+        <button class="nav-btn" data-view="dni" onclick="switchView('dni')"><svg class="ic"><use href="#ic-calendar"/></svg> Mecze (1–7)</button>
+        <button class="nav-btn" data-view="x" onclick="switchView('x')"><svg class="ic"><use href="#ic-x"/></svg> #bunkier na X</button>
       </nav>
     </div>
   </header>
@@ -59,15 +89,15 @@
           <h2 class="news-hero-title" id="news-title">336 925 godzin oglądania w 7 meczach BO5</h2>
           <p class="news-hero-desc" id="news-desc">Pełne podsumowanie polskiej sceny co-streamów: udział Kieleckiego Bunkra (24.8%), Nervariena (53.8%) oraz Tobiasza (21.5%).</p>
           <div class="hero-actions">
-            <button class="pill-btn active" id="news-zoom-btn">🔍 Powiększ slajd</button>
+            <button class="pill-btn active" id="news-zoom-btn"><svg class="ic"><use href="#ic-zoom"/></svg> Powiększ slajd</button>
             <button class="pill-btn" id="news-goto-btn">Przejdź do sekcji →</button>
-            <a class="pill-btn" id="news-dl-btn" href="carousel/carousel_1_turniej_kpi.png" download>📥 Pobierz PNG</a>
+            <a class="pill-btn" id="news-dl-btn" href="carousel/carousel_1_turniej_kpi.png" download><svg class="ic"><use href="#ic-download"/></svg> Pobierz PNG</a>
           </div>
           <div class="news-controls">
             <button class="pill-btn" onclick="stepNewsSlide(-1)" aria-label="Poprzedni slajd">‹</button>
             <div class="news-dots" id="news-dots"></div>
             <button class="pill-btn" onclick="stepNewsSlide(1)" aria-label="Następny slajd">›</button>
-            <button class="pill-btn" id="news-pause-btn" onclick="toggleNewsAutoplay()">⏸ Pauza</button>
+            <button class="pill-btn" id="news-pause-btn" onclick="toggleNewsAutoplay()"><svg class="ic"><use href="#ic-pause"/></svg> Pauza</button>
           </div>
         </div>
         <div class="news-hero-right">
@@ -80,44 +110,44 @@
 
       <div class="pill-bar">
         <div class="pill-group">
-          <button class="pill-btn active" data-stage="tournament" onclick="selectStage('tournament')">🏆 Cały Turniej (1–7)</button>
-          <button class="pill-btn" data-stage="quarters" onclick="selectStage('quarters')">🥊 Ćwierćfinały (1–4)</button>
-          <button class="pill-btn" data-stage="semis" onclick="selectStage('semis')">🔥 Półfinały (5–6)</button>
-          <button class="pill-btn" data-stage="finals" onclick="selectStage('finals')">🥇 Wielki Finał (14.11)</button>
+          <button class="pill-btn active" data-stage="tournament" onclick="selectStage('tournament')"><svg class="ic"><use href="#ic-trophy"/></svg> Cały Turniej (1–7)</button>
+          <button class="pill-btn" data-stage="quarters" onclick="selectStage('quarters')"><svg class="ic"><use href="#ic-swords"/></svg> Ćwierćfinały (1–4)</button>
+          <button class="pill-btn" data-stage="semis" onclick="selectStage('semis')"><svg class="ic"><use href="#ic-flame"/></svg> Półfinały (5–6)</button>
+          <button class="pill-btn" data-stage="finals" onclick="selectStage('finals')"><svg class="ic"><use href="#ic-award"/></svg> Wielki Finał (14.11)</button>
         </div>
       </div>
 
       <div class="hero-card">
         <div>
           <div class="hero-kicker">RAPORT ETAPU • DANE ARCHIWALNE</div>
-          <h2 class="hero-title" id="stage-title">🏆 CAŁY TURNIEJ</h2>
+          <h2 class="hero-title" id="stage-title">CAŁY TURNIEJ</h2>
           <p class="hero-sub" id="stage-sub">Ładowanie danych turniejowych...</p>
         </div>
         <div class="hero-actions">
-          <button class="pill-btn" id="stage-open-png">🖼️ Podgląd infografiki</button>
-          <button class="pill-btn" onclick="switchView('galeria')">📱 Karuzela Mobile (6 slajdów)</button>
-          <a class="pill-btn" href="tournament_analytics.json" download>📥 JSON</a>
+          <button class="pill-btn" id="stage-open-png"><svg class="ic"><use href="#ic-image"/></svg> Podgląd infografiki</button>
+          <button class="pill-btn" onclick="switchView('galeria')"><svg class="ic"><use href="#ic-layers"/></svg> Wszystkie plansze</button>
+          <a class="pill-btn" href="tournament_analytics.json" download><svg class="ic"><use href="#ic-download"/></svg> JSON</a>
         </div>
       </div>
 
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-label">⌛ Łączne Widzogodziny</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-clock"/></svg> Łączne Widzogodziny</div>
           <div class="kpi-val" id="t-kpi-watch" style="color:var(--cyan);">--</div>
           <div class="kpi-sub" id="t-kpi-watch-sub">--</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">🔥 Rekordowy Pik Sceny</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-flame"/></svg> Rekordowy Pik Sceny</div>
           <div class="kpi-val" id="t-kpi-peak" style="color:var(--goe);">--</div>
           <div class="kpi-sub" id="t-kpi-peak-sub">--</div>
         </div>
         <div class="kpi-card accent">
-          <div class="kpi-label">🎯 Udział Bunkra GoE</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-target"/></svg> Udział Bunkra GoE</div>
           <div class="kpi-val" id="t-kpi-share">--</div>
           <div class="kpi-sub" id="t-kpi-share-sub">--</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">⏱️ Średnia Live GoE</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-clock"/></svg> Średnia Live GoE</div>
           <div class="kpi-val" id="t-kpi-avg">--</div>
           <div class="kpi-sub" id="t-kpi-avg-sub">--</div>
         </div>
@@ -127,7 +157,7 @@
 
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">🔴 Bunkier GoE: YouTube vs Twitch</div>
+          <div class="panel-title"><span class="dot red"></span> Bunkier GoE: YouTube vs Twitch</div>
           <span id="stage-yt-tw-label" style="font-size:13px;font-weight:700;color:var(--muted);">--</span>
         </div>
         <div class="split-track">
@@ -139,7 +169,7 @@
 
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">📊 Porównanie meczów w etapie</div>
+          <div class="panel-title"><svg class="ic"><use href="#ic-bar-chart"/></svg> Porównanie meczów w etapie</div>
           <div class="pill-group">
             <button class="pill-btn active" data-stage-metric="peak" onclick="selectStageMetric('peak')">Piki</button>
             <button class="pill-btn" data-stage-metric="live_avg" onclick="selectStageMetric('live_avg')">Średnia Live</button>
@@ -153,7 +183,7 @@
 
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">📋 Zestawienie Mecz po Meczu</div>
+          <div class="panel-title"><svg class="ic"><use href="#ic-list"/></svg> Zestawienie Mecz po Meczu</div>
         </div>
         <div class="table-wrap">
           <table class="data-table">
@@ -189,30 +219,30 @@
           <p class="hero-sub" id="day-sub">--</p>
         </div>
         <div class="hero-actions">
-          <button class="pill-btn" id="day-open-camps">⚡ Plansza 3 Obozy</button>
-          <button class="pill-btn" id="day-open-goe">🔴 Plansza GoE</button>
-          <a class="pill-btn" id="day-csv-link" href="#" download>📥 CSV</a>
+          <button class="pill-btn" id="day-open-camps"><svg class="ic"><use href="#ic-zap"/></svg> Plansza 3 Obozy</button>
+          <button class="pill-btn" id="day-open-goe"><span class="dot red"></span> Plansza GoE</button>
+          <a class="pill-btn" id="day-csv-link" href="#" download><svg class="ic"><use href="#ic-download"/></svg> CSV</a>
         </div>
       </div>
 
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-label">🔥 Pik Całej Sceny</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-flame"/></svg> Pik Całej Sceny</div>
           <div class="kpi-val" id="d-kpi-scene" style="color:var(--cyan);">--</div>
           <div class="kpi-sub" id="d-kpi-scene-sub">--</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">🔴 Pik Bunkier GoE</div>
+          <div class="kpi-label"><span class="dot red"></span> Pik Bunkier GoE</div>
           <div class="kpi-val" id="d-kpi-goe" style="color:var(--goe);">--</div>
           <div class="kpi-sub" id="d-kpi-goe-sub">--</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">🔵 Pik Nervarien</div>
+          <div class="kpi-label"><span class="dot blue"></span> Pik Nervarien</div>
           <div class="kpi-val" id="d-kpi-nerva" style="color:var(--nerva);">--</div>
           <div class="kpi-sub" id="d-kpi-nerva-sub">--</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">🟠 Pik Tobiasz</div>
+          <div class="kpi-label"><span class="dot orange"></span> Pik Tobiasz</div>
           <div class="kpi-val" id="d-kpi-tobias" style="color:var(--tobias);">--</div>
           <div class="kpi-sub" id="d-kpi-tobias-sub">--</div>
         </div>
@@ -222,12 +252,12 @@
 
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">📈 Przebieg oglądalności na osi czasu</div>
+          <div class="panel-title"><svg class="ic"><use href="#ic-line-chart"/></svg> Przebieg oglądalności na osi czasu</div>
           <div class="pill-group">
-            <button class="pill-btn active" data-preset="camps_3" onclick="selectDayPreset('camps_3')">⚡ 3 Obozy</button>
-            <button class="pill-btn" data-preset="goe_only" onclick="selectDayPreset('goe_only')">🔴 Bunkier GoE (YT+TW)</button>
-            <button class="pill-btn" data-preset="battle_2v2" onclick="selectDayPreset('battle_2v2')">⚔️ GoE vs Nerva</button>
-            <button class="pill-btn" data-preset="all" onclick="selectDayPreset('all')">🌐 Łącznie + Obozy</button>
+            <button class="pill-btn active" data-preset="camps_3" onclick="selectDayPreset('camps_3')"><svg class="ic"><use href="#ic-zap"/></svg> 3 Obozy</button>
+            <button class="pill-btn" data-preset="goe_only" onclick="selectDayPreset('goe_only')"><span class="dot red"></span> Bunkier GoE (YT+TW)</button>
+            <button class="pill-btn" data-preset="battle_2v2" onclick="selectDayPreset('battle_2v2')"><svg class="ic"><use href="#ic-swords"/></svg> GoE vs Nerva</button>
+            <button class="pill-btn" data-preset="all" onclick="selectDayPreset('all')"><svg class="ic"><use href="#ic-globe"/></svg> Łącznie + Obozy</button>
           </div>
         </div>
         <div class="chart-box tall">
@@ -241,34 +271,34 @@
       <div class="hero-card">
         <div>
           <div class="hero-kicker">AKCJA SPOŁECZNOŚCIOWA NA X</div>
-          <h2 class="hero-title" id="x-title">𝕏 AKCJA #BUNKIER NA X</h2>
+          <h2 class="hero-title" id="x-title">AKCJA #BUNKIER NA X</h2>
           <p class="hero-sub">Zasięgi, aktywność dzienna oraz ranking autorów i postów (31.10–15.11 CET)</p>
         </div>
         <div class="hero-actions">
-          <button class="pill-btn" onclick="openLightbox('x_bunkier_summary.png', '#bunkier na X — Podsumowanie')">📸 Plansza X</button>
-          <button class="pill-btn" onclick="openLightbox('x_bunkier_top10.png', '#bunkier na X — TOP 10')">🏆 Plansza TOP 10</button>
-          <a class="pill-btn" href="x_bunkier_analytics.json" download>📥 JSON</a>
+          <button class="pill-btn" onclick="openLightbox('x_bunkier_summary.png', '#bunkier na X — Podsumowanie')"><svg class="ic"><use href="#ic-image"/></svg> Plansza X</button>
+          <button class="pill-btn" onclick="openLightbox('x_bunkier_top10.png', '#bunkier na X — TOP 10')"><svg class="ic"><use href="#ic-trophy"/></svg> Plansza TOP 10</button>
+          <a class="pill-btn" href="x_bunkier_analytics.json" download><svg class="ic"><use href="#ic-download"/></svg> JSON</a>
         </div>
       </div>
 
       <div class="kpi-grid">
         <div class="kpi-card accent">
-          <div class="kpi-label">📝 Posty łącznie</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-file"/></svg> Posty łącznie</div>
           <div class="kpi-val" id="x-kpi-posts" style="color:var(--goe);">--</div>
           <div class="kpi-sub" id="x-kpi-posts-sub">--</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">👁️ Wyświetlenia</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-eye"/></svg> Wyświetlenia</div>
           <div class="kpi-val" id="x-kpi-views" style="color:var(--cyan);">--</div>
           <div class="kpi-sub">Łączny zasięg postów</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">👥 Unikalni Autorzy</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-users"/></svg> Unikalni Autorzy</div>
           <div class="kpi-val" id="x-kpi-authors">--</div>
           <div class="kpi-sub" id="x-kpi-authors-sub">--</div>
         </div>
         <div class="kpi-card accent">
-          <div class="kpi-label">⚡ Interakcje</div>
+          <div class="kpi-label"><svg class="ic"><use href="#ic-zap"/></svg> Interakcje</div>
           <div class="kpi-val" id="x-kpi-int" style="color:var(--nerva);">--</div>
           <div class="kpi-sub" id="x-kpi-int-sub">--</div>
         </div>
@@ -277,7 +307,7 @@
       <div class="grid-2">
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title">📊 Aktywność Dziennie (Posty)</div>
+            <div class="panel-title"><svg class="ic"><use href="#ic-bar-chart"/></svg> Aktywność Dziennie (Posty)</div>
             <span style="font-size:12px;color:var(--goe);font-weight:700;">Czerwony = dni BO5</span>
           </div>
           <div class="chart-box">
@@ -287,7 +317,7 @@
 
         <div class="panel" style="display:flex;flex-direction:column;justify-content:center;">
           <div class="panel-head">
-            <div class="panel-title">⚔️ Ekipa Bunkra vs Społeczność</div>
+            <div class="panel-title"><svg class="ic"><use href="#ic-swords"/></svg> Ekipa Bunkra vs Społeczność</div>
           </div>
           <div class="split-row">
             <div class="split-head"><span>Udział w postach</span><span id="x-split-posts-lbl">--</span></div>
@@ -310,7 +340,7 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><div class="panel-title">🏆 TOP 10 Autorów wg Zasięgu</div></div>
+        <div class="panel-head"><div class="panel-title"><svg class="ic"><use href="#ic-trophy"/></svg> TOP 10 Autorów wg Zasięgu</div></div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
@@ -322,7 +352,7 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><div class="panel-title">🔥 TOP 10 Najpopularniejszych Postów</div></div>
+        <div class="panel-head"><div class="panel-title"><svg class="ic"><use href="#ic-flame"/></svg> TOP 10 Najpopularniejszych Postów</div></div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
@@ -339,11 +369,11 @@
       <div class="hero-card">
         <div>
           <div class="hero-kicker">MOBILE-FIRST • GOTOWE POD X</div>
-          <h2 class="hero-title">📱 KARUZELA &amp; INFOGRAFIKI</h2>
+          <h2 class="hero-title">KARUZELA &amp; INFOGRAFIKI</h2>
           <p class="hero-sub">6 czytelnych slajdów karuzeli na telefon oraz komplet klasycznych plansz podsumowujących</p>
         </div>
         <div class="hero-actions">
-          <a class="pill-btn" id="carousel-download" href="carousel/carousel_1_turniej_kpi.png" download>📥 Pobierz aktywny slajd</a>
+          <a class="pill-btn" id="carousel-download" href="carousel/carousel_1_turniej_kpi.png" download><svg class="ic"><use href="#ic-download"/></svg> Pobierz aktywny slajd</a>
         </div>
       </div>
 
@@ -359,7 +389,7 @@
 
       <div class="panel">
         <div class="panel-head">
-          <div class="panel-title">🖼️ Klasyczne Plansze Podsumowań</div>
+          <div class="panel-title"><svg class="ic"><use href="#ic-image"/></svg> Klasyczne Plansze Podsumowań</div>
           <span style="font-size:13px;color:var(--muted);">Kliknij planszę, aby powiększyć</span>
         </div>
         <div class="gallery-grid" id="classic-gallery-grid"></div>
@@ -377,8 +407,8 @@
       <div class="lightbox-bar">
         <strong id="lightbox-title" style="font-family:var(--font-heading);font-size:18px;">Infografika</strong>
         <div style="display:flex;gap:8px;">
-          <a id="lightbox-dl" class="pill-btn" href="#" download>📥 Pobierz PNG</a>
-          <button class="pill-btn" onclick="closeLightbox()">✕ Zamknij</button>
+          <a id="lightbox-dl" class="pill-btn" href="#" download><svg class="ic"><use href="#ic-download"/></svg> Pobierz PNG</a>
+          <button class="pill-btn" onclick="closeLightbox()"><svg class="ic"><use href="#ic-close"/></svg> Zamknij</button>
         </div>
       </div>
       <img id="lightbox-img" src="" alt="Podgląd infografiki" />
