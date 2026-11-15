@@ -591,12 +591,16 @@ def build(
         generate_tournament_analytics()
         q_path = os.path.join(BASE_DIR, "quarters_summary.png")
         s_path = os.path.join(BASE_DIR, "semis_summary.png")
+        f_path = os.path.join(BASE_DIR, "finals_summary.png")
         t_path = os.path.join(BASE_DIR, "tournament_summary.png")
 
         create_stage_summary_card("quarters", q_path)
         create_stage_summary_card("semis", s_path)
+        create_stage_summary_card("finals", f_path)
         create_stage_summary_card("tournament", t_path)
-        print("📊 [Stage Cards] Wygenerowano karty etapów: quarters, semis, tournament")
+        print(
+            "📊 [Stage Cards] Wygenerowano karty etapów: quarters, semis, finals, tournament"
+        )
     except Exception as e:
         print(f"⚠️ Błąd generowania analityki etapowej: {e}")
 
