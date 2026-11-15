@@ -11,12 +11,60 @@ const DAYS = [
 ];
 
 const CAROUSEL_SLIDES = [
-  { src: 'carousel/carousel_1_turniej_kpi.png', title: '1/6 • Podsumowanie Turnieju (KPI & 3 obozy)' },
-  { src: 'carousel/carousel_2_turniej_mecze.png', title: '2/6 • Wszystkie 7 meczów BO5 (Mecz po meczu)' },
-  { src: 'carousel/carousel_3_final_14_11.png', title: '3/6 • Wielki Finał 14.11 (BLG 3:1 Gen.G)' },
-  { src: 'carousel/carousel_4_x_kpi.png', title: '4/6 • Akcja #bunkier na X (Zasięg & aktywność)' },
-  { src: 'carousel/carousel_5_x_top_autorzy.png', title: '5/6 • #bunkier na X — TOP 10 Autorów' },
-  { src: 'carousel/carousel_6_x_top_posty.png', title: '6/6 • #bunkier na X — TOP 5 Postów' },
+  {
+    src: 'carousel/carousel_1_turniej_kpi.png',
+    title: '1/6 • Podsumowanie Turnieju (KPI & 3 obozy)',
+    kicker: 'WORLDS 2026 • SLAJD 1/6',
+    headline: '336 925 godzin oglądania w 7 meczach BO5',
+    desc: 'Łączny watch-time całej polskiej sceny co-streamów oraz udział 3 obozów: Nervarien (53.8%), Kielecki Bunkier GoE (24.8%) i Tobiasz (21.5%).',
+    actionLabel: 'Zobacz galerię →',
+    action: () => switchView('galeria'),
+  },
+  {
+    src: 'carousel/carousel_2_turniej_mecze.png',
+    title: '2/6 • Wszystkie 7 meczów BO5 (Mecz po meczu)',
+    kicker: 'FAZA PUCHAROWA • SLAJD 2/6',
+    headline: 'Każdy z 7 meczów BO5 dzień po dniu',
+    desc: 'Zestawienie szczytów widowni oraz procentowego udziału wszystkich 3 obozów od 1. ćwierćfinału (03.11) aż po Wielki Finał (14.11).',
+    actionLabel: 'Przejdź do meczów →',
+    action: () => switchView('dni'),
+  },
+  {
+    src: 'carousel/carousel_3_final_14_11.png',
+    title: '3/6 • Wielki Finał 14.11 (BLG 3:1 Gen.G)',
+    kicker: 'WIELKI FINAŁ 14.11 • SLAJD 3/6',
+    headline: '108 002 h i rekordowe 23 678 widzów na żywo',
+    desc: 'Przebieg minutowy finału Bilibili Gaming vs Gen.G wraz ze startem Bunkra (17:45), Ceremonią Otwarcia (20:00) i pikiem sceny o 22:54.',
+    actionLabel: 'Zobacz Dzień 7 →',
+    action: () => { state.dayId = 'day-7'; switchView('dni'); },
+  },
+  {
+    src: 'carousel/carousel_4_x_kpi.png',
+    title: '4/6 • Akcja #bunkier na X (Zasięg & aktywność)',
+    kicker: 'AKCJA NA X • SLAJD 4/6',
+    headline: '2,02 mln wyświetleń i 1 297 postów pod #bunkier',
+    desc: 'Bilans akcji z 31.10–15.11: 245 unikalnych autorów, 76 703 interakcje (ER 3.79%), aktywność dzienna oraz porównanie Ekipy Bunkra ze Społecznością.',
+    actionLabel: 'Zobacz statystyki X →',
+    action: () => switchView('x'),
+  },
+  {
+    src: 'carousel/carousel_5_x_top_autorzy.png',
+    title: '5/6 • #bunkier na X — TOP 10 Autorów',
+    kicker: 'RANKING AUTORÓW • SLAJD 5/6',
+    headline: 'TOP 10 autorów wygenerowało 75.6% zasięgu',
+    desc: 'Największe konta akcji #bunkier: na czele @gadaja_ (595 tys.), @CzarnyPiotrus10 (238 tys.) i @Rymcu (151 tys. wyśw.).',
+    actionLabel: 'Tabela TOP 10 na X →',
+    action: () => switchView('x'),
+  },
+  {
+    src: 'carousel/carousel_6_x_top_posty.png',
+    title: '6/6 • #bunkier na X — TOP 5 Postów',
+    kicker: 'TOP WPISY • SLAJD 6/6',
+    headline: 'Najpopularniejsze pojedyncze posty całej akcji',
+    desc: 'Zestawienie wpisów z największą liczbą wyświetleń: od @glapa67 (59 tys.) i @gadaja_ (55 tys.) po @Rybson__ (44 tys.).',
+    actionLabel: 'Wszystkie TOP 10 postów →',
+    action: () => switchView('x'),
+  },
 ];
 
 const CLASSIC_BOARDS = [
@@ -503,9 +551,102 @@ function closeLightbox() {
   document.getElementById('lightbox').close();
 }
 
+/* --- NEWS-STYLE HERO CAROUSEL --- */
+const NEWS_INTERVAL_MS = 6500;
+let newsIdx = 0;
+let newsPaused = false;
+let newsHoverPaused = false;
+let newsTimer = null;
+
+function setNewsSlide(idx) {
+  newsIdx = (idx + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length;
+  const s = CAROUSEL_SLIDES[newsIdx];
+  document.getElementById('news-kicker').innerText = s.kicker;
+  document.getElementById('news-title').innerText = s.headline;
+  document.getElementById('news-desc').innerText = s.desc;
+
+  const img = document.getElementById('news-hero-img');
+  img.style.opacity = '0.25';
+  setTimeout(() => {
+    img.src = s.src;
+    img.alt = s.title;
+    img.style.opacity = '1';
+  }, 120);
+  img.onclick = () => openLightbox(s.src, s.title);
+
+  document.getElementById('news-zoom-btn').onclick = () => openLightbox(s.src, s.title);
+  const gotoBtn = document.getElementById('news-goto-btn');
+  gotoBtn.innerText = s.actionLabel;
+  gotoBtn.onclick = s.action;
+
+  const dl = document.getElementById('news-dl-btn');
+  dl.href = s.src;
+  dl.download = s.src.split('/').pop();
+
+  document.querySelectorAll('.news-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === newsIdx);
+  });
+  restartNewsProgress();
+}
+
+function stepNewsSlide(delta) {
+  setNewsSlide(newsIdx + delta);
+}
+
+function restartNewsProgress() {
+  const fill = document.getElementById('news-progress-fill');
+  if (!fill) return;
+  fill.style.transition = 'none';
+  fill.style.width = '0%';
+  if (newsPaused || newsHoverPaused) return;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fill.style.transition = `width ${NEWS_INTERVAL_MS}ms linear`;
+      fill.style.width = '100%';
+    });
+  });
+}
+
+function startNewsTimer() {
+  if (newsTimer) clearInterval(newsTimer);
+  newsTimer = setInterval(() => {
+    if (!newsPaused && !newsHoverPaused && state.view === 'turniej' && !document.getElementById('lightbox').open) {
+      setNewsSlide(newsIdx + 1);
+    }
+  }, NEWS_INTERVAL_MS);
+}
+
+function toggleNewsAutoplay() {
+  newsPaused = !newsPaused;
+  const btn = document.getElementById('news-pause-btn');
+  const ctr = document.getElementById('news-counter');
+  btn.innerText = newsPaused ? '▶ Wznów' : '⏸ Pauza';
+  ctr.innerText = newsPaused ? 'Pokaz zatrzymany' : 'Automatyczny pokaz slajdów';
+  restartNewsProgress();
+}
+
+function initNewsCarousel() {
+  const dots = document.getElementById('news-dots');
+  dots.innerHTML = CAROUSEL_SLIDES.map(
+    (s, i) => `<button class="news-dot ${i === 0 ? 'active' : ''}" aria-label="Slajd ${i + 1}" onclick="setNewsSlide(${i})"></button>`
+  ).join('');
+  const hero = document.getElementById('news-hero');
+  hero.addEventListener('mouseenter', () => {
+    newsHoverPaused = true;
+    restartNewsProgress();
+  });
+  hero.addEventListener('mouseleave', () => {
+    newsHoverPaused = false;
+    restartNewsProgress();
+  });
+  setNewsSlide(0);
+  startNewsTimer();
+}
+
 /* --- INIT --- */
 document.addEventListener('DOMContentLoaded', () => {
   initDayButtons();
+  initNewsCarousel();
 
   // Swipe support for carousel viewport
   let touchX = 0;

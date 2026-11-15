@@ -39,6 +39,35 @@
   <main class="container">
     <!-- VIEW 1: TOURNAMENT & STAGES -->
     <section id="view-turniej" class="view-section active">
+      <!-- NEWS-STYLE AUTO-ROTATING CAROUSEL HERO -->
+      <div class="news-hero" id="news-hero">
+        <div class="news-hero-left">
+          <div class="news-hero-meta">
+            <span class="news-badge" id="news-kicker">WORLDS 2026 • SLAJD 1/6</span>
+            <span id="news-counter" style="font-size:12px;color:var(--muted);font-weight:600;">Automatyczny pokaz slajdów</span>
+          </div>
+          <h2 class="news-hero-title" id="news-title">336 925 godzin oglądania w 7 meczach BO5</h2>
+          <p class="news-hero-desc" id="news-desc">Pełne podsumowanie polskiej sceny co-streamów: udział Kieleckiego Bunkra (24.8%), Nervariena (53.8%) oraz Tobiasza (21.5%).</p>
+          <div class="hero-actions">
+            <button class="pill-btn active" id="news-zoom-btn">🔍 Powiększ slajd</button>
+            <button class="pill-btn" id="news-goto-btn">Przejdź do sekcji →</button>
+            <a class="pill-btn" id="news-dl-btn" href="carousel/carousel_1_turniej_kpi.png" download>📥 Pobierz PNG</a>
+          </div>
+          <div class="news-controls">
+            <button class="pill-btn" onclick="stepNewsSlide(-1)" aria-label="Poprzedni slajd">‹</button>
+            <div class="news-dots" id="news-dots"></div>
+            <button class="pill-btn" onclick="stepNewsSlide(1)" aria-label="Następny slajd">›</button>
+            <button class="pill-btn" id="news-pause-btn" onclick="toggleNewsAutoplay()">⏸ Pauza</button>
+          </div>
+        </div>
+        <div class="news-hero-right">
+          <div class="news-slide-frame">
+            <img id="news-hero-img" src="carousel/carousel_1_turniej_kpi.png" alt="Podgląd slajdu karuzeli" />
+            <div class="news-progress-track"><div class="news-progress-fill" id="news-progress-fill"></div></div>
+          </div>
+        </div>
+      </div>
+
       <div class="pill-bar">
         <div class="pill-group">
           <button class="pill-btn active" data-stage="tournament" onclick="selectStage('tournament')">🏆 Cały Turniej (1–7)</button>
