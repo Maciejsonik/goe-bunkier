@@ -1182,6 +1182,187 @@ def _draw_stage_analytics_panel(
             )
 
 
+def _draw_finals_timeline_chart(
+    base_img: Image.Image,
+    draw: ImageDraw.Draw,
+    width: int,
+    top_y: int,
+    bottom_y: int,
+    day_id: str = "day-7",
+):
+    """Renders a 3-camp timeline chart inside the empty space of single-match finals_summary.png."""
+    import json
+    import math
+    from config import DAYS_CONFIG
+
+    history_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), f"history_{day_id}.json"
+    )
+    if not os.path.exists(history_file):
+        return base_img, draw
+
+    try:
+        with open(history_file, "r", encoding="utf-8") as f:
+            pts = json.load(f)
+    except Exception:
+        return base_img, draw
+
+    if not pts or len(pts) < 2:
+        return base_img, draw
+
+    card_x1, card_x2 = 50, width - 50
+    draw.rounded_rectangle(
+        [card_x1, top_y, card_x2, bottom_y],
+        radius=10,
+        fill=(14, 14, 18),
+        outline=(42, 42, 54),
+        width=1,
+    )
+
+    font_hdr = _get_font(14, bold=True, font_type="rajdhani")
+    font_axis = _get_font(11, bold=False, font_type="rajdhani")
+    font_ev = _get_font(11, bold=True, font_type="rajdhani")
+
+    hdr_y = top_y + 16
+    draw.text(
+        (card_x1 + 16, hdr_y),
+        "PRZEBIEG OGLĄDALNOŚCI FINAŁU (3 OBOZY):",
+        fill=(210, 210, 225),
+        font=font_hdr,
+        anchor="lm",
+    )
+
+    # Inline legend (right-aligned)
+    legend_items = [
+        ("GOE", (255, 24, 36)),
+        ("NERVARIEN", (59, 130, 246)),
+        ("TOBIASZ", (249, 115, 22)),
+    ]
+    cur_lx = card_x2 - 16
+    for lbl, col in reversed(legend_items):
+        bbox = font_hdr.getbbox(lbl)
+        lbl_w = bbox[2] - bbox[0]
+        cur_lx -= lbl_w
+        draw.text((cur_lx, hdr_y), lbl, fill=(235, 235, 245), font=font_hdr, anchor="lm")
+        sw_x2 = cur_lx - 6
+        sw_x1 = sw_x2 - 12
+        draw.rectangle([sw_x1, hdr_y - 5, sw_x2, hdr_y + 5], fill=col)
+        cur_lx = sw_x1 - 18
+
+    plot_x1 = card_x1 + 56
+    plot_x2 = card_x2 - 18
+    plot_y1 = top_y + 34
+    plot_y2 = bottom_y - 26
+    plot_w = plot_x2 - plot_x1
+    plot_h = plot_y2 - plot_y1
+
+    draw.rectangle(
+        [plot_x1, plot_y1, plot_x2, plot_y2],
+        fill=(9, 9, 13),
+        outline=(34, 34, 44),
+        width=1,
+    )
+
+    # Extract series & downsample cleanly to ~220 points while preserving exact peaks
+    def _series_vals(p):
+        gv = p.get("goe_total", 0)
+        nv = p.get("nerva_total", 0)
+        tv = p.get("streams", {}).get("ttobias_lol", {}).get("viewers", 0)
+        return gv, nv, tv
+
+    raw_vals = [_series_vals(p) for p in pts]
+    max_raw = max(max(gv, nv, tv) for gv, nv, tv in raw_vals)
+    step_unit = 5000 if max_raw >= 10000 else 2000
+    max_y = max(step_unit, int(math.ceil((max_raw * 1.12) / step_unit) * step_unit))
+
+    # Y-axis grid lines (4 steps)
+    grid_steps = 4
+    for i in range(grid_steps + 1):
+        gy = plot_y2 - int((i / grid_steps) * plot_h)
+        val = int((i / grid_steps) * max_y)
+        draw.line([(plot_x1, gy), (plot_x2, gy)], fill=(28, 28, 38), width=1)
+        val_str = "0" if val == 0 else (f"{val // 1000}k" if val % 1000 == 0 else f"{val:,}".replace(",", " "))
+        draw.text((plot_x1 - 8, gy), val_str, fill=(140, 140, 155), font=font_axis, anchor="rm")
+
+    # Event vertical markers from DAYS_CONFIG
+    events = DAYS_CONFIG.get(day_id, {}).get("events", [])
+    n_pts = len(pts)
+    for ev in events:
+        ev_time = ev.get("time", "")
+        ev_label = ev.get("label", "")
+        if not ev_time:
+            continue
+        # Find first point matching HH:MM
+        match_idx = None
+        for idx, p in enumerate(pts):
+            ts_hms = p.get("timestamp", "").split()[-1]
+            if ts_hms.startswith(ev_time):
+                match_idx = idx
+                break
+        if match_idx is not None:
+            ex = plot_x1 + int((match_idx / (n_pts - 1)) * plot_w)
+            for dy in range(plot_y1 + 2, plot_y2, 6):
+                draw.line([(ex, dy), (ex, min(dy + 3, plot_y2))], fill=(110, 100, 60), width=1)
+            short_lbl = f"{ev_time} {ev_label}".strip()
+            draw.text((ex + 4, plot_y1 + 4), short_lbl, fill=(215, 185, 95), font=font_ev, anchor="lt")
+
+    # Bucketed downsampling for smooth lines
+    buckets = min(220, n_pts)
+    goe_coords, nerva_coords, tob_coords = [], [], []
+    for b in range(buckets):
+        i0 = int((b / buckets) * n_pts)
+        i1 = max(i0 + 1, int(((b + 1) / buckets) * n_pts))
+        slice_vals = raw_vals[i0:i1]
+        gv = sum(v[0] for v in slice_vals) / len(slice_vals)
+        nv = sum(v[1] for v in slice_vals) / len(slice_vals)
+        tv = sum(v[2] for v in slice_vals) / len(slice_vals)
+        x = plot_x1 + int((b / max(1, buckets - 1)) * plot_w)
+        goe_coords.append((x, plot_y2 - int((gv / max_y) * plot_h)))
+        nerva_coords.append((x, plot_y2 - int((nv / max_y) * plot_h)))
+        tob_coords.append((x, plot_y2 - int((tv / max_y) * plot_h)))
+
+    # Soft translucent fills under Nervarien and GoE
+    overlay = Image.new("RGBA", base_img.size, (0, 0, 0, 0))
+    odraw = ImageDraw.Draw(overlay)
+    if len(nerva_coords) >= 2:
+        odraw.polygon([(plot_x1, plot_y2)] + nerva_coords + [(plot_x2, plot_y2)], fill=(59, 130, 246, 30))
+    if len(goe_coords) >= 2:
+        odraw.polygon([(plot_x1, plot_y2)] + goe_coords + [(plot_x2, plot_y2)], fill=(255, 24, 36, 42))
+    base_img = Image.alpha_composite(base_img.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(base_img)
+
+    # Draw lines (Tobiasz -> Nervarien -> GoE)
+    for i in range(len(tob_coords) - 1):
+        draw.line([tob_coords[i], tob_coords[i + 1]], fill=(249, 115, 22), width=2)
+    for i in range(len(nerva_coords) - 1):
+        draw.line([nerva_coords[i], nerva_coords[i + 1]], fill=(59, 130, 246), width=3)
+    for i in range(len(goe_coords) - 1):
+        draw.line([goe_coords[i], goe_coords[i + 1]], fill=(255, 24, 36), width=3)
+
+    # Peak callout for overall peak (Nervarien)
+    peak_idx = max(range(n_pts), key=lambda i: raw_vals[i][1])
+    peak_val = raw_vals[peak_idx][1]
+    peak_ts = pts[peak_idx].get("timestamp", "").split()[-1][:5]
+    pk_x = plot_x1 + int((peak_idx / (n_pts - 1)) * plot_w)
+    pk_y = plot_y2 - int((peak_val / max_y) * plot_h)
+    draw.ellipse([pk_x - 4, pk_y - 4, pk_x + 4, pk_y + 4], fill=(59, 130, 246), outline=(255, 255, 255), width=2)
+    pk_lbl = f"PIK: {peak_val:,} ({peak_ts})".replace(",", " ")
+    lbl_x = pk_x - 10 if pk_x > plot_x1 + plot_w * 0.65 else pk_x + 10
+    lbl_anchor = "rm" if pk_x > plot_x1 + plot_w * 0.65 else "lm"
+    draw.text((lbl_x, max(plot_y1 + 10, pk_y - 2)), pk_lbl, fill=(180, 215, 255), font=font_ev, anchor=lbl_anchor)
+
+    # X-axis timestamps (6 ticks)
+    tick_count = 6
+    for t in range(tick_count):
+        idx = int((t / (tick_count - 1)) * (n_pts - 1))
+        ts_hm = pts[idx].get("timestamp", "").split()[-1][:5]
+        tx = plot_x1 + int((idx / (n_pts - 1)) * plot_w)
+        anchor = "lm" if t == 0 else ("rm" if t == tick_count - 1 else "mm")
+        draw.text((tx, plot_y2 + 12), ts_hm, fill=(150, 150, 165), font=font_axis, anchor=anchor)
+
+    return base_img, draw
+
+
 def create_stage_summary_card(
     stage_id: str = "tournament",
     output_path: str = "tournament_summary.png",
@@ -1613,6 +1794,16 @@ def create_stage_summary_card(
                 font=font_rich_sub,
                 anchor="rm",
             )
+
+    if stage_id == "finals" and len(matches) == 1:
+        img, draw = _draw_finals_timeline_chart(
+            img,
+            draw,
+            width,
+            632,
+            804,
+            day_id="day-7",
+        )
 
     if show_analytics_panel:
         _draw_stage_analytics_panel(
