@@ -280,15 +280,16 @@ DAYS_CONFIG = {
     "day-7": {
         "id": "day-7",
         "name": "Finał (14.11)",
-        "label": "Finał • 14.11 (Na Żywo)",
+        "label": "Finał • 14.11 (Zakończony)",
         "match": "Bilibili Gaming vs Gen.G Esports",
         "match_short": "BLG vs Gen.G",
         "score": "3 : 1",
         "winner": "Bilibili Gaming",
         "stage": "finals",
         "date": "2026-11-14",
-        "is_finished": False,
+        "is_finished": True,
         "disclaimers": [
+            "Rekordowy szczyt jednoczesnej widowni 3 obozów: 23 678 widzów (22:54 CET).",
             "Ceremonia Otwarcia i start Wielkiego Finału w Barclays Center (Nowy Jork): 20:00 CET (19:00 UTC).",
             "Start studia GoE: 17:30 CET (transmisja live od 17:45), Nervarien: ~19:30 CET.",
         ],
