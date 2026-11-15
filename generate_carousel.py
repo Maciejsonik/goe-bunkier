@@ -609,6 +609,61 @@ def build_slide_6_x_top_posts(xa: dict) -> str:
     return out_path
 
 
+def build_brand_assets(ta: dict, xa: dict) -> tuple[str, str]:
+    """Generates favicon.png (256x256) and og_preview.png (1200x630) for the archive site."""
+    # 1. Favicon 256x256
+    fav = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
+    fdraw = ImageDraw.Draw(fav)
+    fdraw.rounded_rectangle([8, 8, 248, 248], radius=52, fill=C_BG, outline=C_CRIMSON, width=10)
+    fdraw.text((128, 124), "#B", fill=C_CRIMSON, font=_get_font(128, bold=True, font_type="anton"), anchor="mm")
+    fav_path = os.path.join(BASE_DIR, "favicon.png")
+    fav.save(fav_path)
+
+    # 2. OG Preview 1200x630
+    w, h = 1200, 630
+    og = Image.new("RGB", (w, h), C_BG)
+    od = ImageDraw.Draw(og)
+    od.polygon([(0, 0), (460, 0), (0, 340)], fill=(26, 6, 12))
+    od.polygon([(w, h), (w - 460, h), (w, h - 340)], fill=(22, 6, 10))
+    od.line([(0, 4), (w, 4)], fill=C_CRIMSON, width=8)
+
+    od.text((w // 2, 54), "WORLDS 2026 • ARCHIWUM CO-STREAMÓW & X", fill=C_MUTED, font=_get_font(22, bold=True, font_type="rajdhani"), anchor="mm")
+    od.text((w // 2, 114), "KIELECKI BUNKIER • PODSUMOWANIE", fill=C_CRIMSON, font=_get_font(58, bold=True, font_type="anton"), anchor="mm")
+    od.text((w // 2, 168), "7 meczów BO5 (03.11–14.11)  •  Akcja #bunkier na X (31.10–15.11)", fill=C_TEXT, font=_get_font(22, bold=False, font_type="rajdhani"), anchor="mm")
+
+    t = ta["stages"]["tournament"]
+    ms = t["market_share"]
+    tot = xa["totals"]
+
+    cards = [
+        ("WATCH-TIME SCENY", f"{_fmt_num(t['total_watch_hours'])} h", "Łącznie 7× BO5", C_CYAN),
+        ("REKORD SCENY", _fmt_num(t["total_scene_peak"]), f"Finał ({t['total_scene_peak_match']})", C_GOE),
+        ("UDZIAŁ #BUNKIER", f"{ms['goe']:.1f}%", f"{_fmt_num(t['goe']['watch_hours'])} h • śr. {_fmt_num(t['goe']['live_avg'])}", C_TEXT),
+        ("AKCJA #BUNKIER NA X", f"{tot['views'] / 1_000_000:.2f} M", f"{_fmt_num(tot['posts'])} postów • {tot['unique_authors']} autorów", C_NERVA),
+    ]
+    cw = 258
+    gap = 20
+    start_x = (w - (4 * cw + 3 * gap)) // 2
+    cy1, cy2 = 216, 444
+    for i, (lbl, val, sub, col) in enumerate(cards):
+        x1 = start_x + i * (cw + gap)
+        x2 = x1 + cw
+        od.rounded_rectangle([x1, cy1, x2, cy2], radius=14, fill=C_CARD, outline=C_CRIMSON if i in (0, 2) else C_BORDER, width=2)
+        od.text((x1 + 20, cy1 + 36), lbl, fill=C_MUTED, font=_get_font(19, bold=True, font_type="rajdhani"), anchor="lm")
+        od.text((x1 + 20, cy1 + 114), val, fill=col, font=_get_font(54, bold=True, font_type="anton"), anchor="lm")
+        od.text((x1 + 20, cy2 - 34), sub, fill=C_MUTED, font=_get_font(18, bold=False, font_type="rajdhani"), anchor="lm")
+
+    # 3-camp bar + footer
+    _draw_segmented_bar(og, od, start_x, 474, w - start_x, 494, [(ms["nerva"], C_NERVA), (ms["goe"], C_GOE), (ms["tobias"], C_TOBIAS)], radius=8)
+    od.rounded_rectangle([w // 2 - 105, 530, w // 2 + 105, 570], radius=8, fill=C_CRIMSON)
+    od.text((w // 2, 550), "#BUNKIER", fill=(255, 255, 255), font=_get_font(22, bold=True, font_type="anton"), anchor="mm")
+    od.text((w // 2, 598), "maciejsonik.github.io/goe-bunkier  •  DEJF | CZARNYPIOTRUS | BIALITO | MAJUTEK | PEDRO | MAGVAYER | JASKIER", fill=C_MUTED, font=_get_font(17, bold=True, font_type="rajdhani"), anchor="mm")
+
+    og_path = os.path.join(BASE_DIR, "og_preview.png")
+    og.save(og_path)
+    return fav_path, og_path
+
+
 def generate_all_carousel() -> list[str]:
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(BASE_DIR, "tournament_analytics.json"), "r", encoding="utf-8") as f:
@@ -626,6 +681,8 @@ def generate_all_carousel() -> list[str]:
     ]
     for p in paths:
         print(f"✅ Wygenerowano slajd karuzeli: {p}")
+    fav_p, og_p = build_brand_assets(ta, xa)
+    print(f"✅ Wygenerowano favicon i okładkę OG: {fav_p}, {og_p}")
     return paths
 
 
