@@ -243,11 +243,20 @@ a { color: inherit; }
 }
 
 .hero-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-display);
   font-size: clamp(30px, 4vw, 44px);
   line-height: 1.05;
   margin-top: 4px;
   letter-spacing: 0.6px;
+}
+
+.hero-title .ic {
+  width: 0.78em;
+  height: 0.78em;
+  stroke-width: 2.1;
 }
 
 .hero-sub {
