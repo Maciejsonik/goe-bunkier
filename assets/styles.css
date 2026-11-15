@@ -245,12 +245,31 @@ a { color: inherit; }
 }
 
 .hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 700;
   color: var(--red);
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+.worlds-crest {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.footer-worlds {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }
 
 .hero-title {
