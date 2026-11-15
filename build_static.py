@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 # Ensure this directory is in path
 sys.path.insert(0, os.path.dirname(__file__))
 
-from config import DAYS_CONFIG, get_active_day_id
+import config
 from generate_card import create_battle_card, create_og_card
 from generate_summary import create_summary_card
 from scraper import fetch_all_data
@@ -193,7 +193,7 @@ def build_day(
 ) -> dict:
     """Builds static artifacts for a specific day."""
     print(f"\n==================== [Build: {day_id.upper()}] ====================")
-    day_cfg = DAYS_CONFIG[day_id]
+    day_cfg = config.DAYS_CONFIG[day_id]
     is_active = day_id == active_day
     today_pl = datetime.now(ZoneInfo("Europe/Warsaw")).strftime("%Y-%m-%d")
     is_pre_event = (today_pl < day_cfg.get("date", "")) and (preloaded_data is None)
@@ -491,10 +491,12 @@ def build(
     preloaded_data: dict | None = None,
     preloaded_day_id: str | None = None,
 ):
+    import importlib
     import sys
+    importlib.reload(config)
 
     force = force or ("--force" in sys.argv)
-    active_day = get_active_day_id()
+    active_day = config.get_active_day_id()
     print(f"🌟 [Multi-Day Build] Aktywny dzień (wg reguły 12:00 UTC): {active_day}")
 
     days_manifest = [
@@ -519,11 +521,11 @@ def build(
             "goe_card": f"./goe_summary_{d_id}.png",
             "camps_card": f"./camps_summary_{d_id}.png",
         }
-        for d_id, cfg in DAYS_CONFIG.items()
+        for d_id, cfg in config.DAYS_CONFIG.items()
     ]
 
     day_outputs = {}
-    for day_id in DAYS_CONFIG:
+    for day_id in config.DAYS_CONFIG:
         # Force re-rendering only for active day unless global force
         day_force = force or (day_id == active_day)
         day_preloaded = (

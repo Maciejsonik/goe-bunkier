@@ -8,8 +8,8 @@ import time
 import urllib.parse
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
-from config import DAYS_CONFIG, get_active_day_id
+import importlib
+import config
 from db import (
     export_to_csv,
     get_detailed_history,
@@ -61,7 +61,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.wfile.write(content)
 
         elif path == "/api/data":
-            active_day = get_active_day_id()
+            importlib.reload(config)
+            active_day = config.get_active_day_id()
             data_file = os.path.join(
                 os.path.dirname(__file__), f"data_{active_day}.json"
             )
@@ -77,7 +78,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     data = None
 
             if not data:
-                day_cfg = DAYS_CONFIG.get(active_day, {})
+                day_cfg = config.DAYS_CONFIG.get(active_day, {})
                 data = fetch_all_data(
                     groups_config=day_cfg.get("groups"), day_id=active_day
                 )
@@ -242,8 +243,9 @@ def background_collector_loop():
 
     while True:
         try:
-            active_day = get_active_day_id()
-            day_cfg = DAYS_CONFIG.get(active_day, {})
+            importlib.reload(config)
+            active_day = config.get_active_day_id()
+            day_cfg = config.DAYS_CONFIG.get(active_day, {})
             day_finished = day_cfg.get("is_finished", False)
             data = fetch_all_data(
                 groups_config=day_cfg.get("groups"), day_id=active_day
